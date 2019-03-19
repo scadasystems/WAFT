@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "109505732856",
+    "firebase_url": "https://waft-lulzm.firebaseio.com",
+    "project_id": "waft-lulzm",
+    "storage_bucket": "waft-lulzm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:109505732856:android:1e79e1076ab5c39b",
+        "android_client_info": {
+          "package_name": "org.lulzm.waft"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "109505732856-q7duro5vabs49j5lnn5o2n1on1ap8ms0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.lulzm.waft",
+            "certificate_hash": "11ca9e4431c968cb2671e6ee91cfa61605442a65"
+          }
+        },
+        {
+          "client_id": "109505732856-1lbokl9iv7vldf9hn3ukhc2efneeu59b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4i9LTNlcP6E9WFcXJOHLEAUgyXYmBDAk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "109505732856-1lbokl9iv7vldf9hn3ukhc2efneeu59b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
