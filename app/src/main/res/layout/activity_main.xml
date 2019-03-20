@@ -18,7 +18,7 @@
     </android.support.v7.widget.Toolbar>
 
     <TextView
-            android:text = "sadasasddas!"
+            android:text = "가즈아!"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
             android:id = "@+id/textView"
