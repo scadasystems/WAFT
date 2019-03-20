@@ -9,16 +9,16 @@
         tools:context = ".MainActivity">
 
     <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id = "@+id/toolbar"
             android:layout_width = "match_parent"
             android:layout_height = "wrap_content"
-            android:background="#80CBC4"
-            android:minHeight="?attr/actionBarSize"
+            android:background = "#80CBC4"
+            android:minHeight = "?attr/actionBarSize"
             tools:ignore = "MissingConstraints">
     </android.support.v7.widget.Toolbar>
 
     <TextView
-            android:text = "메인화면"
+            android:text = "가즈아!"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
             android:id = "@+id/textView"
