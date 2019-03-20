@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
+import static org.lulzm.waft.R.id.toolbar;
+
 public class LoginActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
@@ -25,10 +27,16 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         this.tvjoinMember = (TextView) findViewById(R.id.tv_joinMember);
         this.btnlogin = (Button) findViewById(R.id.btn_login);
         this.edtpw = (EditText) findViewById(R.id.edt_pw);
         this.edtid = (EditText) findViewById(R.id.edt_id);
+
+        /* tool bar */
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
 
 
         btnlogin.setOnClickListener(new View.OnClickListener() {

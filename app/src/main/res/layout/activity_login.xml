@@ -7,6 +7,25 @@
         android:layout_height = "match_parent"
         tools:context = ".LoginActivity">
 
+    <android.support.v7.widget.Toolbar
+            android:id = "@+id/toolbar"
+            android:layout_width = "match_parent"
+            android:layout_height = "?attr/actionBarSize"
+            android:background = "#0097A7"
+            android:minHeight = "?attr/actionBarSize"
+            app:popupTheme = "@style/ThemeOverlay.AppCompat.Light"
+            app:theme = "@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            tools:ignore = "MissingConstraints">
+
+        <TextView
+                android:layout_width = "wrap_content"
+                android:layout_height = "wrap_content"
+                android:text="WAFT - Login"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:layout_gravity="center"/>
+    </android.support.v7.widget.Toolbar>
+
     <EditText
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
