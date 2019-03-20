@@ -9,11 +9,11 @@
         tools:context = ".MainActivity">
 
     <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id = "@+id/toolbar"
             android:layout_width = "match_parent"
             android:layout_height = "wrap_content"
-            android:background="#80CBC4"
-            android:minHeight="?attr/actionBarSize"
+            android:background = "#80CBC4"
+            android:minHeight = "?attr/actionBarSize"
             tools:ignore = "MissingConstraints">
     </android.support.v7.widget.Toolbar>
 
