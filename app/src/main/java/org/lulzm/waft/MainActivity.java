@@ -24,11 +24,13 @@ public class MainActivity extends AppCompatActivity implements RecycleListAdapte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /*리사이클러뷰 선언 및 화면 설정*/
         RecyclerView recyclerView = findViewById(R.id.recycle_View);
 
         RecyclerView.LayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
 
+        /*cardView 아이템 이름 변경 및 추가*/
         List<CardItem> dataList = new ArrayList<>();
         dataList.add(new CardItem( "MY QR"));
         dataList.add(new CardItem( "안내"));
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements RecycleListAdapte
         dataList.add(new CardItem( "대사관 SOS"));
         dataList.add(new CardItem( "SOS"));
 
+        /*리사이클러뷰 어뎁터 연결*/
         RecycleListAdapter adapter = new RecycleListAdapter(dataList);
         recyclerView.setAdapter(adapter);
 
@@ -70,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements RecycleListAdapte
         FirebaseUser currentUser = mAuth.getCurrentUser();
     }
 
+    /*아이템 클릭 이벤트*/
     @Override
     public void onItemClicked(int position) {
         Toast.makeText(this, "" + position, Toast.LENGTH_SHORT).show();
