@@ -28,13 +28,6 @@
         <pair source="c" header="h" fileNamingConvention="NONE" />
       </extensions>
     </Objective-C-extensions>
-    <XML>
-      <option name="XML_SPACE_AROUND_EQUALITY_IN_ATTRIBUTE" value="true" />
-      <option name="XML_SPACE_INSIDE_EMPTY_TAG" value="true" />
-    </XML>
-    <codeStyleSettings language="XML">
-      <option name="RIGHT_MARGIN" value="110" />
-    </codeStyleSettings>
     <codeStyleSettings language="kotlin">
       <option name="CODE_STYLE_DEFAULTS" value="KOTLIN_OFFICIAL" />
     </codeStyleSettings>
