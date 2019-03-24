@@ -32,7 +32,7 @@
                     android:id="@+id/edt_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="ID"
+                    android:hint="아이디"
                     android:inputType="textEmailAddress" />
         </android.support.design.widget.TextInputLayout>
 
@@ -47,7 +47,7 @@
                     android:id="@+id/edt_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Password"
+                    android:hint="비밀번호"
                     android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
 
@@ -58,7 +58,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp"
                 android:padding="12dp"
-                android:text="Login" />
+                android:text="로그인" />
 
         <TextView
                 android:id="@+id/tv_signup"
@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
                 android:gravity="center"
-                android:text="No account yet? Create one"
+                android:text="회원이 아니십니까? 회원가입"
                 android:textSize="16dip" />
 
     </LinearLayout>

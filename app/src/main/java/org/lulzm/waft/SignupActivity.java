@@ -6,22 +6,23 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.hbb20.CountryCodePicker;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
     private android.widget.EditText edtname;
-    private android.widget.EditText edtpw;
-    private android.widget.EditText edtrepw;
-    private android.widget.EditText edtemail;
-    private android.widget.EditText edtjop;
-    private android.widget.EditText edtaddress;
+    private android.widget.EditText edtpassword;
+    private android.widget.EditText edtre_password;
+    private android.widget.EditText edtid;
+    private android.widget.EditText edtjob;
     private android.support.v7.widget.AppCompatButton btnsignup;
     private android.widget.TextView tvlogin;
+    private CountryCodePicker ccp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,15 +32,18 @@ public class SignupActivity extends AppCompatActivity {
         this.tvlogin = (TextView) findViewById(R.id.tv_login);
         this.btnsignup = (AppCompatButton) findViewById(R.id.btn_signup);
         this.edtname = (EditText) findViewById(R.id.edt_name);
-        this.edtpw = (EditText) findViewById(R.id.edt_pw);
-        this.edtrepw = (EditText) findViewById(R.id.edt_repw);
-        this.edtemail = (EditText) findViewById(R.id.edt_email);
-        this.edtjop = (EditText) findViewById(R.id.edt_jop);
-        this.edtaddress = (EditText) findViewById(R.id.edt_address);
+        this.edtpassword = (EditText) findViewById(R.id.edt_password);
+        this.edtre_password = (EditText) findViewById(R.id.edt_repassword);
+        this.edtid = (EditText) findViewById(R.id.edt_id);
+        this.edtjob = (EditText) findViewById(R.id.edt_job);
+        this.ccp = (CountryCodePicker)findViewById(R.id.ccp);
 
         btnsignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //나라 값 확인 메시지
+                Toast.makeText(getBaseContext(), ccp.getSelectedCountryName(), Toast.LENGTH_SHORT).show();
+
                 signup();
             }
         });
@@ -73,11 +77,12 @@ public class SignupActivity extends AppCompatActivity {
         progressDialog.show();
 
         String name = edtname.getText().toString();
-        String pw = edtpw.getText().toString();
-        String repw = edtrepw.getText().toString();
-        String email = edtemail.getText().toString();
-        String jop = edtjop.getText().toString();
-        String country = edtaddress.getText().toString();
+        String id = edtid.getText().toString();
+        String password = edtpassword.getText().toString();
+        String repassword = edtre_password.getText().toString();
+        String job = edtjob.getText().toString();
+        String country = ccp.getSelectedCountryName();
+//        String country = edtcountry.getText().toString();
 
         // TODO: Implement your own signup logic here.
 
@@ -100,7 +105,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "회원가입 실패", Toast.LENGTH_LONG).show();
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         btnsignup.setEnabled(true);
     }
@@ -109,11 +114,11 @@ public class SignupActivity extends AppCompatActivity {
         boolean valid = true;
 
         String name = edtname.getText().toString();
-        String pw = edtpw.getText().toString();
-        String repw = edtrepw.getText().toString();
-        String email = edtemail.getText().toString();
-        String jop = edtjop.getText().toString();
-        String address = edtaddress.getText().toString();
+        String password = edtpassword.getText().toString();
+        String repassword = edtre_password.getText().toString();
+        String id = edtid.getText().toString();
+        String job = edtjob.getText().toString();
+
         //name
         if (name.isEmpty() || name.length() < 2) {
             edtname.setError("2글자 이상 입력해 주십시오");
@@ -121,43 +126,34 @@ public class SignupActivity extends AppCompatActivity {
         } else {
             edtname.setError(null);
         }
-        //pw
-        if (pw.isEmpty() || pw.length() < 8 || pw.length() > 10) {
-            edtpw.setError("영숫자 8 ~ 10자 사이");
+        //id
+        if (id.isEmpty() || id.length() < 5) {
+            edtid.setError("5글자 이상 입력해 주십시오");
             valid = false;
         } else {
-            edtpw.setError(null);
+            edtid.setError(null);
         }
-        //repw
-        if (repw.isEmpty() || repw.length() < 8 || repw.length() > 10 || !(repw.equals(jop))) {
-            edtrepw.setError("비밀번호가 맞지 않습니다");
+        //password
+        if (password.isEmpty() || password.length() < 8 || password.length() > 12) {
+            edtpassword.setError("영숫자 8 ~ 12자 사이");
             valid = false;
         } else {
-            edtrepw.setError(null);
+            edtpassword.setError(null);
         }
-        //email
-        if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            edtemail.setError("올바른 이메일 주소를 입력하십시오");
+        //re-password
+        if (repassword.isEmpty() || repassword.length() < 8 || repassword.length() > 12 || !(repassword.equals(password))) {
+            edtre_password.setError("비밀번호가 맞지 않습니다");
             valid = false;
         } else {
-            edtemail.setError(null);
+            edtre_password.setError(null);
         }
-        // jop
-        if (jop.isEmpty() || jop.length() < 2) {
-            edtjop.setError("2글자 이상 입력해 주십시오");
+        // job
+        if (job.isEmpty() || job.length() < 2) {
+            edtjob.setError("2글자 이상 입력해 주십시오");
             valid = false;
         } else {
-            edtjop.setError(null);
+            edtjob.setError(null);
         }
-        //Address
-        if (address.isEmpty()) {
-            edtaddress.setError("올바른 국적를 입력하십시오");
-            valid = false;
-        } else {
-            edtaddress.setError(null);
-        }
-
-
 
         return valid;
     }

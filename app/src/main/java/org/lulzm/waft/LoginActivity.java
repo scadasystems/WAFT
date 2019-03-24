@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "로그인 실패", Toast.LENGTH_LONG).show();
 
         btnlogin.setEnabled(true);
     }
@@ -119,14 +119,14 @@ public class LoginActivity extends AppCompatActivity {
         String password = edtpassword.getText().toString();
 
         if (id.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(id).matches()) {
-            edtid.setError("enter a valid id address");
+            edtid.setError("유효한 ID 주소를 입력하십시오.");
             valid = false;
         } else {
             edtid.setError(null);
         }
 
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            edtpassword.setError("between 4 and 10 alphanumeric characters");
+        if (password.isEmpty() || password.length() < 8 || password.length() > 12) {
+            edtpassword.setError("영숫자 8 ~ 12자 사이");
             valid = false;
         } else {
             edtpassword.setError(null);

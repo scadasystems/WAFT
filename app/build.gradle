@@ -41,4 +41,7 @@ dependencies {
     // 리사이클러뷰, 카드뷰
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.android.support:cardview-v7:28.0.0'
+
+    // Country-picker
+    implementation 'com.hbb20:ccp:2.2.6'
 }
