@@ -3,6 +3,8 @@ package org.lulzm.waft;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
@@ -21,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     private android.support.v7.widget.AppCompatButton btnlogin;
     private android.widget.TextView tvsignup;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +32,12 @@ public class LoginActivity extends AppCompatActivity {
         this.btnlogin = (AppCompatButton) findViewById(R.id.btn_login);
         this.edtpassword = (EditText) findViewById(R.id.edt_password);
         this.edtid = (EditText) findViewById(R.id.edt_id);
+        // 패스워드 카운터
+        TextInputLayout pw_inputLayout = (TextInputLayout) findViewById(R.id.pw_input_layout);
+        pw_inputLayout.setCounterEnabled(true);
+        pw_inputLayout.setCounterMaxLength(15);
+
+
 
         btnlogin.setOnClickListener(new View.OnClickListener() {
 
@@ -45,7 +54,6 @@ public class LoginActivity extends AppCompatActivity {
                 // Start the Signup activity
                 Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
-                finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
@@ -107,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "로그인 실패", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "로그인을 실패했습니다.", Toast.LENGTH_LONG).show();
 
         btnlogin.setEnabled(true);
     }
@@ -119,14 +127,14 @@ public class LoginActivity extends AppCompatActivity {
         String password = edtpassword.getText().toString();
 
         if (id.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(id).matches()) {
-            edtid.setError("유효한 ID 주소를 입력하십시오.");
+            edtid.setError("유효한 ID 주소를 입력하세요.");
             valid = false;
         } else {
             edtid.setError(null);
         }
 
-        if (password.isEmpty() || password.length() < 8 || password.length() > 12) {
-            edtpassword.setError("영숫자 8 ~ 12자 사이");
+        if (password.isEmpty() || password.length() < 8 || password.length() > 15) {
+            edtpassword.setError("패스워드는 8 ~ 15자 사이로 입력하세요.");
             valid = false;
         } else {
             edtpassword.setError(null);

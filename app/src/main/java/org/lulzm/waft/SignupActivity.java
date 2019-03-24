@@ -3,6 +3,7 @@ package org.lulzm.waft;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
@@ -37,6 +38,14 @@ public class SignupActivity extends AppCompatActivity {
         this.edtid = (EditText) findViewById(R.id.edt_id);
         this.edtjob = (EditText) findViewById(R.id.edt_job);
         this.ccp = (CountryCodePicker)findViewById(R.id.ccp);
+        // 패스워드 길이
+        TextInputLayout pw_input_layout = (TextInputLayout) findViewById(R.id.pw_input_layout);
+        TextInputLayout repw_input_layout = (TextInputLayout) findViewById(R.id.repw_input_layout);
+        pw_input_layout.setCounterEnabled(true);
+        pw_input_layout.setCounterMaxLength(15);
+        repw_input_layout.setCounterEnabled(true);
+        repw_input_layout.setCounterMaxLength(15);
+
 
         btnsignup.setOnClickListener(new View.OnClickListener() {
             @Override
