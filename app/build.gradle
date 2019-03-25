@@ -30,6 +30,7 @@ dependencies {
     // firebase
     implementation 'com.google.firebase:firebase-auth:16.2.0'
     implementation 'com.google.firebase:firebase-core:16.0.8'
+    implementation 'com.google.firebase:firebase-database:16.1.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
@@ -37,7 +38,7 @@ dependencies {
     implementation 'com.yarolegovich:sliding-root-nav:1.1.0'
 
     // Material design  27.1.0 으로 고정
-    implementation 'com.android.support:design:27.1.0'
+    implementation 'com.android.support:design:28.0.0'
     // 리사이클러뷰, 카드뷰
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.android.support:cardview-v7:28.0.0'

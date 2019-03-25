@@ -3,6 +3,7 @@ package org.lulzm.waft;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
@@ -11,10 +12,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.*;
 import com.hbb20.CountryCodePicker;
+import java.util.Iterator;
 
 public class SignupActivity extends AppCompatActivity {
-    private static final String TAG = "SignupActivity";
     private android.widget.EditText edtname;
     private android.widget.EditText edtpassword;
     private android.widget.EditText edtre_password;
@@ -24,11 +27,33 @@ public class SignupActivity extends AppCompatActivity {
     private android.widget.TextView tvlogin;
     private CountryCodePicker ccp;
 
+    // FireBase
+    private DatabaseReference mSignupReference;
+    private ValueEventListener checkRegister = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            Iterator<DataSnapshot> child = dataSnapshot.getChildren().iterator();
+            while (child.hasNext()) {
+                if (edtid.getText().toString().equals(child.next().getKey())) {
+                    Toast.makeText(getApplicationContext(), "이미 사용중인 아이디 입니다. 다른 아이디를 써주세요.", Toast.LENGTH_LONG).show();
+                    mSignupReference.removeEventListener(this);
+                    return;
+                }
+            }
+            makeNewId();
+        }
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+        }
+    };
 
+    private FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+        // firebase
+        mSignupReference = FirebaseDatabase.getInstance().getReference("users");
 
         this.tvlogin = (TextView) findViewById(R.id.tv_login);
         this.btnsignup = (AppCompatButton) findViewById(R.id.btn_signup);
@@ -37,7 +62,7 @@ public class SignupActivity extends AppCompatActivity {
         this.edtre_password = (EditText) findViewById(R.id.edt_repassword);
         this.edtid = (EditText) findViewById(R.id.edt_id);
         this.edtjob = (EditText) findViewById(R.id.edt_job);
-        this.ccp = (CountryCodePicker)findViewById(R.id.ccp);
+        this.ccp = (CountryCodePicker) findViewById(R.id.ccp);
         // 패스워드 길이
         TextInputLayout pw_input_layout = (TextInputLayout) findViewById(R.id.pw_input_layout);
         TextInputLayout repw_input_layout = (TextInputLayout) findViewById(R.id.repw_input_layout);
@@ -46,13 +71,10 @@ public class SignupActivity extends AppCompatActivity {
         repw_input_layout.setCounterEnabled(true);
         repw_input_layout.setCounterMaxLength(15);
 
-
         btnsignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //나라 값 확인 메시지
-                Toast.makeText(getBaseContext(), ccp.getSelectedCountryName(), Toast.LENGTH_SHORT).show();
-
+                mSignupReference.addListenerForSingleValueEvent(checkRegister);
                 signup();
             }
         });
@@ -68,10 +90,21 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
     }
+    void makeNewId() {
+        String name = edtname.getText().toString();
+        String id = edtid.getText().toString();
+        String password = edtpassword.getText().toString();
+        String job = edtjob.getText().toString();
+        String country = ccp.getSelectedCountryName();
+
+        mSignupReference.child(id).child("name").setValue(name);
+        mSignupReference.child(id).child("id").setValue(id);
+        mSignupReference.child(id).child("password").setValue(password);
+        mSignupReference.child(id).child("job").setValue(job);
+        mSignupReference.child(id).child("country").setValue(country);
+    }
 
     public void signup() {
-        Log.d(TAG, "Signup");
-
         if (!validate()) {
             onSignupFailed();
             return;
@@ -82,16 +115,8 @@ public class SignupActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Creating Account...");
+        progressDialog.setMessage("회원가입 중입니다...");
         progressDialog.show();
-
-        String name = edtname.getText().toString();
-        String id = edtid.getText().toString();
-        String password = edtpassword.getText().toString();
-        String repassword = edtre_password.getText().toString();
-        String job = edtjob.getText().toString();
-        String country = ccp.getSelectedCountryName();
-//        String country = edtcountry.getText().toString();
 
         // TODO: Implement your own signup logic here.
 
@@ -110,12 +135,14 @@ public class SignupActivity extends AppCompatActivity {
     public void onSignupSuccess() {
         btnsignup.setEnabled(true);
         setResult(RESULT_OK, null);
+        Intent i = new Intent(SignupActivity.this, LoginActivity.class);
+        startActivity(i);
         finish();
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "회원가입 실패", Toast.LENGTH_LONG).show();
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        Toast.makeText(getBaseContext(), "회원가입을 실패했습니다.", Toast.LENGTH_LONG).show();
+        Intent i = new Intent(getApplicationContext(), SignupActivity.class);
         btnsignup.setEnabled(true);
     }
 
