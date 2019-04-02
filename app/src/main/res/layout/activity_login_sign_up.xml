@@ -55,6 +55,8 @@
                 android:layout_below="@+id/til3"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="20dp"
+                app:passwordToggleDrawable="@drawable/pass_icon_selector"
+                app:passwordToggleEnabled="true"
                 android:visibility="gone" >
 
                 <EditText
@@ -72,6 +74,8 @@
                 android:layout_below="@+id/til4"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="20dp"
+                app:passwordToggleDrawable="@drawable/pass_icon_selector"
+                app:passwordToggleEnabled="true"
                 android:visibility="gone" >
                 <EditText
                     android:id="@+id/pass3"
@@ -126,6 +130,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/til1"
                 android:layout_centerHorizontal="true"
+                app:passwordToggleDrawable="@drawable/pass_icon_selector"
+                app:passwordToggleEnabled="true"
                 android:layout_margin="20dp">
 
                 <EditText
