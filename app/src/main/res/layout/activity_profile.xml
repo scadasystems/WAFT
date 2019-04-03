@@ -1,209 +1,220 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ProfileActivity">
-
+        android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android">
     <RelativeLayout
-            android:id="@+id/rellay1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/grad"
-            android:paddingBottom="20dp">
-
-        <RelativeLayout
-                android:id="@+id/imgUser"
-                android:layout_width="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/circle_border">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/profile_image"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_margin="9dp"
-                    android:padding="3dp"
-                    android:src="@mipmap/ic_launcher"
-                    app:civ_border_width="3dp"
-                    app:civ_border_color="#FFFFFFFF"/>
-
-            <!--<ImageView-->
-                    <!--android:layout_width="120dp"-->
-                    <!--android:layout_height="120dp"-->
-                    <!--android:layout_margin="9dp"-->
-                    <!--android:adjustViewBounds="true"-->
-                    <!--android:padding="3dp"-->
-                    <!--android:background="@drawable/circle"-->
-                    <!--android:scaleType="centerInside"-->
-                    <!--android:src="@mipmap/ic_launcher"/>-->
-
-        </RelativeLayout>
-
-        <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/imgUser"
-                android:text="Jangdoll"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="sans-serif-light"
-                android:layout_marginTop="15sp"
-                android:textSize="32sp"
-                android:textColor="@color/white"/>
-        <ImageView
-                android:layout_below="@+id/imgUser"
-                android:layout_marginTop="25sp"
-                android:layout_toRightOf="@id/tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_create"/>
-
-        <TextView
-                android:id="@+id/tv_country"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_name"
-                android:text="KOREA"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="sans-serif"
-                android:textSize="14sp"
-                android:textColor="@color/address"/>
-
-    </RelativeLayout>
-
-    <LinearLayout
-            android:id="@+id/linlay1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/rellay1"
-            android:orientation="horizontal">
-
-        <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:background="@color/followersBg"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp">
-
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="453K"
-                        android:textColor="@color/white"
-                        android:fontFamily="sans-serif-light"
-                        android:textSize="25sp"/>
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="followers"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
-                        android:fontFamily="sans-serif-light"
-                        android:textSize="13sp"/>
-            </LinearLayout>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:background="@color/followingBg"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp">
-
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="873"
-                        android:textColor="@color/white"
-                        android:fontFamily="sans-serif-light"
-                        android:textSize="25sp"/>
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="following"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
-                        android:fontFamily="sans-serif-light"
-                        android:textSize="13sp"/>
-            </LinearLayout>
-
-        </RelativeLayout>
-
-    </LinearLayout>
-    <!--<fragment-->
-    <!--android:id="@+id/settings_fragment"-->
-    <!--android:name="org.lulzm.waft.SettingPreferenceFragment"-->
-    <!--android:layout_below="@id/linlay1"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--/>-->
-
-    <RelativeLayout
-            android:layout_below="@+id/linlay1"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp">
-        <LinearLayout
+            tools:context=".ProfileActivity">
+
+        <RelativeLayout
+                android:id="@+id/rellay1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:orientation="vertical">
-            <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp">
-                <EditText android:id="@+id/edt_name"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:inputType="textPersonName"
-                          android:hint="이름"/>
-            </android.support.design.widget.TextInputLayout>
+                android:background="@drawable/grad"
+                android:paddingBottom="20dp">
 
-            <android.support.design.widget.TextInputLayout
+            <RelativeLayout
+                    android:id="@+id/imgUser"
+                    android:layout_width="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/circle_border">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/profile_image"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_margin="9dp"
+                        android:padding="3dp"
+                        android:src="@mipmap/ic_launcher"
+                        app:civ_border_width="3dp"
+                        app:civ_border_color="#FFFFFFFF"/>
+            </RelativeLayout>
+            <TextView
+                    android:id="@+id/tv_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imgUser"
+                    android:layout_marginTop="15sp"
+                    android:text="KOREA"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="sans-serif"
+                    android:textSize="32sp"
+                    android:textColor="@color/address"/>
+            <TextView
+                    android:id="@+id/tv_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_nickname"
+                    android:text="상태메시지"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"/>
+            <ImageView
+                    android:layout_alignBottom="@+id/tv_status"
+                    android:layout_toRightOf="@id/tv_status"
+                    android:layout_width="14sp"
+                    android:layout_height="14sp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_create"/>
+        </RelativeLayout>
+
+        <LinearLayout
+                android:id="@+id/linlay1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rellay1"
+                android:orientation="horizontal">
+
+            <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp">
-                <EditText android:id="@+id/edt_email"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:inputType="textPersonName"
-                          android:hint="이메일"/>
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:background="@color/followersBg"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="453K"
+                            android:textColor="@color/white"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="25sp"/>
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="followers"
+                            android:textAllCaps="true"
+                            android:textColor="@color/white"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="13sp"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:background="@color/followingBg"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="873"
+                            android:textColor="@color/white"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="25sp"/>
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="following"
+                            android:textAllCaps="true"
+                            android:textColor="@color/white"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="13sp"/>
+                </LinearLayout>
+
+            </RelativeLayout>
 
         </LinearLayout>
+
+        <RelativeLayout
+                android:layout_below="@+id/linlay1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp">
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+                <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp">
+                    <EditText android:id="@+id/edt_uid"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:inputType="textPersonName"
+                              android:hint="아이디"/>
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp">
+                    <EditText android:id="@+id/edt_name"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:inputType="textPersonName"
+                              android:hint="이름"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp">
+                    <EditText android:id="@+id/edt_email"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:inputType="textPersonName"
+                              android:hint="이메일"/>
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp">
+                    <EditText android:id="@+id/edt_job"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:inputType="textPersonName"
+                              android:hint="직업"/>
+                </android.support.design.widget.TextInputLayout>
+                <com.hbb20.CountryCodePicker
+                        android:id="@+id/ccp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:ccp_defaultNameCode="KR"
+                        app:ccp_showFullName="true"
+                        app:ccp_showPhoneCode="false"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+
     </RelativeLayout>
-
-
-</RelativeLayout>
+</ScrollView>
