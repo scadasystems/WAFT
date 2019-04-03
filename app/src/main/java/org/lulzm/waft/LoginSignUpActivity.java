@@ -2,14 +2,13 @@ package org.lulzm.waft;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.ProgressDialog;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputEditText;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.transition.ChangeBounds;
 import android.transition.Transition;
 import android.transition.TransitionManager;
@@ -18,11 +17,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.*;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 
 public class LoginSignUpActivity extends AppCompatActivity {
 
-    EditText email, pass, email2, pass2, confirmPass;
+    EditText email_login, pass_login, email_sign, pass_sign, confirmPass;
     RelativeLayout relativeLayout, relativeLayout2;
     LinearLayout mainLinear,img;
     TextView signUp,login,forgetPass;
@@ -32,8 +36,14 @@ public class LoginSignUpActivity extends AppCompatActivity {
     FrameLayout mainFrame;
     ObjectAnimator animator2, animator1;
     TextInputLayout til1,til2,til3,til4,til5;
+    private ProgressDialog progressDialog;
 
-    private FirebaseAuth firebaseAuth;
+
+    //Firebase
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+
+    private DatabaseReference storeDefaultDatabaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +51,8 @@ public class LoginSignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login_sign_up);
 
         // firebase
-        firebaseAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
 
         params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
         params2 = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -55,14 +66,14 @@ public class LoginSignUpActivity extends AppCompatActivity {
         til5 = (TextInputLayout) findViewById(R.id.til5);
         signUp = (TextView) findViewById(R.id.signUp);
         login = (TextView) findViewById(R.id.login);
-        email = (EditText) findViewById(R.id.email);
-        pass = (EditText) findViewById(R.id.pass);
-        img = (LinearLayout) findViewById(R.id.img);
-        email2 = (EditText) findViewById(R.id.email2);
+        email_login = (EditText) findViewById(R.id.email);
+        pass_login = (EditText) findViewById(R.id.pass);
         forgetPass = (TextView) findViewById(R.id.forget);
-        pass2 = (EditText) findViewById(R.id.pass2);
-        mainFrame = (FrameLayout) findViewById(R.id.mainFrame);
+        img = (LinearLayout) findViewById(R.id.img);
+        email_sign = (EditText) findViewById(R.id.email2);
+        pass_sign = (EditText) findViewById(R.id.pass2);
         confirmPass = (EditText) findViewById(R.id.pass3);
+        mainFrame = (FrameLayout) findViewById(R.id.mainFrame);
         back = (ImageView) findViewById(R.id.backImg);
         relativeLayout = (RelativeLayout) findViewById(R.id.relative);
         relativeLayout2 = (RelativeLayout) findViewById(R.id.relative2);
@@ -71,12 +82,6 @@ public class LoginSignUpActivity extends AppCompatActivity {
         logo = new ImageView(this);
         logo.setImageResource(R.drawable.ic_account_circle_white_48dp);
         logo.setLayoutParams(params3);
-
-        // Sign up
-        final String signEmail = email2.getText().toString().trim();
-        final String signPassword = pass2.getText().toString().trim();
-        final String confirmPassword = confirmPass.getText().toString().trim();
-
 
         relativeLayout.post(new Runnable() {
             @Override
@@ -131,26 +136,24 @@ public class LoginSignUpActivity extends AppCompatActivity {
             }
         });
 
+
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String emailSign = email_sign.getText().toString();
+                String passSign = pass_sign.getText().toString();
+                String rePass = confirmPass.getText().toString();
+
                 if (params.weight == 4.25) {
-                    if (TextUtils.isEmpty(signEmail)) {
-                        Toast.makeText(getApplicationContext(), "Email 을 입력해주세요.", Toast.LENGTH_SHORT).show();
-                        return;
-                    } else if (TextUtils.isEmpty(signPassword)) {
-                        Toast.makeText(getApplicationContext(), "Password 를 입력해주세요.", Toast.LENGTH_SHORT).show();
-                        return;
-                    } else if (!confirmPassword.equals(signPassword)) {
-                        Toast.makeText(getApplicationContext(), "Password 가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
-                        return;
+//                    Snackbar.make(relativeLayout, "Sign Up Complete", Snackbar.LENGTH_SHORT).show();
+                    if (!SignValidateDate()) {
+
                     }
 
-                    Snackbar.make(relativeLayout, "Sign Up Complete", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
-                email2.setVisibility(View.VISIBLE);
-                pass2.setVisibility(View.VISIBLE);
+                email_sign.setVisibility(View.VISIBLE);
+                pass_sign.setVisibility(View.VISIBLE);
                 confirmPass.setVisibility(View.VISIBLE);
                 til3.setVisibility(View.VISIBLE);
                 til4.setVisibility(View.VISIBLE);
@@ -164,14 +167,14 @@ public class LoginSignUpActivity extends AppCompatActivity {
                         ObjectAnimator animator1 = ObjectAnimator.ofFloat(signUp, "translationX", mainLinear.getWidth() / 2 - relativeLayout2.getWidth() / 2 - signUp.getWidth() / 2);
                         ObjectAnimator animator2 = ObjectAnimator.ofFloat(img, "translationX", -relativeLayout2.getX());
                         ObjectAnimator animator3 = ObjectAnimator.ofFloat(signUp, "rotation", 0);
-                        ObjectAnimator animator4 = ObjectAnimator.ofFloat(email, "alpha", 1, 0);
-                        ObjectAnimator animator5 = ObjectAnimator.ofFloat(pass, "alpha", 1, 0);
+                        ObjectAnimator animator4 = ObjectAnimator.ofFloat(email_login, "alpha", 1, 0);
+                        ObjectAnimator animator5 = ObjectAnimator.ofFloat(LoginSignUpActivity.this.pass_login, "alpha", 1, 0);
                         ObjectAnimator animator6 = ObjectAnimator.ofFloat(forgetPass, "alpha", 1, 0);
                         ObjectAnimator animator7 = ObjectAnimator.ofFloat(login, "rotation", 90);
                         ObjectAnimator animator8 = ObjectAnimator.ofFloat(login, "y", relativeLayout2.getHeight() / 2);
-                        ObjectAnimator animator9 = ObjectAnimator.ofFloat(email2, "alpha", 0, 1);
+                        ObjectAnimator animator9 = ObjectAnimator.ofFloat(email_sign, "alpha", 0, 1);
                         ObjectAnimator animator10 = ObjectAnimator.ofFloat(confirmPass, "alpha", 0, 1);
-                        ObjectAnimator animator11 = ObjectAnimator.ofFloat(pass2, "alpha", 0, 1);
+                        ObjectAnimator animator11 = ObjectAnimator.ofFloat(pass_sign, "alpha", 0, 1);
                         ObjectAnimator animator12 = ObjectAnimator.ofFloat(signUp, "y", login.getY());
                         ObjectAnimator animator13 = ObjectAnimator.ofFloat(back, "translationX", img.getX());
                         ObjectAnimator animator14 = ObjectAnimator.ofFloat(signUp, "scaleX", 2);
@@ -190,8 +193,8 @@ public class LoginSignUpActivity extends AppCompatActivity {
 
                     @Override
                     public void onTransitionEnd(Transition transition) {
-                        email.setVisibility(View.INVISIBLE);
-                        pass.setVisibility(View.INVISIBLE);
+                        email_login.setVisibility(View.INVISIBLE);
+                        LoginSignUpActivity.this.pass_login.setVisibility(View.INVISIBLE);
                         forgetPass.setVisibility(View.INVISIBLE);
                         til1.setVisibility(View.INVISIBLE);
                         til2.setVisibility(View.INVISIBLE);
@@ -230,13 +233,17 @@ public class LoginSignUpActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (params2.weight == 4.25) {
+//                    Snackbar.make(relativeLayout2, "Login Complete", Snackbar.LENGTH_SHORT).show();
 
-                    Snackbar.make(relativeLayout2, "Login Complete", Snackbar.LENGTH_SHORT).show();
+                    if (!LoginValidateDate()) {
+
+                    }
+
                     return;
                 }
 
-                email.setVisibility(View.VISIBLE);
-                pass.setVisibility(View.VISIBLE);
+                email_login.setVisibility(View.VISIBLE);
+                LoginSignUpActivity.this.pass_login.setVisibility(View.VISIBLE);
                 forgetPass.setVisibility(View.VISIBLE);
                 til1.setVisibility(View.VISIBLE);
                 til2.setVisibility(View.VISIBLE);
@@ -252,8 +259,8 @@ public class LoginSignUpActivity extends AppCompatActivity {
                         ObjectAnimator animator1 = ObjectAnimator.ofFloat(login, "translationX", mainLinear.getWidth() / 2 - relativeLayout.getWidth() / 2 - login.getWidth() / 2);
                         ObjectAnimator animator2 = ObjectAnimator.ofFloat(img, "translationX", (relativeLayout.getX()));
                         ObjectAnimator animator3 = ObjectAnimator.ofFloat(login, "rotation", 0);
-                        ObjectAnimator animator4 = ObjectAnimator.ofFloat(email, "alpha", 0, 1);
-                        ObjectAnimator animator5 = ObjectAnimator.ofFloat(pass, "alpha", 0, 1);
+                        ObjectAnimator animator4 = ObjectAnimator.ofFloat(email_login, "alpha", 0, 1);
+                        ObjectAnimator animator5 = ObjectAnimator.ofFloat(LoginSignUpActivity.this.pass_login, "alpha", 0, 1);
                         ObjectAnimator animator6 = ObjectAnimator.ofFloat(forgetPass, "alpha", 0, 1);
                         ObjectAnimator animator7 = ObjectAnimator.ofFloat(signUp, "rotation", 90);
                         ObjectAnimator animator8 = ObjectAnimator.ofFloat(signUp, "y", relativeLayout.getHeight() / 2);
@@ -279,8 +286,8 @@ public class LoginSignUpActivity extends AppCompatActivity {
                     @Override
                     public void onTransitionEnd(Transition transition) {
 
-                        email2.setVisibility(View.INVISIBLE);
-                        pass2.setVisibility(View.INVISIBLE);
+                        email_sign.setVisibility(View.INVISIBLE);
+                        pass_sign.setVisibility(View.INVISIBLE);
                         confirmPass.setVisibility(View.INVISIBLE);
                         til3.setVisibility(View.INVISIBLE);
                         til4.setVisibility(View.INVISIBLE);
@@ -314,6 +321,73 @@ public class LoginSignUpActivity extends AppCompatActivity {
             }
         });
     }
+
+    // signup logic in here
+    private void registerAccount(String name, String email, String password) {
+
+    }
+
+    private boolean LoginValidateDate() {
+        boolean result = true;
+
+        String loginEmail = email_login.getText().toString().trim();
+        String loginPassword = pass_login.getText().toString().trim();
+
+        if (loginEmail.isEmpty()) {
+            til1.setError("이메일을 입력해주세요.");
+            result = false;
+        } else if (!(loginEmail.matches("^[a-zA-X0-9]@[a-zA-X0-9].[a-zA-X0-9]"))) {
+            til1.setError("이메일 형식이 올바르지 않습니다.");
+            result = false;
+        } else {
+            til1.setError(null);
+        }
+        // password
+        if (loginPassword.isEmpty() || loginPassword.length() < 4) {
+            til2.setError("패스워드는 4자리 이상입니다.");
+            result = false;
+        } else {
+            til2.setError(null);
+        }
+
+        return result;
+    }
+
+    private boolean SignValidateDate() {
+        boolean result = true;
+
+        String signEmail = email_sign.getText().toString().trim();
+        String signPassword = pass_sign.getText().toString().trim();
+        String confirmPassword = confirmPass.getText().toString().trim();
+
+        // email
+        if (signEmail.isEmpty()) {
+            til3.setError("이메일을 입력해주세요.");
+            result = false;
+        } else if (!(signEmail.matches("^[a-zA-X0-9]@[a-zA-X0-9].[a-zA-X0-9]"))) {
+            til3.setError("이메일 형식이 올바르지 않습니다.");
+            result = false;
+        } else {
+            til3.setError(null);
+        }
+        //password
+        if (signPassword.isEmpty() || signPassword.length() < 4) {
+            til4.setError("패스워드는 4자리 이상으로 만들어주세요.");
+            result = false;
+        } else {
+            til4.setError(null);
+        }
+        // confirmPassword
+        if (confirmPassword.isEmpty() || confirmPassword.length() < 4 || !(confirmPassword.equals(signPassword))) {
+            til5.setError("패스워드가 맞지 않습니다.");
+            result = false;
+        } else {
+            til5.setError(null);
+        }
+
+        return result;
+    }
+
     private int inDp(int dp) {
 
         Resources resources = getResources();
