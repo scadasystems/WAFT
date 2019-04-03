@@ -40,6 +40,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:16.1.0'
     implementation 'com.google.firebase:firebase-messaging:17.5.0'
     implementation 'com.google.firebase:firebase-storage:16.1.0'
+
+    // FirebaseUI for Firebase Realtime Database
+    implementation 'com.firebaseui:firebase-ui-database:3.3.1'
+
     // Material design  27.1.0 으로 고정
     implementation 'com.android.support:design:28.0.0'
     // 리사이클러뷰, 카드뷰
@@ -51,17 +55,6 @@ dependencies {
     implementation 'com.android.support:percent:28.0.0'
     // circle image view library
     implementation 'de.hdodenhof:circleimageview:3.0.0'
-    implementation 'com.makeramen:roundedimageview:2.3.0'
-    // cropping image library
-    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
-    // Picasso Library
-    implementation 'com.squareup.picasso:picasso:2.71828'
-    // HTTP & HTTP/2 client for Android
-    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
-    // image Compressor library
-    implementation 'id.zelory:compressor:2.1.0'
-    //RememberEditText
-    implementation 'cn.zhaiyifan:rememberedittext:0.9.0'
     // for stylist toast
     implementation 'com.github.TheHasnatBD:SweetToast:1.0.1'
 }

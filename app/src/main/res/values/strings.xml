@@ -1,3 +1,31 @@
 <resources>
     <string name="app_name">WAFT</string>
+    <string name="app_name_slogan">urgent messages</string>
+
+    <string name="give_correct_information">Please your give correct information. Because, your email &amp; phone number needs to be verification.</string>
+
+    <!-- My Common Strings -->
+    <string name="student_name">WAFT</string>
+    <string name="copyright">WAFT © 2019</string>
+    <string name="profile_settings">My Profile</string>
+    <string name="thehasnatbd">TheHasnatBD</string>
+    <string name="log_in">Log In</string>
+    <string name="log_out">Log Out</string>
+    <string name="profile">Profile</string>
+    <string name="friends">Friends</string>
+    <string name="about_app">About App</string>
+    <string name="all_peoples">Peoples</string>
+    <string name="all_friends">Friends</string>
+
+    <!-- Remove or change this placeholder text -->
+    <string name="on_internet_msg">인터넷이 연결되어 있지 않습니다! 인터넷 연결을 확인 해주세요.</string>
+    <string name="menu_search">찾기</string>
+    <string name="register_success_popup">회원가입을 성공했습니다.\n저희가 가입 인증 메일을 보냈으니 확인해주세요.\nWAFT의 회원이 되신 것을 축하드립니다.</string>
+    <string name="recheck_gender">To save your changes, please check/recheck your GENDER.</string>
+
+    <string-array name="spinerViewPeople">
+        <item>Default</item>
+        <item>Name</item>
+        <item>Date</item>
+    </string-array>
 </resources>
