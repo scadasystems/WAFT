@@ -3,57 +3,39 @@ package org.lulzm.waft;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.ChangeBounds;
 import android.transition.Transition;
 import android.transition.TransitionManager;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
+import android.widget.*;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
-import com.google.firebase.iid.FirebaseInstanceId;
-
-import java.util.Timer;
-import java.util.TimerTask;
-
-import xyz.hasnat.sweettoast.SweetToast;
 
 public class LoginSignUpActivity extends AppCompatActivity {
 
     EditText email_login, pass_login, email_sign, pass_sign, confirmPass;
     RelativeLayout relativeLayout, relativeLayout2;
-    LinearLayout mainLinear, img;
-    TextView signUp, login, forgetPass;
-    ImageView logo, back;
+    LinearLayout mainLinear,img;
+    TextView signUp,login,forgetPass;
+    ImageView logo,back;
     LinearLayout.LayoutParams params, params2;
     FrameLayout.LayoutParams params3;
     FrameLayout mainFrame;
     ObjectAnimator animator2, animator1;
-    TextInputLayout til1, til2, til3, til4, til5;
+    TextInputLayout til1,til2,til3,til4,til5;
     private ProgressDialog progressDialog;
 
 
@@ -61,9 +43,7 @@ public class LoginSignUpActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser user;
 
-
     private DatabaseReference storeDefaultDatabaseReference;
-    private DatabaseReference userDatabaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,10 +53,6 @@ public class LoginSignUpActivity extends AppCompatActivity {
         // firebase
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-        userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users");
-
-        //progress
-        progressDialog = new ProgressDialog(this);
 
         params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
         params2 = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -170,11 +146,10 @@ public class LoginSignUpActivity extends AppCompatActivity {
 
                 if (params.weight == 4.25) {
 //                    Snackbar.make(relativeLayout, "Sign Up Complete", Snackbar.LENGTH_SHORT).show();
-                    if (SignValidateDate()) {
-                        return;
-                    } else {
-                        registerAccount("WAFT 유저", emailSign, passSign);
+                    if (!SignValidateDate()) {
+
                     }
+
                     return;
                 }
                 email_sign.setVisibility(View.VISIBLE);
@@ -252,21 +227,18 @@ public class LoginSignUpActivity extends AppCompatActivity {
 
             }
         });
-        progressDialog = new ProgressDialog(LoginSignUpActivity.this);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = email_login.getText().toString();
-                String password = pass_login.getText().toString();
 
                 if (params2.weight == 4.25) {
 //                    Snackbar.make(relativeLayout2, "Login Complete", Snackbar.LENGTH_SHORT).show();
-                    if (LoginValidateDate()) {
-                        return;
-                    } else {
-                        loginUserAccount(email, password);
+
+                    if (!LoginValidateDate()) {
+
                     }
+
                     return;
                 }
 
@@ -301,12 +273,12 @@ public class LoginSignUpActivity extends AppCompatActivity {
                         ObjectAnimator animator15 = ObjectAnimator.ofFloat(login, "scaleY", 2);
                         ObjectAnimator animator16 = ObjectAnimator.ofFloat(signUp, "scaleX", 1);
                         ObjectAnimator animator17 = ObjectAnimator.ofFloat(signUp, "scaleY", 1);
-                        ObjectAnimator animator18 = ObjectAnimator.ofFloat(logo, "x", logo.getX() + relativeLayout2.getWidth());
+                        ObjectAnimator animator18 = ObjectAnimator.ofFloat(logo, "x", logo.getX()+relativeLayout2.getWidth());
 
 
                         AnimatorSet set = new AnimatorSet();
                         set.playTogether(animator1, animator2, animator3, animator4, animator5, animator6, animator7,
-                                animator8, animator9, animator10, animator11, animator12, animator13, animator14, animator15, animator16, animator17, animator18);
+                                animator8, animator9, animator10, animator11, animator12, animator13, animator14, animator15, animator16, animator17,animator18);
                         set.setDuration(1000).start();
 
                     }
@@ -350,118 +322,8 @@ public class LoginSignUpActivity extends AppCompatActivity {
         });
     }
 
-    private void loginUserAccount(String email, String password) {
-        //progress bar
-        progressDialog.setMessage("Please wait...");
-        progressDialog.show();
-        progressDialog.setCanceledOnTouchOutside(false);
-
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        String userUID = mAuth.getCurrentUser().getUid();
-                        String userDeiceToken = FirebaseInstanceId.getInstance().getToken();
-                        userDatabaseReference.child(userUID).child("device_token").setValue(userDeiceToken)
-                                .addOnSuccessListener(aVoid -> checkVerifiedEmail());
-                    } else {
-                        SweetToast.error(LoginSignUpActivity.this, "Your email and password may be incorrect. Please check & try again.");
-                    }
-                    progressDialog.dismiss();
-                });
-    }
-
-    /** checking email verified or NOT */
-    private void checkVerifiedEmail() {
-        user = mAuth.getCurrentUser();
-        boolean isVerified = false;
-        if (user != null) {
-            isVerified = user.isEmailVerified();
-        }
-        if (isVerified){
-            String UID = mAuth.getCurrentUser().getUid();
-            userDatabaseReference.child(UID).child("verified").setValue("true");
-
-            Intent intent = new Intent(LoginSignUpActivity.this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
-        } else {
-            SweetToast.info(LoginSignUpActivity.this, "회원이 아닙니다.");
-            mAuth.signOut();
-        }
-    }
-
     // signup logic in here
     private void registerAccount(String name, String email, String password) {
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            String deviceToken = FirebaseInstanceId.getInstance().getToken();
-                            String current_userID = mAuth.getCurrentUser().getUid();
-                            storeDefaultDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(current_userID);
-
-
-                            storeDefaultDatabaseReference.child("user_name").setValue(name);
-                            storeDefaultDatabaseReference.child("verified").setValue("false");
-                            storeDefaultDatabaseReference.child("search_name").setValue(name.toLowerCase());
-                            storeDefaultDatabaseReference.child("user_email").setValue(email);
-                            storeDefaultDatabaseReference.child("user_nickname").setValue("");
-                            storeDefaultDatabaseReference.child("user_gender").setValue("");
-                            storeDefaultDatabaseReference.child("created_at").setValue(ServerValue.TIMESTAMP);
-                            storeDefaultDatabaseReference.child("user_status").setValue("Hi, I'm new WAFT user");
-                            storeDefaultDatabaseReference.child("user_image").setValue("default_image"); // Original image
-                            storeDefaultDatabaseReference.child("device_token").setValue(deviceToken);
-                            storeDefaultDatabaseReference.child("user_thumb_image").setValue("default_image")
-                                    .addOnCompleteListener(task12 -> {
-                                        if (task12.isSuccessful()) {
-                                            // SENDING VERIFICATION EMAIL TO THE REGISTERED USER'S EMAIL
-                                            user = mAuth.getCurrentUser();
-                                            if (user != null) {
-                                                user.sendEmailVerification()
-                                                        .addOnCompleteListener(task1 -> {
-                                                            if (task1.isSuccessful()) {
-
-                                                                registerSuccessPopUp();
-
-                                                                // LAUNCH activity after certain time period
-                                                                new Timer().schedule(new TimerTask() {
-                                                                    public void run() {
-                                                                        LoginSignUpActivity.this.runOnUiThread(() -> {
-                                                                            mAuth.signOut();
-
-                                                                            Intent mainIntent = new Intent(LoginSignUpActivity.this, LoginSignUpActivity.class);
-                                                                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                                            startActivity(mainIntent);
-                                                                            finish();
-
-                                                                            SweetToast.info(LoginSignUpActivity.this, "Please check your email & verify.");
-
-                                                                        });
-                                                                    }
-                                                                }, 8000);
-
-
-                                                            } else {
-                                                                mAuth.signOut();
-                                                            }
-                                                        });
-                                            }
-
-                                        }
-                                    });
-
-
-                        } else {
-                            String message = task.getException().getMessage();
-                            SweetToast.error(LoginSignUpActivity.this, "Error occurred : " + message);
-                        }
-
-                        progressDialog.dismiss();
-
-                    }
-                });
 
     }
 
@@ -532,18 +394,5 @@ public class LoginSignUpActivity extends AppCompatActivity {
         DisplayMetrics metrics = resources.getDisplayMetrics();
         int px = (int) (dp * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
         return px;
-    }
-
-    private void registerSuccessPopUp() {
-        // Custom Alert Dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(LoginSignUpActivity.this);
-        View view = LayoutInflater.from(LoginSignUpActivity.this).inflate(R.layout.register_success_popup, null);
-
-        //ImageButton imageButton = view.findViewById(R.id.successIcon);
-        //imageButton.setImageResource(R.drawable.logout);
-        builder.setCancelable(false);
-
-        builder.setView(view);
-        builder.show();
     }
 }
