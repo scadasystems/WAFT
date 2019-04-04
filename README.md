@@ -8,4 +8,3 @@
 ![슬라이드8](https://user-images.githubusercontent.com/38491289/55539077-c9dc9500-56fa-11e9-9991-1d3b93ae5f3c.PNG)
 ![슬라이드9](https://user-images.githubusercontent.com/38491289/55539078-c9dc9500-56fa-11e9-961a-9346fb6011fd.PNG)
 ![슬라이드10](https://user-images.githubusercontent.com/38491289/55539079-ca752b80-56fa-11e9-866c-db7db7e3d31d.PNG)
-![슬라이드11](https://user-images.githubusercontent.com/38491289/55539080-ca752b80-56fa-11e9-9a09-483800cfe802.PNG)
