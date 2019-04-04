@@ -3,47 +3,63 @@ package org.lulzm.waft;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.transition.ChangeBounds;
 import android.transition.Transition;
 import android.transition.TransitionManager;
 import android.util.DisplayMetrics;
+import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.*;
+
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.database.ServerValue;
+import xyz.hasnat.sweettoast.SweetToast;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class LoginSignUpActivity extends AppCompatActivity {
 
     EditText email_login, pass_login, email_sign, pass_sign, confirmPass;
     RelativeLayout relativeLayout, relativeLayout2;
-    LinearLayout mainLinear,img;
-    TextView signUp,login,forgetPass;
-    ImageView logo,back;
+    LinearLayout mainLinear, img;
+    TextView signUp, login, forgetPass;
+    ImageView logo, back;
     LinearLayout.LayoutParams params, params2;
     FrameLayout.LayoutParams params3;
     FrameLayout mainFrame;
     ObjectAnimator animator2, animator1;
-    TextInputLayout til1,til2,til3,til4,til5;
+    TextInputLayout til1, til2, til3, til4, til5;
     private ProgressDialog progressDialog;
 
+    private Context myContext = LoginSignUpActivity.this;
 
     //Firebase
     private FirebaseAuth mAuth;
     private FirebaseUser user;
-
     private DatabaseReference storeDefaultDatabaseReference;
+    private DatabaseReference userDatabaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +80,7 @@ public class LoginSignUpActivity extends AppCompatActivity {
         til3 = (TextInputLayout) findViewById(R.id.til3);
         til4 = (TextInputLayout) findViewById(R.id.til4);
         til5 = (TextInputLayout) findViewById(R.id.til5);
+
         signUp = (TextView) findViewById(R.id.signUp);
         login = (TextView) findViewById(R.id.login);
         email_login = (EditText) findViewById(R.id.email);
@@ -140,18 +157,17 @@ public class LoginSignUpActivity extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String name = "WAFT 유저";
                 String emailSign = email_sign.getText().toString();
                 String passSign = pass_sign.getText().toString();
                 String rePass = confirmPass.getText().toString();
 
                 if (params.weight == 4.25) {
-//                    Snackbar.make(relativeLayout, "Sign Up Complete", Snackbar.LENGTH_SHORT).show();
-                    if (!SignValidateDate()) {
-
-                    }
+                    registerAccount(name, emailSign, passSign, rePass);
 
                     return;
                 }
+
                 email_sign.setVisibility(View.VISIBLE);
                 pass_sign.setVisibility(View.VISIBLE);
                 confirmPass.setVisibility(View.VISIBLE);
@@ -226,18 +242,21 @@ public class LoginSignUpActivity extends AppCompatActivity {
                 relativeLayout2.setLayoutParams(params2);
 
             }
-        });
+        }); // end signup button event
+        progressDialog = new ProgressDialog(myContext);
 
+        /*
+         *  login button event
+         * */
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                String email = email_login.getText().toString();
+                String password = pass_login.getText().toString();
+
                 if (params2.weight == 4.25) {
-//                    Snackbar.make(relativeLayout2, "Login Complete", Snackbar.LENGTH_SHORT).show();
-
-                    if (!LoginValidateDate()) {
-
-                    }
+                    loginUserAccount(email, password);
 
                     return;
                 }
@@ -273,12 +292,12 @@ public class LoginSignUpActivity extends AppCompatActivity {
                         ObjectAnimator animator15 = ObjectAnimator.ofFloat(login, "scaleY", 2);
                         ObjectAnimator animator16 = ObjectAnimator.ofFloat(signUp, "scaleX", 1);
                         ObjectAnimator animator17 = ObjectAnimator.ofFloat(signUp, "scaleY", 1);
-                        ObjectAnimator animator18 = ObjectAnimator.ofFloat(logo, "x", logo.getX()+relativeLayout2.getWidth());
+                        ObjectAnimator animator18 = ObjectAnimator.ofFloat(logo, "x", logo.getX() + relativeLayout2.getWidth());
 
 
                         AnimatorSet set = new AnimatorSet();
                         set.playTogether(animator1, animator2, animator3, animator4, animator5, animator6, animator7,
-                                animator8, animator9, animator10, animator11, animator12, animator13, animator14, animator15, animator16, animator17,animator18);
+                                animator8, animator9, animator10, animator11, animator12, animator13, animator14, animator15, animator16, animator17, animator18);
                         set.setDuration(1000).start();
 
                     }
@@ -320,72 +339,173 @@ public class LoginSignUpActivity extends AppCompatActivity {
                 relativeLayout2.setLayoutParams(params2);
             }
         });
+    } // end onCreate
+
+    // login logic in here
+    private void loginUserAccount(String email, String password) {
+        if (TextUtils.isEmpty(email)) {
+            SweetToast.error(this, "이메일을 입력하세요.");
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            SweetToast.error(this, "이메일 형식이 올바르지 않습니다.");
+        } else if (TextUtils.isEmpty(password)) {
+            SweetToast.error(this, "패스워드를 입력하세요");
+        } else if (password.length() < 6) {
+            SweetToast.error(this, "패스워드는 6자리 이상입니다.");
+        } else {
+            //progress bar
+            progressDialog.setMessage("확인 중입니다.\n잠시만 기다려주세요....");
+            progressDialog.show();
+            progressDialog.setCanceledOnTouchOutside(false);
+
+            // after validation checking, log in user a/c
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+
+                            if (task.isSuccessful()) {
+                                // these lines for taking DEVICE TOKEN for sending device to device notification
+                                String userUID = mAuth.getCurrentUser().getUid();
+                                String userDevice_Token = FirebaseInstanceId.getInstance().getToken();
+                                userDatabaseReference.child(userUID).child("device_token").setValue(userDevice_Token)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                checkVerifiedEmail();
+                                            }
+                                        });
+                            } else {
+                                SweetToast.error(LoginSignUpActivity.this, "이메일과 패스워드가 옳지 않습니다. 다시 한번 확인 해주세요.");
+                            }
+
+                            progressDialog.dismiss();
+                        }
+                    });
+        }
+    }
+
+    // checking email & password
+    private void checkVerifiedEmail() {
+        user = mAuth.getCurrentUser();
+        boolean isVerified = false;
+        if (user != null) {
+            isVerified = user.isEmailVerified();
+            SweetToast.info(LoginSignUpActivity.this, "이메일 인증을 하셔야 합니다.");
+        }
+        if (isVerified) {
+            String UID = mAuth.getCurrentUser().getUid();
+            userDatabaseReference.child(UID).child("verified").setValue("true");
+            Intent intent = new Intent(LoginSignUpActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        } else {
+            SweetToast.info(LoginSignUpActivity.this, "이메일이 옳지 않습니다. 다시 한번 확인해주세요.");
+            mAuth.signOut();
+        }
     }
 
     // signup logic in here
-    private void registerAccount(String name, String email, String password) {
+    private void registerAccount(String name, String email, String password, String confirmPassword) {
+        if (TextUtils.isEmpty(email)) {
+            SweetToast.error(myContext, "이메일을 입력하세요.");
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            SweetToast.error(myContext, "이메일 형식이 올바르지 않습니다.");
+        } else if (TextUtils.isEmpty(password)) {
+            SweetToast.error(myContext, "패스워드를 입력하세요.");
+        } else if (password.length() < 6) {
+            SweetToast.error(myContext, "패스워드는 6자리 이상입니다.");
+        } else if (TextUtils.isEmpty(confirmPassword)) {
+            SweetToast.warning(myContext, "패스워드를 확인해주세요.");
+        } else if (!password.equals(confirmPassword)) {
+            SweetToast.error(myContext, "패스워드가 일치 하지 않습니다.");
+        } else {
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                String deviceToken = FirebaseInstanceId.getInstance().getToken();
+                                String current_userID = mAuth.getCurrentUser().getUid();
+                                storeDefaultDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(current_userID);
+                                storeDefaultDatabaseReference.child("user_name").setValue(name);
+                                storeDefaultDatabaseReference.child("verified").setValue("false");
+                                storeDefaultDatabaseReference.child("search_name").setValue(name.toLowerCase());
+                                storeDefaultDatabaseReference.child("user_email").setValue(email);
+                                storeDefaultDatabaseReference.child("user_nickname").setValue("");
+                                storeDefaultDatabaseReference.child("user_gender").setValue("");
+                                storeDefaultDatabaseReference.child("created_at").setValue(ServerValue.TIMESTAMP);
+                                storeDefaultDatabaseReference.child("user_status").setValue("Hi, I'm new WAFT user");
+                                storeDefaultDatabaseReference.child("user_image").setValue("default_image"); // Original image
+                                storeDefaultDatabaseReference.child("device_token").setValue(deviceToken);
+                                storeDefaultDatabaseReference.child("user_thumb_image").setValue("default_image")
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    // SENDING VERIFICATION EMAIL TO THE REGISTERED USER'S EMAIL
+                                                    user = mAuth.getCurrentUser();
+                                                    if (user != null) {
+                                                        user.sendEmailVerification()
+                                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                        if (task.isSuccessful()) {
 
+                                                                            registerSuccessPopUp();
+
+                                                                            // LAUNCH activity after certain time period
+                                                                            new Timer().schedule(new TimerTask() {
+                                                                                public void run() {
+                                                                                    LoginSignUpActivity.this.runOnUiThread(new Runnable() {
+                                                                                        public void run() {
+                                                                                            mAuth.signOut();
+
+                                                                                            Intent mainIntent = new Intent(myContext, LoginSignUpActivity.class);
+                                                                                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                                                            startActivity(mainIntent);
+                                                                                            finish();
+                                                                                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                                                                                            SweetToast.info(myContext, "이메일을 재확인해주세요.");
+                                                                                        }
+                                                                                    });
+                                                                                }
+                                                                            }, 8000);
+
+
+                                                                        } else {
+                                                                            mAuth.signOut();
+                                                                        }
+                                                                    }
+                                                                });
+                                                    }
+                                                }
+                                            }
+                                        });
+                            } else {
+                                SweetToast.error(myContext, getString(R.string.if_have_account));
+                            }
+                            progressDialog.dismiss();
+                        }
+                    });
+            //config progressbar
+            progressDialog.setTitle("회원가입 중입니다.");
+            progressDialog.setMessage("잠시만 기다려주세요....");
+            progressDialog.show();
+            progressDialog.setCanceledOnTouchOutside(false);
+        }
     }
 
-    private boolean LoginValidateDate() {
-        boolean result = true;
+    private void registerSuccessPopUp() {
+        // Custom Alert Dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginSignUpActivity.this);
+        View view = LayoutInflater.from(LoginSignUpActivity.this).inflate(R.layout.register_success_popup, null);
 
-        String loginEmail = email_login.getText().toString().trim();
-        String loginPassword = pass_login.getText().toString().trim();
+        builder.setCancelable(false);
 
-        if (loginEmail.isEmpty()) {
-            til1.setError("이메일을 입력해주세요.");
-            result = false;
-        } else if (!(loginEmail.matches("^[a-zA-X0-9]@[a-zA-X0-9].[a-zA-X0-9]"))) {
-            til1.setError("이메일 형식이 올바르지 않습니다.");
-            result = false;
-        } else {
-            til1.setError(null);
-        }
-        // password
-        if (loginPassword.isEmpty() || loginPassword.length() < 4) {
-            til2.setError("패스워드는 4자리 이상입니다.");
-            result = false;
-        } else {
-            til2.setError(null);
-        }
-
-        return result;
-    }
-
-    private boolean SignValidateDate() {
-        boolean result = true;
-
-        String signEmail = email_sign.getText().toString().trim();
-        String signPassword = pass_sign.getText().toString().trim();
-        String confirmPassword = confirmPass.getText().toString().trim();
-
-        // email
-        if (signEmail.isEmpty()) {
-            til3.setError("이메일을 입력해주세요.");
-            result = false;
-        } else if (!(signEmail.matches("^[a-zA-X0-9]@[a-zA-X0-9].[a-zA-X0-9]"))) {
-            til3.setError("이메일 형식이 올바르지 않습니다.");
-            result = false;
-        } else {
-            til3.setError(null);
-        }
-        //password
-        if (signPassword.isEmpty() || signPassword.length() < 4) {
-            til4.setError("패스워드는 4자리 이상으로 만들어주세요.");
-            result = false;
-        } else {
-            til4.setError(null);
-        }
-        // confirmPassword
-        if (confirmPassword.isEmpty() || confirmPassword.length() < 4 || !(confirmPassword.equals(signPassword))) {
-            til5.setError("패스워드가 맞지 않습니다.");
-            result = false;
-        } else {
-            til5.setError(null);
-        }
-
-        return result;
+        builder.setView(view);
+        builder.show();
     }
 
     private int inDp(int dp) {
