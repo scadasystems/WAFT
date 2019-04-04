@@ -20,22 +20,30 @@
 
             <RelativeLayout
                     android:id="@+id/imgUser"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_centerHorizontal="true"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/circle_border">
+                    android:layout_marginTop="20dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                         xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/profile_image"
+                        android:layout_centerHorizontal="true"
                         android:layout_width="120dp"
                         android:layout_height="120dp"
                         android:layout_margin="9dp"
                         android:padding="3dp"
                         android:src="@mipmap/ic_launcher"
-                        app:civ_border_width="3dp"
+                        app:civ_border_width="5dp"
                         app:civ_border_color="#FFFFFFFF"/>
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_camera"
+                        android:layout_toRightOf="@id/profile_image"
+                        android:layout_marginLeft="-43dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/rounded"/>
             </RelativeLayout>
             <TextView
                     android:id="@+id/tv_nickname"
@@ -48,24 +56,27 @@
                     android:fontFamily="sans-serif"
                     android:textSize="32sp"
                     android:textColor="@color/address"/>
-            <TextView
-                    android:id="@+id/tv_status"
+            <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_nickname"
-                    android:text="상태메시지"
                     android:layout_centerHorizontal="true"
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="14sp"
-                    android:textColor="@color/white"/>
-            <ImageView
-                    android:layout_alignBottom="@+id/tv_status"
-                    android:layout_toRightOf="@id/tv_status"
-                    android:layout_width="14sp"
-                    android:layout_height="14sp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_create"/>
+                    android:orientation="horizontal"
+                    android:layout_below="@+id/tv_nickname">
+                <TextView
+                        android:id="@+id/tv_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="상태메시지"
+                        android:layout_centerHorizontal="true"
+                        android:fontFamily="sans-serif-light"
+                        android:textSize="14sp"
+                        android:textColor="@color/white"/>
+                <ImageView
+                        android:layout_width="14sp"
+                        android:layout_height="14sp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_create"/>
+            </LinearLayout>
         </RelativeLayout>
 
         <LinearLayout
@@ -165,22 +176,22 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp">
-                    <EditText android:id="@+id/edt_uid"
+                    <EditText android:id="@+id/edt_name"
                               android:layout_width="match_parent"
                               android:layout_height="wrap_content"
                               android:inputType="textPersonName"
-                              android:hint="아이디"/>
+                              android:hint="이름"/>
                 </android.support.design.widget.TextInputLayout>
                 <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp">
-                    <EditText android:id="@+id/edt_name"
+                    <EditText android:id="@+id/edt_uid"
                               android:layout_width="match_parent"
                               android:layout_height="wrap_content"
                               android:inputType="textPersonName"
-                              android:hint="이름"/>
+                              android:hint="아이디"/>
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -207,14 +218,34 @@
                 </android.support.design.widget.TextInputLayout>
                 <com.hbb20.CountryCodePicker
                         android:id="@+id/ccp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:ccp_defaultNameCode="KR"
+                        app:ccp_countryPreference="KR"
+                        app:ccpDialog_initialScrollToSelection="true"
                         app:ccp_showFullName="true"
                         app:ccp_showPhoneCode="false"/>
+                <RadioGroup
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal">
+                    <RadioButton
+                            android:id="@+id/male"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="남"/>
+                    <RadioButton
+                            android:id="@+id/female"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="여"/>
+                </RadioGroup>
             </LinearLayout>
         </RelativeLayout>
-
 
     </RelativeLayout>
 </ScrollView>
