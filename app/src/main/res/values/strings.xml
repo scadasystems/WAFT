@@ -2,7 +2,9 @@
     <string name="app_name">WAFT</string>
     <string name="app_name_slogan">urgent messages</string>
 
-    <string name="give_correct_information">Please your give correct information. Because, your email &amp; phone number needs to be verification.</string>
+    <string name="give_correct_information">Please your give correct information. Because, your email &amp; phone number
+        needs to be verification.
+    </string>
 
     <!-- My Common Strings -->
     <string name="student_name">WAFT</string>
@@ -23,6 +25,15 @@
     <string name="register_success_popup">회원가입을 성공했습니다.\n저희가 가입 인증 메일을 보냈으니 확인해주세요.\nWAFT의 회원이 되신 것을 축하드립니다.</string>
     <string name="recheck_gender">To save your changes, please check/recheck your GENDER.</string>
     <string name="if_have_account">이미 WAFT 회원입니다. 다시 확인해주세요.</string>
+    <string name="next">다음</string>
+    <string name="skip">건너뛰기</string>
+    <string name="start">시작하기</string>
+    <string name="title_slide1">환영합니다!</string>
+    <string name="desc_slide1">WAFT 어플을 사용하기 전 \n간단한 어플 소개를 시작하겠습니다.</string>
+    <string name="title_slide2">Friendship</string>
+    <string name="desc_slide2">여행에서 친해진 사람들과 \n우정을 나눠보세요~</string>
+    <string name="title_slide3">Chatting</string>
+    <string name="desc_slide3">WAFT만의 채팅 시스템을 통하여 여행에서 친해진 사람들과 소통을 나눠보세요~</string>
 
     <string-array name="spinerViewPeople">
         <item>Default</item>
