@@ -23,7 +23,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.*;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -32,14 +31,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.iid.FirebaseInstanceId;
 import xyz.hasnat.sweettoast.SweetToast;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class LoginSignUpActivity extends AppCompatActivity {
+    private Context myContext = LoginSignUpActivity.this;
 
     EditText email_login, pass_login, email_sign, pass_sign, confirmPass;
     RelativeLayout relativeLayout, relativeLayout2;
@@ -51,13 +51,14 @@ public class LoginSignUpActivity extends AppCompatActivity {
     FrameLayout mainFrame;
     ObjectAnimator animator2, animator1;
     TextInputLayout til1, til2, til3, til4, til5;
+
     private ProgressDialog progressDialog;
 
-    private Context myContext = LoginSignUpActivity.this;
 
     //Firebase
     private FirebaseAuth mAuth;
     private FirebaseUser user;
+
     private DatabaseReference storeDefaultDatabaseReference;
     private DatabaseReference userDatabaseReference;
 
@@ -69,6 +70,7 @@ public class LoginSignUpActivity extends AppCompatActivity {
         // firebase
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
+        userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users");
 
         params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
         params2 = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -80,7 +82,6 @@ public class LoginSignUpActivity extends AppCompatActivity {
         til3 = (TextInputLayout) findViewById(R.id.til3);
         til4 = (TextInputLayout) findViewById(R.id.til4);
         til5 = (TextInputLayout) findViewById(R.id.til5);
-
         signUp = (TextView) findViewById(R.id.signUp);
         login = (TextView) findViewById(R.id.login);
         email_login = (EditText) findViewById(R.id.email);
@@ -157,17 +158,17 @@ public class LoginSignUpActivity extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = "WAFT 유저";
                 String emailSign = email_sign.getText().toString();
                 String passSign = pass_sign.getText().toString();
-                String rePass = confirmPass.getText().toString();
+                String confirmPassword = confirmPass.getText().toString();
 
                 if (params.weight == 4.25) {
-                    registerAccount(name, emailSign, passSign, rePass);
+                    // sign up logic in here
+
+                    registerAccount(emailSign, passSign, confirmPassword);
 
                     return;
                 }
-
                 email_sign.setVisibility(View.VISIBLE);
                 pass_sign.setVisibility(View.VISIBLE);
                 confirmPass.setVisibility(View.VISIBLE);
@@ -242,20 +243,18 @@ public class LoginSignUpActivity extends AppCompatActivity {
                 relativeLayout2.setLayoutParams(params2);
 
             }
-        }); // end signup button event
+        });
         progressDialog = new ProgressDialog(myContext);
 
-        /*
-         *  login button event
-         * */
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 String email = email_login.getText().toString();
                 String password = pass_login.getText().toString();
 
                 if (params2.weight == 4.25) {
+                    // login logic in here
+
                     loginUserAccount(email, password);
 
                     return;
@@ -339,21 +338,22 @@ public class LoginSignUpActivity extends AppCompatActivity {
                 relativeLayout2.setLayoutParams(params2);
             }
         });
-    } // end onCreate
+    }
 
     // login logic in here
     private void loginUserAccount(String email, String password) {
+        //just validation
         if (TextUtils.isEmpty(email)) {
             SweetToast.error(this, "이메일을 입력하세요.");
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             SweetToast.error(this, "이메일 형식이 올바르지 않습니다.");
         } else if (TextUtils.isEmpty(password)) {
-            SweetToast.error(this, "패스워드를 입력하세요");
+            SweetToast.error(this, "패스워드를 입력하세요.");
         } else if (password.length() < 6) {
-            SweetToast.error(this, "패스워드는 6자리 이상입니다.");
+            SweetToast.error(this, "패스워드는 6자리 이상으로\n 만들어야 합니다.");
         } else {
             //progress bar
-            progressDialog.setMessage("확인 중입니다.\n잠시만 기다려주세요....");
+            progressDialog.setMessage("로그인 중입니다...");
             progressDialog.show();
             progressDialog.setCanceledOnTouchOutside(false);
 
@@ -366,47 +366,30 @@ public class LoginSignUpActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 // these lines for taking DEVICE TOKEN for sending device to device notification
                                 String userUID = mAuth.getCurrentUser().getUid();
-                                String userDevice_Token = FirebaseInstanceId.getInstance().getToken();
-                                userDatabaseReference.child(userUID).child("device_token").setValue(userDevice_Token)
+                                String userDeviceToken = FirebaseInstanceId.getInstance().getToken();
+                                userDatabaseReference.child(userUID).child("device_token").setValue(userDeviceToken)
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
                                                 checkVerifiedEmail();
                                             }
                                         });
+
                             } else {
-                                SweetToast.error(LoginSignUpActivity.this, "이메일과 패스워드가 옳지 않습니다. 다시 한번 확인 해주세요.");
+                                SweetToast.error(LoginSignUpActivity.this, "이메일과 패스워드가 옳지 않습니다. 다시 한번 확인해주세요.");
                             }
 
                             progressDialog.dismiss();
+
                         }
                     });
         }
     }
 
-    // checking email & password
-    private void checkVerifiedEmail() {
-        user = mAuth.getCurrentUser();
-        boolean isVerified = false;
-        if (user != null) {
-            isVerified = user.isEmailVerified();
-            SweetToast.info(LoginSignUpActivity.this, "이메일 인증을 하셔야 합니다.");
-        }
-        if (isVerified) {
-            String UID = mAuth.getCurrentUser().getUid();
-            userDatabaseReference.child(UID).child("verified").setValue("true");
-            Intent intent = new Intent(LoginSignUpActivity.this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
-        } else {
-            SweetToast.info(LoginSignUpActivity.this, "이메일이 옳지 않습니다. 다시 한번 확인해주세요.");
-            mAuth.signOut();
-        }
-    }
 
     // signup logic in here
-    private void registerAccount(String name, String email, String password, String confirmPassword) {
+    private void registerAccount(String email, String password, String confirmPassword) {
+
         if (TextUtils.isEmpty(email)) {
             SweetToast.error(myContext, "이메일을 입력하세요.");
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
@@ -414,26 +397,32 @@ public class LoginSignUpActivity extends AppCompatActivity {
         } else if (TextUtils.isEmpty(password)) {
             SweetToast.error(myContext, "패스워드를 입력하세요.");
         } else if (password.length() < 6) {
-            SweetToast.error(myContext, "패스워드는 6자리 이상입니다.");
+            SweetToast.error(myContext, "패스워드는 6자리 이상으로\n 만들어야 합니다.");
         } else if (TextUtils.isEmpty(confirmPassword)) {
-            SweetToast.warning(myContext, "패스워드를 확인해주세요.");
-        } else if (!password.equals(confirmPassword)) {
-            SweetToast.error(myContext, "패스워드가 일치 하지 않습니다.");
+            SweetToast.warning(myContext, "패스워드를 재입력해주세요.");
+        } else if (!confirmPassword.equals(password)) {
+            SweetToast.error(myContext, "패스워드가 일치하지 않습니다.");
         } else {
+            // create user
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 String deviceToken = FirebaseInstanceId.getInstance().getToken();
+                                String name = "WAFT user";
+
+                                // get and link storage
                                 String current_userID = mAuth.getCurrentUser().getUid();
                                 storeDefaultDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(current_userID);
+
                                 storeDefaultDatabaseReference.child("user_name").setValue(name);
                                 storeDefaultDatabaseReference.child("verified").setValue("false");
                                 storeDefaultDatabaseReference.child("search_name").setValue(name.toLowerCase());
                                 storeDefaultDatabaseReference.child("user_email").setValue(email);
                                 storeDefaultDatabaseReference.child("user_nickname").setValue("");
                                 storeDefaultDatabaseReference.child("user_gender").setValue("");
+                                storeDefaultDatabaseReference.child("user_country").setValue("korea");
                                 storeDefaultDatabaseReference.child("created_at").setValue(ServerValue.TIMESTAMP);
                                 storeDefaultDatabaseReference.child("user_status").setValue("Hi, I'm new WAFT user");
                                 storeDefaultDatabaseReference.child("user_image").setValue("default_image"); // Original image
@@ -466,8 +455,8 @@ public class LoginSignUpActivity extends AppCompatActivity {
                                                                                             startActivity(mainIntent);
                                                                                             finish();
                                                                                             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                                                                            SweetToast.info(myContext, "이메일을 인증하셔야 합니다.");
 
-                                                                                            SweetToast.info(myContext, "이메일을 재확인해주세요.");
                                                                                         }
                                                                                     });
                                                                                 }
@@ -480,25 +469,37 @@ public class LoginSignUpActivity extends AppCompatActivity {
                                                                     }
                                                                 });
                                                     }
+
                                                 }
                                             }
                                         });
                             } else {
-                                SweetToast.error(myContext, getString(R.string.if_have_account));
+                                String message = task.getException().getMessage();
+                                SweetToast.error(myContext, "에러 : " + message);
                             }
                             progressDialog.dismiss();
                         }
                     });
             //config progressbar
             progressDialog.setTitle("회원가입 중입니다.");
-            progressDialog.setMessage("잠시만 기다려주세요....");
+            progressDialog.setMessage("잠시만 기다려주세요.....");
             progressDialog.show();
             progressDialog.setCanceledOnTouchOutside(false);
         }
     }
 
+    private int inDp(int dp) {
+
+        Resources resources = getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        int px = (int) (dp * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+        return px;
+    }
+
+    /*
+     *  회원가입 성공 후 팝업 띄움
+     * */
     private void registerSuccessPopUp() {
-        // Custom Alert Dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(LoginSignUpActivity.this);
         View view = LayoutInflater.from(LoginSignUpActivity.this).inflate(R.layout.register_success_popup, null);
 
@@ -508,11 +509,28 @@ public class LoginSignUpActivity extends AppCompatActivity {
         builder.show();
     }
 
-    private int inDp(int dp) {
+    /*
+     *  이메일 인증 확인
+     * */
+    private void checkVerifiedEmail() {
+        user = mAuth.getCurrentUser();
+        boolean isVerified = false;
+        if (user != null) {
+            isVerified = user.isEmailVerified();
+        }
+        if (isVerified) {
+            String UID = mAuth.getCurrentUser().getUid();
+            userDatabaseReference.child(UID).child("verified").setValue("true");
 
-        Resources resources = getResources();
-        DisplayMetrics metrics = resources.getDisplayMetrics();
-        int px = (int) (dp * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
-        return px;
+            Intent intent_login = new Intent(LoginSignUpActivity.this, MainActivity.class);
+            intent_login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent_login);
+            finish();
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+        } else {
+            SweetToast.info(LoginSignUpActivity.this, "이메일이 옳지 않습니다. 다시 확인해주세요.");
+            mAuth.signOut();
+        }
     }
 }

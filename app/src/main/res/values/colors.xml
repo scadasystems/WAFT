@@ -3,6 +3,8 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <!-- color -->
     <color name="ivory">#FFFFF0</color>
     <color name="light_yellow">#FFFFE0</color>
     <color name="yellow">#FFFF00</color>
@@ -169,5 +171,9 @@
     <color name="followersBg">#65DCE5</color>
     <color name="followingBg">#49BEFF</color>
     <color name="grey">#E5E5E5</color>
+
+    <!-- intro -->
+    <color name="dot_inactive">#aaa</color>
+    <color name="dot_active">#000000</color>
 
 </resources>
