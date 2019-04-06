@@ -5,9 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import android.text.Html;
 import android.view.*;
 import android.widget.Button;
@@ -48,7 +48,7 @@ public class IntroActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.intro_activity);
         // full screen
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         // SharedPreferences
@@ -98,10 +98,7 @@ public class IntroActivity extends Activity {
         return viewPager.getCurrentItem() + i;
     }
 
-
-
     private void launchHomeScreen() {
-
         SharedPreferences sharedPreferences = getSharedPreferences("PREFS", MODE_PRIVATE);
         SharedPreferences.Editor editor;
         editor = sharedPreferences.edit();

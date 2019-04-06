@@ -32,7 +32,7 @@
             android:background="#C378C8BE"
             android:gravity="center">
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til3"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
@@ -47,9 +47,9 @@
                     android:hint="Email"
                     android:inputType="textCapSentences|textEmailAddress"
                     android:visibility="gone" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til4"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
@@ -67,9 +67,9 @@
                     android:hint="Password"
                     android:inputType="textCapSentences|textPassword"
                     android:visibility="gone" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til5"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
                     android:hint="Confirm Pass"
                     android:inputType="textCapSentences|textPassword"
                     android:visibility="gone" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/signUp"
@@ -112,7 +112,7 @@
             android:background="#C37A80C1"
             android:gravity="center">
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -125,9 +125,9 @@
                     android:layout_height="wrap_content"
                     android:hint="Email"
                     android:inputType="textCapSentences|textEmailAddress" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til2"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
@@ -143,7 +143,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Password"
                     android:inputType="textCapSentences|textPassword" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
 
             <TextView

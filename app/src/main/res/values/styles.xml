@@ -11,13 +11,13 @@
         <item name = "android:windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.Launcher">
+<!--    <style name="AppTheme.Launcher">
         <item name="android:windowBackground">@drawable/launcher_screen_with_logo</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
-    </style>
+    </style>-->
 
 
 </resources>

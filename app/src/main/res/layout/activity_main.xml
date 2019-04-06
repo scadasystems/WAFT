@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -27,15 +27,15 @@
             android:textColor="@color/white"
             android:textSize="50sp"
             android:textStyle="bold" />
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle_View"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginLeft="40dp"
         android:layout_weight="1.7"
-        tools:listitem="@layout/item_card"></android.support.v7.widget.RecyclerView>
+        tools:listitem="@layout/item_card"></androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

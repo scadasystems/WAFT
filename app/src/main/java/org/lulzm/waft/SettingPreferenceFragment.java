@@ -3,7 +3,7 @@ package org.lulzm.waft;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.*;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.widget.BaseAdapter;
 
 public class SettingPreferenceFragment extends PreferenceFragment {
