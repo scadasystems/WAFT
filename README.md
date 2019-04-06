@@ -14,7 +14,7 @@
 > 'WAFT' 는 사전적 의미로 '(공중에서 부드럽게)' 퍼지다 라는 뜻도 있으며,
 World Adviser's help for Friendly Travel 의 약어로써 
 '친근한 여행을 위한 조언자의 도움' 이라는 뜻도 있습니다.
- 
+
  해외여행에 필요한 여러가지 편의기능 및 툴을 생각하여 이러한 이름으로 정했습니다.
  ***
  
@@ -25,17 +25,19 @@ World Adviser's help for Friendly Travel 의 약어로써
 * **언어 번역**을 위해 [Naver사의 Papago 인공신경망 번역 API](https://developers.naver.com/docs/papago/) 를 활용
 * **지도 검색**을 위한 안드로이드 위치 권한 허용 - [Permission Setting Code List.txt](https://github.com/scadasystems/WAFT/files/2986161/Permission.Setting.Code.List.txt)
 * **길 안내**를 위해 [구글 지도 API](https://enterprise.google.com/intl/ko/maps/)를 활용
-* **SOS**를 위해 위치 권한을 사용하여 현재 본인이 위치해 있는 나라에 맞는 police 번호 및 대사관 번호를 스마트폰으로 제공 (안드로이드 전화 권한 사용) 
+* **SOS**를 위해 위치 권한을 사용하여 현재 본인이 위치해 있는 나라에 맞는 police 번호 및 대사관 번호를 스마트폰으로 제공 
+(안드로이드 전화 권한 사용) 
 * **채팅**을 위해 Firebase 연결
 * 채팅에는 친구 추가, 상태 메세지, 닉네임, 프로필 사진이 있으며 친구 추가는 QR 코드로도 가능
 * 채팅방 안에는 기존의 채팅앱들과 비슷한 구조로 되어 있으나 **실시간 위치 공유**를 통해
   친구들이 어디 있는지 확인할 수 있다. (ex> 놀러오라고 장소를 지정해주지만 못찾는 친구를 위함)
-`단, 보안을 위해 허락 시스템을 만들어 서로간의 허락이 없다면 위치 공유는 불가능하다.`
+  `단, 보안을 위해 허락 시스템을 만들어 서로간의 허락이 없다면 위치 공유는 불가능하다.`
 ***
 
 # 레이아웃 구성 - 스케치
-1![1](https://user-images.githubusercontent.com/38491289/54652641-db1e8280-4afa-11e9-992b-6f14247704a6.png) 3![3](https://user-images.githubusercontent.com/38491289/54652649-dfe33680-4afa-11e9-9d57-46434aed5038.png)
-2![2](https://user-images.githubusercontent.com/38491289/54652646-dd80dc80-4afa-11e9-9311-58ea0a04ce40.png) 
+![1](https://user-images.githubusercontent.com/38491289/54652641-db1e8280-4afa-11e9-992b-6f14247704a6.png) 
+![3](https://user-images.githubusercontent.com/38491289/54652649-dfe33680-4afa-11e9-9d57-46434aed5038.png)
+![2](https://user-images.githubusercontent.com/38491289/54652646-dd80dc80-4afa-11e9-9311-58ea0a04ce40.png) 
 ***
 
 # 동작과정
@@ -80,17 +82,14 @@ World Adviser's help for Friendly Travel 의 약어로써
 
 #### QR 코드
 Zxing 라이브러리 참조 - https://github.com/journeyapps/zxing-android-embedded
-build.gradle 에 추가
 ```groovy
 repositories {
     jcenter()
 }
-
 dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
     implementation 'com.android.support:appcompat-v7:25.3.1'   // Minimum 23+ is required
 }
-
 android {
     buildToolsVersion '27.0.3' // Older versions may give compile errors
 }
