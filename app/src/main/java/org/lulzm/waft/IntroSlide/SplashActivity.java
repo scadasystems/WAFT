@@ -9,16 +9,14 @@ import org.lulzm.waft.R;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private com.airbnb.lottie.LottieAnimationView introanimation;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        this.introanimation = (LottieAnimationView) findViewById(R.id.intro_animation);
-
-        introanimation.playAnimation();
+        LottieAnimationView lottie_intro = findViewById(R.id.intro_animation);
+        lottie_intro.setAnimation("app_loading.json");
+        lottie_intro.playAnimation();
 
 
         Handler handler = new Handler();
