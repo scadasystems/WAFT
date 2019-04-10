@@ -1,283 +1,251 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        tools:context=".ProfileActivity">
-
-        <RelativeLayout
-            android:id="@+id/rellay1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <RelativeLayout
-                android:id="@+id/img1"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    tools:context=".ProfileActivity">
+        <RelativeLayout
+                android:id="@+id/rellay1"
                 android:layout_width="match_parent"
-                android:layout_height="230dp"
-                android:background="@drawable/polg" />
-
+                android:layout_height="wrap_content">
             <RelativeLayout
-                android:id="@+id/img2"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_below="@+id/img1"
-                android:background="@color/accent">
-
+                    android:id="@+id/img1"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:background="@drawable/polg"/>
+            <RelativeLayout
+                    android:id="@+id/img2"
+                    android:layout_below="@+id/img1"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:background="@color/accent">
                 <TextView
-                    android:id="@+id/tv_nickname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:fontFamily="sans-serif"
-                    android:text="KOREA"
-                    android:textColor="@color/address"
-                    android:textSize="32sp" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_nickname"
-                    android:layout_centerHorizontal="true"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tv_status"
+                        android:id="@+id/tv_nickname"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:fontFamily="sans-serif-light"
-                        android:text="상태메시지"
+                        android:fontFamily="sans-serif"
+                        android:text="KOREA"
                         android:textColor="@color/address"
-                        android:textSize="14sp" />
-
+                        android:textSize="32sp"/>
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_nickname"
+                        android:layout_centerHorizontal="true"
+                        android:orientation="horizontal">
+                    <TextView
+                            android:id="@+id/tv_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:fontFamily="sans-serif-light"
+                            android:text="상태메시지"
+                            android:textColor="@color/address"
+                            android:textSize="14sp"/>
                     <ImageView
-                        android:layout_width="14sp"
-                        android:layout_height="14sp"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/ic_edit" />
+                            android:id="@+id/img_setup"
+                            android:layout_width="14sp"
+                            android:layout_height="14sp"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/ic_edit"/>
                 </LinearLayout>
             </RelativeLayout>
-
             <RelativeLayout
-                android:id="@+id/imgUser"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp">
-
-                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/profile_image"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="9dp"
-                    android:src="@mipmap/ic_launcher"
-                    app:civ_border_color="#FFFFFFFF"
-                    app:civ_border_width="5dp" />
-
-                <ImageView
-                    android:id="@+id/cam"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/userImg"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="-60dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_toRightOf="@id/profile_image"
-                    android:background="@drawable/rounded"
-                    android:elevation="2dp"
-                    android:src="@drawable/ic_camera" />
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:layout_centerInParent="true">
+                <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/img_profile_image"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="9dp"
+                        android:src="@mipmap/ic_launcher"
+                        app:civ_border_color="#FFFFFFFF"
+                        app:civ_border_width="5dp"/>
+                <ImageView
+                        android:id="@+id/img_imgSetUp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="-60dp"
+                        android:layout_marginBottom="15dp"
+                        android:elevation="2dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_toRightOf="@id/img_profile_image"
+                        android:background="@drawable/rounded"
+                        android:src="@drawable/ic_camera"/>
             </RelativeLayout>
         </RelativeLayout>
-
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/rellay1">
-
-            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:orientation="vertical"
-                android:padding="24dp">
-
-                <android.support.design.widget.TextInputLayout
+                android:layout_height="match_parent"
+                android:layout_below="@+id/rellay1">
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:background="@drawable/rounded2"
-                    android:elevation="4dp">
-
-                    <EditText
-                        android:id="@+id/edt_name"
+                    android:orientation="vertical"
+                    android:clipToPadding="false"
+                    android:paddingLeft="24dp"
+                    android:paddingRight="24dp"
+                    android:paddingBottom="24dp">
+                <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:drawableLeft="@drawable/ic_person"
-                        android:drawablePadding="20dp"
-                        android:hint="이름"
-                        android:inputType="textPersonName" />
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:background="@drawable/rounded2"
-                    android:elevation="4dp">
-
+                        android:elevation="4dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/rounded2"
+                        android:layout_marginBottom="8dp">
                     <EditText
-                        android:id="@+id/edt_uid"
+                            android:id="@+id/edt_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="이름"
+                            android:drawableLeft="@drawable/ic_person"
+                            android:drawablePadding="20dp"
+                            android:background="@null"
+                            android:inputType="textPersonName"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:drawableLeft="@drawable/ic_edit"
-                        android:drawablePadding="20dp"
-                        android:hint="아이디"
-                        android:inputType="textPersonName" />
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:background="@drawable/rounded2"
-                    android:elevation="4dp">
-
+                        android:layout_marginTop="8dp"
+                        android:elevation="4dp"
+                        android:background="@drawable/rounded2"
+                        android:layout_marginBottom="8dp">
                     <EditText
-                        android:id="@+id/edt_email"
+                            android:id="@+id/edt_uid"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="아이디"
+                            android:drawableLeft="@drawable/ic_edit"
+                            android:drawablePadding="20dp"
+                            android:background="@null"
+                            android:inputType="textPersonName"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:drawableLeft="@drawable/ic_email"
-                        android:drawablePadding="20dp"
-                        android:hint="이메일"
-                        android:inputType="textPersonName" />
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:background="@drawable/rounded2"
-                    android:elevation="4dp">
-
+                        android:layout_marginTop="8dp"
+                        android:elevation="4dp"
+                        android:background="@drawable/rounded2"
+                        android:layout_marginBottom="8dp">
                     <EditText
-                        android:id="@+id/edt_job"
+                            android:id="@+id/edt_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="이메일"
+                            android:drawableLeft="@drawable/ic_email"
+                            android:drawablePadding="20dp"
+                            android:background="@null"
+                            android:inputType="textPersonName"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:drawableLeft="@drawable/ic_work"
-                        android:drawablePadding="20dp"
-                        android:hint="직업"
-                        android:inputType="textPersonName" />
-                </android.support.design.widget.TextInputLayout>
-
+                        android:layout_marginTop="8dp"
+                        android:elevation="4dp"
+                        android:background="@drawable/rounded2"
+                        android:layout_marginBottom="8dp">
+                    <EditText
+                            android:id="@+id/edt_job"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="직업"
+                            android:drawableLeft="@drawable/ic_work"
+                            android:drawablePadding="20dp"
+                            android:background="@null"
+                            android:inputType="textPersonName"/>
+                </com.google.android.material.textfield.TextInputLayout>
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:background="@drawable/rounded2"
-                    android:elevation="4dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:background="@drawable/ic_place"
-                        android:padding="10dp" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:orientation="vertical">
-
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:elevation="4dp"
+                        android:background="@drawable/rounded2"
+                        android:orientation="horizontal">
+                    <ImageView android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:layout_gravity="bottom"
+                               android:padding="10dp"
+                               android:background="@drawable/ic_place"/>
+                    <LinearLayout android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="vertical"
+                                  android:layout_marginLeft="20dp">
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="-5dp"
-                            android:text="국가"
-                            android:textColor="@color/dark_gray"
-                            android:textFontWeight="100"
-                            android:textSize="11.5dp" />
-
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="-5dp"
+                                android:text="국가"
+                                android:textFontWeight="100"
+                                android:textColor="@color/dark_gray"
+                                android:textSize="11.5dp"/>
                         <com.hbb20.CountryCodePicker
-                            android:id="@+id/ccp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="-10dp"
-                            android:layout_marginBottom="-2dp"
-                            android:drawableLeft="@drawable/ic_place"
-                            app:ccpDialog_initialScrollToSelection="true"
-                            app:ccp_countryPreference="KR"
-                            app:ccp_defaultNameCode="KR"
-                            app:ccp_showFullName="true"
-                            app:ccp_showPhoneCode="false" />
+                                android:id="@+id/ccp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="-10dp"
+                                android:layout_marginBottom="-2dp"
+                                app:ccpDialog_initialScrollToSelection="true"
+                                app:ccp_countryPreference="KR"
+                                app:ccp_defaultNameCode="KR"
+                                app:ccp_showFullName="true"
+                                app:ccp_showPhoneCode="false"
+                                android:drawableLeft="@drawable/ic_place"/>
                     </LinearLayout>
                 </LinearLayout>
-
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:background="@drawable/rounded2"
-                    android:elevation="4dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:background="@drawable/ic_wc"
-                        android:padding="10dp" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:orientation="vertical">
-
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:elevation="4dp"
+                        android:background="@drawable/rounded2"
+                        android:orientation="horizontal">
+                    <ImageView android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:layout_gravity="bottom"
+                               android:padding="10dp"
+                               android:background="@drawable/ic_wc"/>
+                    <LinearLayout android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="vertical"
+                                  android:layout_marginLeft="20dp">
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="성별"
-                            android:textColor="@color/dark_gray"
-                            android:textFontWeight="100"
-                            android:textSize="11.5dp" />
-
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="성별"
+                                android:textFontWeight="100"
+                                android:textColor="@color/dark_gray"
+                                android:textSize="11.5dp"/>
                         <RadioGroup
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="-5dp"
-                            android:orientation="horizontal">
-
-                            <RadioButton
-                                android:id="@+id/male"
+                                android:id="@+id/rg_gender"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="남" />
-
+                                android:layout_marginLeft="-5dp"
+                                android:orientation="horizontal">
                             <RadioButton
-                                android:id="@+id/female"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="여" />
+                                    android:id="@+id/rb_male"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="남"/>
+                            <RadioButton
+                                    android:id="@+id/rb_female"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="여"/>
                         </RadioGroup>
                     </LinearLayout>
                 </LinearLayout>
