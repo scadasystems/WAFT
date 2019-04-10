@@ -33,7 +33,7 @@
                 android:layout_marginTop="10dp"
                 android:textColor="#000"
                 android:gravity="center"
-                android:text="Are you sure to Log out?"
+                android:text="로그아웃 하시겠어요?"
         />
     </RelativeLayout>
 
