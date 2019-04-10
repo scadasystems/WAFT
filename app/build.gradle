@@ -36,10 +36,10 @@ dependencies {
     // Sliding Navigation
     implementation 'com.yarolegovich:sliding-root-nav:1.1.0'
     // firebase
-    implementation 'com.google.firebase:firebase-auth:16.2.0'
+    implementation 'com.google.firebase:firebase-auth:16.2.1'
     implementation 'com.google.firebase:firebase-core:16.0.8'
     implementation 'com.google.firebase:firebase-database:16.1.0'
-    implementation 'com.google.firebase:firebase-messaging:17.5.0'
+    implementation 'com.google.firebase:firebase-messaging:17.6.0'
     implementation 'com.google.firebase:firebase-storage:16.1.0'
     // FirebaseUI for Firebase Realtime Database
     implementation 'com.firebaseui:firebase-ui-database:3.3.1'
@@ -58,9 +58,9 @@ dependencies {
     implementation 'com.github.TheHasnatBD:SweetToast:1.0.1'
     // gif ImageView
     /*
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
-    */
+            implementation 'com.github.bumptech.glide:glide:4.9.0'
+            annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+            */
     // lottie
     implementation 'com.airbnb.android:lottie:2.8.0'
 }

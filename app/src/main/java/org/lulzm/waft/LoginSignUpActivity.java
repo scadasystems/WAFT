@@ -6,12 +6,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import com.google.android.material.textfield.TextInputLayout;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.transition.ChangeBounds;
 import android.transition.Transition;
@@ -23,9 +21,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.*;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -66,6 +68,19 @@ public class LoginSignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_sign_up);
+
+        // 상태표시줄 색상 변경
+        View view = getWindow().getDecorView();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (view != null) {
+                // 23 버전 이상일 때 상태바 하얀 색상, 회색 아이콘
+                view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                getWindow().setStatusBarColor(Color.parseColor("#f2f2f2"));
+            }
+        }else if (Build.VERSION.SDK_INT >= 21) {
+            // 21 버전 이상일 때 상태바 검은 색상, 흰색 아이콘
+            getWindow().setStatusBarColor(Color.BLACK);
+        }
 
         // firebase
         mAuth = FirebaseAuth.getInstance();
@@ -529,7 +544,7 @@ public class LoginSignUpActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
         } else {
-            SweetToast.info(LoginSignUpActivity.this, "이메일이 옳지 않습니다. 다시 확인해주세요.");
+            SweetToast.info(LoginSignUpActivity.this, "이메일을 인증하지 않았습니다.\n어플 사용을 위해 인증해주세요.");
             mAuth.signOut();
         }
     }
