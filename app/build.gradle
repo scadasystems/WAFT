@@ -56,13 +56,10 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.0.0'
     // for stylist toast
     implementation 'com.github.TheHasnatBD:SweetToast:1.0.1'
-    // gif ImageView
-    /*
-            implementation 'com.github.bumptech.glide:glide:4.9.0'
-            annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
-            */
     // lottie
     implementation 'com.airbnb.android:lottie:2.8.0'
+    // QR code
+    implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
 }
 
 
