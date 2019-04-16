@@ -35,5 +35,8 @@
     <string name="title_slide3">Chatting</string>
     <string name="desc_slide3">WAFT만의 채팅 시스템을 통하여 여행에서 친해진 사람들과 소통을 나눠보세요~</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

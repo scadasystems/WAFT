@@ -14,6 +14,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,10 +29,12 @@ import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements RecycleListAdapter.RecyclerViewClickListener {
+public class MainActivity extends AppCompatActivity {
 
     private static final int TIME_LIMIT = 1500;
     private static long backPressed;
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
 
     Toolbar toolbar;
 
@@ -43,6 +47,16 @@ public class MainActivity extends AppCompatActivity implements RecycleListAdapte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        fragmentManager =getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Mainboard instantiate
+        Mainboard mainboard = new Mainboard();
+
+        fragmentTransaction.replace(R.id.container,mainboard);
+        fragmentTransaction.commit();
+
 
         // FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
@@ -66,26 +80,6 @@ public class MainActivity extends AppCompatActivity implements RecycleListAdapte
             // 21 버전 이상일 때 상태바 검은 색상, 흰색 아이콘
             getWindow().setStatusBarColor(Color.BLACK);
         }
-
-        /*리사이클러뷰 선언 및 화면 설정*/
-        RecyclerView recyclerView = findViewById(R.id.recycle_View);
-        RecyclerView.LayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-
-        /*cardView 아이템 이름 변경 및 추가*/
-        List<CardItem> dataList = new ArrayList<>();
-        dataList.add(new CardItem( "MY QR"));
-        dataList.add(new CardItem( "안내"));
-        dataList.add(new CardItem( "환전소"));
-        dataList.add(new CardItem( "채팅방"));
-        dataList.add(new CardItem( "대사관 SOS"));
-        dataList.add(new CardItem( "SOS"));
-
-        /*리사이클러뷰 어뎁터 연결*/
-        RecycleListAdapter adapter = new RecycleListAdapter(dataList);
-        recyclerView.setAdapter(adapter);
-
-        adapter.setOnClickListener(this);
 
         /* firebase */
         mAuth = FirebaseAuth.getInstance();
@@ -141,12 +135,6 @@ public class MainActivity extends AppCompatActivity implements RecycleListAdapte
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
-
-    /*아이템 클릭 이벤트*/
-    @Override
-    public void onItemClicked(int position) {
-        Toast.makeText(this, "" + position, Toast.LENGTH_SHORT).show();
-    }
 
     public void btnLogout(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
