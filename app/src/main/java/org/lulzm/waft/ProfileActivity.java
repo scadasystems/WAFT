@@ -50,17 +50,10 @@ public class ProfileActivity extends AppCompatActivity {
     private static final int CROP_FROM_IMAGE = 3;
 
     private Context myContext = ProfileActivity.this;
-    private ProgressDialog progressDialog;
 
     private Uri mImageCaptureUri;
     private String absoultePath;
 
-    //Firebase
-    private FirebaseAuth mAuth;
-    private FirebaseUser user;
-
-    private DatabaseReference storeDefaultDatabaseReference;
-    private DatabaseReference userDatabaseReference;
 
     EditText edt_name, edt_uid, edt_email, edt_job;
     CountryCodePicker ccp;
@@ -68,7 +61,6 @@ public class ProfileActivity extends AppCompatActivity {
     RadioButton rb_male, rb_female;
     Button btn_save, btn_cancel;
     ImageView img_imgSetUp, img_profileImage;
-    MaterialButton materialButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +76,6 @@ public class ProfileActivity extends AppCompatActivity {
         btn_cancel = findViewById(R.id.btn_cancel);
         img_imgSetUp = findViewById(R.id.img_imgSetUp);
         img_profileImage = findViewById(R.id.img_profileImage);
-        progressDialog = new ProgressDialog(myContext);
 
         View view = getWindow().getDecorView();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -97,11 +88,6 @@ public class ProfileActivity extends AppCompatActivity {
             // 21 버전 이상일 때 상태바 검은 색상, 흰색 아이콘
             getWindow().setStatusBarColor(Color.BLACK);
         }
-
-        // firebase
-        mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
-        userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users");
 
         // 취소, 저장 버튼
         btn_cancel.setOnClickListener(v -> {
@@ -123,117 +109,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-
      //  회원정보 수정 성공 후 팝업 띄움
     private void registerSuccessPopUp() {
         SweetToast.success(myContext, "수정완료");
     }
 
-    // signup logic in here
-    private void registerAccount(String name, String id, String job, boolean gender) {
-
-        if (TextUtils.isEmpty(name)) {
-            SweetToast.error(myContext, "이름을 입력하세요.");
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(name).matches()) {
-            SweetToast.error(myContext, "이메일 형식이 올바르지 않습니다.");
-        } else if (TextUtils.isEmpty(id)) {
-            SweetToast.error(myContext, "패스워드를 입력하세요.");
-        } else if (id.length() < 6) {
-            SweetToast.error(myContext, "패스워드는 6자리 이상으로\n 만들어야 합니다.");
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(job).matches()) {
-            SweetToast.warning(myContext, "이메일 형식이 올바르지 않습니다.");
-        } else if (!job.equals(id)) {
-            SweetToast.error(myContext, "패스워드가 일치하지 않습니다.");
-        } else {
-            // create user
-            mAuth.createUserWithEmailAndPassword(name, id)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                String deviceToken = FirebaseInstanceId.getInstance().getToken();
-                                String name = edt_name.getText().toString();
-                                String email = edt_email.getText().toString();
-                                String job = edt_job.getText().toString();
-                                String country = ccp.getSelectedCountryName();
-//                                String gender = rg_gender.get
-
-
-                                // get and link storage
-                                String current_userID = mAuth.getCurrentUser().getUid();
-                                storeDefaultDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(current_userID);
-
-                                storeDefaultDatabaseReference.child("user_name").setValue(name);
-                                storeDefaultDatabaseReference.child("verified").setValue("false");
-                                storeDefaultDatabaseReference.child("search_name").setValue(name.toLowerCase());
-                                storeDefaultDatabaseReference.child("user_email").setValue(email);
-                                storeDefaultDatabaseReference.child("user_nickname").setValue("");
-                                storeDefaultDatabaseReference.child("user_gender").setValue("");
-                                storeDefaultDatabaseReference.child("user_country").setValue(country);
-                                storeDefaultDatabaseReference.child("created_at").setValue(ServerValue.TIMESTAMP);
-                                storeDefaultDatabaseReference.child("user_status").setValue("Hi, I'm new WAFT user");
-                                storeDefaultDatabaseReference.child("user_image").setValue("default_image"); // Original image
-                                storeDefaultDatabaseReference.child("device_token").setValue(deviceToken);
-                                storeDefaultDatabaseReference.child("user_thumb_image").setValue("default_image")
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    // SENDING VERIFICATION EMAIL TO THE REGISTERED USER'S EMAIL
-                                                    user = mAuth.getCurrentUser();
-                                                    if (user != null) {
-                                                        user.sendEmailVerification()
-                                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                    @Override
-                                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                                        if (task.isSuccessful()) {
-
-                                                                            registerSuccessPopUp();
-
-                                                                            // LAUNCH activity after certain time period
-                                                                            new Timer().schedule(new TimerTask() {
-                                                                                public void run() {
-                                                                                    ProfileActivity.this.runOnUiThread(new Runnable() {
-                                                                                        public void run() {
-                                                                                            mAuth.signOut();
-
-                                                                                            Intent mainIntent = new Intent(myContext, LoginSignUpActivity.class);
-                                                                                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                                                            startActivity(mainIntent);
-                                                                                            finish();
-                                                                                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                                                                            SweetToast.info(myContext, "이메일을 인증하셔야 합니다.");
-
-                                                                                        }
-                                                                                    });
-                                                                                }
-                                                                            }, 8000);
-
-
-                                                                        } else {
-                                                                            mAuth.signOut();
-                                                                        }
-                                                                    }
-                                                                });
-                                                    }
-
-                                                }
-                                            }
-                                        });
-                            } else {
-                                String message = task.getException().getMessage();
-                                SweetToast.error(myContext, "에러 : " + message);
-                            }
-                            progressDialog.dismiss();
-                        }
-                    });
-            //config progressbar
-            progressDialog.setTitle("회원가입 중입니다.");
-            progressDialog.setMessage("잠시만 기다려주세요.....");
-            progressDialog.show();
-            progressDialog.setCanceledOnTouchOutside(false);
-        }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
