@@ -13,6 +13,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            ext.enableCrashlytics = false
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -44,7 +47,7 @@ dependencies {
     // FirebaseUI for Firebase Realtime Database
     implementation 'com.firebaseui:firebase-ui-database:3.3.1'
     // Material design
-    implementation 'com.google.android.material:material:1.1.0-alpha05'
+    implementation 'com.google.android.material:material:1.0.0-alpha1'
     // 리사이클러뷰, 카드뷰
     implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha04'
     implementation 'androidx.cardview:cardview:1.0.0'
@@ -55,7 +58,13 @@ dependencies {
     // circle image view library
     implementation 'de.hdodenhof:circleimageview:3.0.0'
     // for stylist toast
-    implementation 'com.github.TheHasnatBD:SweetToast:1.0.1'
+    implementation 'com.github.TheHasnatBD:SweetToast:1.0.2'
+    // image Compressor library
+    implementation 'id.zelory:compressor:2.1.0'
+    // Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    // cropping image library
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
     // lottie
     implementation 'com.airbnb.android:lottie:2.8.0'
     // QR code
