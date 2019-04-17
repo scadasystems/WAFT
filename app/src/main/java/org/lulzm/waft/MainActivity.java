@@ -3,6 +3,7 @@ package org.lulzm.waft;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,24 +11,21 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.*;
+import com.google.firebase.storage.StorageReference;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
-
-import java.util.ArrayList;
-import java.util.List;
+import de.hdodenhof.circleimageview.CircleImageView;
+import org.lulzm.waft.ProfileSetting.ProfileActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference userDatabaseReference;
     public FirebaseUser currentUser;
+    private StorageReference mProfileImgStorageRef;
+    private StorageReference thumb_image_ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Mainboard instantiate
         Mainboard mainboard = new Mainboard();
-
         fragmentTransaction.replace(R.id.container,mainboard);
-        fragmentTransaction.commit();
+//        fragmentTransaction.commit();
 
 
         // FirebaseAuth
@@ -63,9 +62,7 @@ public class MainActivity extends AppCompatActivity {
         currentUser = mAuth.getCurrentUser();
         if (currentUser != null){
             String user_uID = mAuth.getCurrentUser().getUid();
-
-            userDatabaseReference = FirebaseDatabase.getInstance().getReference()
-                    .child("users").child(user_uID);
+            userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(user_uID);
         }
 
         // 상태표시줄 색상 변경
@@ -105,12 +102,28 @@ public class MainActivity extends AppCompatActivity {
                 .inject();
 
         // findbyid
-        TextView tv_name = (TextView) findViewById(R.id.textView10);
-        TextView tv_id = (TextView) findViewById(R.id.tv_mbID);
-        TextView tv_email = (TextView) findViewById(R.id.tv_mbmail);
-        TextView tv_country = (TextView) findViewById(R.id.tv_mbnt);
-        TextView tv_job = (TextView) findViewById(R.id.tv_mbjob);
-        tv_name.setText("이름 이벤트");
+        CircleImageView user_image = findViewById(R.id.user_image);
+        TextView tv_name = findViewById(R.id.tv_nickName);
+        TextView tv_status = findViewById(R.id.tv_status);
+
+        userDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String image = dataSnapshot.child("user_image").getValue().toString();
+                String nickName = dataSnapshot.child("user_name").getValue().toString();
+                String status = dataSnapshot.child("user_status").getValue().toString();
+
+                user_image.setImageURI(Uri.parse(image));
+                tv_name.setText(nickName);
+                tv_status.setText(status);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+    });
     } // end onCreate
 
     @Override
@@ -178,4 +191,9 @@ public class MainActivity extends AppCompatActivity {
         backPressed = System.currentTimeMillis();
     } //End Back button press for exit...
 
+    public void btnProfile(View view) {
+        Intent intent_profile = new Intent(MainActivity.this, ProfileActivity.class);
+        startActivity(intent_profile);
+        overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+    }
 }
