@@ -19,15 +19,14 @@ import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import com.google.android.gms.tasks.*;
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.hbb20.CountryCodePicker;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -143,12 +142,13 @@ public class ProfileActivity extends AppCompatActivity {
                 // 국가
                 countryCodePicker.setCountryForNameCode(country);
                 countryCodePicker.getSelectedCountryName();
+                // 이미지
+
 
                 // default image for new user
                 if (!image.equals("default_image")) {
-                    Picasso.get()
+                    Glide.with(ProfileActivity.this)
                             .load(image)
-                            .networkPolicy(NetworkPolicy.OFFLINE) // for offline
                             .placeholder(R.drawable.default_profile_image)
                             .error(R.drawable.default_profile_image)
                             .into(profile_settings_image);
@@ -289,73 +289,55 @@ public class ProfileActivity extends AppCompatActivity {
                 final StorageReference filePath = mProfileImgStorageRef.child(user_id + ".jpg");
 
                 UploadTask uploadTask = filePath.putFile(resultUri);
-                Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                    @Override
-                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        if (!task.isSuccessful()) {
-                            SweetToast.error(ProfileActivity.this, "Profile Photo Error: " + task.getException().getMessage());
-                        }
-                        profile_download_url = filePath.getDownloadUrl().toString();
-                        return filePath.getDownloadUrl();
+                Task<Uri> uriTask = uploadTask.continueWithTask(task -> {
+                    if (!task.isSuccessful()) {
+                        SweetToast.error(ProfileActivity.this, "Profile Photo Error: " + task.getException().getMessage());
                     }
-                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-                        if (task.isSuccessful()) {
-                            SweetToast.success(ProfileActivity.this, "이미지를 업로드했습니다.");
-                            // 저장된 이미지를 프로필 사진으로
-                            profile_download_url = task.getResult().toString();
-                            Log.i("tag", "profile url: " + profile_download_url);
+                    profile_download_url = filePath.getDownloadUrl().toString();
+                    return filePath.getDownloadUrl();
+                }).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        SweetToast.success(ProfileActivity.this, "이미지를 업로드했습니다.");
+                        // 저장된 이미지를 프로필 사진으로
+                        profile_download_url = task.getResult().toString();
+                        Log.i("tag", "profile url: " + profile_download_url);
 
-                            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                            thumb_Bitmap.compress(Bitmap.CompressFormat.JPEG, 45, outputStream);
-                            final byte[] thumb_byte = outputStream.toByteArray();
+                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                        thumb_Bitmap.compress(Bitmap.CompressFormat.JPEG, 45, outputStream);
+                        final byte[] thumb_byte = outputStream.toByteArray();
 
-                            // 잘라낸 이미지와 압축된 이미지를 업로드하기 위한 firebase storage
-                            final StorageReference thumb_filePath = thumb_image_ref.child(user_id + "jpg");
-                            UploadTask thumb_uploadTask = thumb_filePath.putBytes(thumb_byte);
+                        // 잘라낸 이미지와 압축된 이미지를 업로드하기 위한 firebase storage
+                        final StorageReference thumb_filePath = thumb_image_ref.child(user_id + "jpg");
+                        UploadTask thumb_uploadTask = thumb_filePath.putBytes(thumb_byte);
 
-                            Task<Uri> thumbUriTask = thumb_uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                                @Override
-                                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                    if (!task.isSuccessful()) {
-                                        SweetToast.error(ProfileActivity.this, "Thumb Image Error: " + task.getException().getMessage());
-                                    }
-                                    profile_thumb_download_url = thumb_filePath.getDownloadUrl().toString();
-                                    return thumb_filePath.getDownloadUrl();
-                                }
-                            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Uri> task) {
-                                    profile_thumb_download_url = task.getResult().toString();
-                                    Log.i("tag", "thumb url: " + profile_thumb_download_url);
-                                    if (task.isSuccessful()) {
-                                        Log.i("tag", "thumb profile 업데이트");
+                        Task<Uri> thumbUriTask = thumb_uploadTask.continueWithTask(task1 -> {
+                            if (!task1.isSuccessful()) {
+                                SweetToast.error(ProfileActivity.this, "Thumb Image Error: " + task1.getException().getMessage());
+                            }
+                            profile_thumb_download_url = thumb_filePath.getDownloadUrl().toString();
+                            return thumb_filePath.getDownloadUrl();
+                        }).addOnCompleteListener(task12 -> {
+                            profile_thumb_download_url = task12.getResult().toString();
+                            Log.i("tag", "thumb url: " + profile_thumb_download_url);
+                            if (task12.isSuccessful()) {
+                                Log.i("tag", "thumb profile 업데이트");
 
-                                        HashMap<String, Object> update_user_data = new HashMap<>();
-                                        update_user_data.put("user_image", profile_download_url);
-                                        update_user_data.put("user_thumb_image", profile_thumb_download_url);
+                                HashMap<String, Object> update_user_data = new HashMap<>();
+                                update_user_data.put("user_image", profile_download_url);
+                                update_user_data.put("user_thumb_image", profile_thumb_download_url);
 
-                                        getUserDatabaseReference.updateChildren(new HashMap<String, Object>(update_user_data))
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
-                                                        Log.i("tag", "thumb profile 업데이트");
-                                                        progressDialog.dismiss();
-                                                    }
-                                                }).addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.i("tag", "for thumb profile: " + e.getMessage());
-                                                progressDialog.dismiss();
-                                            }
-                                        });
-                                    }
-                                }
-                            });
-                        }
-
+                                getUserDatabaseReference.updateChildren(new HashMap<String, Object>(update_user_data))
+                                        .addOnSuccessListener(aVoid -> {
+                                            Log.i("tag", "thumb profile 업데이트");
+                                            progressDialog.dismiss();
+                                        }).addOnFailureListener(e -> {
+                                    Log.i("tag", "for thumb profile: " + e.getMessage());
+                                    progressDialog.dismiss();
+                                });
+                            }
+                        });
                     }
+
                 });
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 SweetToast.error(ProfileActivity.this, "이미지 자르기를 실패했습니다.");
