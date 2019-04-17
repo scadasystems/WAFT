@@ -16,10 +16,8 @@ import android.transition.Transition;
 import android.transition.TransitionManager;
 import android.util.DisplayMetrics;
 import android.util.Patterns;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
+import android.view.*;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -64,6 +62,23 @@ public class LoginSignUpActivity extends AppCompatActivity {
     private DatabaseReference storeDefaultDatabaseReference;
     private DatabaseReference userDatabaseReference;
 
+    // edittext clearfocus
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if ( v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +92,7 @@ public class LoginSignUpActivity extends AppCompatActivity {
                 view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 getWindow().setStatusBarColor(Color.parseColor("#f2f2f2"));
             }
-        }else if (Build.VERSION.SDK_INT >= 21) {
+        } else if (Build.VERSION.SDK_INT >= 21) {
             // 21 버전 이상일 때 상태바 검은 색상, 흰색 아이콘
             getWindow().setStatusBarColor(Color.BLACK);
         }
@@ -435,56 +450,44 @@ public class LoginSignUpActivity extends AppCompatActivity {
                                 storeDefaultDatabaseReference.child("verified").setValue("false");
                                 storeDefaultDatabaseReference.child("search_name").setValue(name.toLowerCase());
                                 storeDefaultDatabaseReference.child("user_email").setValue(email);
-                                storeDefaultDatabaseReference.child("user_nickname").setValue("");
+                                storeDefaultDatabaseReference.child("user_nickname").setValue("WAFT 유저");
                                 storeDefaultDatabaseReference.child("user_gender").setValue("");
-                                storeDefaultDatabaseReference.child("user_country").setValue("korea");
+                                storeDefaultDatabaseReference.child("user_country").setValue("KR");
                                 storeDefaultDatabaseReference.child("created_at").setValue(ServerValue.TIMESTAMP);
                                 storeDefaultDatabaseReference.child("user_status").setValue("Hi, I'm new WAFT user");
                                 storeDefaultDatabaseReference.child("user_image").setValue("default_image"); // Original image
                                 storeDefaultDatabaseReference.child("device_token").setValue(deviceToken);
                                 storeDefaultDatabaseReference.child("user_thumb_image").setValue("default_image")
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    // SENDING VERIFICATION EMAIL TO THE REGISTERED USER'S EMAIL
-                                                    user = mAuth.getCurrentUser();
-                                                    if (user != null) {
-                                                        user.sendEmailVerification()
-                                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                    @Override
-                                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                                        if (task.isSuccessful()) {
+                                        .addOnCompleteListener(task1 -> {
+                                            if (task1.isSuccessful()) {
+                                                // SENDING VERIFICATION EMAIL TO THE REGISTERED USER'S EMAIL
+                                                user = mAuth.getCurrentUser();
+                                                if (user != null) {
+                                                    user.sendEmailVerification()
+                                                            .addOnCompleteListener(task11 -> {
+                                                                if (task11.isSuccessful()) {
 
-                                                                            registerSuccessPopUp();
+                                                                    registerSuccessPopUp();
 
-                                                                            // LAUNCH activity after certain time period
-                                                                            new Timer().schedule(new TimerTask() {
-                                                                                public void run() {
-                                                                                    LoginSignUpActivity.this.runOnUiThread(new Runnable() {
-                                                                                        public void run() {
-                                                                                            mAuth.signOut();
+                                                                    // LAUNCH activity after certain time period
+                                                                    new Timer().schedule(new TimerTask() {
+                                                                        public void run() {
+                                                                            LoginSignUpActivity.this.runOnUiThread(() -> {
+                                                                                mAuth.signOut();
 
-                                                                                            Intent mainIntent = new Intent(myContext, LoginSignUpActivity.class);
-                                                                                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                                                            startActivity(mainIntent);
-                                                                                            finish();
-                                                                                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                                                                            SweetToast.info(myContext, "이메일을 인증하셔야 합니다.");
-
-                                                                                        }
-                                                                                    });
-                                                                                }
-                                                                            }, 8000);
-
-
-                                                                        } else {
-                                                                            mAuth.signOut();
+                                                                                Intent mainIntent = new Intent(myContext, LoginSignUpActivity.class);
+                                                                                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                                                startActivity(mainIntent);
+                                                                                finish();
+                                                                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                                                                SweetToast.info(myContext, "이메일을 인증하셔야 합니다.");
+                                                                            });
                                                                         }
-                                                                    }
-                                                                });
-                                                    }
-
+                                                                    }, 8000);
+                                                                } else {
+                                                                    mAuth.signOut();
+                                                                }
+                                                            });
                                                 }
                                             }
                                         });
