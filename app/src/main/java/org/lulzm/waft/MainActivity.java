@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         // Mainboard instantiate
         Mainboard mainboard = new Mainboard();
         fragmentTransaction.replace(R.id.container,mainboard);
-//        fragmentTransaction.commit();
+        fragmentTransaction.commit();
 
 
         // FirebaseAuth

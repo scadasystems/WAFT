@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import androidx.fragment.app.Fragment;
+import com.bumptech.glide.Glide;
 
 
 /**
@@ -22,7 +24,8 @@ import androidx.fragment.app.Fragment;
  */
 public class Mainboard extends Fragment {
 
-    Button bt_qr,bt_nav,bt_money,bt_chat,bt_sos1,bt_sos2;
+    ImageView bt_qr,bt_nav,bt_money,bt_chat,bt_sos1,bt_sos2;
+    Context context;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -76,20 +79,43 @@ public class Mainboard extends Fragment {
         bt_sos1 = v.findViewById(R.id.bt_sos1);
         bt_sos2 = v.findViewById(R.id.bt_sos2);
 
+        Glide.with(Mainboard.this)
+                .load(R.drawable.main_qr_button)
+                .into(bt_qr);
+        Glide.with(Mainboard.this)
+                .load(R.drawable.main_nav_button)
+                .centerCrop()
+                .into(bt_nav);
+        Glide.with(Mainboard.this)
+                .load(R.drawable.main_money_button)
+                .centerCrop()
+                .into(bt_money);
+        Glide.with(Mainboard.this)
+                .load(R.drawable.main_chat_button)
+                .into(bt_chat);
+        Glide.with(Mainboard.this)
+                .load(R.drawable.main_sos_button)
+                .into(bt_sos1);
+        Glide.with(Mainboard.this)
+                .load(R.drawable.main_sos_button2)
+                .into(bt_sos2);
+
         Animation animeBottomToTop = AnimationUtils.loadAnimation(getActivity(),R.anim.anime_bottom_to_top);
         Animation animeTopToBottom = AnimationUtils.loadAnimation(getActivity(),R.anim.anime_top_to_bottom);
         Animation animeRightToleft = AnimationUtils.loadAnimation(getActivity(),R.anim.anime_right_to_left);
         Animation animeLeftToRight = AnimationUtils.loadAnimation(getActivity(),R.anim.anime_left_to_right);
+        Animation animeFadein = AnimationUtils.loadAnimation(getActivity(),R.anim.fade_out);
 
         bt_qr.setAnimation(animeTopToBottom);
         bt_nav.setAnimation(animeRightToleft);
         bt_money.setAnimation(animeLeftToRight);
-        bt_chat.setAnimation(animeLeftToRight);
-        bt_sos1.setAnimation(animeBottomToTop);
-        bt_sos2.setAnimation(animeBottomToTop);
+        bt_chat.setAnimation(animeFadein);
+        bt_sos1.setAnimation(animeLeftToRight);
+        bt_sos2.setAnimation(animeRightToleft);
         // Inflate the layout for this fragment
         return v;
     }
+
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
