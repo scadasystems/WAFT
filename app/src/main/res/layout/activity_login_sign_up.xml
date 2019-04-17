@@ -22,8 +22,6 @@
         android:weightSum="5"
         tools:context=".MainActivity">
 
-        <!-- TODO: Update blank fragment layout -->
-
         <RelativeLayout
             android:id="@+id/relative"
             android:layout_width="0dp"
@@ -42,6 +40,7 @@
 
                 <EditText
                     android:id="@+id/email2"
+                    android:singleLine="true"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:hint="Email"
@@ -62,6 +61,7 @@
 
                 <EditText
                     android:id="@+id/pass2"
+                    android:singleLine="true"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:hint="Password"
@@ -82,6 +82,7 @@
 
                 <EditText
                     android:id="@+id/pass3"
+                    android:singleLine="true"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:hint="Confirm Pass"
@@ -121,6 +122,7 @@
 
                 <EditText
                     android:id="@+id/email"
+                    android:singleLine="true"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:hint="Email"
@@ -139,6 +141,7 @@
 
                 <EditText
                     android:id="@+id/pass"
+                    android:singleLine="true"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:hint="Password"
