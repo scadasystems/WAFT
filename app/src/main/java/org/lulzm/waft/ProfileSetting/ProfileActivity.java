@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
@@ -63,10 +64,16 @@ public class ProfileActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private String selectedGender = "", profile_download_url, profile_thumb_download_url;
 
+    // for glide error -> You cannot start a load for a destroyed activity
+    public RequestManager mGlideRequestManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        // glide
+        mGlideRequestManager = Glide.with(getApplicationContext());
 
         // firebase
         mAuth = FirebaseAuth.getInstance();
@@ -147,11 +154,11 @@ public class ProfileActivity extends AppCompatActivity {
 
                 // default image for new user
                 if (!image.equals("default_image")) {
-                    Glide.with(ProfileActivity.this)
+                    view.post(() -> mGlideRequestManager
                             .load(image)
                             .placeholder(R.drawable.default_profile_image)
                             .error(R.drawable.default_profile_image)
-                            .into(profile_settings_image);
+                            .into(profile_settings_image));
                 }
 
                 if (gender.equals("Male")) {

@@ -39,8 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="150dp"
                 android:elevation="4dp"
-                app:hintEnabled="true"
-                android:background="@drawable/rounded2">
+                app:hintEnabled="true">
             <EditText
                     android:id="@+id/input_status"
                     android:layout_width="match_parent"

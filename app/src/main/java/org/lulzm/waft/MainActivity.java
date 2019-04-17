@@ -3,7 +3,6 @@ package org.lulzm.waft;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
@@ -43,24 +44,30 @@ public class MainActivity extends AppCompatActivity {
     private StorageReference mProfileImgStorageRef;
     private StorageReference thumb_image_ref;
 
+    // for glide exception
+    RequestManager mGlideRequestManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fragmentManager =getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
 
         // Mainboard instantiate
         Mainboard mainboard = new Mainboard();
-        fragmentTransaction.replace(R.id.container,mainboard);
+        fragmentTransaction.replace(R.id.container, mainboard);
         fragmentTransaction.commit();
+
+        // glide
+        mGlideRequestManager = Glide.with(getApplicationContext());
 
 
         // FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-        if (currentUser != null){
+        if (currentUser != null) {
             String user_uID = mAuth.getCurrentUser().getUid();
             userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(user_uID);
         }
@@ -73,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 getWindow().setStatusBarColor(Color.parseColor("#f2f2f2"));
             }
-        }else if (Build.VERSION.SDK_INT >= 21) {
+        } else if (Build.VERSION.SDK_INT >= 21) {
             // 21 버전 이상일 때 상태바 검은 색상, 흰색 아이콘
             getWindow().setStatusBarColor(Color.BLACK);
         }
@@ -81,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         /* firebase */
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-        if (currentUser != null){
+        if (currentUser != null) {
             String user_uID = mAuth.getCurrentUser().getUid();
 
             userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(user_uID);
@@ -98,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                 .withToolbarMenuToggle(toolbar)
                 .withMenuLayout(R.layout.sliding_root_nav)
                 .withDragDistance(200)
-                .withRootViewScale(0.6f)
+                .withRootViewScale(0.5f)
                 .inject();
 
         // findbyid
@@ -113,17 +120,18 @@ public class MainActivity extends AppCompatActivity {
                 String nickName = dataSnapshot.child("user_name").getValue().toString();
                 String status = dataSnapshot.child("user_status").getValue().toString();
 
-                user_image.setImageURI(Uri.parse(image));
+                view.post(() -> mGlideRequestManager
+                        .load(image)
+                        .error(R.drawable.default_profile_image)
+                        .into(user_image));
                 tv_name.setText(nickName);
                 tv_status.setText(status);
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
-    });
+        });
     } // end onCreate
 
     @Override
@@ -131,10 +139,10 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         currentUser = mAuth.getCurrentUser();
         //checking logging, if not login redirect to Login ACTIVITY
-        if (currentUser == null){
+        if (currentUser == null) {
             logOutUser(); // Return to Login activity
         }
-        if (currentUser != null){
+        if (currentUser != null) {
             userDatabaseReference.child("active_now").setValue("true");
         }
     } // end onStart
@@ -181,11 +189,10 @@ public class MainActivity extends AppCompatActivity {
     // This method is used to detect back button
     @Override
     public void onBackPressed() {
-        if(TIME_LIMIT + backPressed > System.currentTimeMillis()){
+        if (TIME_LIMIT + backPressed > System.currentTimeMillis()) {
             super.onBackPressed();
             //Toast.makeText(getApplicationContext(), "Exited", Toast.LENGTH_SHORT).show();
-        }
-        else {
+        } else {
             Toast.makeText(getApplicationContext(), "뒤로 버튼을 누르면 어플이 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
         backPressed = System.currentTimeMillis();
