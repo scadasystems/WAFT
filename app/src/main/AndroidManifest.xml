@@ -38,17 +38,18 @@
         </activity>
         <activity android:name=".IntroSlide.IntroActivity"
                   android:configChanges="orientation|screenSize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity android:name=".LoginSignUpActivity"
                   android:configChanges="orientation|screenSize"/>
         <activity android:name=".MainActivity"
                   android:configChanges="orientation|screenSize"/>
         <activity android:name=".ProfileSetting.ProfileActivity"
-                  android:configChanges="orientation|screenSize"/>
+                  android:configChanges="orientation|screenSize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".ProfileSetting.StatusUpdateActivity"
                   android:configChanges="orientation|screenSize"/>
 

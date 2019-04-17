@@ -6,18 +6,52 @@
                 android:layout_height="match_parent"
                 tools:context=".ProfileSetting.StatusUpdateActivity">
 
-    <EditText
-            android:id="@+id/input_status"
+    <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:background="#0097A7"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:titleTextColor="@color/white"
+            tools:ignore="MissingConstraints">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="상태메세지 수정"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+            android:layout_below="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="130dp"
-            android:hint="Update your status..."
-            android:ems="10"
-            android:inputType="textMultiLine"
-            android:padding="30dp"
-    />
+            android:clipToPadding="false"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="150dp"
+                android:elevation="4dp"
+                app:hintEnabled="true"
+                android:background="@drawable/rounded2">
+            <EditText
+                    android:id="@+id/input_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:hint="상태메세지"
+                    android:ems="10"
+                    android:inputType="textMultiLine"/>
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
 
 </RelativeLayout>

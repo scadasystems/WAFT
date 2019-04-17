@@ -116,21 +116,6 @@ public class ProfileActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(Color.BLACK);
         }
 
-        /* Todo 툴바는 필요한가 고민 후 삭제 바람.   */
-        // Toolbar
-//        toolbar = findViewById(R.id.toolbar);
-//        toolbar.setTitle("");
-//        setSupportActionBar(toolbar);
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-//        // tool bar custom
-//        SlidingRootNav slidingRootNavBuilder = new SlidingRootNavBuilder(this)
-//                .withToolbarMenuToggle(toolbar)
-//                .withMenuLayout(R.layout.sliding_root_nav)
-//                .withDragDistance(200)
-//                .withRootViewScale(0.6f)
-//                .inject();
-
         progressDialog = new ProgressDialog(this);
 
         getUserDatabaseReference.addValueEventListener(new ValueEventListener() {
@@ -366,7 +351,6 @@ public class ProfileActivity extends AppCompatActivity {
                                             }
                                         });
                                     }
-
                                 }
                             });
                         }
