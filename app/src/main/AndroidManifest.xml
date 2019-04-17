@@ -14,6 +14,9 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
 
     <application
             android:allowBackup="true"
@@ -22,31 +25,38 @@
             android:roundIcon="@drawable/ic_launcher"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
-            android:hardwareAccelerated="true"
+            android:largeHeap="true"
             tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity
-                android:name=".IntroSlide.SplashActivity"
-                tools:ignore="InnerclassSeparator">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+
+        <activity android:name=".IntroSlide.SplashActivity"
+                  android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.SEND"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <data android:mimeType="text/plain"/>
             </intent-filter>
         </activity>
-        <activity android:name=".IntroSlide.IntroActivity"/>
-        <activity android:name=".LoginSignUpActivity"/>
-        <activity android:name=".MainActivity"/>
-        <activity android:name=".SettingActivity"/>
+        <activity android:name=".IntroSlide.IntroActivity"
+                  android:configChanges="orientation|screenSize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".LoginSignUpActivity"
+                  android:configChanges="orientation|screenSize"/>
+        <activity android:name=".MainActivity"
+                  android:configChanges="orientation|screenSize"/>
+        <activity android:name=".ProfileSetting.ProfileActivity"
+                  android:configChanges="orientation|screenSize"/>
+        <activity android:name=".ProfileSetting.StatusUpdateActivity"
+                  android:configChanges="orientation|screenSize"/>
+
+        <!-- Cropping image library -->
         <activity
-                android:name=".QRcodeActivity"
-                android:screenOrientation="fullSensor"
-                android:stateNotNeeded="true"
-                android:theme="@style/zxing_CaptureTheme"
-                android:windowSoftInputMode="stateAlwaysHidden"/>
+                android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+                android:theme="@style/Base.Theme.AppCompat" />
+
     </application>
 
 </manifest>
