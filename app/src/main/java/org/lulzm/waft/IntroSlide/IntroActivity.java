@@ -104,7 +104,6 @@ public class IntroActivity extends Activity {
         editor = sharedPreferences.edit();
         editor.putInt("INTRO", 1);
         editor.apply();
-
         startActivity(new Intent(this, MainActivity.class));
         finish();
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
