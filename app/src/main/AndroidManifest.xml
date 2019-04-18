@@ -45,7 +45,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginSignUpActivity"
-                  android:configChanges="orientation|screenSize"/>
+                  android:configChanges="orientation|screenSize">
+        </activity>
         <activity android:name=".MainActivity"
                   android:configChanges="orientation|screenSize"/>
         <activity android:name=".ProfileSetting.ProfileActivity"
@@ -56,7 +57,7 @@
         <!-- Cropping image library -->
         <activity
                 android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-                android:theme="@style/Base.Theme.AppCompat" />
+                android:theme="@style/Base.Theme.AppCompat"/>
 
     </application>
 
