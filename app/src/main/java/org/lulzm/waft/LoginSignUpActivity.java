@@ -16,17 +16,15 @@ import android.transition.Transition;
 import android.transition.TransitionManager;
 import android.util.DisplayMetrics;
 import android.util.Patterns;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -107,266 +105,254 @@ public class LoginSignUpActivity extends AppCompatActivity {
         params3 = new FrameLayout.LayoutParams(inDp(50), inDp(50));
 
         // TextInputLayout
-        til1 = (TextInputLayout) findViewById(R.id.til1);
-        til2 = (TextInputLayout) findViewById(R.id.til2);
-        til3 = (TextInputLayout) findViewById(R.id.til3);
-        til4 = (TextInputLayout) findViewById(R.id.til4);
-        til5 = (TextInputLayout) findViewById(R.id.til5);
-        signUp = (TextView) findViewById(R.id.signUp);
-        login = (TextView) findViewById(R.id.login);
-        email_login = (EditText) findViewById(R.id.email);
-        pass_login = (EditText) findViewById(R.id.pass);
-        forgetPass = (TextView) findViewById(R.id.forget);
-        img = (LinearLayout) findViewById(R.id.img);
-        email_sign = (EditText) findViewById(R.id.email2);
-        pass_sign = (EditText) findViewById(R.id.pass2);
-        confirmPass = (EditText) findViewById(R.id.pass3);
-        mainFrame = (FrameLayout) findViewById(R.id.mainFrame);
-        back = (ImageView) findViewById(R.id.backImg);
-        relativeLayout = (RelativeLayout) findViewById(R.id.relative);
-        relativeLayout2 = (RelativeLayout) findViewById(R.id.relative2);
-        mainLinear = (LinearLayout) findViewById(R.id.mainLinear);
+        til1 = findViewById(R.id.til1);
+        til2 = findViewById(R.id.til2);
+        til3 = findViewById(R.id.til3);
+        til4 = findViewById(R.id.til4);
+        til5 = findViewById(R.id.til5);
+        signUp = findViewById(R.id.signUp);
+        login = findViewById(R.id.login);
+        email_login = findViewById(R.id.email);
+        pass_login = findViewById(R.id.pass);
+        forgetPass = findViewById(R.id.forget);
+        img = findViewById(R.id.img);
+        email_sign = findViewById(R.id.email2);
+        pass_sign = findViewById(R.id.pass2);
+        confirmPass = findViewById(R.id.pass3);
+        mainFrame = findViewById(R.id.mainFrame);
+        back = findViewById(R.id.backImg);
+        relativeLayout = findViewById(R.id.relative);
+        relativeLayout2 = findViewById(R.id.relative2);
+        mainLinear = findViewById(R.id.mainLinear);
 
         logo = new ImageView(this);
         logo.setImageResource(R.drawable.ic_account_circle_white_48dp);
         logo.setLayoutParams(params3);
 
-        relativeLayout.post(new Runnable() {
-            @Override
-            public void run() {
+        relativeLayout.post(() -> {
 
-                logo.setX((relativeLayout2.getRight() / 2));
-                logo.setY(inDp(50));
-                mainFrame.addView(logo);
-            }
+            logo.setX((relativeLayout2.getRight() / 2));
+            logo.setY(inDp(50));
+            mainFrame.addView(logo);
         });
 
         params.weight = (float) 0.75;
         params2.weight = (float) 4.25;
 
-        mainLinear.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
+        mainLinear.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
 
-                Rect r = new Rect();
-                mainLinear.getWindowVisibleDisplayFrame(r);
-                int screenHeight = mainFrame.getRootView().getHeight();
+            Rect r = new Rect();
+            mainLinear.getWindowVisibleDisplayFrame(r);
+            int screenHeight = mainFrame.getRootView().getHeight();
 
-                int keypadHeight = screenHeight - r.bottom;
+            int keypadHeight = screenHeight - r.bottom;
 
-                if (keypadHeight > screenHeight * 0.15) {
-                    // keyboard is opened
-                    if (params.weight == 4.25) {
-                        animator1 = ObjectAnimator.ofFloat(back, "scaleX", (float) 1.95);
-                        animator2 = ObjectAnimator.ofFloat(back, "scaleY", (float) 1.95);
-                        AnimatorSet set = new AnimatorSet();
-                        set.playTogether(animator1, animator2);
-                        set.setDuration(1000);
-                        set.start();
+            if (keypadHeight > screenHeight * 0.15) {
+                // keyboard is opened
+                if (params.weight == 4.25) {
+                    animator1 = ObjectAnimator.ofFloat(back, "scaleX", (float) 1.95);
+                    animator2 = ObjectAnimator.ofFloat(back, "scaleY", (float) 1.95);
+                    AnimatorSet set = new AnimatorSet();
+                    set.playTogether(animator1, animator2);
+                    set.setDuration(1000);
+                    set.start();
 
-                    } else {
-                        animator1 = ObjectAnimator.ofFloat(back, "scaleX", (float) 1.75);
-                        animator2 = ObjectAnimator.ofFloat(back, "scaleY", (float) 1.75);
-                        AnimatorSet set = new AnimatorSet();
-                        set.playTogether(animator1, animator2);
-                        set.setDuration(500);
-                        set.start();
-                    }
                 } else {
-                    // keyboard is closed
-                    animator1 = ObjectAnimator.ofFloat(back, "scaleX", 3);
-                    animator2 = ObjectAnimator.ofFloat(back, "scaleY", 3);
+                    animator1 = ObjectAnimator.ofFloat(back, "scaleX", (float) 1.75);
+                    animator2 = ObjectAnimator.ofFloat(back, "scaleY", (float) 1.75);
                     AnimatorSet set = new AnimatorSet();
                     set.playTogether(animator1, animator2);
                     set.setDuration(500);
                     set.start();
                 }
+            } else {
+                // keyboard is closed
+                animator1 = ObjectAnimator.ofFloat(back, "scaleX", 3);
+                animator2 = ObjectAnimator.ofFloat(back, "scaleY", 3);
+                AnimatorSet set = new AnimatorSet();
+                set.playTogether(animator1, animator2);
+                set.setDuration(500);
+                set.start();
             }
         });
 
 
-        signUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String emailSign = email_sign.getText().toString();
-                String passSign = pass_sign.getText().toString();
-                String confirmPassword = confirmPass.getText().toString();
+        signUp.setOnClickListener(view1 -> {
+            String emailSign = email_sign.getText().toString();
+            String passSign = pass_sign.getText().toString();
+            String confirmPassword = confirmPass.getText().toString();
 
-                if (params.weight == 4.25) {
-                    // sign up logic in here
+            if (params.weight == 4.25) {
+                // sign up logic in here
 
-                    registerAccount(emailSign, passSign, confirmPassword);
+                registerAccount(emailSign, passSign, confirmPassword);
 
-                    return;
-                }
-                email_sign.setVisibility(View.VISIBLE);
-                pass_sign.setVisibility(View.VISIBLE);
-                confirmPass.setVisibility(View.VISIBLE);
-                til3.setVisibility(View.VISIBLE);
-                til4.setVisibility(View.VISIBLE);
-                til5.setVisibility(View.VISIBLE);
-
-                final ChangeBounds bounds = new ChangeBounds();
-                bounds.setDuration(1000);
-                bounds.addListener(new Transition.TransitionListener() {
-                    @Override
-                    public void onTransitionStart(Transition transition) {
-                        ObjectAnimator animator1 = ObjectAnimator.ofFloat(signUp, "translationX", mainLinear.getWidth() / 2 - relativeLayout2.getWidth() / 2 - signUp.getWidth() / 2);
-                        ObjectAnimator animator2 = ObjectAnimator.ofFloat(img, "translationX", -relativeLayout2.getX());
-                        ObjectAnimator animator3 = ObjectAnimator.ofFloat(signUp, "rotation", 0);
-                        ObjectAnimator animator4 = ObjectAnimator.ofFloat(email_login, "alpha", 1, 0);
-                        ObjectAnimator animator5 = ObjectAnimator.ofFloat(LoginSignUpActivity.this.pass_login, "alpha", 1, 0);
-                        ObjectAnimator animator6 = ObjectAnimator.ofFloat(forgetPass, "alpha", 1, 0);
-                        ObjectAnimator animator7 = ObjectAnimator.ofFloat(login, "rotation", 90);
-                        ObjectAnimator animator8 = ObjectAnimator.ofFloat(login, "y", relativeLayout2.getHeight() / 2);
-                        ObjectAnimator animator9 = ObjectAnimator.ofFloat(email_sign, "alpha", 0, 1);
-                        ObjectAnimator animator10 = ObjectAnimator.ofFloat(confirmPass, "alpha", 0, 1);
-                        ObjectAnimator animator11 = ObjectAnimator.ofFloat(pass_sign, "alpha", 0, 1);
-                        ObjectAnimator animator12 = ObjectAnimator.ofFloat(signUp, "y", login.getY());
-                        ObjectAnimator animator13 = ObjectAnimator.ofFloat(back, "translationX", img.getX());
-                        ObjectAnimator animator14 = ObjectAnimator.ofFloat(signUp, "scaleX", 2);
-                        ObjectAnimator animator15 = ObjectAnimator.ofFloat(signUp, "scaleY", 2);
-                        ObjectAnimator animator16 = ObjectAnimator.ofFloat(login, "scaleX", 1);
-                        ObjectAnimator animator17 = ObjectAnimator.ofFloat(login, "scaleY", 1);
-                        ObjectAnimator animator18 = ObjectAnimator.ofFloat(logo, "x", relativeLayout2.getRight() / 2 - relativeLayout.getRight());
-
-                        AnimatorSet set = new AnimatorSet();
-                        set.playTogether(animator1, animator2, animator3, animator4, animator5, animator6, animator7,
-                                animator8, animator9, animator10, animator11, animator12, animator13, animator14, animator15, animator16, animator17, animator18);
-                        set.setDuration(1000).start();
-
-
-                    }
-
-                    @Override
-                    public void onTransitionEnd(Transition transition) {
-                        email_login.setVisibility(View.INVISIBLE);
-                        LoginSignUpActivity.this.pass_login.setVisibility(View.INVISIBLE);
-                        forgetPass.setVisibility(View.INVISIBLE);
-                        til1.setVisibility(View.INVISIBLE);
-                        til2.setVisibility(View.INVISIBLE);
-                    }
-
-                    @Override
-                    public void onTransitionCancel(Transition transition) {
-
-                    }
-
-                    @Override
-                    public void onTransitionPause(Transition transition) {
-
-                    }
-
-                    @Override
-                    public void onTransitionResume(Transition transition) {
-
-
-                    }
-                });
-
-                TransitionManager.beginDelayedTransition(mainLinear, bounds);
-
-                params.weight = (float) 4.25;
-                params2.weight = (float) 0.75;
-
-                relativeLayout.setLayoutParams(params);
-                relativeLayout2.setLayoutParams(params2);
-
+                return;
             }
+            email_sign.setVisibility(View.VISIBLE);
+            pass_sign.setVisibility(View.VISIBLE);
+            confirmPass.setVisibility(View.VISIBLE);
+            til3.setVisibility(View.VISIBLE);
+            til4.setVisibility(View.VISIBLE);
+            til5.setVisibility(View.VISIBLE);
+
+            final ChangeBounds bounds = new ChangeBounds();
+            bounds.setDuration(1000);
+            bounds.addListener(new Transition.TransitionListener() {
+                @Override
+                public void onTransitionStart(Transition transition) {
+                    ObjectAnimator animator1 = ObjectAnimator.ofFloat(signUp, "translationX", mainLinear.getWidth() / 2 - relativeLayout2.getWidth() / 2 - signUp.getWidth() / 2);
+                    ObjectAnimator animator2 = ObjectAnimator.ofFloat(img, "translationX", -relativeLayout2.getX());
+                    ObjectAnimator animator3 = ObjectAnimator.ofFloat(signUp, "rotation", 0);
+                    ObjectAnimator animator4 = ObjectAnimator.ofFloat(email_login, "alpha", 1, 0);
+                    ObjectAnimator animator5 = ObjectAnimator.ofFloat(LoginSignUpActivity.this.pass_login, "alpha", 1, 0);
+                    ObjectAnimator animator6 = ObjectAnimator.ofFloat(forgetPass, "alpha", 1, 0);
+                    ObjectAnimator animator7 = ObjectAnimator.ofFloat(login, "rotation", 90);
+                    ObjectAnimator animator8 = ObjectAnimator.ofFloat(login, "y", relativeLayout2.getHeight() / 2);
+                    ObjectAnimator animator9 = ObjectAnimator.ofFloat(email_sign, "alpha", 0, 1);
+                    ObjectAnimator animator10 = ObjectAnimator.ofFloat(confirmPass, "alpha", 0, 1);
+                    ObjectAnimator animator11 = ObjectAnimator.ofFloat(pass_sign, "alpha", 0, 1);
+                    ObjectAnimator animator12 = ObjectAnimator.ofFloat(signUp, "y", login.getY());
+                    ObjectAnimator animator13 = ObjectAnimator.ofFloat(back, "translationX", img.getX());
+                    ObjectAnimator animator14 = ObjectAnimator.ofFloat(signUp, "scaleX", 2);
+                    ObjectAnimator animator15 = ObjectAnimator.ofFloat(signUp, "scaleY", 2);
+                    ObjectAnimator animator16 = ObjectAnimator.ofFloat(login, "scaleX", 1);
+                    ObjectAnimator animator17 = ObjectAnimator.ofFloat(login, "scaleY", 1);
+                    ObjectAnimator animator18 = ObjectAnimator.ofFloat(logo, "x", relativeLayout2.getRight() / 2 - relativeLayout.getRight());
+
+                    AnimatorSet set = new AnimatorSet();
+                    set.playTogether(animator1, animator2, animator3, animator4, animator5, animator6, animator7,
+                            animator8, animator9, animator10, animator11, animator12, animator13, animator14, animator15, animator16, animator17, animator18);
+                    set.setDuration(1000).start();
+
+
+                }
+
+                @Override
+                public void onTransitionEnd(Transition transition) {
+                    email_login.setVisibility(View.INVISIBLE);
+                    LoginSignUpActivity.this.pass_login.setVisibility(View.INVISIBLE);
+                    forgetPass.setVisibility(View.INVISIBLE);
+                    til1.setVisibility(View.INVISIBLE);
+                    til2.setVisibility(View.INVISIBLE);
+                }
+
+                @Override
+                public void onTransitionCancel(Transition transition) {
+
+                }
+
+                @Override
+                public void onTransitionPause(Transition transition) {
+
+                }
+
+                @Override
+                public void onTransitionResume(Transition transition) {
+
+
+                }
+            });
+
+            TransitionManager.beginDelayedTransition(mainLinear, bounds);
+
+            params.weight = (float) 4.25;
+            params2.weight = (float) 0.75;
+
+            relativeLayout.setLayoutParams(params);
+            relativeLayout2.setLayoutParams(params2);
+
         });
         progressDialog = new ProgressDialog(myContext);
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String email = email_login.getText().toString();
-                String password = pass_login.getText().toString();
+        login.setOnClickListener(view12 -> {
+            String email = email_login.getText().toString();
+            String password = pass_login.getText().toString();
 
-                if (params2.weight == 4.25) {
-                    // login logic in here
+            if (params2.weight == 4.25) {
+                // login logic in here
 
-                    loginUserAccount(email, password);
+                loginUserAccount(email, password);
 
-                    return;
+                return;
+            }
+
+            email_login.setVisibility(View.VISIBLE);
+            LoginSignUpActivity.this.pass_login.setVisibility(View.VISIBLE);
+            forgetPass.setVisibility(View.VISIBLE);
+            til1.setVisibility(View.VISIBLE);
+            til2.setVisibility(View.VISIBLE);
+
+
+            final ChangeBounds bounds = new ChangeBounds();
+            bounds.setDuration(1000);
+            bounds.addListener(new Transition.TransitionListener() {
+                @Override
+                public void onTransitionStart(Transition transition) {
+
+
+                    ObjectAnimator animator1 = ObjectAnimator.ofFloat(login, "translationX", mainLinear.getWidth() / 2 - relativeLayout.getWidth() / 2 - login.getWidth() / 2);
+                    ObjectAnimator animator2 = ObjectAnimator.ofFloat(img, "translationX", (relativeLayout.getX()));
+                    ObjectAnimator animator3 = ObjectAnimator.ofFloat(login, "rotation", 0);
+                    ObjectAnimator animator4 = ObjectAnimator.ofFloat(email_login, "alpha", 0, 1);
+                    ObjectAnimator animator5 = ObjectAnimator.ofFloat(LoginSignUpActivity.this.pass_login, "alpha", 0, 1);
+                    ObjectAnimator animator6 = ObjectAnimator.ofFloat(forgetPass, "alpha", 0, 1);
+                    ObjectAnimator animator7 = ObjectAnimator.ofFloat(signUp, "rotation", 90);
+                    ObjectAnimator animator8 = ObjectAnimator.ofFloat(signUp, "y", relativeLayout.getHeight() / 2);
+                    ObjectAnimator animator9 = ObjectAnimator.ofFloat(email_sign, "alpha", 1, 0);
+                    ObjectAnimator animator10 = ObjectAnimator.ofFloat(confirmPass, "alpha", 1, 0);
+                    ObjectAnimator animator11 = ObjectAnimator.ofFloat(pass_sign, "alpha", 1, 0);
+                    ObjectAnimator animator12 = ObjectAnimator.ofFloat(login, "y", signUp.getY());
+                    ObjectAnimator animator13 = ObjectAnimator.ofFloat(back, "translationX", -img.getX());
+                    ObjectAnimator animator14 = ObjectAnimator.ofFloat(login, "scaleX", 2);
+                    ObjectAnimator animator15 = ObjectAnimator.ofFloat(login, "scaleY", 2);
+                    ObjectAnimator animator16 = ObjectAnimator.ofFloat(signUp, "scaleX", 1);
+                    ObjectAnimator animator17 = ObjectAnimator.ofFloat(signUp, "scaleY", 1);
+                    ObjectAnimator animator18 = ObjectAnimator.ofFloat(logo, "x", logo.getX() + relativeLayout2.getWidth());
+
+
+                    AnimatorSet set = new AnimatorSet();
+                    set.playTogether(animator1, animator2, animator3, animator4, animator5, animator6, animator7,
+                            animator8, animator9, animator10, animator11, animator12, animator13, animator14, animator15, animator16, animator17, animator18);
+                    set.setDuration(1000).start();
+
                 }
 
-                email_login.setVisibility(View.VISIBLE);
-                LoginSignUpActivity.this.pass_login.setVisibility(View.VISIBLE);
-                forgetPass.setVisibility(View.VISIBLE);
-                til1.setVisibility(View.VISIBLE);
-                til2.setVisibility(View.VISIBLE);
+                @Override
+                public void onTransitionEnd(Transition transition) {
 
+                    email_sign.setVisibility(View.INVISIBLE);
+                    pass_sign.setVisibility(View.INVISIBLE);
+                    confirmPass.setVisibility(View.INVISIBLE);
+                    til3.setVisibility(View.INVISIBLE);
+                    til4.setVisibility(View.INVISIBLE);
+                    til5.setVisibility(View.INVISIBLE);
 
-                final ChangeBounds bounds = new ChangeBounds();
-                bounds.setDuration(1000);
-                bounds.addListener(new Transition.TransitionListener() {
-                    @Override
-                    public void onTransitionStart(Transition transition) {
+                }
 
+                @Override
+                public void onTransitionCancel(Transition transition) {
 
-                        ObjectAnimator animator1 = ObjectAnimator.ofFloat(login, "translationX", mainLinear.getWidth() / 2 - relativeLayout.getWidth() / 2 - login.getWidth() / 2);
-                        ObjectAnimator animator2 = ObjectAnimator.ofFloat(img, "translationX", (relativeLayout.getX()));
-                        ObjectAnimator animator3 = ObjectAnimator.ofFloat(login, "rotation", 0);
-                        ObjectAnimator animator4 = ObjectAnimator.ofFloat(email_login, "alpha", 0, 1);
-                        ObjectAnimator animator5 = ObjectAnimator.ofFloat(LoginSignUpActivity.this.pass_login, "alpha", 0, 1);
-                        ObjectAnimator animator6 = ObjectAnimator.ofFloat(forgetPass, "alpha", 0, 1);
-                        ObjectAnimator animator7 = ObjectAnimator.ofFloat(signUp, "rotation", 90);
-                        ObjectAnimator animator8 = ObjectAnimator.ofFloat(signUp, "y", relativeLayout.getHeight() / 2);
-                        ObjectAnimator animator9 = ObjectAnimator.ofFloat(email_sign, "alpha", 1, 0);
-                        ObjectAnimator animator10 = ObjectAnimator.ofFloat(confirmPass, "alpha", 1, 0);
-                        ObjectAnimator animator11 = ObjectAnimator.ofFloat(pass_sign, "alpha", 1, 0);
-                        ObjectAnimator animator12 = ObjectAnimator.ofFloat(login, "y", signUp.getY());
-                        ObjectAnimator animator13 = ObjectAnimator.ofFloat(back, "translationX", -img.getX());
-                        ObjectAnimator animator14 = ObjectAnimator.ofFloat(login, "scaleX", 2);
-                        ObjectAnimator animator15 = ObjectAnimator.ofFloat(login, "scaleY", 2);
-                        ObjectAnimator animator16 = ObjectAnimator.ofFloat(signUp, "scaleX", 1);
-                        ObjectAnimator animator17 = ObjectAnimator.ofFloat(signUp, "scaleY", 1);
-                        ObjectAnimator animator18 = ObjectAnimator.ofFloat(logo, "x", logo.getX() + relativeLayout2.getWidth());
+                }
 
+                @Override
+                public void onTransitionPause(Transition transition) {
 
-                        AnimatorSet set = new AnimatorSet();
-                        set.playTogether(animator1, animator2, animator3, animator4, animator5, animator6, animator7,
-                                animator8, animator9, animator10, animator11, animator12, animator13, animator14, animator15, animator16, animator17, animator18);
-                        set.setDuration(1000).start();
+                }
 
-                    }
+                @Override
+                public void onTransitionResume(Transition transition) {
 
-                    @Override
-                    public void onTransitionEnd(Transition transition) {
+                }
+            });
 
-                        email_sign.setVisibility(View.INVISIBLE);
-                        pass_sign.setVisibility(View.INVISIBLE);
-                        confirmPass.setVisibility(View.INVISIBLE);
-                        til3.setVisibility(View.INVISIBLE);
-                        til4.setVisibility(View.INVISIBLE);
-                        til5.setVisibility(View.INVISIBLE);
+            TransitionManager.beginDelayedTransition(mainLinear, bounds);
 
-                    }
+            params.weight = (float) 0.75;
+            params2.weight = (float) 4.25;
 
-                    @Override
-                    public void onTransitionCancel(Transition transition) {
-
-                    }
-
-                    @Override
-                    public void onTransitionPause(Transition transition) {
-
-                    }
-
-                    @Override
-                    public void onTransitionResume(Transition transition) {
-
-                    }
-                });
-
-                TransitionManager.beginDelayedTransition(mainLinear, bounds);
-
-                params.weight = (float) 0.75;
-                params2.weight = (float) 4.25;
-
-                relativeLayout.setLayoutParams(params);
-                relativeLayout2.setLayoutParams(params2);
-            }
+            relativeLayout.setLayoutParams(params);
+            relativeLayout2.setLayoutParams(params2);
         });
     }
 
@@ -389,29 +375,21 @@ public class LoginSignUpActivity extends AppCompatActivity {
 
             // after validation checking, log in user a/c
             mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
+                    .addOnCompleteListener(task -> {
 
-                            if (task.isSuccessful()) {
-                                // these lines for taking DEVICE TOKEN for sending device to device notification
-                                String userUID = mAuth.getCurrentUser().getUid();
-                                String userDeviceToken = FirebaseInstanceId.getInstance().getToken();
-                                userDatabaseReference.child(userUID).child("device_token").setValue(userDeviceToken)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                checkVerifiedEmail();
-                                            }
-                                        });
+                        if (task.isSuccessful()) {
+                            // these lines for taking DEVICE TOKEN for sending device to device notification
+                            String userUID = mAuth.getCurrentUser().getUid();
+                            String userDeviceToken = FirebaseInstanceId.getInstance().getToken();
+                            userDatabaseReference.child(userUID).child("device_token").setValue(userDeviceToken)
+                                    .addOnSuccessListener(aVoid -> checkVerifiedEmail());
 
-                            } else {
-                                SweetToast.error(LoginSignUpActivity.this, "이메일과 패스워드가 옳지 않습니다. 다시 한번 확인해주세요.");
-                            }
-
-                            progressDialog.dismiss();
-
+                        } else {
+                            SweetToast.error(LoginSignUpActivity.this, "이메일과 패스워드가 옳지 않습니다. 다시 한번 확인해주세요.");
                         }
+
+                        progressDialog.dismiss();
+
                     });
         }
     }
@@ -435,68 +413,65 @@ public class LoginSignUpActivity extends AppCompatActivity {
         } else {
             // create user
             mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                String deviceToken = FirebaseInstanceId.getInstance().getToken();
-                                String name = "WAFT user";
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            String deviceToken = FirebaseInstanceId.getInstance().getToken();
+                            String name = "WAFT user";
 
-                                // get and link storage
-                                String current_userID = mAuth.getCurrentUser().getUid();
-                                storeDefaultDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(current_userID);
+                            // get and link storage
+                            String current_userID = mAuth.getCurrentUser().getUid();
+                            storeDefaultDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(current_userID);
 
-                                storeDefaultDatabaseReference.child("user_name").setValue(name);
-                                storeDefaultDatabaseReference.child("verified").setValue("false");
-                                storeDefaultDatabaseReference.child("search_name").setValue(name.toLowerCase());
-                                storeDefaultDatabaseReference.child("user_email").setValue(email);
-                                storeDefaultDatabaseReference.child("user_nickname").setValue("WAFT 유저");
-                                storeDefaultDatabaseReference.child("user_gender").setValue("");
-                                storeDefaultDatabaseReference.child("user_country").setValue("KR");
-                                storeDefaultDatabaseReference.child("created_at").setValue(ServerValue.TIMESTAMP);
-                                storeDefaultDatabaseReference.child("user_status").setValue("Hi, I'm new WAFT user");
-                                storeDefaultDatabaseReference.child("user_image").setValue("default_image"); // Original image
-                                storeDefaultDatabaseReference.child("device_token").setValue(deviceToken);
-                                storeDefaultDatabaseReference.child("user_thumb_image").setValue("default_image")
-                                        .addOnCompleteListener(task1 -> {
-                                            if (task1.isSuccessful()) {
-                                                // SENDING VERIFICATION EMAIL TO THE REGISTERED USER'S EMAIL
-                                                user = mAuth.getCurrentUser();
-                                                if (user != null) {
-                                                    user.sendEmailVerification()
-                                                            .addOnCompleteListener(task11 -> {
-                                                                if (task11.isSuccessful()) {
+                            storeDefaultDatabaseReference.child("user_name").setValue(name);
+                            storeDefaultDatabaseReference.child("verified").setValue("false");
+                            storeDefaultDatabaseReference.child("search_name").setValue(name.toLowerCase());
+                            storeDefaultDatabaseReference.child("user_email").setValue(email);
+                            storeDefaultDatabaseReference.child("user_nickname").setValue("WAFT 유저");
+                            storeDefaultDatabaseReference.child("user_gender").setValue("");
+                            storeDefaultDatabaseReference.child("user_country").setValue("KR");
+                            storeDefaultDatabaseReference.child("created_at").setValue(ServerValue.TIMESTAMP);
+                            storeDefaultDatabaseReference.child("user_status").setValue("Hi, I'm new WAFT user");
+                            storeDefaultDatabaseReference.child("user_image").setValue("default_image"); // Original image
+                            storeDefaultDatabaseReference.child("device_token").setValue(deviceToken);
+                            storeDefaultDatabaseReference.child("user_thumb_image").setValue("default_image")
+                                    .addOnCompleteListener(task1 -> {
+                                        if (task1.isSuccessful()) {
+                                            // SENDING VERIFICATION EMAIL TO THE REGISTERED USER'S EMAIL
+                                            user = mAuth.getCurrentUser();
+                                            if (user != null) {
+                                                user.sendEmailVerification()
+                                                        .addOnCompleteListener(task11 -> {
+                                                            if (task11.isSuccessful()) {
 
-                                                                    registerSuccessPopUp();
+                                                                registerSuccessPopUp();
 
-                                                                    // LAUNCH activity after certain time period
-                                                                    new Timer().schedule(new TimerTask() {
-                                                                        public void run() {
-                                                                            LoginSignUpActivity.this.runOnUiThread(() -> {
-                                                                                mAuth.signOut();
+                                                                // LAUNCH activity after certain time period
+                                                                new Timer().schedule(new TimerTask() {
+                                                                    public void run() {
+                                                                        LoginSignUpActivity.this.runOnUiThread(() -> {
+                                                                            mAuth.signOut();
 
-                                                                                Intent mainIntent = new Intent(myContext, LoginSignUpActivity.class);
-                                                                                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                                                startActivity(mainIntent);
-                                                                                finish();
-                                                                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                                                                SweetToast.info(myContext, "이메일을 인증하셔야 합니다.");
-                                                                            });
-                                                                        }
-                                                                    }, 8000);
-                                                                } else {
-                                                                    mAuth.signOut();
-                                                                }
-                                                            });
-                                                }
+                                                                            Intent mainIntent = new Intent(myContext, LoginSignUpActivity.class);
+                                                                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                                            startActivity(mainIntent);
+                                                                            finish();
+                                                                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                                                            SweetToast.info(myContext, "이메일을 인증하셔야 합니다.");
+                                                                        });
+                                                                    }
+                                                                }, 8000);
+                                                            } else {
+                                                                mAuth.signOut();
+                                                            }
+                                                        });
                                             }
-                                        });
-                            } else {
-                                String message = task.getException().getMessage();
-                                SweetToast.error(myContext, "에러 : " + message);
-                            }
-                            progressDialog.dismiss();
+                                        }
+                                    });
+                        } else {
+                            String message = task.getException().getMessage();
+                            SweetToast.error(myContext, "에러 : " + message);
                         }
+                        progressDialog.dismiss();
                     });
             //config progressbar
             progressDialog.setTitle("회원가입 중입니다.");
