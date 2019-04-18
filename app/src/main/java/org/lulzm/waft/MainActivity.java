@@ -27,6 +27,7 @@ import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 import de.hdodenhof.circleimageview.CircleImageView;
 import org.lulzm.waft.ProfileSetting.ProfileActivity;
+import xyz.hasnat.sweettoast.SweetToast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -202,5 +203,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent_profile = new Intent(MainActivity.this, ProfileActivity.class);
         startActivity(intent_profile);
         overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+    }
+
+    public void move_QR(View view) {
+        SweetToast.success(MainActivity.this, "QR 테스트");
     }
 }
