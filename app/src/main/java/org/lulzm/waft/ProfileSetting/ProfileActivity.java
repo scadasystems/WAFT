@@ -193,15 +193,21 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         /** cancel event */
-        btn_cancel.setOnClickListener(v -> finish());
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
+            }
+        });
 
         /** edit status */
         edit_status.setOnClickListener(v -> {
             String previous_status = display_status.getText().toString();
-
             Intent intent_statusUpdate = new Intent(ProfileActivity.this, StatusUpdateActivity.class);
             intent_statusUpdate.putExtra("ex_status", previous_status);
             startActivity(intent_statusUpdate);
+            overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
         });
 
         // hide keyboard

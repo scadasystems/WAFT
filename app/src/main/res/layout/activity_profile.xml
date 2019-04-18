@@ -106,6 +106,7 @@
                             android:layout_width="150dp"
                             android:layout_height="150dp"
                             android:layout_centerHorizontal="true"
+                            android:src="@drawable/default_profile_image"
                             android:layout_margin="9dp"
                             app:civ_border_color="#FFFFFFFF"
                             app:civ_border_width="5dp"/>

@@ -1,6 +1,5 @@
 package org.lulzm.waft;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -22,6 +21,7 @@ import com.bumptech.glide.RequestManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
         if (currentUser != null) {
             String user_uID = mAuth.getCurrentUser().getUid();
             userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(user_uID);
+            mProfileImgStorageRef = FirebaseStorage.getInstance().getReference().child("profile_image");
+            thumb_image_ref = FirebaseStorage.getInstance().getReference().child("thumb_image");
         }
 
         // 상태표시줄 색상 변경
@@ -86,14 +88,6 @@ public class MainActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(Color.BLACK);
         }
 
-        /* firebase */
-        mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            String user_uID = mAuth.getCurrentUser().getUid();
-
-            userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(user_uID);
-        }
 
         /* tool bar */
         toolbar = findViewById(R.id.toolbar);
@@ -166,22 +160,14 @@ public class MainActivity extends AppCompatActivity {
         imageButton.setImageResource(R.drawable.logout);
         builder.setCancelable(true);
 
-        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        builder.setNegativeButton("취소", (dialog, which) -> dialog.cancel());
 
-        builder.setPositiveButton("로그아웃 하기", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (currentUser != null) {
-                    userDatabaseReference.child("active_now").setValue(ServerValue.TIMESTAMP);
-                }
-                mAuth.signOut();
-                logOutUser();
+        builder.setPositiveButton("로그아웃 하기", (dialog, which) -> {
+            if (currentUser != null) {
+                userDatabaseReference.child("active_now").setValue(ServerValue.TIMESTAMP);
             }
+            mAuth.signOut();
+            logOutUser();
         });
         builder.setView(view_logout);
         builder.show();
