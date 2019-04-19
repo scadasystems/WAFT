@@ -29,19 +29,17 @@
             tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
         <activity android:name=".IntroSlide.SplashActivity"
-                  android:configChanges="orientation|screenSize">
-            <intent-filter>
-                <action android:name="android.intent.action.SEND"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="text/plain"/>
-            </intent-filter>
-
-        </activity>
+                  android:configChanges="orientation|screenSize"/>
         <activity android:name=".IntroSlide.IntroActivity"
                   android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plain"/>
             </intent-filter>
         </activity>
         <activity android:name=".LoginSignUpActivity"

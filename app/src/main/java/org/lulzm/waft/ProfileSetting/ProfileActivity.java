@@ -124,6 +124,15 @@ public class ProfileActivity extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(this);
 
+        /** 엔터키 막음 */
+        display_nickname.setOnKeyListener((v, keyCode, event) -> {
+            if(keyCode == event.KEYCODE_ENTER)
+            {
+                return true;
+            }
+            return false;
+        });
+
         getUserDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
