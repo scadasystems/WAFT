@@ -10,7 +10,7 @@
     <string name="student_name">WAFT</string>
     <string name="copyright">WAFT © 2019</string>
     <string name="profile_settings">My Profile</string>
-    <string name="thehasnatbd">TheHasnatBD</string>
+    <string name="thehasnatbd">LulzM</string>
     <string name="log_in">Log In</string>
     <string name="log_out">Log Out</string>
     <string name="profile">Profile</string>
@@ -36,6 +36,14 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_maps">Map</string>
+    <string name="ResetPass">패스워드 재설정</string>
+    <string name="forgotPassHint">패스워드 재설정을 누르신 후,\n해당 이메일에 재설정 메일을 확인해주세요.</string>
+    <string name="success_forgot_password_message">패스워드 재설정을 완료했습니다. 재설정 메일을 확인해주세요.</string>
+    <string name="send_friend_request">친구 요청 보내기</string>
+    <string name="cancel_friend_request">친구 요청 취소하기</string>
+    <string name="accept_friend_request">친구 요청 수락하기</string>
+    <string name="unfriend_this_person">친구 삭제하기</string>
+    <string name="press_back_main">한번 더 누르시면 메인으로 이동합니다.</string>
 
 
 </resources>

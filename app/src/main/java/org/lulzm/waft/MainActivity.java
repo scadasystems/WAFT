@@ -26,6 +26,7 @@ import com.google.firebase.storage.StorageReference;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 import de.hdodenhof.circleimageview.CircleImageView;
+import org.lulzm.waft.ChatHome.ChatMainActivity;
 import org.lulzm.waft.ProfileSetting.ProfileActivity;
 import xyz.hasnat.sweettoast.SweetToast;
 
@@ -72,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
             String user_uID = mAuth.getCurrentUser().getUid();
             userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(user_uID);
             mProfileImgStorageRef = FirebaseStorage.getInstance().getReference().child("profile_image");
-            thumb_image_ref = FirebaseStorage.getInstance().getReference().child("thumb_image");
         }
 
         // 상태표시줄 색상 변경
@@ -193,5 +193,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void move_QR(View view) {
         SweetToast.success(MainActivity.this, "QR 테스트");
+    }
+
+    public void move_CHAT(View view) {
+        Intent intent_chat = new Intent(MainActivity.this, ChatMainActivity.class);
+        startActivity(intent_chat);
+        finish();
+        overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
     }
 }

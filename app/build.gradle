@@ -11,6 +11,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         debug {
@@ -18,6 +19,7 @@ android {
         }
         release {
             minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -57,14 +59,17 @@ dependencies {
     implementation 'androidx.percentlayout:percentlayout:1.0.0'
     // circle image view library
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    // cropping image library
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
     // for stylist toast
     implementation 'com.github.TheHasnatBD:SweetToast:1.0.2'
     // image Compressor library
     implementation 'id.zelory:compressor:2.1.0'
     // Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
-    // cropping image library
-    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
+    // HTTP & HTTP/2 client for Android
+    implementation 'com.squareup.okhttp3:okhttp:3.12.1'
     // lottie
     implementation 'com.airbnb.android:lottie:2.8.0'
     // glide
@@ -72,12 +77,13 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     // QR code
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
-
     // Google API
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
     implementation 'com.google.android.gms:play-services-location:16.0.0'
     implementation 'com.google.android.gms:play-services-places:16.0.0'
     implementation 'com.google.android.libraries.places:places:1.1.0'
+    // remember text
+    implementation 'cn.zhaiyifan:rememberedittext:0.9.0'
 }
 
 
