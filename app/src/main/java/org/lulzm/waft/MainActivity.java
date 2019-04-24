@@ -1,10 +1,7 @@
 package org.lulzm.waft;
 
-<<<<<<< Updated upstream
-=======
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
->>>>>>> Stashed changes
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -378,24 +375,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void btnLogout(View view) {
 
-    } // end btnLogout
-
-<<<<<<< Updated upstream
-        builder.setNegativeButton("취소", (dialog, which) -> dialog.cancel());
-
-        builder.setPositiveButton("로그아웃 하기", (dialog, which) -> {
-            if (currentUser != null) {
-                userDatabaseReference.child("active_now").setValue(ServerValue.TIMESTAMP);
-            }
-            mAuth.signOut();
-            logOutUser();
-        });
-        builder.setView(view_logout);
-        builder.show();
-    } // end btnLogout
-=======
     public void onPostResume(){
         super.onPostResume();
         isTransactionSafe=true;
@@ -406,7 +386,6 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         isTransactionSafe=false;
     }
->>>>>>> Stashed changes
 
     // This method is used to detect back button
     @Override
