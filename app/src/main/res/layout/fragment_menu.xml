@@ -16,10 +16,10 @@
 
                 <ImageView
                         android:id="@+id/icon_post"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:src="@drawable/home"
-                        android:layout_marginRight="16dp"/>
+                        android:layout_marginRight="10dp"/>
 
                 <TextView
                         android:id="@+id/text_post"
