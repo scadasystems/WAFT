@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context=".ChatSearch.SearchActivity"
+              android:orientation="vertical"
+>
+
+    <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Not found"
+            android:textSize="20sp"
+            android:gravity="center_horizontal"
+            android:id="@+id/notFoundTV"
+            android:visibility="gone"
+    />
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/SearchList">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+</LinearLayout>
