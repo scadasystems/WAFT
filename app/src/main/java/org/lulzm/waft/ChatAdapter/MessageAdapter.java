@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
-import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 import com.google.firebase.database.core.Context;
@@ -68,12 +67,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                     String userName = dataSnapshot.child("user_name").getValue().toString();
                     String userProfileImage = dataSnapshot.child("user_thumb_image").getValue().toString();
                     //
-
-                    Glide.with(mContext)
-                            .load(userProfileImage)
-                            .placeholder(R.drawable.default_profile_image)
-                            .into(holder.user_profile_image);
-
                     Picasso.get()
                             .load(userProfileImage)
                             .networkPolicy(NetworkPolicy.OFFLINE) // for Offline
@@ -124,7 +117,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 holder.receiverImageMsg.setVisibility(View.GONE);
                 //holder.senderImageMsg.setVisibility(View.VISIBLE);
 
-                Glide.get()
                 Picasso.get()
                         .load(message.getMessage())
                         .networkPolicy(NetworkPolicy.OFFLINE) // for Offline

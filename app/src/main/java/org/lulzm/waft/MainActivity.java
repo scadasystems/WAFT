@@ -14,11 +14,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -30,12 +27,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.yarolegovich.slidingrootnav.SlidingRootNav;
-import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 import de.hdodenhof.circleimageview.CircleImageView;
+import org.lulzm.waft.ChatHome.ChatMainActivity;
 import org.lulzm.waft.Fragment.*;
-import org.lulzm.waft.ProfileSetting.ProfileActivity;
-import xyz.hasnat.sweettoast.SweetToast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     // for glide exception
     RequestManager mGlideRequestManager;
 
+    @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,8 +74,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if(MenuFragment.fragmentMenuBinding != null)
-        {
+        if (MenuFragment.fragmentMenuBinding != null) {
             MenuFragment.fragmentMenuBinding.lilPost.performClick();
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -95,11 +89,10 @@ public class MainActivity extends AppCompatActivity {
         HomeFragmentHandler = new Handler() {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                switch (msg.what){
-                    case 0:
-                    {
+                switch (msg.what) {
+                    case 0: {
 
-                        if(isTransactionSafe) {
+                        if (isTransactionSafe) {
                             fragmentClass = Fragment1.class;
                             try {
                                 fragment = (Fragment) fragmentClass.newInstance();
@@ -112,17 +105,14 @@ public class MainActivity extends AppCompatActivity {
                             transaction.replace(R.id.flContent, fragment);
                             transaction.addToBackStack(null);
                             transaction.commit();
-                        }
-                        else
-                        {
-                            isTransactionPending=true;
+                        } else {
+                            isTransactionPending = true;
                         }
                         break;
                     }
-                    case 1:
-                    {
+                    case 1: {
 
-                        if(isTransactionSafe) {
+                        if (isTransactionSafe) {
                             fragmentClass = Fragment2.class;
                             try {
                                 fragment = (Fragment) fragmentClass.newInstance();
@@ -135,16 +125,13 @@ public class MainActivity extends AppCompatActivity {
                             transaction.replace(R.id.flContent, fragment);
                             transaction.addToBackStack(null);
                             transaction.commit();
-                        }
-                        else
-                        {
-                            isTransactionPending=true;
+                        } else {
+                            isTransactionPending = true;
                         }
                         break;
                     }
-                    case 2:
-                    {
-                        if(isTransactionSafe) {
+                    case 2: {
+                        if (isTransactionSafe) {
                             fragmentClass = Fragment3.class;
                             try {
                                 fragment = (Fragment) fragmentClass.newInstance();
@@ -157,16 +144,13 @@ public class MainActivity extends AppCompatActivity {
                             transaction.replace(R.id.flContent, fragment);
                             transaction.addToBackStack(null);
                             transaction.commit();
-                        }
-                        else
-                        {
-                            isTransactionPending=true;
+                        } else {
+                            isTransactionPending = true;
                         }
                         break;
                     }
-                    case 3:
-                    {
-                        if(isTransactionSafe) {
+                    case 3: {
+                        if (isTransactionSafe) {
                             fragmentClass = Fragment4.class;
                             try {
                                 fragment = (Fragment) fragmentClass.newInstance();
@@ -179,38 +163,35 @@ public class MainActivity extends AppCompatActivity {
                             transaction.replace(R.id.flContent, fragment);
                             transaction.addToBackStack(null);
                             transaction.commit();
-                        }
-                        else
-                        {
-                            isTransactionPending=true;
+                        } else {
+                            isTransactionPending = true;
                         }
                         break;
                     }
-                    case 4:
-                    {
-                        if(isTransactionSafe) {
-                            fragmentClass = Fragment5.class;
-                            try {
-                                fragment = (Fragment) fragmentClass.newInstance();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            FragmentManager fragmentManager = getSupportFragmentManager();
-                            FragmentTransaction transaction = fragmentManager.beginTransaction();
-                            transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
-                            transaction.replace(R.id.flContent, fragment);
-                            transaction.addToBackStack(null);
-                            transaction.commit();
-                        }
-                        else
-                        {
-                            isTransactionPending=true;
-                        }
+                    // chat
+                    case 4: {
+                        Intent intent_chat = new Intent(MainActivity.this, ChatMainActivity.class);
+                        startActivity(intent_chat);
+//                        if (isTransactionSafe) {
+//                            fragmentClass = Fragment5.class;
+//                            try {
+//                                fragment = (Fragment) fragmentClass.newInstance();
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//                            FragmentManager fragmentManager = getSupportFragmentManager();
+//                            FragmentTransaction transaction = fragmentManager.beginTransaction();
+//                            transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
+//                            transaction.replace(R.id.flContent, fragment);
+//                            transaction.addToBackStack(null);
+//                            transaction.commit();
+//                        } else {
+//                            isTransactionPending = true;
+//                        }
                         break;
                     }
-                    case 5:
-                    {
-                        if(isTransactionSafe) {
+                    case 5: {
+                        if (isTransactionSafe) {
                             fragmentClass = Fragment6.class;
                             try {
                                 fragment = (Fragment) fragmentClass.newInstance();
@@ -223,16 +204,13 @@ public class MainActivity extends AppCompatActivity {
                             transaction.replace(R.id.flContent, fragment);
                             transaction.addToBackStack(null);
                             transaction.commit();
-                        }
-                        else
-                        {
-                            isTransactionPending=true;
+                        } else {
+                            isTransactionPending = true;
                         }
                         break;
                     }
-                    case 6:
-                    {
-                        if(isTransactionSafe) {
+                    case 6: {
+                        if (isTransactionSafe) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                             View view_logout = LayoutInflater.from(MainActivity.this).inflate(R.layout.logout_dialog, null);
 
@@ -260,17 +238,15 @@ public class MainActivity extends AppCompatActivity {
                             builder.setView(view_logout);
                             builder.show();
 
-                        }
-                        else
-                        {
-                            isTransactionPending=true;
+                        } else {
+                            isTransactionPending = true;
                         }
                         break;
                     }
                     case 10:
 
                     default:
-                        if(isTransactionSafe) {
+                        if (isTransactionSafe) {
                             fragmentClass = Fragment1.class;
                             try {
                                 fragment = (Fragment) fragmentClass.newInstance();
@@ -283,17 +259,13 @@ public class MainActivity extends AppCompatActivity {
                             transaction.replace(R.id.flContent, fragment);
                             transaction.addToBackStack(null);
                             transaction.commit();
-                        }
-                        else
-                        {
-                            isTransactionPending=true;
+                        } else {
+                            isTransactionPending = true;
                         }
                         break;
                 }
             }
         };
-
-
 
 
         // glide
@@ -322,8 +294,6 @@ public class MainActivity extends AppCompatActivity {
             // 21 버전 이상일 때 상태바 검은 색상, 흰색 아이콘
             getWindow().setStatusBarColor(Color.BLACK);
         }
-
-
 
 
         // findbyid
@@ -375,16 +345,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-    public void onPostResume(){
+    public void onPostResume() {
         super.onPostResume();
-        isTransactionSafe=true;
+        isTransactionSafe = true;
     }
 
 
-    public void onPause(){
+    public void onPause() {
         super.onPause();
-        isTransactionSafe=false;
+        isTransactionSafe = false;
     }
 
     // This method is used to detect back button
@@ -404,9 +373,6 @@ public class MainActivity extends AppCompatActivity {
 //        startActivity(intent_profile);
 //        overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
 //    }
-
-
-
 
 
 }
