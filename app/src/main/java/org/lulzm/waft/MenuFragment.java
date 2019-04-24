@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
+import com.bumptech.glide.Glide;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.annotations.Nullable;
 import org.lulzm.waft.databinding.FragmentMenuBinding;
@@ -36,13 +37,13 @@ public class MenuFragment extends Fragment {
                     MainActivity.HomeFragmentHandler.sendEmptyMessage(0);
                 }
 
-                fragmentMenuBinding.iconPost.setImageResource(R.drawable.home_blue);
-                fragmentMenuBinding.iconAccounts.setImageResource(R.drawable.qr);
-                fragmentMenuBinding.iconHistory.setImageResource(R.drawable.nav);
-                fragmentMenuBinding.iconSettings.setImageResource(R.drawable.money);
-                fragmentMenuBinding.iconRateus.setImageResource(R.drawable.chat);
-                fragmentMenuBinding.iconShareus.setImageResource(R.drawable.sos1);
-                fragmentMenuBinding.iconLogout.setImageResource(R.drawable.logout);
+                Glide.with(MenuFragment.this).load(R.drawable.home_blue).into(fragmentMenuBinding.iconPost);
+                Glide.with(MenuFragment.this).load(R.drawable.qr).into(fragmentMenuBinding.iconAccounts);
+                Glide.with(MenuFragment.this).load(R.drawable.nav).into(fragmentMenuBinding.iconHistory);
+                Glide.with(MenuFragment.this).load(R.drawable.money).into(fragmentMenuBinding.iconSettings);
+                Glide.with(MenuFragment.this).load(R.drawable.chat).into(fragmentMenuBinding.iconRateus);
+                Glide.with(MenuFragment.this).load(R.drawable.sos1).into(fragmentMenuBinding.iconShareus);
+                Glide.with(MenuFragment.this).load(R.drawable.logout).into(fragmentMenuBinding.iconLogout);
 
                 fragmentMenuBinding.textPost.setTextColor(getResources().getColor(R.color.blue));
                 fragmentMenuBinding.textAccounts.setTextColor(getResources().getColor(R.color.black));
@@ -63,13 +64,13 @@ public class MenuFragment extends Fragment {
                     MainActivity.HomeFragmentHandler.sendEmptyMessage(1);
                 }
 
-                fragmentMenuBinding.iconPost.setImageResource(R.drawable.home);
-                fragmentMenuBinding.iconAccounts.setImageResource(R.drawable.qr_blue);
-                fragmentMenuBinding.iconHistory.setImageResource(R.drawable.nav);
-                fragmentMenuBinding.iconSettings.setImageResource(R.drawable.money);
-                fragmentMenuBinding.iconRateus.setImageResource(R.drawable.chat);
-                fragmentMenuBinding.iconShareus.setImageResource(R.drawable.sos1);
-                fragmentMenuBinding.iconLogout.setImageResource(R.drawable.logout);
+                Glide.with(MenuFragment.this).load(R.drawable.home).into(fragmentMenuBinding.iconPost);
+                Glide.with(MenuFragment.this).load(R.drawable.qr_blue).into(fragmentMenuBinding.iconAccounts);
+                Glide.with(MenuFragment.this).load(R.drawable.nav).into(fragmentMenuBinding.iconHistory);
+                Glide.with(MenuFragment.this).load(R.drawable.money).into(fragmentMenuBinding.iconSettings);
+                Glide.with(MenuFragment.this).load(R.drawable.chat).into(fragmentMenuBinding.iconRateus);
+                Glide.with(MenuFragment.this).load(R.drawable.sos1).into(fragmentMenuBinding.iconShareus);
+                Glide.with(MenuFragment.this).load(R.drawable.logout).into(fragmentMenuBinding.iconLogout);
 
                 fragmentMenuBinding.textPost.setTextColor(getResources().getColor(R.color.black));
                 fragmentMenuBinding.textAccounts.setTextColor(getResources().getColor(R.color.blue));
@@ -89,13 +90,13 @@ public class MenuFragment extends Fragment {
                     MainActivity.HomeFragmentHandler.sendEmptyMessage(2);
                 }
 
-                fragmentMenuBinding.iconPost.setImageResource(R.drawable.home);
-                fragmentMenuBinding.iconAccounts.setImageResource(R.drawable.qr);
-                fragmentMenuBinding.iconHistory.setImageResource(R.drawable.nav_blue);
-                fragmentMenuBinding.iconSettings.setImageResource(R.drawable.money);
-                fragmentMenuBinding.iconRateus.setImageResource(R.drawable.chat);
-                fragmentMenuBinding.iconShareus.setImageResource(R.drawable.sos1);
-                fragmentMenuBinding.iconLogout.setImageResource(R.drawable.logout);
+                Glide.with(MenuFragment.this).load(R.drawable.home).into(fragmentMenuBinding.iconPost);
+                Glide.with(MenuFragment.this).load(R.drawable.qr).into(fragmentMenuBinding.iconAccounts);
+                Glide.with(MenuFragment.this).load(R.drawable.nav_blue).into(fragmentMenuBinding.iconHistory);
+                Glide.with(MenuFragment.this).load(R.drawable.money).into(fragmentMenuBinding.iconSettings);
+                Glide.with(MenuFragment.this).load(R.drawable.chat).into(fragmentMenuBinding.iconRateus);
+                Glide.with(MenuFragment.this).load(R.drawable.sos1).into(fragmentMenuBinding.iconShareus);
+                Glide.with(MenuFragment.this).load(R.drawable.logout).into(fragmentMenuBinding.iconLogout);
 
                 fragmentMenuBinding.textPost.setTextColor(getResources().getColor(R.color.black));
                 fragmentMenuBinding.textAccounts.setTextColor(getResources().getColor(R.color.black));
@@ -115,13 +116,13 @@ public class MenuFragment extends Fragment {
                     MainActivity.HomeFragmentHandler.sendEmptyMessage(3);
                 }
 
-                fragmentMenuBinding.iconPost.setImageResource(R.drawable.home);
-                fragmentMenuBinding.iconAccounts.setImageResource(R.drawable.qr);
-                fragmentMenuBinding.iconHistory.setImageResource(R.drawable.nav);
-                fragmentMenuBinding.iconSettings.setImageResource(R.drawable.money_blue);
-                fragmentMenuBinding.iconRateus.setImageResource(R.drawable.chat);
-                fragmentMenuBinding.iconShareus.setImageResource(R.drawable.sos1);
-                fragmentMenuBinding.iconLogout.setImageResource(R.drawable.logout);
+                Glide.with(MenuFragment.this).load(R.drawable.home).into(fragmentMenuBinding.iconPost);
+                Glide.with(MenuFragment.this).load(R.drawable.qr).into(fragmentMenuBinding.iconAccounts);
+                Glide.with(MenuFragment.this).load(R.drawable.nav).into(fragmentMenuBinding.iconHistory);
+                Glide.with(MenuFragment.this).load(R.drawable.money_blue).into(fragmentMenuBinding.iconSettings);
+                Glide.with(MenuFragment.this).load(R.drawable.chat).into(fragmentMenuBinding.iconRateus);
+                Glide.with(MenuFragment.this).load(R.drawable.sos1).into(fragmentMenuBinding.iconShareus);
+                Glide.with(MenuFragment.this).load(R.drawable.logout).into(fragmentMenuBinding.iconLogout);
 
                 fragmentMenuBinding.textPost.setTextColor(getResources().getColor(R.color.black));
                 fragmentMenuBinding.textAccounts.setTextColor(getResources().getColor(R.color.black));
@@ -140,13 +141,13 @@ public class MenuFragment extends Fragment {
                 {
                     MainActivity.HomeFragmentHandler.sendEmptyMessage(4);
                 }
-                fragmentMenuBinding.iconPost.setImageResource(R.drawable.home);
-                fragmentMenuBinding.iconAccounts.setImageResource(R.drawable.qr);
-                fragmentMenuBinding.iconHistory.setImageResource(R.drawable.nav);
-                fragmentMenuBinding.iconSettings.setImageResource(R.drawable.money);
-                fragmentMenuBinding.iconRateus.setImageResource(R.drawable.chat_blue);
-                fragmentMenuBinding.iconShareus.setImageResource(R.drawable.sos1);
-                fragmentMenuBinding.iconLogout.setImageResource(R.drawable.logout);
+                Glide.with(MenuFragment.this).load(R.drawable.home).into(fragmentMenuBinding.iconPost);
+                Glide.with(MenuFragment.this).load(R.drawable.qr).into(fragmentMenuBinding.iconAccounts);
+                Glide.with(MenuFragment.this).load(R.drawable.nav).into(fragmentMenuBinding.iconHistory);
+                Glide.with(MenuFragment.this).load(R.drawable.money).into(fragmentMenuBinding.iconSettings);
+                Glide.with(MenuFragment.this).load(R.drawable.chat_blue).into(fragmentMenuBinding.iconRateus);
+                Glide.with(MenuFragment.this).load(R.drawable.sos1).into(fragmentMenuBinding.iconShareus);
+                Glide.with(MenuFragment.this).load(R.drawable.logout).into(fragmentMenuBinding.iconLogout);
 
                 fragmentMenuBinding.textPost.setTextColor(getResources().getColor(R.color.black));
                 fragmentMenuBinding.textAccounts.setTextColor(getResources().getColor(R.color.black));
@@ -164,13 +165,13 @@ public class MenuFragment extends Fragment {
                 {
                     MainActivity.HomeFragmentHandler.sendEmptyMessage(5);
                 }
-                fragmentMenuBinding.iconPost.setImageResource(R.drawable.home);
-                fragmentMenuBinding.iconAccounts.setImageResource(R.drawable.qr);
-                fragmentMenuBinding.iconHistory.setImageResource(R.drawable.nav);
-                fragmentMenuBinding.iconSettings.setImageResource(R.drawable.money);
-                fragmentMenuBinding.iconRateus.setImageResource(R.drawable.chat);
-                fragmentMenuBinding.iconShareus.setImageResource(R.drawable.sos1);
-                fragmentMenuBinding.iconLogout.setImageResource(R.drawable.logout);
+                Glide.with(MenuFragment.this).load(R.drawable.home).into(fragmentMenuBinding.iconPost);
+                Glide.with(MenuFragment.this).load(R.drawable.qr).into(fragmentMenuBinding.iconAccounts);
+                Glide.with(MenuFragment.this).load(R.drawable.nav).into(fragmentMenuBinding.iconHistory);
+                Glide.with(MenuFragment.this).load(R.drawable.money).into(fragmentMenuBinding.iconSettings);
+                Glide.with(MenuFragment.this).load(R.drawable.chat).into(fragmentMenuBinding.iconRateus);
+                Glide.with(MenuFragment.this).load(R.drawable.sos1).into(fragmentMenuBinding.iconShareus);
+                Glide.with(MenuFragment.this).load(R.drawable.logout).into(fragmentMenuBinding.iconLogout);
 
                 fragmentMenuBinding.textPost.setTextColor(getResources().getColor(R.color.black));
                 fragmentMenuBinding.textAccounts.setTextColor(getResources().getColor(R.color.black));
@@ -189,13 +190,14 @@ public class MenuFragment extends Fragment {
                 {
                     MainActivity.HomeFragmentHandler.sendEmptyMessage(6);
                 }
-                fragmentMenuBinding.iconPost.setImageResource(R.drawable.home);
-                fragmentMenuBinding.iconAccounts.setImageResource(R.drawable.qr);
-                fragmentMenuBinding.iconHistory.setImageResource(R.drawable.nav);
-                fragmentMenuBinding.iconSettings.setImageResource(R.drawable.money);
-                fragmentMenuBinding.iconRateus.setImageResource(R.drawable.chat);
-                fragmentMenuBinding.iconShareus.setImageResource(R.drawable.sos1);
-                fragmentMenuBinding.iconLogout.setImageResource(R.drawable.logout);
+                Glide.with(MenuFragment.this).load(R.drawable.home).into(fragmentMenuBinding.iconPost);
+                Glide.with(MenuFragment.this).load(R.drawable.qr).into(fragmentMenuBinding.iconAccounts);
+                Glide.with(MenuFragment.this).load(R.drawable.nav).into(fragmentMenuBinding.iconHistory);
+                Glide.with(MenuFragment.this).load(R.drawable.money).into(fragmentMenuBinding.iconSettings);
+                Glide.with(MenuFragment.this).load(R.drawable.chat).into(fragmentMenuBinding.iconRateus);
+                Glide.with(MenuFragment.this).load(R.drawable.sos1).into(fragmentMenuBinding.iconShareus);
+                Glide.with(MenuFragment.this).load(R.drawable.logout).into(fragmentMenuBinding.iconLogout);
+
 
                 fragmentMenuBinding.textPost.setTextColor(getResources().getColor(R.color.black));
                 fragmentMenuBinding.textAccounts.setTextColor(getResources().getColor(R.color.black));
