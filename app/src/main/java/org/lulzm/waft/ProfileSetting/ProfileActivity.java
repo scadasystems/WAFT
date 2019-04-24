@@ -111,6 +111,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         // 상태표시줄
         View view = getWindow().getDecorView();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (view != null) {
                 // 23 버전 이상일 때 상태바 하얀 색상, 회색 아이콘

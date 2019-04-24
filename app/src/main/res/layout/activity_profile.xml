@@ -222,6 +222,7 @@
                                     android:layout_marginBottom="-2dp"
                                     app:ccpDialog_initialScrollToSelection="true"
                                     app:ccp_countryPreference="KR"
+                                    app:ccp_defaultNameCode="KR"
                                     app:ccpDialog_keyboardAutoPopup="false"
                                     app:ccp_showFullName="true"
                                     app:ccp_showPhoneCode="false"

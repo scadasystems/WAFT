@@ -23,21 +23,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
-import com.infobox.hasnat.ume.ume.Model.Requests;
-import com.infobox.hasnat.ume.ume.Profile.ProfileActivity;
-import com.infobox.hasnat.ume.ume.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
+import org.lulzm.waft.ChatModel.Requests;
+import org.lulzm.waft.ChatProfile.ChatProfileActivity;
+import org.lulzm.waft.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class RequestsFragment extends Fragment {
 
     private View view;
@@ -63,7 +59,7 @@ public class RequestsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_requests, container, false);
+        view = inflater.inflate(R.layout.chat_fragment_requests, container, false);
 
         request_list = view.findViewById(R.id.requestList);
         request_list.setHasFixedSize(true);
@@ -192,7 +188,7 @@ public class RequestsFragment extends Fragment {
                                                                                                                                     // Changing message text color
                                                                                                                                     View sView = snackbar.getView();
                                                                                                                                     sView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-                                                                                                                                    TextView textView = sView.findViewById(android.support.design.R.id.snackbar_text);
+                                                                                                                                    TextView textView = sView.findViewById(com.google.android.material.R.id.snackbar_text);
                                                                                                                                     textView.setTextColor(Color.WHITE);
                                                                                                                                     snackbar.show();
                                                                                                                                 }
@@ -232,7 +228,7 @@ public class RequestsFragment extends Fragment {
                                                                                                     // Changing message text color
                                                                                                     View sView = snackbar.getView();
                                                                                                     sView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-                                                                                                    TextView textView = sView.findViewById(android.support.design.R.id.snackbar_text);
+                                                                                                    TextView textView = sView.findViewById(com.google.android.material.R.id.snackbar_text);
                                                                                                     textView.setTextColor(Color.WHITE);
                                                                                                     snackbar.show();
 
@@ -247,7 +243,7 @@ public class RequestsFragment extends Fragment {
                                                                     });
                                                         }
                                                         if (which == 2) {
-                                                            Intent profileIntent = new Intent(getContext(), ProfileActivity.class);
+                                                            Intent profileIntent = new Intent(getContext(), ChatProfileActivity.class);
                                                             profileIntent.putExtra("visitUserId", userID);
                                                             startActivity(profileIntent);
                                                         }
@@ -306,7 +302,7 @@ public class RequestsFragment extends Fragment {
                                         holder.itemView.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                CharSequence options[] = new CharSequence[]{"Cancel Sent Request", userName + "'s profile"};
+                                                CharSequence options[] = new CharSequence[]{getString(R.string.cancel_friend_request), userName + "'s profile"};
 
                                                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
@@ -328,11 +324,11 @@ public class RequestsFragment extends Fragment {
                                                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                                                 if (task.isSuccessful()) {
                                                                                                     Snackbar snackbar = Snackbar
-                                                                                                            .make(view, "Cancel Sent Request", Snackbar.LENGTH_LONG);
+                                                                                                            .make(view, getString(R.string.cancel_friend_request), Snackbar.LENGTH_LONG);
                                                                                                     // Changing message text color
                                                                                                     View sView = snackbar.getView();
                                                                                                     sView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-                                                                                                    TextView textView = sView.findViewById(android.support.design.R.id.snackbar_text);
+                                                                                                    TextView textView = sView.findViewById(com.google.android.material.R.id.snackbar_text);
                                                                                                     textView.setTextColor(Color.WHITE);
                                                                                                     snackbar.show();
                                                                                                 }
@@ -346,29 +342,23 @@ public class RequestsFragment extends Fragment {
                                                                     });
                                                         }
                                                         if (which == 1) {
-                                                            Intent profileIntent = new Intent(getContext(), ProfileActivity.class);
+                                                            Intent profileIntent = new Intent(getContext(), ChatProfileActivity.class);
                                                             profileIntent.putExtra("visitUserId", userID);
                                                             startActivity(profileIntent);
                                                         }
-
                                                     }
                                                 });
                                                 builder.show();
                                             }
-
                                         });
                                     }
-
                                     @Override
                                     public void onCancelled(DatabaseError databaseError) {
                                     }
                                 });
                             }
-
                         }
-
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -380,7 +370,7 @@ public class RequestsFragment extends Fragment {
             @NonNull
             @Override
             public RequestsVH onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-                View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.request_single, viewGroup, false);
+                View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.chat_request_single, viewGroup, false);
                 return new RequestsVH(view);
             }
         };

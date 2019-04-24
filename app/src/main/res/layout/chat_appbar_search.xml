@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+>
+    <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:padding="10dp"
+            android:src="@drawable/ic_close_black_24dp" />
+
+    <cn.zhaiyifan.rememberedittext.RememberEditText
+            android:id="@+id/serachInput"
+            android:layout_marginEnd="05dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/backButton"
+            android:hint="Search a name"
+            android:inputType="textCapWords"
+            app:autoFill="false"
+            app:autoSave="true"
+            app:rememberId="searchText"
+            app:rememberCount="5"
+            app:deleteIcon="@drawable/search_clear"
+            app:dropDownIcon="@drawable/search_down"
+            app:dropUpIcon="@drawable/search_up"
+    />
+
+
+</RelativeLayout>

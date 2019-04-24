@@ -1,9 +1,11 @@
 package org.lulzm.waft.ChatAdapter;
 
+import org.lulzm.waft.ChatFragment.ChatsFragment;
+import org.lulzm.waft.ChatFragment.RequestsFragment;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import org.lulzm.waft.ChatFragment.ChatsFragment;
 
 /*********************************************************
  *   $$\                  $$\             $$\      $$\   
@@ -41,7 +43,6 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
                 return requestsFragment;
             default:
                 return null;
-
         }
     }
 

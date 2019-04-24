@@ -18,6 +18,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
+            android:name=".ChatUtils.WAFTOffline"
             android:allowBackup="true"
             android:icon="@drawable/ic_launcher"
             android:label="@string/app_name"
@@ -54,16 +55,48 @@
                 android:configChanges="orientation|screenSize"/>
         <activity
                 android:name=".ProfileSetting.ProfileActivity"
-                android:configChanges="orientation|screenSize"/>
+                android:configChanges="orientation|screenSize"
+                tools:ignore="InnerclassSeparator"/>
         <activity
                 android:name=".ProfileSetting.StatusUpdateActivity"
+                android:configChanges="orientation|screenSize"
+                tools:ignore="InnerclassSeparator"/>
+        <activity
+                android:name=".ChatHome.ChatMainActivity"
+                android:configChanges="orientation|screenSize"
+                tools:ignore="InnerclassSeparator"/>
+        <activity
+                android:name=".ChatFriends.FriendsActivity"
+                android:configChanges="orientation|screenSize"
+                android:parentActivityName=".ChatHome.ChatMainActivity"/>
+        <activity
+                android:name=".ChatProfile.ChatProfileActivity"
+                android:configChanges="orientation|screenSize|screenLayout">
+            <intent-filter>
+                <action android:name="org.lulzm.waft_TARGET_NOTIFICATION"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+                android:name=".ChatHome.ChatActivity"
+                android:parentActivityName=".ChatHome.ChatMainActivity"/>
+        <activity
+                android:name=".ChatSearch.SearchActivity"
                 android:configChanges="orientation|screenSize"/>
 
         <!-- Cropping image library -->
         <activity
                 android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
                 android:theme="@style/Base.Theme.AppCompat"/>
-        <activity android:name=".ChatHome.ChatMainActivity">
+        <!-- Firebase Messaging Service -->
+        <service android:name=".ChatUtils.FirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <activity android:name=".ForgotPassActivity">
         </activity>
     </application>
 

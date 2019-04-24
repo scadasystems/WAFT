@@ -526,4 +526,9 @@ public class LoginSignUpActivity extends AppCompatActivity {
             mAuth.signOut();
         }
     }
+
+    public void move_forgotPass(View view) {
+        Intent intent_forgotPass = new Intent(LoginSignUpActivity.this, ForgotPassActivity.class);
+        startActivity(intent_forgotPass);
+    }
 }

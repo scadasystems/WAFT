@@ -1,23 +1,27 @@
 package org.lulzm.waft.ChatAdapter;
 
+
 import android.graphics.Color;
 import android.os.Build;
-import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
+import com.google.firebase.database.core.Context;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
+import org.lulzm.waft.ChatModel.Message;
+import org.lulzm.waft.R;
 
 import java.util.List;
 
@@ -32,6 +36,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         this.messageList = messageList;
     }
 
+    // for glide error -> You cannot start a load for a destroyed activity
+    private Context mContext;
+
     @NonNull
     @Override
     public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -43,6 +50,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onBindViewHolder(@NonNull final MessageViewHolder holder, int position) {
+
+        // for glide error -> You cannot start a load for a destroyed activity
+
         String sender_UID = mAuth.getCurrentUser().getUid();
         Message message = messageList.get(position);
 
@@ -58,6 +68,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                     String userName = dataSnapshot.child("user_name").getValue().toString();
                     String userProfileImage = dataSnapshot.child("user_thumb_image").getValue().toString();
                     //
+
+                    Glide.with(mContext)
+                            .load(userProfileImage)
+                            .placeholder(R.drawable.default_profile_image)
+                            .into(holder.user_profile_image);
+
                     Picasso.get()
                             .load(userProfileImage)
                             .networkPolicy(NetworkPolicy.OFFLINE) // for Offline
@@ -83,7 +99,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             holder.receiverImageMsg.setVisibility(View.GONE);
 
             if (from_user_ID.equals(sender_UID)){
-                holder.sender_text_message.setBackgroundResource(R.drawable.single_message_text_another_background);
+                holder.sender_text_message.setBackgroundResource(R.drawable.single_message_sender);
                 holder.sender_text_message.setTextColor(Color.BLACK);
                 holder.sender_text_message.setGravity(Gravity.LEFT);
                 holder.sender_text_message.setText(message.getMessage());
@@ -92,7 +108,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 holder.receiver_text_message.setVisibility(View.VISIBLE);
                 holder.user_profile_image.setVisibility(View.VISIBLE);
 
-                holder.receiver_text_message.setBackgroundResource(R.drawable.single_message_text_background);
+                holder.receiver_text_message.setBackgroundResource(R.drawable.single_message_receiver);
                 holder.receiver_text_message.setTextColor(Color.WHITE);
                 holder.receiver_text_message.setGravity(Gravity.LEFT);
                 holder.receiver_text_message.setText(message.getMessage());
@@ -107,10 +123,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 holder.user_profile_image.setVisibility(View.GONE);
                 holder.receiverImageMsg.setVisibility(View.GONE);
                 //holder.senderImageMsg.setVisibility(View.VISIBLE);
+
+                Glide.get()
                 Picasso.get()
                         .load(message.getMessage())
                         .networkPolicy(NetworkPolicy.OFFLINE) // for Offline
-                         //.placeholder(R.drawable.default_profile_image)
+                        //.placeholder(R.drawable.default_profile_image)
                         .into(holder.senderImageMsg);
                 Log.e("tag","from adapter, link : "+ message.getMessage());
             } else {
@@ -120,7 +138,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 Picasso.get()
                         .load(message.getMessage())
                         .networkPolicy(NetworkPolicy.OFFLINE) // for Offline
-                         //.placeholder(R.drawable.default_profile_image)
+                        //.placeholder(R.drawable.default_profile_image)
                         .into(holder.receiverImageMsg);
                 Log.e("tag","from adapter, link : "+ message.getMessage());
 

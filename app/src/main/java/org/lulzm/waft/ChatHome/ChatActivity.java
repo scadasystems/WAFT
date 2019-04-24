@@ -9,7 +9,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,13 +16,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,9 +30,12 @@ import com.google.firebase.database.*;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
-import io.reactivex.annotations.NonNull;
 import org.lulzm.waft.ChatAdapter.MessageAdapter;
+import org.lulzm.waft.ChatModel.Message;
 import org.lulzm.waft.ChatUtils.UserLastSeenTime;
 import org.lulzm.waft.R;
 import xyz.hasnat.sweettoast.SweetToast;
@@ -59,6 +60,7 @@ import java.util.*;
  * GitHub : https://github.com/scadasystems              
  * E-mail : redsmurf@lulzm.org                           
  *********************************************************/
+
 public class ChatActivity extends AppCompatActivity {
 
     private String messageReceiverID;
@@ -87,8 +89,6 @@ public class ChatActivity extends AppCompatActivity {
 
     private ConnectivityReceiver connectivityReceiver;
 
-    // for glide exception
-    RequestManager mGlideRequestManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,9 +104,6 @@ public class ChatActivity extends AppCompatActivity {
         messageReceiverName = getIntent().getExtras().get("userName").toString();
 
         imageMessageStorageRef = FirebaseStorage.getInstance().getReference().child("messages_image");
-
-        // glide
-        mGlideRequestManager = Glide.with(getApplicationContext());
 
         // appbar / toolbar
         chatToolbar = findViewById(R.id.toolbar);
@@ -157,46 +154,38 @@ public class ChatActivity extends AppCompatActivity {
 //                        }
 
                         // show image on appbar
-                        view.post(() -> mGlideRequestManager
+                        Picasso.get()
                                 .load(thumb_image)
-                                .error(R.drawable.default_profile_image)
-                                .into(chatUserImageView));
-
-
-//                        Picasso.get()
-//                                .load(thumb_image)
-//                                .networkPolicy(NetworkPolicy.OFFLINE) // for Offline
-//                                .placeholder(R.drawable.default_profile_image)
-//                                .into(chatUserImageView, new Callback() {
-//                                    @Override
-//                                    public void onSuccess() {
-//                                    }
-//
-//                                    @Override
-//                                    public void onError(Exception e) {
-//                                        Picasso.get()
-//                                                .load(thumb_image)
-//                                                .placeholder(R.drawable.default_profile_image)
-//                                                .into(chatUserImageView);
-//                                    }
-//                                });
+                                .networkPolicy(NetworkPolicy.OFFLINE) // for Offline
+                                .placeholder(R.drawable.default_profile_image)
+                                .into(chatUserImageView, new Callback() {
+                                    @Override
+                                    public void onSuccess() {
+                                    }
+                                    @Override
+                                    public void onError(Exception e) {
+                                        Picasso.get()
+                                                .load(thumb_image)
+                                                .placeholder(R.drawable.default_profile_image)
+                                                .into(chatUserImageView);
+                                    }
+                                });
 
                         //active status
-                        if (active_status.contains("true")) {
+                        if (active_status.contains("true")){
                             chatUserActiveStatus.setText("Active now");
                         } else {
                             UserLastSeenTime lastSeenTime = new UserLastSeenTime();
                             long last_seen = Long.parseLong(active_status);
 
                             //String lastSeenOnScreenTime = lastSeenTime.getTimeAgo(last_seen).toString();
-                            String lastSeenOnScreenTime = lastSeenTime.getTimeAgo(last_seen, getApplicationContext());
-                            Log.i("lastSeenTime", lastSeenOnScreenTime);
-                            if (lastSeenOnScreenTime != null) {
+                            String lastSeenOnScreenTime = lastSeenTime.getTimeAgo(last_seen, getApplicationContext()).toString();
+                            Log.e("lastSeenTime", lastSeenOnScreenTime);
+                            if (lastSeenOnScreenTime != null){
                                 chatUserActiveStatus.setText(lastSeenOnScreenTime);
                             }
                         }
                     }
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                     }
@@ -234,7 +223,6 @@ public class ChatActivity extends AppCompatActivity {
         IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(connectivityReceiver, intentFilter);
     }
-
     @Override
     protected void onStop() {
         super.onStop();
@@ -247,7 +235,7 @@ public class ChatActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //  For image sending
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GALLERY_PICK_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+        if (requestCode == GALLERY_PICK_CODE && resultCode == RESULT_OK && data != null && data.getData() != null){
             Uri imageUri = data.getData();
 
             // image message sending size compressing will be placed below
@@ -263,8 +251,8 @@ public class ChatActivity extends AppCompatActivity {
             UploadTask uploadTask = file_path.putFile(imageUri);
             Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                    if (!task.isSuccessful()) {
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task){
+                    if (!task.isSuccessful()){
                         SweetToast.error(ChatActivity.this, "Error: " + task.getException().getMessage());
                     }
                     download_url = file_path.getDownloadUrl().toString();
@@ -273,8 +261,8 @@ public class ChatActivity extends AppCompatActivity {
             }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        if (task.isSuccessful()) {
+                    if (task.isSuccessful()){
+                        if (task.isSuccessful()){
                             download_url = task.getResult().toString();
                             //Toast.makeText(ChatActivity.this, "From ChatActivity, link: " +download_url, Toast.LENGTH_SHORT).show();
 
@@ -292,14 +280,14 @@ public class ChatActivity extends AppCompatActivity {
                             rootReference.updateChildren(messageBodyDetails, new DatabaseReference.CompletionListener() {
                                 @Override
                                 public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                    if (databaseError != null) {
+                                    if (databaseError != null){
                                         Log.e("from_image_chat: ", databaseError.getMessage());
                                     }
                                     input_user_message.setText("");
                                 }
                             });
                             Log.e("tag", "Image sent successfully");
-                        } else {
+                        } else{
                             SweetToast.warning(ChatActivity.this, "Failed to send image. Try again");
                         }
                     }
@@ -313,25 +301,21 @@ public class ChatActivity extends AppCompatActivity {
                 .addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        if (dataSnapshot.exists()) {
+                        if (dataSnapshot.exists()){
                             Message message = dataSnapshot.getValue(Message.class);
                             messageList.add(message);
                             messageAdapter.notifyDataSetChanged();
                         }
                     }
-
                     @Override
                     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                     }
-
                     @Override
                     public void onChildRemoved(DataSnapshot dataSnapshot) {
                     }
-
                     @Override
                     public void onChildMoved(DataSnapshot dataSnapshot, String s) {
                     }
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                     }
@@ -339,10 +323,11 @@ public class ChatActivity extends AppCompatActivity {
     }
 
 
+
     private void sendMessage() {
         String message = input_user_message.getText().toString();
-        if (TextUtils.isEmpty(message)) {
-            SweetToast.info(ChatActivity.this, "메세지를 입력해주세요.");
+        if (TextUtils.isEmpty(message)){
+            SweetToast.info(ChatActivity.this, "Please type a message");
         } else {
             String message_sender_reference = "messages/" + messageSenderId + "/" + messageReceiverID;
             String message_receiver_reference = "messages/" + messageReceiverID + "/" + messageSenderId;
@@ -365,7 +350,7 @@ public class ChatActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
-                    if (databaseError != null) {
+                    if (databaseError != null){
                         Log.e("Sending message", databaseError.getMessage());
                     }
                     input_user_message.setText("");
@@ -382,13 +367,13 @@ public class ChatActivity extends AppCompatActivity {
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
             ChatConnectionTV.setVisibility(View.GONE);
-            if (networkInfo != null && networkInfo.isConnected()) {
-                ChatConnectionTV.setText("인터넷이 연결되어 있습니다.");
+            if (networkInfo != null && networkInfo.isConnected()){
+                ChatConnectionTV.setText("Internet connected");
                 ChatConnectionTV.setTextColor(Color.WHITE);
                 ChatConnectionTV.setVisibility(View.VISIBLE);
 
                 // LAUNCH activity after certain time period
-                new Timer().schedule(new TimerTask() {
+                new Timer().schedule(new TimerTask(){
                     public void run() {
                         ChatActivity.this.runOnUiThread(new Runnable() {
                             public void run() {
@@ -398,7 +383,7 @@ public class ChatActivity extends AppCompatActivity {
                     }
                 }, 1200);
             } else {
-                ChatConnectionTV.setText("인터넷을 연결해주세요!! ");
+                ChatConnectionTV.setText("No internet connection! ");
                 ChatConnectionTV.setTextColor(Color.WHITE);
                 ChatConnectionTV.setBackgroundColor(Color.RED);
                 ChatConnectionTV.setVisibility(View.VISIBLE);
