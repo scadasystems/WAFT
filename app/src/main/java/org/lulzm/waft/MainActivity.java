@@ -29,7 +29,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import de.hdodenhof.circleimageview.CircleImageView;
 import org.lulzm.waft.ChatHome.ChatMainActivity;
-import org.lulzm.waft.Fragment.*;
+import org.lulzm.waft.MainFragment.*;
 
 public class MainActivity extends AppCompatActivity {
 
