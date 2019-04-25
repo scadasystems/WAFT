@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,23 +17,18 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 import org.lulzm.waft.ChatAdapter.MessageAdapter;
 import org.lulzm.waft.ChatModel.Message;
@@ -40,25 +36,26 @@ import org.lulzm.waft.ChatUtils.UserLastSeenTime;
 import org.lulzm.waft.R;
 import xyz.hasnat.sweettoast.SweetToast;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /*********************************************************
- *   $$\                  $$\             $$\      $$\   
- *   $$ |                 $$ |            $$$\    $$$ |  
- *   $$ |      $$\   $$\  $$ | $$$$$$$$\  $$$$\  $$$$ |  
- *   $$ |      $$ |  $$ | $$ | \____$$  | $$ \$\$$ $$ | 
- *   $$ |      $$ |  $$ | $$ |   $$$$ _/  $$  \$$  $$ |  
- *   $$ |      $$ |  $$ | $$ |  $$  _/    $$ | $  /$$ |  
- *   $$$$$$$$  \$$$$$$$ | $$ | $$$$$$$$\  $$ | \_/ $$ |  
- *   \_______| \______/   \__| \________| \__|     \__|  
+ *   $$\                  $$\             $$\      $$\
+ *   $$ |                 $$ |            $$$\    $$$ |
+ *   $$ |      $$\   $$\  $$ | $$$$$$$$\  $$$$\  $$$$ |
+ *   $$ |      $$ |  $$ | $$ | \____$$  | $$ \$\$$ $$ |
+ *   $$ |      $$ |  $$ | $$ |   $$$$ _/  $$  \$$  $$ |
+ *   $$ |      $$ |  $$ | $$ |  $$  _/    $$ | $  /$$ |
+ *   $$$$$$$$  \$$$$$$$ | $$ | $$$$$$$$\  $$ | \_/ $$ |
+ *   \_______| \______/   \__| \________| \__|     \__|
  *
- * Project : WAFT                             
- * Created by Android Studio                           
- * Developer : Lulz_M                                    
- * Date : 2019-04-19                                        
- * Time : 오후 4:18                                       
- * GitHub : https://github.com/scadasystems              
- * E-mail : redsmurf@lulzm.org                           
+ * Project : WAFT
+ * Created by Android Studio
+ * Developer : Lulz_M
+ * Date : 2019-04-19
+ * Time : 오후 4:18
+ * GitHub : https://github.com/scadasystems
+ * E-mail : redsmurf@lulzm.org
  *********************************************************/
 
 public class ChatActivity extends AppCompatActivity {
@@ -89,14 +86,26 @@ public class ChatActivity extends AppCompatActivity {
 
     private ConnectivityReceiver connectivityReceiver;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_activity);
+        // 상태표시줄
+        View view = getWindow().getDecorView();
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (view != null) {
+                // 23 버전 이상일 때 상태바 하얀 색상, 회색 아이콘
+                view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                getWindow().setStatusBarColor(Color.parseColor("#f2f2f2"));
+            }
+        } else if (Build.VERSION.SDK_INT >= 21) {
+            // 21 버전 이상일 때 상태바 검은 색상, 흰색 아이콘
+            getWindow().setStatusBarColor(Color.BLACK);
+        }
+
+        // firebase
         rootReference = FirebaseDatabase.getInstance().getReference();
-
         mAuth = FirebaseAuth.getInstance();
         messageSenderId = mAuth.getCurrentUser().getUid();
 
@@ -114,7 +123,7 @@ public class ChatActivity extends AppCompatActivity {
 
         LayoutInflater layoutInflater = (LayoutInflater)
                 this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.chat_appbar, null);
+        view = layoutInflater.inflate(R.layout.chat_appbar, null);
         actionBar.setCustomView(view);
 
         ChatConnectionTV = findViewById(R.id.ChatConnectionTV);
@@ -134,7 +143,6 @@ public class ChatActivity extends AppCompatActivity {
         linearLayoutManager.setStackFromEnd(true);
         messageList_ReCyVw.setLayoutManager(linearLayoutManager);
         messageList_ReCyVw.setHasFixedSize(true);
-        //linearLayoutManager.setReverseLayout(true);
         messageList_ReCyVw.setAdapter(messageAdapter);
 
         fetchMessages();
@@ -144,48 +152,29 @@ public class ChatActivity extends AppCompatActivity {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-
                         final String active_status = dataSnapshot.child("active_now").getValue().toString();
                         final String thumb_image = dataSnapshot.child("user_thumb_image").getValue().toString();
-
-//                        // FOR TESTING
-//                        if (currentUser != null){
-//                            rootReference.child("active_now").setValue(ServerValue.TIMESTAMP);
-//                        }
-
                         // show image on appbar
-                        Picasso.get()
+                        Glide.with(ChatActivity.this)
                                 .load(thumb_image)
-                                .networkPolicy(NetworkPolicy.OFFLINE) // for Offline
                                 .placeholder(R.drawable.default_profile_image)
-                                .into(chatUserImageView, new Callback() {
-                                    @Override
-                                    public void onSuccess() {
-                                    }
-                                    @Override
-                                    public void onError(Exception e) {
-                                        Picasso.get()
-                                                .load(thumb_image)
-                                                .placeholder(R.drawable.default_profile_image)
-                                                .into(chatUserImageView);
-                                    }
-                                });
+                                .into(chatUserImageView);
 
                         //active status
-                        if (active_status.contains("true")){
-                            chatUserActiveStatus.setText("Active now");
+                        if (active_status.contains("true")) {
+                            chatUserActiveStatus.setText(getString(R.string.messenger_active_now));
                         } else {
                             UserLastSeenTime lastSeenTime = new UserLastSeenTime();
                             long last_seen = Long.parseLong(active_status);
 
-                            //String lastSeenOnScreenTime = lastSeenTime.getTimeAgo(last_seen).toString();
-                            String lastSeenOnScreenTime = lastSeenTime.getTimeAgo(last_seen, getApplicationContext()).toString();
+                            String lastSeenOnScreenTime = lastSeenTime.getTimeAgo(last_seen, getApplicationContext());
                             Log.e("lastSeenTime", lastSeenOnScreenTime);
-                            if (lastSeenOnScreenTime != null){
+                            if (lastSeenOnScreenTime != null) {
                                 chatUserActiveStatus.setText(lastSeenOnScreenTime);
                             }
                         }
                     }
+
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                     }
@@ -195,25 +184,19 @@ public class ChatActivity extends AppCompatActivity {
         /**
          *  SEND TEXT MESSAGE BUTTON
          */
-        send_message.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendMessage();
-            }
+        send_message.setOnClickListener(v -> {
+            sendMessage();
+            messageList_ReCyVw.scrollToPosition(messageAdapter.getItemCount() - 1);
         });
-
 
         /** SEND IMAGE MESSAGE BUTTON */
-        send_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent galleryIntent = new Intent().setAction(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setType("image/*");
-                startActivityForResult(galleryIntent, GALLERY_PICK_CODE);
-            }
+        send_image.setOnClickListener(v -> {
+            Intent galleryIntent = new Intent().setAction(Intent.ACTION_GET_CONTENT);
+            galleryIntent.setType("image/*");
+            startActivityForResult(galleryIntent, GALLERY_PICK_CODE);
+            messageList_ReCyVw.scrollToPosition(messageAdapter.getItemCount() - 1);
         });
     } // ending onCreate
-
 
     @Override
     protected void onResume() {
@@ -223,6 +206,7 @@ public class ChatActivity extends AppCompatActivity {
         IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(connectivityReceiver, intentFilter);
     }
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -230,16 +214,14 @@ public class ChatActivity extends AppCompatActivity {
         unregisterReceiver(connectivityReceiver);
     }
 
-
     @Override // for gallery picking
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //  For image sending
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GALLERY_PICK_CODE && resultCode == RESULT_OK && data != null && data.getData() != null){
+
+        if (requestCode == GALLERY_PICK_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri imageUri = data.getData();
-
             // image message sending size compressing will be placed below
-
             final String message_sender_reference = "messages/" + messageSenderId + "/" + messageReceiverID;
             final String message_receiver_reference = "messages/" + messageReceiverID + "/" + messageSenderId;
 
@@ -249,47 +231,44 @@ public class ChatActivity extends AppCompatActivity {
             final StorageReference file_path = imageMessageStorageRef.child(message_push_id + ".jpg");
 
             UploadTask uploadTask = file_path.putFile(imageUri);
-            Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task){
-                    if (!task.isSuccessful()){
-                        SweetToast.error(ChatActivity.this, "Error: " + task.getException().getMessage());
-                    }
-                    download_url = file_path.getDownloadUrl().toString();
-                    return file_path.getDownloadUrl();
+            Task<Uri> uriTask = uploadTask.continueWithTask(task -> {
+                if (!task.isSuccessful()) {
+                    SweetToast.error(ChatActivity.this, "Error: " + task.getException().getMessage());
                 }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()){
-                        if (task.isSuccessful()){
-                            download_url = task.getResult().toString();
-                            //Toast.makeText(ChatActivity.this, "From ChatActivity, link: " +download_url, Toast.LENGTH_SHORT).show();
+                download_url = file_path.getDownloadUrl().toString();
+                return file_path.getDownloadUrl();
 
-                            HashMap<String, Object> message_text_body = new HashMap<>();
-                            message_text_body.put("message", download_url);
-                            message_text_body.put("seen", false);
-                            message_text_body.put("type", "image");
-                            message_text_body.put("time", ServerValue.TIMESTAMP);
-                            message_text_body.put("from", messageSenderId);
+            }).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    if (task.isSuccessful()) {
+                        download_url = task.getResult().toString();
+                        // 현재시간
+                        long now = System.currentTimeMillis();
+                        Date date = new Date(now);
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM월dd일 HH:mm");
+                        String formatDate = simpleDateFormat.format(date);
 
-                            HashMap<String, Object> messageBodyDetails = new HashMap<>();
-                            messageBodyDetails.put(message_sender_reference + "/" + message_push_id, message_text_body);
-                            messageBodyDetails.put(message_receiver_reference + "/" + message_push_id, message_text_body);
+                        HashMap<String, Object> message_text_body = new HashMap<>();
+                        message_text_body.put("message", download_url);
+                        message_text_body.put("seen", false);
+                        message_text_body.put("type", "image");
+                        message_text_body.put("time", ServerValue.TIMESTAMP);
+                        message_text_body.put("from", messageSenderId);
+                        message_text_body.put("send_time", formatDate);
+                        HashMap<String, Object> messageBodyDetails = new HashMap<>();
+                        messageBodyDetails.put(message_sender_reference + "/" + message_push_id, message_text_body);
+                        messageBodyDetails.put(message_receiver_reference + "/" + message_push_id, message_text_body);
 
-                            rootReference.updateChildren(messageBodyDetails, new DatabaseReference.CompletionListener() {
-                                @Override
-                                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                    if (databaseError != null){
-                                        Log.e("from_image_chat: ", databaseError.getMessage());
-                                    }
-                                    input_user_message.setText("");
-                                }
-                            });
-                            Log.e("tag", "Image sent successfully");
-                        } else{
-                            SweetToast.warning(ChatActivity.this, "Failed to send image. Try again");
-                        }
+                        rootReference.updateChildren(messageBodyDetails, (databaseError, databaseReference) -> {
+                            if (databaseError != null) {
+                                Log.e("from_image_chat: ", databaseError.getMessage());
+                            }
+                            input_user_message.setText("");
+                            messageList_ReCyVw.scrollToPosition(messageAdapter.getItemCount() - 1);
+                        });
+                        Log.e("tag", "Image sent successfully");
+                    } else {
+                        SweetToast.warning(ChatActivity.this, getString(R.string.failed_send_message));
                     }
                 }
             });
@@ -301,21 +280,25 @@ public class ChatActivity extends AppCompatActivity {
                 .addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        if (dataSnapshot.exists()){
+                        if (dataSnapshot.exists()) {
                             Message message = dataSnapshot.getValue(Message.class);
                             messageList.add(message);
-                            messageAdapter.notifyDataSetChanged();
+                            messageList_ReCyVw.scrollToPosition(messageAdapter.getItemCount() - 1);
                         }
                     }
+
                     @Override
                     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                     }
+
                     @Override
                     public void onChildRemoved(DataSnapshot dataSnapshot) {
                     }
+
                     @Override
                     public void onChildMoved(DataSnapshot dataSnapshot, String s) {
                     }
+
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                     }
@@ -323,17 +306,21 @@ public class ChatActivity extends AppCompatActivity {
     }
 
 
-
     private void sendMessage() {
         String message = input_user_message.getText().toString();
-        if (TextUtils.isEmpty(message)){
-            SweetToast.info(ChatActivity.this, "Please type a message");
+        if (TextUtils.isEmpty(message)) {
+            SweetToast.info(ChatActivity.this, getString(R.string.please_send_message));
         } else {
             String message_sender_reference = "messages/" + messageSenderId + "/" + messageReceiverID;
             String message_receiver_reference = "messages/" + messageReceiverID + "/" + messageSenderId;
 
             DatabaseReference user_message_key = rootReference.child("messages").child(messageSenderId).child(messageReceiverID).push();
             String message_push_id = user_message_key.getKey();
+            //  현재시간
+            long now = System.currentTimeMillis();
+            Date date = new Date(now);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd HH:mm");
+            String formatDate = simpleDateFormat.format(date);
 
             HashMap<String, Object> message_text_body = new HashMap<>();
             message_text_body.put("message", message);
@@ -341,20 +328,19 @@ public class ChatActivity extends AppCompatActivity {
             message_text_body.put("type", "text");
             message_text_body.put("time", ServerValue.TIMESTAMP);
             message_text_body.put("from", messageSenderId);
+            message_text_body.put("send_time", formatDate);
 
             HashMap<String, Object> messageBodyDetails = new HashMap<>();
             messageBodyDetails.put(message_sender_reference + "/" + message_push_id, message_text_body);
             messageBodyDetails.put(message_receiver_reference + "/" + message_push_id, message_text_body);
 
-            rootReference.updateChildren(messageBodyDetails, new DatabaseReference.CompletionListener() {
-                @Override
-                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+            rootReference.updateChildren(messageBodyDetails, (databaseError, databaseReference) -> {
 
-                    if (databaseError != null){
-                        Log.e("Sending message", databaseError.getMessage());
-                    }
-                    input_user_message.setText("");
+                if (databaseError != null) {
+                    Log.e("Sending message", databaseError.getMessage());
                 }
+                input_user_message.setText("");
+                messageList_ReCyVw.scrollToPosition(messageAdapter.getItemCount() - 1);
             });
         }
     }
@@ -367,23 +353,19 @@ public class ChatActivity extends AppCompatActivity {
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
             ChatConnectionTV.setVisibility(View.GONE);
-            if (networkInfo != null && networkInfo.isConnected()){
-                ChatConnectionTV.setText("Internet connected");
+            if (networkInfo != null && networkInfo.isConnected()) {
+                ChatConnectionTV.setText(getString(R.string.internet_connect));
                 ChatConnectionTV.setTextColor(Color.WHITE);
                 ChatConnectionTV.setVisibility(View.VISIBLE);
 
                 // LAUNCH activity after certain time period
-                new Timer().schedule(new TimerTask(){
+                new Timer().schedule(new TimerTask() {
                     public void run() {
-                        ChatActivity.this.runOnUiThread(new Runnable() {
-                            public void run() {
-                                ChatConnectionTV.setVisibility(View.GONE);
-                            }
-                        });
+                        ChatActivity.this.runOnUiThread(() -> ChatConnectionTV.setVisibility(View.GONE));
                     }
                 }, 1200);
             } else {
-                ChatConnectionTV.setText("No internet connection! ");
+                ChatConnectionTV.setText(getString(R.string.internet_disconnect));
                 ChatConnectionTV.setTextColor(Color.WHITE);
                 ChatConnectionTV.setBackgroundColor(Color.RED);
                 ChatConnectionTV.setVisibility(View.VISIBLE);

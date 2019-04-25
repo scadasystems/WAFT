@@ -24,7 +24,7 @@ import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 import org.lulzm.waft.ChatHome.ChatActivity;
 import org.lulzm.waft.ChatModel.Friends;
-import org.lulzm.waft.ProfileSetting.ProfileActivity;
+import org.lulzm.waft.ChatProfile.ChatProfileActivity;
 import org.lulzm.waft.R;
 
 /*********************************************************
@@ -161,7 +161,7 @@ public class FriendsActivity extends AppCompatActivity {
                                         }
 
                                         if (which == 1){
-                                            Intent profileIntent = new Intent(FriendsActivity.this, ProfileActivity.class);
+                                            Intent profileIntent = new Intent(FriendsActivity.this, ChatProfileActivity.class);
                                             profileIntent.putExtra("visitUserId", userID);
                                             startActivity(profileIntent);
                                         }

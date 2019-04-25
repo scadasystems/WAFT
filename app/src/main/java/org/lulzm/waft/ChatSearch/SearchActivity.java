@@ -145,13 +145,6 @@ public class SearchActivity extends AppCompatActivity {
                         .error(R.drawable.default_profile_image)
                         .into(holder.profile_pic));
 
-
-                /*Picasso.get()
-                        .load(model.getUser_image())
-                        .networkPolicy(NetworkPolicy.OFFLINE) // for Offline
-                        .placeholder(R.drawable.default_profile_image)
-                        .into(holder.profile_pic);*/
-
                 holder.verified_icon.setVisibility(View.GONE);
                 if (model.getVerified().contains("true")){
                     holder.verified_icon.setVisibility(View.VISIBLE);
@@ -160,19 +153,13 @@ public class SearchActivity extends AppCompatActivity {
                 }
 
                 /**on list >> clicking item, then, go to single user profile*/
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String visit_user_id = getRef(position).getKey();
-                        Intent intent = new Intent(SearchActivity.this, ChatProfileActivity.class);
-                        intent.putExtra("visitUserId", visit_user_id);
-                        startActivity(intent);
-                    }
+                holder.itemView.setOnClickListener(v -> {
+                    String visit_user_id = getRef(position).getKey();
+                    Intent intent = new Intent(SearchActivity.this, ChatProfileActivity.class);
+                    intent.putExtra("visitUserId", visit_user_id);
+                    startActivity(intent);
                 });
-
-
             }
-
             @NonNull
             @Override
             public SearchPeopleVH onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
@@ -197,7 +184,6 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
-
     // Toolbar menu for clearing search history
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -210,7 +196,7 @@ public class SearchActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
         if (item.getItemId() == R.id.menu_clear_search){
             RememberEditText.clearCache(SearchActivity.this);
-            SweetToast.info(this, "Search history cleared successfully.");
+            SweetToast.info(this, getString(R.string.search_history_cleared_successfully));
             this.finish();
         }
         return true;

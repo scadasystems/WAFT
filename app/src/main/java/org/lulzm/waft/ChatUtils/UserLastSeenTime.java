@@ -37,32 +37,32 @@ public class UserLastSeenTime extends Application{
         long now = System.currentTimeMillis();
         if (time > now || time <= 0) {
 
-            return "Active just now";
+            return "방금 전";
             //return null;
         }
 
         // TODO: localize
         final long diff = now - time;
         if (diff < MINUTE_MILLIS) {
-            return "Active few seconds ago";
+            return "몇초 전";
 
         } else if (diff < 2 * MINUTE_MILLIS) {
-            return "Active a minute ago";
+            return "1 분 전";
 
         } else if (diff < 50 * MINUTE_MILLIS) {
-            return "Active " + diff / MINUTE_MILLIS + " minutes ago";
+            return diff / MINUTE_MILLIS + " 분 전";
 
         } else if (diff < 90 * MINUTE_MILLIS) {
-            return "Active an hour ago";
+            return "1시간 전";
 
         } else if (diff < 24 * HOUR_MILLIS) {
-            return "Active " + diff / HOUR_MILLIS + " hours ago";
+            return diff / HOUR_MILLIS + " 시간 전";
 
         } else if (diff < 48 * HOUR_MILLIS) {
-            return "Active on yesterday";
+            return "어제";
 
         } else {
-            return "Active " + diff / DAY_MILLIS + " days ago";
+            return diff / DAY_MILLIS + " 일 전";
         }
     }
 

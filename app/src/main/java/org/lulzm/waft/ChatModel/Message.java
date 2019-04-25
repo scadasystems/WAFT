@@ -5,18 +5,20 @@ public class Message {
     private long time;
     private boolean seen;
     private String from;
+    private String send_time;
 
     // default constructor
     public Message() {
     }
 
     // constructor
-    public Message(String message, String type, long time, boolean seen, String from) {
+    public Message(String message, String type, long time, boolean seen, String from, String send_time) {
         this.message = message;
         this.type = type;
         this.time = time;
         this.seen = seen;
         this.from = from;
+        this.send_time = send_time;
     }
 
     // getter & setter
@@ -60,4 +62,11 @@ public class Message {
         this.from = from;
     }
 
+    public String getSend_time() {
+        return send_time;
+    }
+
+    public void setSend_time(String send_time) {
+        this.send_time = send_time;
+    }
 }

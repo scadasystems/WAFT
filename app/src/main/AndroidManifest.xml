@@ -33,14 +33,13 @@
         <activity
                 android:name=".IntroSlide.IntroActivity"
                 android:configChanges="orientation|screenSize">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            </intent-filter>-->
             <intent-filter>
                 <action android:name="android.intent.action.SEND"/>
                 <category android:name="android.intent.category.DEFAULT"/>
-
                 <data android:mimeType="text/plain"/>
             </intent-filter>
         </activity>
@@ -62,7 +61,12 @@
         <activity
                 android:name=".ChatHome.ChatMainActivity"
                 android:configChanges="orientation|screenSize"
-                tools:ignore="InnerclassSeparator"/>
+                tools:ignore="InnerclassSeparator">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
         <activity
                 android:name=".ChatFriends.FriendsActivity"
                 android:configChanges="orientation|screenSize"

@@ -12,14 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 import org.lulzm.waft.ChatHome.ChatActivity;
 import org.lulzm.waft.ChatModel.Friends;
@@ -59,7 +56,6 @@ public class ChatsFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -80,8 +76,6 @@ public class ChatsFragment extends Fragment {
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         chat_list.setLayoutManager(linearLayoutManager);
-
-
 
         return view;
     }
@@ -107,30 +101,17 @@ public class ChatsFragment extends Fragment {
                             final String userThumbPhoto = dataSnapshot.child("user_thumb_image").getValue().toString();
 
                             if (!userThumbPhoto.equals("default_image")) { // default image condition for new user
-                                Picasso.get()
+                                Glide.with(ChatsFragment.this)
                                         .load(userThumbPhoto)
-                                        .networkPolicy(NetworkPolicy.OFFLINE) // for Offline
                                         .placeholder(R.drawable.default_profile_image)
-                                        .into(holder.user_photo, new Callback() {
-                                            @Override
-                                            public void onSuccess() {
-                                            }
-
-                                            @Override
-                                            public void onError(Exception e) {
-                                                Picasso.get()
-                                                        .load(userThumbPhoto)
-                                                        .placeholder(R.drawable.default_profile_image)
-                                                        .into(holder.user_photo);
-                                            }
-                                        });
+                                        .into(holder.user_photo);
                             }
                             holder.user_name.setText(userName);
 
                             //active status
                             holder.active_icon.setVisibility(View.GONE);
                             if (userPresence.contains("true")) {
-                                holder.user_presence.setText("Active now");
+                                holder.user_presence.setText(getString(R.string.messenger_active_now));
                                 holder.active_icon.setVisibility(View.VISIBLE);
                             } else {
                                 holder.active_icon.setVisibility(View.GONE);
@@ -143,41 +124,27 @@ public class ChatsFragment extends Fragment {
                                 }
                             }
 
-
-                            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    // user active status validation
-                                    if (dataSnapshot.child("active_now").exists()) {
-
-                                        Intent chatIntent = new Intent(getContext(), ChatActivity.class);
-                                        chatIntent.putExtra("visitUserId", userID);
-                                        chatIntent.putExtra("userName", userName);
-                                        startActivity(chatIntent);
-
-                                    } else {
-                                        userDatabaseReference.child(userID).child("active_now")
-                                                .setValue(ServerValue.TIMESTAMP).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
+                            holder.itemView.setOnClickListener(v -> {
+                                // user active status validation
+                                if (dataSnapshot.child("active_now").exists()) {
+                                    Intent chatIntent = new Intent(getContext(), ChatActivity.class);
+                                    chatIntent.putExtra("visitUserId", userID);
+                                    chatIntent.putExtra("userName", userName);
+                                    startActivity(chatIntent);
+                                } else {
+                                    userDatabaseReference.child(userID).child("active_now")
+                                            .setValue(ServerValue.TIMESTAMP).addOnSuccessListener(aVoid -> {
                                                 Intent chatIntent = new Intent(getContext(), ChatActivity.class);
                                                 chatIntent.putExtra("visitUserId", userID);
                                                 chatIntent.putExtra("userName", userName);
                                                 startActivity(chatIntent);
-                                            }
-                                        });
-
-
-                                    }
+                                            });
                                 }
                             });
                         }
-
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-
                     }
                 });
 
@@ -190,7 +157,6 @@ public class ChatsFragment extends Fragment {
                 return new ChatsVH(view);
             }
         };
-
         chat_list.setAdapter(adapter);
         adapter.startListening();
     }

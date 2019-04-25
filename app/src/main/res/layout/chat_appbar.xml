@@ -19,7 +19,7 @@
             android:id="@+id/chat_active_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Active Now"
+            android:text="@string/messenger_active_now"
             android:textSize="14sp"
             android:layout_below="@id/chat_user_name"
     />

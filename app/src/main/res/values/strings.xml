@@ -44,6 +44,12 @@
     <string name="accept_friend_request">친구 요청 수락하기</string>
     <string name="unfriend_this_person">친구 삭제하기</string>
     <string name="press_back_main">한번 더 누르시면 메인으로 이동합니다.</string>
-
+    <string name="enter_message">메세지를 입력해주세요.</string>
+    <string name="messenger_active_now">현재 접속 중</string>
+    <string name="search_history_cleared_successfully">검색을 삭제했습니다.</string>
+    <string name="internet_connect">인터넷이 연결되었습니다.</string>
+    <string name="please_send_message">보낼 메세지를 적어주세요</string>
+    <string name="failed_send_message">메세지를 보낼 수 없습니다.\\n다시 시도해주세요.</string>
+    <string name="internet_disconnect">인터넷이 연결 되어있지 않습니다.</string>
 
 </resources>

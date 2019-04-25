@@ -40,9 +40,8 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="08dp"
             android:layout_marginStart="51dp"
-            android:background="@drawable/single_message_receiver"
-            android:paddingLeft="25px"
-            android:paddingRight="30px"
+            android:padding="8dp"
+            android:background="@drawable/background_left"
             android:text="From Receiver"
             android:textColor="@color/white"/>
 
@@ -54,10 +53,10 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="08dp"
-            android:layout_marginEnd="1dp"
-            android:background="@drawable/single_message_sender"
-            android:paddingLeft="30px"
-            android:paddingRight="25px"
+            android:layout_marginEnd="5dp"
+            android:maxWidth="250dp"
+            android:background="@drawable/background_right"
+            android:padding="8dp"
             android:text="From Sender"
             android:textColor="@color/black"/>
 

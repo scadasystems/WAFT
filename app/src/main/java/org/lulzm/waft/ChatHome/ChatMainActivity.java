@@ -1,6 +1,7 @@
 package org.lulzm.waft.ChatHome;
 
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,13 +9,13 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -31,6 +32,7 @@ import org.lulzm.waft.ChatFriends.FriendsActivity;
 import org.lulzm.waft.ChatSearch.SearchActivity;
 import org.lulzm.waft.MainActivity;
 import org.lulzm.waft.R;
+import xyz.hasnat.sweettoast.SweetToast;
 
 public class ChatMainActivity extends AppCompatActivity {
 
@@ -55,6 +57,20 @@ public class ChatMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_main_activity);
+
+        // 상태표시줄
+        View view = getWindow().getDecorView();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (view != null) {
+                // 23 버전 이상일 때 상태바 하얀 색상, 회색 아이콘
+                view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                getWindow().setStatusBarColor(Color.parseColor("#f2f2f2"));
+            }
+        } else if (Build.VERSION.SDK_INT >= 21) {
+            // 21 버전 이상일 때 상태바 검은 색상, 흰색 아이콘
+            getWindow().setStatusBarColor(Color.BLACK);
+        }
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -164,7 +180,7 @@ public class ChatMainActivity extends AppCompatActivity {
             if (networkInfo != null && networkInfo.isConnected()){
 
             } else {
-                Snackbar snackbar = Snackbar
+                @SuppressLint("WrongConstant") Snackbar snackbar = Snackbar
                         .make(mViewPager, "No internet connection! ", Snackbar.LENGTH_LONG)
                         .setAction("Go settings", new View.OnClickListener() {
                             @Override
@@ -196,7 +212,7 @@ public class ChatMainActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
         }
         else {
-            Toast.makeText(getApplicationContext(), getString(R.string.press_back_main), Toast.LENGTH_SHORT).show();
+            SweetToast.info(getApplicationContext(), getString(R.string.press_back_main));
         }
         backPressed = System.currentTimeMillis();
     } //End Back button press for exit...
