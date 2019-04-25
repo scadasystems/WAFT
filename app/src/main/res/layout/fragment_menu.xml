@@ -2,7 +2,7 @@
 <layout>
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                       android:orientation="vertical" android:layout_width="match_parent"
-                      android:background="#103F51B5"
+                      android:background="#FDFDFD"
                       android:layout_height="match_parent">
 
 
@@ -25,7 +25,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:text="Post"
+                        android:text="Home"
                         android:textColor="@android:color/black"/>
 
             </LinearLayout>
@@ -48,7 +48,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:text="Accounts"
+                        android:text="Profile"
                         android:textColor="@android:color/black"/>
 
             </LinearLayout>
@@ -71,7 +71,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:text="History"
+                        android:text="Settings"
                         android:textColor="@android:color/black"/>
 
             </LinearLayout>
@@ -94,7 +94,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:text="Settings"
+                        android:text="Notice"
                         android:textColor="@android:color/black"/>
 
             </LinearLayout>
@@ -117,7 +117,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:text="Rate Us"
+                        android:text="sos"
                         android:textColor="@android:color/black"/>
 
             </LinearLayout>
@@ -140,7 +140,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:text="Share Us"
+                        android:text="sos"
                         android:textColor="@android:color/black"/>
 
             </LinearLayout>

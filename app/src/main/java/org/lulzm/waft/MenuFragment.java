@@ -145,7 +145,7 @@ public class MenuFragment extends Fragment {
                 Glide.with(MenuFragment.this).load(R.drawable.qr).into(fragmentMenuBinding.iconAccounts);
                 Glide.with(MenuFragment.this).load(R.drawable.nav).into(fragmentMenuBinding.iconHistory);
                 Glide.with(MenuFragment.this).load(R.drawable.money).into(fragmentMenuBinding.iconSettings);
-                Glide.with(MenuFragment.this).load(R.drawable.chat_blue).into(fragmentMenuBinding.iconRateus);
+                Glide.with(MenuFragment.this).load(R.drawable.chat_bt).into(fragmentMenuBinding.iconRateus);
                 Glide.with(MenuFragment.this).load(R.drawable.sos1).into(fragmentMenuBinding.iconShareus);
                 Glide.with(MenuFragment.this).load(R.drawable.logout).into(fragmentMenuBinding.iconLogout);
 

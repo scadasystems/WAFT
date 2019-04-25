@@ -1,14 +1,236 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical" android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <TextView
-            android:gravity="center"
+
+    <androidx.cardview.widget.CardView
+            android:layout_gravity="center"
+            android:layout_width="340sp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:cardCornerRadius="10dp"
+            app:cardUseCompatPadding="true"
+            app:contentPadding="16dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
+
+            <LinearLayout
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="horizontal"
+                    android:weightSum="100">
+
+                <TextView
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="KATEGORIE"
+                        android:textSize="25sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="33.3"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                    <ImageView
+                            android:id="@+id/qr_icon"
+                            android:layout_width="70sp"
+                            android:layout_height="70sp"
+                            android:layout_marginBottom="6dp"/>
+
+                    <TextView
+                            android:textStyle="bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="QR-코드"
+                            android:textAlignment="center"
+                            android:textSize="16dp"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="33.3"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                    <ImageView
+                            android:layout_width="70sp"
+                            android:layout_height="70sp"
+                            android:layout_marginBottom="6dp"
+                            android:id="@+id/nav_icon"/>
+
+                    <TextView
+                            android:textStyle="bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="NAVIGATION"
+                            android:textAlignment="center"
+                            android:textSize="16dp"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_marginTop="30sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="33.3"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                    <ImageView
+                            android:id="@+id/money_icon"
+                            android:layout_width="70sp"
+                            android:layout_height="70sp"
+                            android:layout_marginBottom="6dp"/>
+
+                    <TextView
+                            android:textStyle="bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="환전소"
+                            android:textAlignment="center"
+                            android:textSize="16dp"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="33.3"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                    <ImageView
+                            android:layout_width="70sp"
+                            android:layout_height="70sp"
+                            android:layout_marginBottom="6dp"
+                            android:id="@+id/chat_icon"/>
+
+                    <TextView
+                            android:textStyle="bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="채팅창"
+                            android:textAlignment="center"
+                            android:textSize="16dp"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:text="Notice Manual"
+              android:layout_marginStart="20sp"
+              android:textSize="20sp"
+              android:textStyle="bold"/>
+
+    <HorizontalScrollView
+            android:scrollbars="none"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="80dp"
-            android:text="홈"/>
+            android:layout_height="wrap_content">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8sp"
+                android:padding="5dp">
+
+            <TextView
+                    android:id="@+id/notic"
+                    android:elevation="10dp"
+                    android:text="공지사항 링크"
+                    android:textSize="30dp"
+                    android:gravity="center"
+                    android:background="@color/white"
+                    android:layout_width="300dp"
+                    android:layout_height="150dp"
+                    android:layout_marginRight="20dp"/>
+
+            <TextView
+                    android:elevation="10dp"
+                    android:background="@color/white"
+                    android:id="@+id/notic2"
+                    android:text="공지사항 링크"
+                    android:textSize="30dp"
+                    android:gravity="center"
+                    android:layout_width="300dp"
+                    android:layout_height="150dp"
+                    android:layout_marginRight="20dp"/>
+            <TextView
+                    android:text="공지사항 링크"
+                    android:textSize="30dp"
+                    android:gravity="center"
+                    android:elevation="10dp"
+                    android:background="@color/white"
+                    android:layout_width="300dp"
+                    android:layout_height="150dp"
+                    android:layout_marginRight="20dp"/>
+            <TextView
+                    android:text="공지사항 링크"
+                    android:textSize="30dp"
+                    android:gravity="center"
+                    android:elevation="10dp"
+                    android:background="@color/white"
+                    android:layout_width="300dp"
+                    android:layout_height="150dp"
+                    android:layout_marginRight="20dp"/>
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:text="Emergency"
+              android:layout_marginStart="20sp"
+              android:textSize="20sp"
+              android:textStyle="bold"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+        <Button
+                android:layout_width="625px" android:layout_height="130dp"
+                android:text="sos"/>
+        <Button
+                android:layout_width="625px" android:layout_height="130dp"
+                android:text="sos"/>
+    </LinearLayout>
 
 </LinearLayout>
