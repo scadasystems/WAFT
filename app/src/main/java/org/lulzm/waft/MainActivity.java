@@ -131,22 +131,24 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     case 2: {
-                        if (isTransactionSafe) {
-                            fragmentClass = Fragment3.class;
-                            try {
-                                fragment = (Fragment) fragmentClass.newInstance();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            FragmentManager fragmentManager = getSupportFragmentManager();
-                            FragmentTransaction transaction = fragmentManager.beginTransaction();
-                            transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
-                            transaction.replace(R.id.flContent, fragment);
-                            transaction.addToBackStack(null);
-                            transaction.commit();
-                        } else {
-                            isTransactionPending = true;
-                        }
+                        Intent intent_chat = new Intent(MainActivity.this, MapsActivity.class);
+                        startActivity(intent_chat);
+//                        if (isTransactionSafe) {
+//                            fragmentClass = Fragment3.class;
+//                            try {
+//                                fragment = (Fragment) fragmentClass.newInstance();
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//                            FragmentManager fragmentManager = getSupportFragmentManager();
+//                            FragmentTransaction transaction = fragmentManager.beginTransaction();
+//                            transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
+//                            transaction.replace(R.id.flContent, fragment);
+//                            transaction.addToBackStack(null);
+//                            transaction.commit();
+//                        } else {
+//                            isTransactionPending = true;
+//                        }
                         break;
                     }
                     case 3: {

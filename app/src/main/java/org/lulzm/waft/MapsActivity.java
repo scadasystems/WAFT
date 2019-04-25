@@ -42,6 +42,7 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import org.lulzm.waft.ChatHome.ChatMainActivity;
 import xyz.hasnat.sweettoast.SweetToast;
 
 import java.io.IOException;
@@ -52,6 +53,8 @@ import java.util.Locale;
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
     private GoogleMap mMap;
     private Marker currentMarker = null;
+    private static long backPressed;
+    private static final int TIME_LIMIT = 1500;
     private static final int UPDATE_INTERVAL_MS = 1000;  // 1초
     private static final int FASTEST_UPDATE_INTERVAL_MS = 500; // 0.5초
     private static final int REQUEST_CODE_PERMISSIONS = 1000;
@@ -286,4 +289,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         return super.dispatchTouchEvent( event );
     }
+    // This method is used to detect back button
+    @Override
+    public void onBackPressed() {
+        if(TIME_LIMIT + backPressed > System.currentTimeMillis()){
+            Intent intent_home = new Intent(MapsActivity.this, MainActivity.class);
+            startActivity(intent_home);
+            finish();
+            overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
+        }
+        else {
+            SweetToast.info(getApplicationContext(), getString(R.string.press_back_main));
+        }
+        backPressed = System.currentTimeMillis();
+    } //End Back button press for exit...
 }

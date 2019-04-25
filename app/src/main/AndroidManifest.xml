@@ -27,6 +27,9 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        <meta-data
+                android:name="com.google.android.geo.API_KEY"
+                android:value="@string/google_maps_key"/>
         <activity
                 android:name=".IntroSlide.SplashActivity"
                 android:configChanges="orientation|screenSize"
@@ -101,6 +104,8 @@
         </service>
 
         <activity android:name=".ForgotPassActivity">
+    </activity>
+        <activity android:name=".MapsActivity">
         </activity>
     </application>
 

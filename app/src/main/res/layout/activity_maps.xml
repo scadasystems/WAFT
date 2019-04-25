@@ -11,11 +11,11 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="vertical">
-        <fragment android:id="@+id/autocomplete_fragment"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-        />
+        <!--<fragment android:id="@+id/autocomplete_fragment"-->
+                  <!--android:layout_width="match_parent"-->
+                  <!--android:layout_height="wrap_content"-->
+                  <!--android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"-->
+        <!--/>-->
         <LinearLayout
                 android:id="@+id/linlay"
                 android:layout_width="match_parent"
