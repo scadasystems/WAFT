@@ -319,7 +319,7 @@ public class ChatActivity extends AppCompatActivity {
             //  현재시간
             long now = System.currentTimeMillis();
             Date date = new Date(now);
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd HH:mm");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM월 dd일 HH:mm");
             String formatDate = simpleDateFormat.format(date);
 
             HashMap<String, Object> message_text_body = new HashMap<>();

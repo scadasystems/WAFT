@@ -29,20 +29,22 @@
             tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
                 android:name=".IntroSlide.SplashActivity"
-                android:configChanges="orientation|screenSize"/>
-        <activity
-                android:name=".IntroSlide.IntroActivity"
-                android:configChanges="orientation|screenSize">
-            <!--<intent-filter>
+                android:configChanges="orientation|screenSize"
+                tools:ignore="InnerclassSeparator">
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>-->
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <data android:mimeType="text/plain"/>
             </intent-filter>
         </activity>
+        <activity
+                android:name=".IntroSlide.IntroActivity"
+                android:configChanges="orientation|screenSize"
+                tools:ignore="InnerclassSeparator"/>
         <activity
                 android:name=".LoginSignUpActivity"
                 android:configChanges="orientation|screenSize">
@@ -61,38 +63,38 @@
         <activity
                 android:name=".ChatHome.ChatMainActivity"
                 android:configChanges="orientation|screenSize"
-                tools:ignore="InnerclassSeparator">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+                tools:ignore="InnerclassSeparator"/>
         <activity
                 android:name=".ChatFriends.FriendsActivity"
                 android:configChanges="orientation|screenSize"
-                android:parentActivityName=".ChatHome.ChatMainActivity"/>
+                android:parentActivityName=".ChatHome.ChatMainActivity"
+                tools:ignore="InnerclassSeparator"/>
         <activity
                 android:name=".ChatProfile.ChatProfileActivity"
-                android:configChanges="orientation|screenSize|screenLayout">
+                android:configChanges="orientation|screenSize|screenLayout"
+                tools:ignore="InnerclassSeparator">
             <intent-filter>
                 <action android:name="org.lulzm.waft_TARGET_NOTIFICATION"/>
-
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity
                 android:name=".ChatHome.ChatActivity"
-                android:parentActivityName=".ChatHome.ChatMainActivity"/>
+                android:parentActivityName=".ChatHome.ChatMainActivity"
+                tools:ignore="InnerclassSeparator"/>
         <activity
                 android:name=".ChatSearch.SearchActivity"
-                android:configChanges="orientation|screenSize"/>
+                android:configChanges="orientation|screenSize"
+                tools:ignore="InnerclassSeparator"/>
 
         <!-- Cropping image library -->
         <activity
                 android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
                 android:theme="@style/Base.Theme.AppCompat"/>
         <!-- Firebase Messaging Service -->
-        <service android:name=".ChatUtils.FirebaseMessagingService">
+        <service
+                android:name=".ChatUtils.FirebaseMessagingService"
+                tools:ignore="InnerclassSeparator">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>

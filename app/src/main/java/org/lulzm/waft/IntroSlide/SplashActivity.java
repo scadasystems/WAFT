@@ -15,7 +15,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         LottieAnimationView lottie_intro = findViewById(R.id.intro_animation);
-        lottie_intro.setAnimation("app_loading.json");
+        lottie_intro.setAnimation("loading_skyline.json");
         lottie_intro.playAnimation();
 
 
@@ -25,6 +25,6 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
             overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-        }, 6000);
+        }, 5000);
     }
 }
