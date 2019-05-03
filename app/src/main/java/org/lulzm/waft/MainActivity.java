@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                             });
                             builder.setView(view_logout);
                             builder.show();
-                            
+
                         } else {
                             isTransactionPending = true;
                         }
