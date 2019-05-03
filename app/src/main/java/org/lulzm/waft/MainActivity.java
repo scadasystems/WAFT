@@ -9,18 +9,17 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.slidingpanelayout.widget.SlidingPaneLayout;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,13 +29,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.OkHttpClient;
 import org.lulzm.waft.ChatHome.ChatMainActivity;
-import org.lulzm.waft.MainFragment.Fragment1;
-import org.lulzm.waft.MainFragment.Fragment2;
-import org.lulzm.waft.MainFragment.Fragment4;
-import org.lulzm.waft.MainFragment.Fragment6;
+import org.lulzm.waft.MainFragment.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,10 +53,12 @@ public class MainActivity extends AppCompatActivity {
     private StorageReference mProfileImgStorageRef;
     private StorageReference thumb_image_ref;
 
-    // for glide exception
-    RequestManager mGlideRequestManager;
+    // webview
+    private WebView mWebView;
+    private String safeInfoURL = "http://www.0404.go.kr/m/dev/main.do";
+    private ConstraintLayout visible_main;
 
-    @SuppressLint("HandlerLeak")
+    @SuppressLint({"HandlerLeak"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,11 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
         //menu
         flContent = findViewById(R.id.flContent);
-
         sliding_pane = findViewById(R.id.sliding_pane);
-
         sliding_pane.setSliderFadeColor(getResources().getColor(android.R.color.transparent));
-
         fragmentClass = Fragment1.class;
         try {
             fragment = (Fragment) fragmentClass.newInstance();
@@ -95,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.flContent, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
-
 
         //menu 아이콘 클릭시 넘어가는 화면 링크
         HomeFragmentHandler = new Handler() {
@@ -273,11 +266,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-
-        // glide
-        mGlideRequestManager = Glide.with(getApplicationContext());
-
-
         // FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -300,33 +288,6 @@ public class MainActivity extends AppCompatActivity {
             // 21 버전 이상일 때 상태바 검은 색상, 흰색 아이콘
             getWindow().setStatusBarColor(Color.BLACK);
         }
-
-
-        // findbyid
-        CircleImageView user_image = findViewById(R.id.user_image);
-        TextView tv_name = findViewById(R.id.tv_nickName);
-        TextView tv_status = findViewById(R.id.tv_status);
-
-//        userDatabaseReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                String image = dataSnapshot.child("user_image").getValue().toString();
-//                String nickName = dataSnapshot.child("user_name").getValue().toString();
-//                String status = dataSnapshot.child("user_status").getValue().toString();
-//
-//                view.post(() -> mGlideRequestManager
-//                        .load(image)
-//                        .error(R.drawable.default_profile_image)
-//                        .into(user_image));
-//                tv_name.setText(nickName);
-//                tv_status.setText(status);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//            }
-//        });
-
     } // end onCreate
 
     @Override
@@ -370,10 +331,30 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
             //Toast.makeText(getApplicationContext(), "Exited", Toast.LENGTH_SHORT).show();
         } else {
-           Toast.makeText(getApplicationContext(), "Back 버튼을 한번 더 누르면 어플이 종료됩니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Back 버튼을 한번 더 누르면 어플이 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
         backPressed = System.currentTimeMillis();
     } //End Back button press for exit...
+
+    // 공지사항 1
+    public void btnMoveSafeInfo(View view) {
+        if (isTransactionSafe) {
+            fragmentClass = MainWebview.class;
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
+            transaction.replace(R.id.flContent, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        } else {
+            isTransactionPending = true;
+        }
+    }
 
 //    public void btnProfile(View view) {
 //        Intent intent_profile = new Intent(MainActivity.this, ProfileActivity.class);

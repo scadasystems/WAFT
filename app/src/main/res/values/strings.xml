@@ -34,7 +34,7 @@
     <string name="title_slide3">Chatting</string>
     <string name="desc_slide3">WAFT만의 채팅 시스템을 통하여 여행에서 친해진 사람들과 소통을 나눠보세요~</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="title_activity_maps">Map</string>
     <string name="ResetPass">패스워드 재설정</string>
     <string name="forgotPassHint">패스워드 재설정을 누르신 후,\n해당 이메일에 재설정 메일을 확인해주세요.</string>
@@ -51,5 +51,14 @@
     <string name="please_send_message">보낼 메세지를 적어주세요</string>
     <string name="failed_send_message">메세지를 보낼 수 없습니다.\\n다시 시도해주세요.</string>
     <string name="internet_disconnect">인터넷이 연결 되어있지 않습니다.</string>
+
+    <!-- fragment1.class -->
+    <string name="category">카테고리</string>
+    <string name="qr_code">QR-코드</string>
+    <string name="navigation">네비게이션</string>
+    <string name="exchange_money">환전소</string>
+    <string name="chatting">채팅창</string>
+    <string name="notice_manual">공지사항</string>
+    <string name="emergency">긴급상황</string>
 
 </resources>

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                   xmlns:tools="http://schemas.android.com/tools"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
             android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:cardCornerRadius="10dp"
             app:cardUseCompatPadding="true"
             app:contentPadding="5dp"
@@ -39,7 +40,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="left"
-                        android:text="CATEGORY"
+                        android:text="@string/category"
                         android:textSize="25sp"/>
 
             </LinearLayout>
@@ -65,7 +66,7 @@
                             android:textStyle="bold"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="QR-코드"
+                            android:text="@string/qr_code"
                             android:textAlignment="center"
                             android:textSize="16dp"/>
 
@@ -91,7 +92,7 @@
                             android:textStyle="bold"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="NAVIGATION"
+                            android:text="@string/navigation"
                             android:textAlignment="center"
                             android:textSize="16dp"/>
 
@@ -122,7 +123,7 @@
                             android:textStyle="bold"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="환전소"
+                            android:text="@string/exchange_money"
                             android:textAlignment="center"
                             android:textSize="16dp"/>
 
@@ -148,7 +149,7 @@
                             android:textStyle="bold"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="채팅창"
+                            android:text="@string/chatting"
                             android:textAlignment="center"
                             android:textSize="16dp"/>
 
@@ -162,28 +163,34 @@
 
 
     </androidx.cardview.widget.CardView>
+
     <androidx.constraintlayout.widget.Guideline
             android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/guideline4"
-            app:layout_constraintGuide_begin="227dp" app:layout_constraintGuide_percent="0.5"/>
-
+            android:layout_height="wrap_content"
+            android:id="@+id/guideline4"
+            app:layout_constraintGuide_percent="0.48"/>
 
     <LinearLayout
             android:orientation="vertical"
-            android:layout_width="0dp" android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:id="@+id/linearLayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintTop_toTopOf="@+id/guideline4" android:layout_marginBottom="2dp"
+            app:layout_constraintTop_toTopOf="@+id/guideline4"
+            android:layout_marginBottom="2dp"
             app:layout_constraintBottom_toTopOf="@+id/guideline5">
 
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:text="Notice Manual"
-                  android:layout_marginStart="15sp"
-                  android:textSize="20sp"
-                  android:textStyle="bold"/>
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/notice_manual"
+                android:layout_marginStart="15sp"
+                android:layout_marginBottom="5dp"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
 
         <HorizontalScrollView
                 android:scrollbars="none"
@@ -195,13 +202,14 @@
 
                 <com.makeramen.roundedimageview.RoundedImageView
                         android:id="@+id/notic"
+                        android:onClick="btnMoveSafeInfo"
                         android:elevation="10dp"
                         android:textSize="30dp"
                         android:gravity="center"
                         app:riv_corner_radius="15dip"
                         android:src="@drawable/service_safeinfo"
                         android:layout_width="240dp"
-                        android:layout_height="150dp"
+                        android:layout_height="140dp"
                         android:layout_marginRight="20dp"/>
 
                 <TextView
@@ -238,6 +246,7 @@
         </HorizontalScrollView>
 
     </LinearLayout>
+
     <androidx.constraintlayout.widget.Guideline
             android:orientation="horizontal"
             android:layout_width="wrap_content"
@@ -256,7 +265,7 @@
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Emergency"
+                android:text="@string/emergency"
                 android:textSize="20sp"
                 android:layout_marginStart="15sp"
                 android:textStyle="bold"
@@ -294,6 +303,4 @@
                     android:id="@+id/guideline6" app:layout_constraintGuide_percent=".5"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
