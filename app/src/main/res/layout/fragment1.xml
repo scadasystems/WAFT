@@ -57,6 +57,7 @@
                         android:orientation="vertical">
 
                     <ImageView
+                            android:onClick="btnqr"
                             android:id="@+id/qr_icon"
                             android:layout_width="70sp"
                             android:layout_height="70sp"
@@ -83,6 +84,7 @@
                         android:orientation="vertical">
 
                     <ImageView
+                            android:onClick="btnnav"
                             android:layout_width="70sp"
                             android:layout_height="70sp"
                             android:layout_marginBottom="6dp"
@@ -114,6 +116,7 @@
                         android:orientation="vertical">
 
                     <ImageView
+                            android:onClick="btnmoney"
                             android:id="@+id/money_icon"
                             android:layout_width="70sp"
                             android:layout_height="70sp"
@@ -140,6 +143,7 @@
                         android:orientation="vertical">
 
                     <ImageView
+                            android:onClick="btnchatting"
                             android:layout_width="70sp"
                             android:layout_height="70sp"
                             android:layout_marginBottom="6dp"

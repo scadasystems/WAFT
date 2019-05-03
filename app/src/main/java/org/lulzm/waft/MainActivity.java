@@ -30,6 +30,7 @@ import com.google.firebase.storage.StorageReference;
 import okhttp3.OkHttpClient;
 import org.lulzm.waft.ChatHome.ChatMainActivity;
 import org.lulzm.waft.MainFragment.*;
+import org.lulzm.waft.ProfileSetting.ProfileActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -130,8 +131,8 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     case 2: {
-                        Intent intent_chat = new Intent(MainActivity.this, MapsActivity.class);
-                        startActivity(intent_chat);
+                        Intent intent_profile = new Intent(MainActivity.this, ProfileActivity.class);
+                        startActivity(intent_profile);
 //                        if (isTransactionSafe) {
 //                            fragmentClass = Fragment3.class;
 //                            try {
@@ -150,49 +151,8 @@ public class MainActivity extends AppCompatActivity {
 //                        }
                         break;
                     }
-                    case 3: {
-                        if (isTransactionSafe) {
-                            fragmentClass = Fragment4.class;
-                            try {
-                                fragment = (Fragment) fragmentClass.newInstance();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            FragmentManager fragmentManager = getSupportFragmentManager();
-                            FragmentTransaction transaction = fragmentManager.beginTransaction();
-                            transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
-                            transaction.replace(R.id.flContent, fragment);
-                            transaction.addToBackStack(null);
-                            transaction.commit();
-                            sliding_pane.closePane();
-                        } else {
-                            isTransactionPending = true;
-                        }
-                        break;
-                    }
                     // chat
-                    case 4: {
-                        Intent intent_chat = new Intent(MainActivity.this, ChatMainActivity.class);
-                        startActivity(intent_chat);
-//                        if (isTransactionSafe) {
-//                            fragmentClass = Fragment5.class;
-//                            try {
-//                                fragment = (Fragment) fragmentClass.newInstance();
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                            }
-//                            FragmentManager fragmentManager = getSupportFragmentManager();
-//                            FragmentTransaction transaction = fragmentManager.beginTransaction();
-//                            transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
-//                            transaction.replace(R.id.flContent, fragment);
-//                            transaction.addToBackStack(null);
-//                            transaction.commit();
-//                        } else {
-//                            isTransactionPending = true;
-//                        }
-                        break;
-                    }
-                    case 5: {
+                    case 3: {
                         if (isTransactionSafe) {
                             fragmentClass = Fragment6.class;
                             try {
@@ -212,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
                     }
-                    case 6: {
+                    case 4: {
                         if (isTransactionSafe) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                             View view_logout = LayoutInflater.from(MainActivity.this).inflate(R.layout.logout_dialog, null);
@@ -351,6 +311,37 @@ public class MainActivity extends AppCompatActivity {
         } else {
             isTransactionPending = true;
         }
+
+
+    }
+
+    public void btnnav(View view) {
+        Intent intent_nav = new Intent(MainActivity.this,MapsActivity.class);
+        startActivity(intent_nav);
+    }
+
+    public void btnmoney(View view) {
+        if (isTransactionSafe) {
+            fragmentClass = Fragment4.class;
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
+            transaction.replace(R.id.flContent, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        } else {
+            isTransactionPending = true;
+        }
+    }
+
+    public void btnchatting(View view) {
+        Intent intent_chat = new Intent(MainActivity.this,ChatMainActivity.class);
+        startActivity(intent_chat);
     }
 
 //    public void btnProfile(View view) {
