@@ -1,4 +1,4 @@
-package org.lulzm.waft.Fragment;
+package org.lulzm.waft.MainFragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import org.lulzm.waft.R;
 
 public class Fragment1 extends Fragment {
 
-    ImageView qr_icon, nav_icon, money_icon, chat_icon, notic1, notic2 ;
+    ImageView qr_icon, nav_icon, money_icon, chat_icon, notic1, notic2, sos1_main,sos2_main ;
 
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //  View view = inflater.inflate(R.layout.fragment1, container);
@@ -21,11 +21,15 @@ public class Fragment1 extends Fragment {
         nav_icon=view.findViewById(R.id.nav_icon);
         money_icon=view.findViewById(R.id.money_icon);
         chat_icon=view.findViewById(R.id.chat_icon);
+        /*sos1_main= view.findViewById(R.id.sos1_main);
+        sos2_main= view.findViewById(R.id.sos2_main);*/
 
         Glide.with(this).load(R.drawable.qr_bt).into(qr_icon);
         Glide.with(this).load(R.drawable.nav_bt).into(nav_icon);
         Glide.with(this).load(R.drawable.money_blue2).into(money_icon);
         Glide.with(this).load(R.drawable.chat_bt).into(chat_icon);
+        /*Glide.with(this).load(R.drawable.sos1).into(sos1_main);
+        Glide.with(this).load(R.drawable.sos2).into(sos2_main);*/
 /*        Glide.with(this).load(R.drawable.qr_blue).into(qr_icon);
         Glide.with(this).load(R.drawable.qr_blue).into(qr_icon);*/
 
