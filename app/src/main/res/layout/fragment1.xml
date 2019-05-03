@@ -207,7 +207,6 @@
                         android:textSize="30dp"
                         android:gravity="center"
                         app:riv_corner_radius="15dip"
-                        android:src="@drawable/service_safeinfo"
                         android:layout_width="240dp"
                         android:layout_height="140dp"
                         android:layout_marginRight="20dp"/>
