@@ -19,7 +19,6 @@ public class MenuFragment extends Fragment {
 
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fragmentMenuBinding = FragmentMenuBinding.inflate(inflater, container, false);
-//        getActivity().getActionBar().hide();
         return fragmentMenuBinding.getRoot();
 
     }
@@ -56,31 +55,28 @@ public class MenuFragment extends Fragment {
             }
         });
 
-        fragmentMenuBinding.lilAccounts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(MainActivity.HomeFragmentHandler != null)
-                {
-                    MainActivity.HomeFragmentHandler.sendEmptyMessage(1);
-                }
-
-                Glide.with(MenuFragment.this).load(R.drawable.home).into(fragmentMenuBinding.iconPost);
-                Glide.with(MenuFragment.this).load(R.drawable.qr_blue).into(fragmentMenuBinding.iconAccounts);
-                Glide.with(MenuFragment.this).load(R.drawable.nav).into(fragmentMenuBinding.iconHistory);
-                Glide.with(MenuFragment.this).load(R.drawable.money).into(fragmentMenuBinding.iconSettings);
-                Glide.with(MenuFragment.this).load(R.drawable.chat).into(fragmentMenuBinding.iconRateus);
-                Glide.with(MenuFragment.this).load(R.drawable.sos1).into(fragmentMenuBinding.iconShareus);
-                Glide.with(MenuFragment.this).load(R.drawable.logout).into(fragmentMenuBinding.iconLogout);
-
-                fragmentMenuBinding.textPost.setTextColor(getResources().getColor(R.color.black));
-                fragmentMenuBinding.textAccounts.setTextColor(getResources().getColor(R.color.blue));
-                fragmentMenuBinding.textHistory.setTextColor(getResources().getColor(R.color.black));
-                fragmentMenuBinding.textSettings.setTextColor(getResources().getColor(R.color.black));
-                fragmentMenuBinding.textRateus.setTextColor(getResources().getColor(R.color.black));
-                fragmentMenuBinding.textShareus.setTextColor(getResources().getColor(R.color.black));
-                fragmentMenuBinding.textLogout.setTextColor(getResources().getColor(R.color.black));
-
+        fragmentMenuBinding.lilAccounts.setOnClickListener(view1 -> {
+            if(MainActivity.HomeFragmentHandler != null)
+            {
+                MainActivity.HomeFragmentHandler.sendEmptyMessage(1);
             }
+
+            Glide.with(MenuFragment.this).load(R.drawable.home).into(fragmentMenuBinding.iconPost);
+            Glide.with(MenuFragment.this).load(R.drawable.qr_blue).into(fragmentMenuBinding.iconAccounts);
+            Glide.with(MenuFragment.this).load(R.drawable.nav).into(fragmentMenuBinding.iconHistory);
+            Glide.with(MenuFragment.this).load(R.drawable.money).into(fragmentMenuBinding.iconSettings);
+            Glide.with(MenuFragment.this).load(R.drawable.chat).into(fragmentMenuBinding.iconRateus);
+            Glide.with(MenuFragment.this).load(R.drawable.sos1).into(fragmentMenuBinding.iconShareus);
+            Glide.with(MenuFragment.this).load(R.drawable.logout).into(fragmentMenuBinding.iconLogout);
+
+            fragmentMenuBinding.textPost.setTextColor(getResources().getColor(R.color.black));
+            fragmentMenuBinding.textAccounts.setTextColor(getResources().getColor(R.color.blue));
+            fragmentMenuBinding.textHistory.setTextColor(getResources().getColor(R.color.black));
+            fragmentMenuBinding.textSettings.setTextColor(getResources().getColor(R.color.black));
+            fragmentMenuBinding.textRateus.setTextColor(getResources().getColor(R.color.black));
+            fragmentMenuBinding.textShareus.setTextColor(getResources().getColor(R.color.black));
+            fragmentMenuBinding.textLogout.setTextColor(getResources().getColor(R.color.black));
+
         });
         fragmentMenuBinding.lilHistory.setOnClickListener(new View.OnClickListener() {
             @Override

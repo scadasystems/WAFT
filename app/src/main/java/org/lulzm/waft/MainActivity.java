@@ -9,13 +9,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -52,11 +50,6 @@ public class MainActivity extends AppCompatActivity {
     public FirebaseUser currentUser;
     private StorageReference mProfileImgStorageRef;
     private StorageReference thumb_image_ref;
-
-    // webview
-    private WebView mWebView;
-    private String safeInfoURL = "http://www.0404.go.kr/m/dev/main.do";
-    private ConstraintLayout visible_main;
 
     @SuppressLint({"HandlerLeak"})
     @Override
@@ -96,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
                 super.handleMessage(msg);
                 switch (msg.what) {
                     case 0: {
-
                         if (isTransactionSafe) {
                             fragmentClass = Fragment1.class;
                             try {
@@ -110,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
                             transaction.replace(R.id.flContent, fragment);
                             transaction.addToBackStack(null);
                             transaction.commit();
+                            sliding_pane.closePane();
                         } else {
                             isTransactionPending = true;
                         }
@@ -130,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
                             transaction.replace(R.id.flContent, fragment);
                             transaction.addToBackStack(null);
                             transaction.commit();
+                            sliding_pane.closePane();
                         } else {
                             isTransactionPending = true;
                         }
@@ -170,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
                             transaction.replace(R.id.flContent, fragment);
                             transaction.addToBackStack(null);
                             transaction.commit();
+                            sliding_pane.closePane();
                         } else {
                             isTransactionPending = true;
                         }
@@ -211,6 +206,7 @@ public class MainActivity extends AppCompatActivity {
                             transaction.replace(R.id.flContent, fragment);
                             transaction.addToBackStack(null);
                             transaction.commit();
+                            sliding_pane.closePane();
                         } else {
                             isTransactionPending = true;
                         }
@@ -236,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
                             });
                             builder.setView(view_logout);
                             builder.show();
-
+                            
                         } else {
                             isTransactionPending = true;
                         }
@@ -258,6 +254,7 @@ public class MainActivity extends AppCompatActivity {
                             transaction.replace(R.id.flContent, fragment);
                             transaction.addToBackStack(null);
                             transaction.commit();
+                            sliding_pane.closePane();
                         } else {
                             isTransactionPending = true;
                         }
@@ -336,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
         backPressed = System.currentTimeMillis();
     } //End Back button press for exit...
 
-    // 공지사항 1
+    // 국가별 기본정보
     public void btnMoveSafeInfo(View view) {
         if (isTransactionSafe) {
             fragmentClass = MainWebview.class;
