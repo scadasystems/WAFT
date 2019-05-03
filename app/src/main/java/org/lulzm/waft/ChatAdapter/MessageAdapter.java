@@ -64,6 +64,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
                     Glide.with(holder.user_profile_image.getContext())
                             .load(userProfileImage)
+                            .placeholder(R.drawable.default_profile_image)
                             .into(holder.user_profile_image);
 
                     holder.chat_sender.setText(userName);

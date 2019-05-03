@@ -34,6 +34,11 @@
                 android:name=".IntroSlide.SplashActivity"
                 android:configChanges="orientation|screenSize"
                 tools:ignore="InnerclassSeparator">
+        </activity>
+        <activity
+                android:name=".IntroSlide.IntroActivity"
+                android:configChanges="orientation|screenSize"
+                tools:ignore="InnerclassSeparator">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -44,10 +49,6 @@
                 <data android:mimeType="text/plain"/>
             </intent-filter>
         </activity>
-        <activity
-                android:name=".IntroSlide.IntroActivity"
-                android:configChanges="orientation|screenSize"
-                tools:ignore="InnerclassSeparator"/>
         <activity
                 android:name=".LoginSignUpActivity"
                 android:configChanges="orientation|screenSize">

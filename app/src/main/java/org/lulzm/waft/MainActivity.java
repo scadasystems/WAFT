@@ -1,7 +1,6 @@
 package org.lulzm.waft;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -22,14 +21,22 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.slidingpanelayout.widget.SlidingPaneLayout;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.facebook.stetho.Stetho;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.*;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.OkHttpClient;
 import org.lulzm.waft.ChatHome.ChatMainActivity;
-import org.lulzm.waft.MainFragment.*;
+import org.lulzm.waft.MainFragment.Fragment1;
+import org.lulzm.waft.MainFragment.Fragment2;
+import org.lulzm.waft.MainFragment.Fragment4;
+import org.lulzm.waft.MainFragment.Fragment6;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,7 +65,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Stetho.initializeWithDefaults(this);
         setContentView(R.layout.activity_main);
+
+        new OkHttpClient.Builder()
+                .addNetworkInterceptor(new StethoInterceptor())
+                .build();
 
         //menu
         flContent = findViewById(R.id.flContent);
@@ -220,22 +232,14 @@ public class MainActivity extends AppCompatActivity {
                             imageButton.setImageResource(R.drawable.logout);
                             builder.setCancelable(true);
 
-                            builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                }
-                            });
+                            builder.setNegativeButton("취소", (dialog, which) -> dialog.cancel());
 
-                            builder.setPositiveButton("로그아웃 하기", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (currentUser != null) {
-                                        userDatabaseReference.child("active_now").setValue(ServerValue.TIMESTAMP);
-                                    }
-                                    mAuth.signOut();
-                                    logOutUser();
+                            builder.setPositiveButton("로그아웃 하기", (dialog, which) -> {
+                                if (currentUser != null) {
+                                    userDatabaseReference.child("active_now").setValue(ServerValue.TIMESTAMP);
                                 }
+                                mAuth.signOut();
+                                logOutUser();
                             });
                             builder.setView(view_logout);
                             builder.show();
@@ -322,6 +326,7 @@ public class MainActivity extends AppCompatActivity {
 //            public void onCancelled(@NonNull DatabaseError databaseError) {
 //            }
 //        });
+
     } // end onCreate
 
     @Override
@@ -365,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
             //Toast.makeText(getApplicationContext(), "Exited", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getApplicationContext(), "뒤로 버튼을 누르면 어플이 종료됩니다.", Toast.LENGTH_SHORT).show();
+           Toast.makeText(getApplicationContext(), "Back 버튼을 한번 더 누르면 어플이 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
         backPressed = System.currentTimeMillis();
     } //End Back button press for exit...
@@ -375,6 +380,5 @@ public class MainActivity extends AppCompatActivity {
 //        startActivity(intent_profile);
 //        overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
 //    }
-
 
 }
