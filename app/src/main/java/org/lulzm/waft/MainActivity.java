@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -31,6 +30,7 @@ import okhttp3.OkHttpClient;
 import org.lulzm.waft.ChatHome.ChatMainActivity;
 import org.lulzm.waft.MainFragment.*;
 import org.lulzm.waft.ProfileSetting.ProfileActivity;
+import xyz.hasnat.sweettoast.SweetToast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
                     case 2: {
                         Intent intent_profile = new Intent(MainActivity.this, ProfileActivity.class);
                         startActivity(intent_profile);
+                        sliding_pane.closePane();
 //                        if (isTransactionSafe) {
 //                            fragmentClass = Fragment3.class;
 //                            try {
@@ -192,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
                             });
                             builder.setView(view_logout);
                             builder.show();
-                            
+                            sliding_pane.closePane();
                         } else {
                             isTransactionPending = true;
                         }
@@ -288,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
             //Toast.makeText(getApplicationContext(), "Exited", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getApplicationContext(), "Back 버튼을 한번 더 누르면 어플이 종료됩니다.", Toast.LENGTH_SHORT).show();
+            SweetToast.info(getApplicationContext(), getString(R.string.on_more_time_backpress));
         }
         backPressed = System.currentTimeMillis();
     } //End Back button press for exit...
@@ -311,8 +312,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             isTransactionPending = true;
         }
-
-
     }
 
     public void btnnav(View view) {
@@ -343,6 +342,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent_chat = new Intent(MainActivity.this,ChatMainActivity.class);
         startActivity(intent_chat);
     }
+
+
 
 //    public void btnProfile(View view) {
 //        Intent intent_profile = new Intent(MainActivity.this, ProfileActivity.class);
