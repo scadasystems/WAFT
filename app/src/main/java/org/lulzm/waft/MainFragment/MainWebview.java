@@ -2,6 +2,7 @@ package org.lulzm.waft.MainFragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,7 @@ public class MainWebview extends Fragment {
             mWebView.destroy();
         }
 
-        mWebView = (WebView) view.findViewById(R.id.webview_info);
+        mWebView = view.findViewById(R.id.webview_info);
 
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setDefaultTextEncodingName("UTF-8");
@@ -53,7 +54,6 @@ public class MainWebview extends Fragment {
         mWebView.addJavascriptInterface(new JavaScriptInterface(getActivity()), "android");
         mWebView.loadUrl("http://www.0404.go.kr/m/dev/country.do");
 
-        /*
         // WebView backButton
         mWebView.setOnKeyListener((v, keyCode, event) -> {
             //This is the filter
@@ -63,13 +63,12 @@ public class MainWebview extends Fragment {
                 if (mWebView.canGoBack()) {
                     mWebView.goBack();
                 } else {
-                    getActivity().finish();
+                    getActivity().onBackPressed();
                 }
                 return true;
             }
             return false;
         });
-        */
 
         return view;
     }

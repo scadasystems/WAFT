@@ -31,6 +31,7 @@ import okhttp3.OkHttpClient;
 import org.lulzm.waft.ChatHome.ChatMainActivity;
 import org.lulzm.waft.MainFragment.*;
 import org.lulzm.waft.ProfileSetting.ProfileActivity;
+import xyz.hasnat.sweettoast.SweetToast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -182,8 +183,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
                     }
-                    case 10:
-
                     default:
                         if (isTransactionSafe) {
                             fragmentClass = Fragment1.class;
@@ -298,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
+    
     public void btnnav(View view) {
         Intent intent_nav = new Intent(MainActivity.this,MapsActivity.class);
         startActivity(intent_nav);
@@ -329,7 +328,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnqr(View view) {
-        Toast.makeText(this, "qr입니당", Toast.LENGTH_SHORT).show();
+        SweetToast.success(this, "QR코드 클릭");
     }
 
 //    public void btnProfile(View view) {
