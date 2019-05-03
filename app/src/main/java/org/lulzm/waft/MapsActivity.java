@@ -2,8 +2,6 @@ package org.lulzm.waft;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,36 +19,30 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.*;
+import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.net.PlacesClient;
-import com.google.android.libraries.places.widget.Autocomplete;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
-import org.lulzm.waft.ChatHome.ChatMainActivity;
 import xyz.hasnat.sweettoast.SweetToast;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback{
     private GoogleMap mMap;
     private Marker currentMarker = null;
     private static long backPressed;
@@ -58,7 +50,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final int UPDATE_INTERVAL_MS = 1000;  // 1초
     private static final int FASTEST_UPDATE_INTERVAL_MS = 500; // 0.5초
     private static final int REQUEST_CODE_PERMISSIONS = 1000;
-    int AUTOCOMPLETE_REQUEST_CODE = 1;
     boolean needRequest = false;
     private FusedLocationProviderClient mFusedLocation;
     private LocationRequest locationRequest;
@@ -68,13 +59,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     LinearLayout linlay;
     String TAG = "MapsActivity";
 
+
+
+
     @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        Log.d("알림", "onCreate");
+        Log.d(TAG, "onCreate");
 
 
         View view = getWindow().getDecorView();
@@ -92,14 +86,21 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         checkPermission();
 
         locationRequest = new LocationRequest().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY).setInterval(UPDATE_INTERVAL_MS).setFastestInterval(FASTEST_UPDATE_INTERVAL_MS);
-
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
-
         builder.addLocationRequest(locationRequest);
-
+        // Mpas Fragment
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        // Place Fragment
+        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+                getFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+        AutocompleteFilter filter = new AutocompleteFilter.Builder()
+                .setCountry("KR")
+                .setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES)
+                .build();
+        autocompleteFragment.setFilter(filter);
 
         mFusedLocation = LocationServices.getFusedLocationProviderClient(this);
 
@@ -107,7 +108,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(final GoogleMap map) {
-        Log.d("알림", "onMapReady :");
+        Log.d(TAG, "onMapReady :");
         mMap = map;
         startLocationUpdates();
     }
@@ -154,7 +155,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 String markerTitle = getCurrentAddress(currentPosition);
                 String markerSnippet = "위도:" + String.valueOf(location.getLatitude()) + " 경도:" + String.valueOf(location.getLongitude());
-                Log.d("알림", "onLocationResult : " + markerSnippet);
+                Log.d(TAG, "onLocationResult : " + markerSnippet);
 
                 //현재 위치에 마커 생성하고 이동
                 setCurrentLocation(location, markerTitle, markerSnippet);
@@ -187,10 +188,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("알림", "onStart");
+        Log.d(TAG, "onStart");
 
         if (checkPermission()) {
-            Log.d("알림", "onStart : call mFusedLocationClient.requestLocationUpdates");
+            Log.d(TAG, "onStart : call mFusedLocationClient.requestLocationUpdates");
             mFusedLocation.requestLocationUpdates(locationRequest, locationCallback, null);
             if (mMap!=null)
                 mMap.setMyLocationEnabled(true);
@@ -201,7 +202,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onStop() {
         super.onStop();
         if (mFusedLocation != null) {
-            Log.d("알림", "onStop : call stopLocationUpdates");
+            Log.d(TAG, "onStop : call stopLocationUpdates");
             mFusedLocation.removeLocationUpdates(locationCallback);
         }
     }

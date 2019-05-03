@@ -2,20 +2,25 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
-             android:layout_height="match_parent">
-
-
+             android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="vertical">
-        <!--<fragment android:id="@+id/autocomplete_fragment"-->
-                  <!--android:layout_width="match_parent"-->
-                  <!--android:layout_height="wrap_content"-->
-                  <!--android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"-->
-        <!--/>-->
+        <androidx.cardview.widget.CardView
+                android:id="@+id/idCardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginTop="5dp"
+                app:cardCornerRadius="4dp">
+            <fragment android:id="@+id/autocomplete_fragment"
+                      android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"/>
+        </androidx.cardview.widget.CardView>
         <LinearLayout
                 android:id="@+id/linlay"
                 android:layout_width="match_parent"
