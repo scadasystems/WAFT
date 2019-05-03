@@ -328,6 +328,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent_chat);
     }
 
+    public void btnqr(View view) {
+        Toast.makeText(this, "qr입니당", Toast.LENGTH_SHORT).show();
+    }
+
 //    public void btnProfile(View view) {
 //        Intent intent_profile = new Intent(MainActivity.this, ProfileActivity.class);
 //        startActivity(intent_profile);
