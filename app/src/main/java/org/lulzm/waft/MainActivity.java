@@ -110,6 +110,11 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     case 1: {
+                        Intent intent_profile = new Intent(MainActivity.this, ProfileActivity.class);
+                        startActivity(intent_profile);
+                        break;
+                    }
+                    case 2: {
 
                         if (isTransactionSafe) {
                             fragmentClass = Fragment2.class;
@@ -128,27 +133,6 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             isTransactionPending = true;
                         }
-                        break;
-                    }
-                    case 2: {
-                        Intent intent_profile = new Intent(MainActivity.this, ProfileActivity.class);
-                        startActivity(intent_profile);
-//                        if (isTransactionSafe) {
-//                            fragmentClass = Fragment3.class;
-//                            try {
-//                                fragment = (Fragment) fragmentClass.newInstance();
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                            }
-//                            FragmentManager fragmentManager = getSupportFragmentManager();
-//                            FragmentTransaction transaction = fragmentManager.beginTransaction();
-//                            transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
-//                            transaction.replace(R.id.flContent, fragment);
-//                            transaction.addToBackStack(null);
-//                            transaction.commit();
-//                        } else {
-//                            isTransactionPending = true;
-//                        }
                         break;
                     }
                     // chat
