@@ -1,5 +1,6 @@
 package org.lulzm.waft.ChatHome;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -92,7 +93,6 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.chat_activity);
         // 상태표시줄
         View view = getWindow().getDecorView();
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (view != null) {
                 // 23 버전 이상일 때 상태바 하얀 색상, 회색 아이콘
@@ -245,7 +245,8 @@ public class ChatActivity extends AppCompatActivity {
                         // 현재시간
                         long now = System.currentTimeMillis();
                         Date date = new Date(now);
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM월dd일 HH:mm");
+                        @SuppressLint("SimpleDateFormat")
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd, HH:mm");
                         String formatDate = simpleDateFormat.format(date);
 
                         HashMap<String, Object> message_text_body = new HashMap<>();
@@ -319,7 +320,8 @@ public class ChatActivity extends AppCompatActivity {
             //  현재시간
             long now = System.currentTimeMillis();
             Date date = new Date(now);
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM월 dd일 HH:mm");
+            @SuppressLint("SimpleDateFormat")
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd, HH:mm");
             String formatDate = simpleDateFormat.format(date);
 
             HashMap<String, Object> message_text_body = new HashMap<>();

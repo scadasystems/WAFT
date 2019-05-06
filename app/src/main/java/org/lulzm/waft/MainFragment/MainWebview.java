@@ -16,6 +16,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import org.lulzm.waft.R;
 
+import java.util.Objects;
+
 /*********************************************************
  *   $$\                  $$\             $$\      $$\   
  *   $$ |                 $$ |            $$$\    $$$ |  
@@ -63,7 +65,7 @@ public class MainWebview extends Fragment {
                 if (mWebView.canGoBack()) {
                     mWebView.goBack();
                 } else {
-                    getActivity().onBackPressed();
+                    Objects.requireNonNull(getActivity()).onBackPressed();
                 }
                 return true;
             }
@@ -82,7 +84,7 @@ public class MainWebview extends Fragment {
 
         @JavascriptInterface
         public void changePage(String idxNum) {
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.flContent, new Fragment1()).commit();
         }

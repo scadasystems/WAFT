@@ -9,10 +9,9 @@
             android:id="@+id/body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFF"
+            android:background="@drawable/background_round"
             android:paddingBottom="30dp"
-            android:paddingTop="30dp"
-    >
+            android:paddingTop="30dp">
 
         <ImageButton
                 android:id="@+id/logoutImg"

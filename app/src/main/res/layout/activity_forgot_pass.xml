@@ -11,7 +11,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#01579B">
+            android:background="@color/white_smoke"
+    >
     </androidx.appcompat.widget.Toolbar>
 
 
@@ -46,7 +47,7 @@
                 android:textSize="18sp"
                 android:textAllCaps="false"
                 android:padding="10dp"
-                android:background="@color/red"
+                android:background="#00675b"
                 android:textColor="@color/white"
                 android:layout_marginTop="50dp"
                 android:layout_marginBottom="10dp"/>

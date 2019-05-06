@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -25,8 +24,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import okhttp3.OkHttpClient;
 import org.lulzm.waft.ChatHome.ChatMainActivity;
 import org.lulzm.waft.MainFragment.*;
@@ -40,18 +37,17 @@ public class MainActivity extends AppCompatActivity {
     //menu
     private boolean isTransactionSafe;
     private boolean isTransactionPending;
-    FrameLayout flContent;
-    Fragment fragment = null;
-    Class fragmentClass;
+
+    private FrameLayout flContent;
+    private Fragment fragment = null;
+    private Class fragmentClass;
     public static Handler HomeFragmentHandler;
-    SlidingPaneLayout sliding_pane;
+    private SlidingPaneLayout sliding_pane;
 
     // Firebase
     private FirebaseAuth mAuth;
     private DatabaseReference userDatabaseReference;
     public FirebaseUser currentUser;
-    private StorageReference mProfileImgStorageRef;
-    private StorageReference thumb_image_ref;
 
     @SuppressLint({"HandlerLeak"})
     @Override
@@ -90,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 switch (msg.what) {
+                    // main
                     case 0: {
                         if (isTransactionSafe) {
                             fragmentClass = Fragment1.class;
@@ -110,13 +107,14 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
                     }
+                    // profile
                     case 1: {
                         Intent intent_profile = new Intent(MainActivity.this, ProfileActivity.class);
                         startActivity(intent_profile);
                         break;
                     }
+                    // setting
                     case 2: {
-
                         if (isTransactionSafe) {
                             fragmentClass = Fragment2.class;
                             try {
@@ -157,17 +155,18 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
                     }
+                    // logout
                     case 4: {
+                        // todo 로그아웃 다이얼로그에 radius 넣어야함.
                         if (isTransactionSafe) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                             View view_logout = LayoutInflater.from(MainActivity.this).inflate(R.layout.logout_dialog, null);
 
                             ImageButton imageButton = view_logout.findViewById(R.id.logoutImg);
                             imageButton.setImageResource(R.drawable.logout);
+
                             builder.setCancelable(true);
-
                             builder.setNegativeButton("취소", (dialog, which) -> dialog.cancel());
-
                             builder.setPositiveButton("로그아웃 하기", (dialog, which) -> {
                                 if (currentUser != null) {
                                     userDatabaseReference.child("active_now").setValue(ServerValue.TIMESTAMP);
@@ -177,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
                             });
                             builder.setView(view_logout);
                             builder.show();
-
                         } else {
                             isTransactionPending = true;
                         }
@@ -212,18 +210,14 @@ public class MainActivity extends AppCompatActivity {
         if (currentUser != null) {
             String user_uID = mAuth.getCurrentUser().getUid();
             userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(user_uID);
-            mProfileImgStorageRef = FirebaseStorage.getInstance().getReference().child("profile_image");
-            thumb_image_ref = FirebaseStorage.getInstance().getReference().child("thumb_image");
         }
 
         // 상태표시줄 색상 변경
         View view = getWindow().getDecorView();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (view != null) {
-                // 23 버전 이상일 때 상태바 하얀 색상, 회색 아이콘
-                view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-                getWindow().setStatusBarColor(Color.parseColor("#f2f2f2"));
-            }
+            // 23 버전 이상일 때 상태바 하얀 색상, 회색 아이콘
+            view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            getWindow().setStatusBarColor(Color.parseColor("#f2f2f2"));
         } else if (Build.VERSION.SDK_INT >= 21) {
             // 21 버전 이상일 때 상태바 검은 색상, 흰색 아이콘
             getWindow().setStatusBarColor(Color.BLACK);
@@ -244,7 +238,6 @@ public class MainActivity extends AppCompatActivity {
     } // end onStart
 
     private void logOutUser() {
-        String action;
         Intent loginIntent = new Intent(MainActivity.this, LoginSignUpActivity.class);
         loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(loginIntent);
@@ -252,12 +245,10 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
-
     public void onPostResume() {
         super.onPostResume();
         isTransactionSafe = true;
     }
-
 
     public void onPause() {
         super.onPause();
@@ -269,12 +260,48 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (TIME_LIMIT + backPressed > System.currentTimeMillis()) {
             super.onBackPressed();
-            //Toast.makeText(getApplicationContext(), "Exited", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getApplicationContext(), "Back 버튼을 한번 더 누르면 어플이 종료됩니다.", Toast.LENGTH_SHORT).show();
+            SweetToast.info(this, "한번 더 누르면 종료됩니다.");
         }
         backPressed = System.currentTimeMillis();
     } //End Back button press for exit...
+
+    // QR코드
+    public void btnqr(View view) {
+        SweetToast.success(this, "QR코드 클릭 이벤트");
+    }
+
+    // 네비게이션
+    public void btnnav(View view) {
+        Intent intent_nav = new Intent(this, MapsActivity.class);
+        startActivity(intent_nav);
+    }
+
+    // 환전소
+    public void btnmoney(View view) {
+        if (isTransactionSafe) {
+            fragmentClass = Fragment4.class;
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
+            transaction.replace(R.id.flContent, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        } else {
+            isTransactionPending = true;
+        }
+    }
+
+    // 채팅방
+    public void btnchatting(View view) {
+        Intent intent_chat = new Intent(this, ChatMainActivity.class);
+        startActivity(intent_chat);
+    }
 
     // 국가별 기본정보
     public void btnMoveSafeInfo(View view) {
@@ -297,44 +324,4 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    
-    public void btnnav(View view) {
-        Intent intent_nav = new Intent(MainActivity.this,MapsActivity.class);
-        startActivity(intent_nav);
-    }
-
-    public void btnmoney(View view) {
-        if (isTransactionSafe) {
-            fragmentClass = Fragment4.class;
-            try {
-                fragment = (Fragment) fragmentClass.newInstance();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
-            transaction.replace(R.id.flContent, fragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
-        } else {
-            isTransactionPending = true;
-        }
-    }
-
-    public void btnchatting(View view) {
-        Intent intent_chat = new Intent(MainActivity.this,ChatMainActivity.class);
-        startActivity(intent_chat);
-    }
-
-    public void btnqr(View view) {
-        SweetToast.success(this, "QR코드 클릭");
-    }
-
-//    public void btnProfile(View view) {
-//        Intent intent_profile = new Intent(MainActivity.this, ProfileActivity.class);
-//        startActivity(intent_profile);
-//        overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
-//    }
-
 }
