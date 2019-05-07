@@ -2,6 +2,7 @@ package org.lulzm.waft.ChatAdapter;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
@@ -14,7 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -24,14 +25,18 @@ import org.lulzm.waft.R;
 
 import java.util.List;
 
-public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder>{
+public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
     private List<Message> messageList;
     // firebase
     private FirebaseAuth mAuth;
     private DatabaseReference databaseReference;
 
-    public MessageAdapter(List<Message> messageList) {
+    // for glide error
+    public RequestManager mGlideRequestManager;
+
+    public MessageAdapter(Context context, List<Message> messageList, RequestManager requestManager) {
         this.messageList = messageList;
+        mGlideRequestManager = requestManager;
     }
 
     @NonNull
@@ -40,6 +45,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.chat_item_messages, parent, false);
         mAuth = FirebaseAuth.getInstance();
+
         return new MessageViewHolder(view);
     }
 
@@ -58,28 +64,34 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
+                if (dataSnapshot.exists()) {
                     String userName = dataSnapshot.child("user_name").getValue().toString();
                     String userProfileImage = dataSnapshot.child("user_thumb_image").getValue().toString();
 
-                    Glide.with(holder.user_profile_image.getContext())
+                    mGlideRequestManager
                             .load(userProfileImage)
                             .placeholder(R.drawable.default_profile_image)
                             .into(holder.user_profile_image);
+
+//                    Glide.with(holder.user_profile_image.getContext())
+//                            .load(userProfileImage)
+//                            .placeholder(R.drawable.default_profile_image)
+//                            .into(holder.user_profile_image);
 
                     holder.chat_sender.setText(userName);
                     holder.chat_time_stamp.setText(send_time);
                 }
 
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
         // if message type is TEXT
-        if (from_message_TYPE.equals("text")){
-            if (from_user_ID.equals(sender_UID)){
+        if (from_message_TYPE.equals("text")) {
+            if (from_user_ID.equals(sender_UID)) {
                 /* 변경 */
                 holder.chatItemLayout.setGravity(Gravity.RIGHT);
                 holder.chat_background.setBackgroundColor(Color.rgb(58, 205, 255));
@@ -96,8 +108,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             }
         }
         // if message type is image
-        if (from_message_TYPE.equals("image")){
-            if (from_user_ID.equals(sender_UID)){
+        if (from_message_TYPE.equals("image")) {
+            if (from_user_ID.equals(sender_UID)) {
                 /* 변경 */
                 holder.chatItemLayout.setGravity(Gravity.RIGHT);
                 holder.chat_background.setBackgroundColor(Color.rgb(58, 205, 255));
@@ -105,11 +117,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 holder.chat_sender.setVisibility(View.GONE);
                 holder.chat_message.setVisibility(View.GONE);
                 holder.chat_message_image.setVisibility(View.VISIBLE);
-                Glide.with(holder.chat_message_image.getContext())
+
+                mGlideRequestManager
                         .load(message.getMessage())
                         .into(holder.chat_message_image);
 
-                Log.e("tag","from adapter, link : "+ message.getMessage());
+//                Glide.with(holder.chat_message_image.getContext())
+//                        .load(message.getMessage())
+//                        .into(holder.chat_message_image);
+
+                Log.e("tag", "from adapter, link : " + message.getMessage());
 
             } else {
                 /* 변경*/
@@ -119,11 +136,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 holder.chat_sender.setVisibility(View.VISIBLE);
                 holder.chat_message.setVisibility(View.GONE);
                 holder.chat_message_image.setVisibility(View.VISIBLE);
-                Glide.with(holder.chat_message_image.getContext())
+
+                mGlideRequestManager
                         .load(message.getMessage())
                         .into(holder.chat_message_image);
 
-                Log.e("tag","from adapter, link : "+ message.getMessage());
+//                Glide.with(holder.chat_message_image.getContext())
+//                        .load(message.getMessage())
+//                        .into(holder.chat_message_image);
+
+                Log.e("tag", "from adapter, link : " + message.getMessage());
             }
         }
     }
@@ -133,13 +155,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         return messageList.size();
     }
 
-    public class MessageViewHolder extends RecyclerView.ViewHolder{
+    public class MessageViewHolder extends RecyclerView.ViewHolder {
         TextView chat_sender, chat_message, chat_time_stamp;
         LinearLayout chatItemLayout, chat_background;
         RoundedImageView chat_message_image;
         CircleImageView user_profile_image;
 
-        MessageViewHolder(View view){
+        MessageViewHolder(View view) {
             super(view);
             chat_background = view.findViewById(R.id.chat_background);
             chat_sender = view.findViewById(R.id.chat_sender);
