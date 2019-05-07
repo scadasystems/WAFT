@@ -24,6 +24,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
@@ -79,6 +80,9 @@ public class ChatActivity extends AppCompatActivity {
 
     private RecyclerView messageList_ReCyVw;
     private final List<Message> messageList = new ArrayList<>();
+    // for glide error
+    public RequestManager mGlideRequestManager;
+
     private LinearLayoutManager linearLayoutManager;
     private MessageAdapter messageAdapter;
 
@@ -91,6 +95,9 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_activity);
+        // for glide error
+        mGlideRequestManager = Glide.with(ChatActivity.this);
+
         // 상태표시줄
         View view = getWindow().getDecorView();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -137,7 +144,7 @@ public class ChatActivity extends AppCompatActivity {
         input_user_message = findViewById(R.id.c_input_message);
 
         // setup for showing messages
-        messageAdapter = new MessageAdapter(messageList);
+        messageAdapter = new MessageAdapter(getApplicationContext(), messageList, mGlideRequestManager);
         messageList_ReCyVw = findViewById(R.id.message_list);
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
@@ -155,7 +162,7 @@ public class ChatActivity extends AppCompatActivity {
                         final String active_status = dataSnapshot.child("active_now").getValue().toString();
                         final String thumb_image = dataSnapshot.child("user_thumb_image").getValue().toString();
                         // show image on appbar
-                        Glide.with(ChatActivity.this)
+                        mGlideRequestManager
                                 .load(thumb_image)
                                 .placeholder(R.drawable.default_profile_image)
                                 .into(chatUserImageView);

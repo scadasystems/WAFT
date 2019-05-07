@@ -9,7 +9,7 @@
     <!-- My Common Strings -->
     <string name="student_name">WAFT</string>
     <string name="copyright">WAFT © 2019</string>
-    <string name="profile_settings">My Profile</string>
+    <string name="profile_settings">프로필 설정</string>
     <string name="thehasnatbd">LulzM</string>
     <string name="log_in">Log In</string>
     <string name="log_out">Log Out</string>
@@ -60,7 +60,8 @@
     <string name="chatting">채팅창</string>
     <string name="notice_manual">공지사항</string>
     <string name="emergency">긴급상황</string>
-
+    <!-- 접속 날짜 -->
+    <string name="friendship_date">접속한 날짜:\n</string>
     <!-- 백버튼 -->
     <string name="on_more_time_backpress">한번 더 누르면 종료됩니다.</string>
 
