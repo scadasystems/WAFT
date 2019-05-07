@@ -255,6 +255,11 @@ public class MainActivity extends AppCompatActivity {
         isTransactionSafe = false;
     }
 
+    @Override
+    protected void onDestroy() {
+        userDatabaseReference.child("active_now").setValue(ServerValue.TIMESTAMP);
+    }
+
     // This method is used to detect back button
     @Override
     public void onBackPressed() {

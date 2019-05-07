@@ -144,14 +144,13 @@ public class ChatActivity extends AppCompatActivity {
         input_user_message = findViewById(R.id.c_input_message);
 
         // setup for showing messages
-        messageAdapter = new MessageAdapter(getApplicationContext(), messageList, mGlideRequestManager);
+        messageAdapter = new MessageAdapter(messageList, mGlideRequestManager);
         messageList_ReCyVw = findViewById(R.id.message_list);
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
         messageList_ReCyVw.setLayoutManager(linearLayoutManager);
         messageList_ReCyVw.setHasFixedSize(true);
         messageList_ReCyVw.setAdapter(messageAdapter);
-
         fetchMessages();
 
         chatUserName.setText(messageReceiverName);

@@ -98,7 +98,7 @@ public class FriendsActivity extends AppCompatActivity {
         FirebaseRecyclerAdapter<Friends, FriendsVH> recyclerAdapter = new FirebaseRecyclerAdapter<Friends, FriendsVH>(recyclerOptions) {
             @Override
             protected void onBindViewHolder(@NonNull final FriendsVH holder, int position, @NonNull Friends model) {
-                holder.date.setText(getString(R.string.friendship_date) + model.getDate());
+                holder.date.setText(getString(R.string.friendshipDate) + model.getDate());
 
                 final String userID = getRef(position).getKey();
 

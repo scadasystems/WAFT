@@ -2,7 +2,6 @@ package org.lulzm.waft.ChatAdapter;
 
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
@@ -34,7 +33,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     // for glide error
     public RequestManager mGlideRequestManager;
 
-    public MessageAdapter(Context context, List<Message> messageList, RequestManager requestManager) {
+    public MessageAdapter(List<Message> messageList, RequestManager requestManager) {
         this.messageList = messageList;
         mGlideRequestManager = requestManager;
     }

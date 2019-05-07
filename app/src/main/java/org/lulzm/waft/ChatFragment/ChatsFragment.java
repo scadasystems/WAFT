@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,6 +52,8 @@ public class ChatsFragment extends Fragment {
     private FirebaseAuth mAuth;
 
     String current_user_id;
+
+    RequestManager mGlideRequestManager;
 
     public ChatsFragment() {
         // Required empty public constructor
@@ -100,8 +103,10 @@ public class ChatsFragment extends Fragment {
                             final String userPresence = dataSnapshot.child("active_now").getValue().toString();
                             final String userThumbPhoto = dataSnapshot.child("user_thumb_image").getValue().toString();
 
-                            if (!userThumbPhoto.equals("default_image")) { // default image condition for new user
-                                Glide.with(ChatsFragment.this)
+                            if (userThumbPhoto.equals("default_image")) { // default image condition for new user
+                                holder.user_photo.setImageResource(R.drawable.default_profile_image);
+                            } else {
+                                Glide.with(getContext())
                                         .load(userThumbPhoto)
                                         .placeholder(R.drawable.default_profile_image)
                                         .into(holder.user_photo);
@@ -147,7 +152,6 @@ public class ChatsFragment extends Fragment {
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
-
             }
 
             @NonNull

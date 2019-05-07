@@ -132,17 +132,6 @@ public class ChatMainActivity extends AppCompatActivity {
         super.onStop();
         // Unregister Connectivity Broadcast receiver
         //unregisterReceiver(connectivityReceiver);
-
-        // google kore aro jana lagbe, bug aache ekhane
-//        if (currentUser != null){
-//            userDatabaseReference.child("active_now").setValue(ServerValue.TIMESTAMP);
-//        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // from onStop
         if (currentUser != null){
             userDatabaseReference.child("active_now").setValue(ServerValue.TIMESTAMP);
         }
