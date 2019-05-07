@@ -14,13 +14,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 import org.lulzm.waft.ChatHome.ChatActivity;
 import org.lulzm.waft.ChatModel.Friends;
@@ -76,7 +75,6 @@ public class FriendsActivity extends AppCompatActivity {
         userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users");
         userDatabaseReference.keepSynced(true); // for offline
 
-
         // Setup recycler view
         friend_list_RV = findViewById(R.id.friendList);
         friend_list_RV.setHasFixedSize(true);
@@ -86,11 +84,11 @@ public class FriendsActivity extends AppCompatActivity {
     }
 
     /**
-     *  FirebaseUI for Android — UI Bindings for Firebase
-     *
-     *  Library link- https://github.com/firebase/FirebaseUI-Android
+     * FirebaseUI for Android — UI Bindings for Firebase
+     * <p>
+     * Library link- https://github.com/firebase/FirebaseUI-Android
      */
-    private void showPeopleList(){
+    private void showPeopleList() {
         FirebaseRecyclerOptions<Friends> recyclerOptions = new FirebaseRecyclerOptions.Builder<Friends>()
                 .setQuery(friendsDatabaseReference, Friends.class)
                 .build();
@@ -111,32 +109,30 @@ public class FriendsActivity extends AppCompatActivity {
 
                         // online active status
                         holder.active_icon.setVisibility(View.GONE);
-                        if (active_status.contains("active_now")){
+                        if (active_status.contains("active_now")) {
                             holder.active_icon.setVisibility(View.VISIBLE);
                         } else {
                             holder.active_icon.setVisibility(View.GONE);
                         }
 
                         holder.name.setText(userName);
-                        Picasso.get()
+                        Glide.with(getApplicationContext())
                                 .load(userThumbPhoto)
-                                .networkPolicy(NetworkPolicy.OFFLINE) // for Offline
                                 .placeholder(R.drawable.default_profile_image)
                                 .into(holder.profile_thumb);
-
 
                         //click item, 2 options in a dialogue will be appear
                         holder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                CharSequence options[] =  new CharSequence[]{"Send Message", userName+"'s profile"};
+                                CharSequence options[] = new CharSequence[]{getString(R.string.send_message), userName + getString(R.string.users_profile)};
                                 AlertDialog.Builder builder = new AlertDialog.Builder(FriendsActivity.this);
                                 builder.setItems(options, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        if (which == 0){
+                                        if (which == 0) {
                                             // user active status validation
-                                            if (dataSnapshot.child("active_now").exists()){
+                                            if (dataSnapshot.child("active_now").exists()) {
 
                                                 Intent chatIntent = new Intent(FriendsActivity.this, ChatActivity.class);
                                                 chatIntent.putExtra("visitUserId", userID);
@@ -154,34 +150,25 @@ public class FriendsActivity extends AppCompatActivity {
                                                         startActivity(chatIntent);
                                                     }
                                                 });
-
-
                                             }
-
                                         }
 
-                                        if (which == 1){
+                                        if (which == 1) {
                                             Intent profileIntent = new Intent(FriendsActivity.this, ChatProfileActivity.class);
                                             profileIntent.putExtra("visitUserId", userID);
                                             startActivity(profileIntent);
                                         }
-
                                     }
                                 });
                                 builder.show();
-
                             }
                         });
-
-
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
-
-
             }
 
             @NonNull
@@ -196,7 +183,7 @@ public class FriendsActivity extends AppCompatActivity {
         recyclerAdapter.startListening();
     }
 
-    public static class FriendsVH extends RecyclerView.ViewHolder{
+    public static class FriendsVH extends RecyclerView.ViewHolder {
         public TextView name;
         TextView date;
         CircleImageView profile_thumb;

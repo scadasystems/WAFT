@@ -64,5 +64,8 @@
     <string name="friendshipDate">접속한 날짜:\n</string>
     <!-- 백버튼 -->
     <string name="on_more_time_backpress">한번 더 누르면 종료됩니다.</string>
+    <!-- 채팅방으로 이동 -->
+    <string name="send_message">1:1 채팅</string>
+    <string name="users_profile">의 프로필</string>
 
 </resources>

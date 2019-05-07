@@ -26,7 +26,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
 import org.lulzm.waft.ChatAdapter.TabsPagerAdapter;
 import org.lulzm.waft.ChatFriends.FriendsActivity;
 import org.lulzm.waft.ChatSearch.SearchActivity;
@@ -132,9 +131,9 @@ public class ChatMainActivity extends AppCompatActivity {
         super.onStop();
         // Unregister Connectivity Broadcast receiver
         //unregisterReceiver(connectivityReceiver);
-        if (currentUser != null){
-            userDatabaseReference.child("active_now").setValue(ServerValue.TIMESTAMP);
-        }
+//        if (currentUser != null){
+//            userDatabaseReference.child("active_now").setValue(ServerValue.TIMESTAMP);
+//        }
     }
 
 

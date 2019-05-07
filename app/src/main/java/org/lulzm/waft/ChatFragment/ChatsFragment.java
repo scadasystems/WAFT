@@ -24,6 +24,8 @@ import org.lulzm.waft.ChatModel.Friends;
 import org.lulzm.waft.ChatUtils.UserLastSeenTime;
 import org.lulzm.waft.R;
 
+import java.util.Objects;
+
 /*********************************************************
  *   $$\                  $$\             $$\      $$\   
  *   $$ |                 $$ |            $$$\    $$$ |  
@@ -106,7 +108,7 @@ public class ChatsFragment extends Fragment {
                             if (userThumbPhoto.equals("default_image")) { // default image condition for new user
                                 holder.user_photo.setImageResource(R.drawable.default_profile_image);
                             } else {
-                                Glide.with(getContext())
+                                Glide.with(Objects.requireNonNull(getContext()))
                                         .load(userThumbPhoto)
                                         .placeholder(R.drawable.default_profile_image)
                                         .into(holder.user_photo);
