@@ -17,17 +17,14 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SearchView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.*;
 import com.google.android.gms.maps.*;
@@ -35,11 +32,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.libraries.places.api.model.*;
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import noman.googleplaces.NRPlaces;
 import noman.googleplaces.PlaceType;
@@ -47,7 +41,7 @@ import noman.googleplaces.PlacesException;
 import noman.googleplaces.PlacesListener;
 import xyz.hasnat.sweettoast.SweetToast;
 import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.net.PlacesClient;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -118,8 +112,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
 
-        findViewById(R.id.btn_search_bank).setOnClickListener(v -> showBack(currentPosition));
-        findViewById(R.id.btn_search_Restaurant).setOnClickListener(v ->showRestaurant(currentPosition));
+        findViewById(R.id.btn_search_bank).setOnClickListener(v -> showBank(currentPosition));
+        findViewById(R.id.btn_search_restaurant).setOnClickListener(v ->showRestaurant(currentPosition));
+        findViewById(R.id.btn_search_busStop).setOnClickListener(v -> showBusStation(currentPosition));
+        findViewById(R.id.btn_search_police).setOnClickListener(v -> showPolice(currentPosition));
     }
 
     @Override
@@ -359,7 +355,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     } //End Back button press for exit...
 
     // 은행 검색
-    public void showBack(LatLng location)
+    public void showBank(LatLng location)
     {
         mMap.clear();//지도 클리어
 
@@ -371,7 +367,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .key("AIzaSyD4i9LTNlcP6E9WFcXJOHLEAUgyXYmBDAk")
                 .latlng(location.latitude, location.longitude)//현재 위치
                 .radius(500) //500 미터 내에서 검색
-                .type(PlaceType.BANK) //음식점
+                .type(PlaceType.RESTAURANT) //음식점
                 .build()
                 .execute();
     }
@@ -391,6 +387,45 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .type(PlaceType.RESTAURANT) //음식점
                 .build()
                 .execute();
+    }
+
+    // 버스정류장 검색
+    public void showBusStation(LatLng location)
+    {
+        mMap.clear();//지도 클리어
+
+        if (previous_marker != null)
+            previous_marker.clear();//지역정보 마커 클리어
+
+        new NRPlaces.Builder()
+                .listener(MapsActivity.this)
+                .key("AIzaSyD4i9LTNlcP6E9WFcXJOHLEAUgyXYmBDAk")
+                .latlng(location.latitude, location.longitude)//현재 위치
+                .radius(500) //500 미터 내에서 검색
+                .type(PlaceType.BUS_STATION) //버스
+                .build()
+                .execute();
+    }
+
+    // 경찰서 검색
+    public void showPolice(LatLng location)
+    {
+        mMap.clear();//지도 클리어
+
+        if (previous_marker != null)
+            previous_marker.clear();//지역정보 마커 클리어
+
+        new NRPlaces.Builder()
+                .listener(MapsActivity.this)
+                .key("AIzaSyD4i9LTNlcP6E9WFcXJOHLEAUgyXYmBDAk")
+                .latlng(location.latitude, location.longitude)//현재 위치
+                .radius(500) //500 미터 내에서 검색
+                .type(PlaceType.POLICE) //버스
+                .build()
+                .execute();
+//        if () {
+//            SweetToast.error(MapsActivity.this, "주변에 경창서가 없습니다.");
+//        }
     }
 
     @Override

@@ -57,7 +57,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
                         <com.google.android.material.button.MaterialButton
-                                android:id="@+id/btn_search_Restaurant"
+                                android:id="@+id/btn_search_restaurant"
                                 app:backgroundTint="@color/olive_drab"
                                 android:text="Restaurant"
                                 app:cornerRadius="50dp"
@@ -67,17 +67,19 @@
                                 android:layout_height="wrap_content"/>
                         <com.google.android.material.button.MaterialButton
                                 style="@style/Widget.AppCompat.Button.Colored"
+                                android:id="@+id/btn_search_busStop"
                                 app:backgroundTint="@color/olive_drab"
-                                android:text="bank"
+                                android:text="busstop"
                                 app:cornerRadius="50dp"
                                 android:layout_marginRight="5dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
                         <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_search_police"
                                 style="@style/Widget.AppCompat.Button.Colored"
                                 app:backgroundTint="@color/olive_drab"
                                 app:cornerRadius="50dp"
-                                android:text="bank"
+                                android:text="Police"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
                     </LinearLayout>
