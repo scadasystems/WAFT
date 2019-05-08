@@ -47,29 +47,34 @@
 
             <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_weight="1"
+                    android:layout_height="0dp">
 
                 <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="33.3"
+                        android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="vertical">
 
                     <ImageView
                             android:onClick="btnqr"
+                            tools:src="@drawable/qr"
                             android:id="@+id/qr_icon"
-                            android:layout_width="70sp"
-                            android:layout_height="70sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:layout_marginBottom="6dp"/>
 
                     <TextView
                             android:textStyle="bold"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:autoSizeMinTextSize="16sp"
+                            android:autoSizeMaxTextSize="50sp"
                             android:text="@string/qr_code"
                             android:textAlignment="center"
-                            android:textSize="16dp"/>
+                            android:textSize="16sp"/>
 
                 </LinearLayout>
 
@@ -79,14 +84,16 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
-                        android:layout_weight="33.3"
+                        android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="vertical">
 
                     <ImageView
                             android:onClick="btnnav"
-                            android:layout_width="70sp"
-                            android:layout_height="70sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:src="@drawable/qr"
+                            android:layout_weight="1"
                             android:layout_marginBottom="6dp"
                             android:id="@+id/nav_icon"/>
 
@@ -96,7 +103,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/navigation"
                             android:textAlignment="center"
-                            android:textSize="16dp"/>
+                            android:textSize="16sp"/>
 
                 </LinearLayout>
 
@@ -106,20 +113,23 @@
             <LinearLayout
                     android:layout_marginTop="30sp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_weight="1"
+                    android:layout_height="0dp">
 
                 <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="33.3"
+                        android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="vertical">
 
                     <ImageView
                             android:onClick="btnmoney"
                             android:id="@+id/money_icon"
-                            android:layout_width="70sp"
-                            android:layout_height="70sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            tools:src="@drawable/qr"
                             android:layout_marginBottom="6dp"/>
 
                     <TextView
@@ -138,14 +148,16 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
-                        android:layout_weight="33.3"
+                        android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="vertical">
 
                     <ImageView
                             android:onClick="btnchatting"
-                            android:layout_width="70sp"
-                            android:layout_height="70sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:src="@drawable/qr"
+                            android:layout_weight="1"
                             android:layout_marginBottom="6dp"
                             android:id="@+id/chat_icon"/>
 
@@ -155,7 +167,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/chatting"
                             android:textAlignment="center"
-                            android:textSize="16dp"/>
+                            android:textSize="16sp"/>
 
                 </LinearLayout>
 
@@ -199,20 +211,22 @@
         <HorizontalScrollView
                 android:scrollbars="none"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_weight="1"
+                android:layout_height="0dp">
             <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
                 <com.makeramen.roundedimageview.RoundedImageView
                         android:id="@+id/notic"
                         android:onClick="btnMoveSafeInfo"
                         android:elevation="10dp"
-                        android:textSize="30dp"
                         android:gravity="center"
                         app:riv_corner_radius="15dip"
                         android:layout_width="240dp"
-                        android:layout_height="140dp"
+                        android:layout_height="wrap_content"
+                        tools:src="@drawable/service_callcenter"
+                        android:layout_weight="1"
                         android:layout_marginRight="20dp"/>
 
                 <TextView

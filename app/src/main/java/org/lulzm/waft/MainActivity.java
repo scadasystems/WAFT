@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                     // setting
                     case 2: {
                         if (isTransactionSafe) {
-                            fragmentClass = Fragment2.class;
+                            fragmentClass = Fragment5.class;
                             try {
                                 fragment = (Fragment) fragmentClass.newInstance();
                             } catch (Exception e) {
@@ -254,6 +254,7 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         isTransactionSafe = false;
     }
+
     // This method is used to detect back button
     @Override
     public void onBackPressed() {
@@ -320,7 +321,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             isTransactionPending = true;
         }
-
-
     }
 }
+

@@ -75,6 +75,8 @@ public class MainWebview extends Fragment {
         return view;
     }
 
+    
+
     private class JavaScriptInterface {
         Context context;
 
