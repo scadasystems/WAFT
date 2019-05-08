@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -40,17 +41,19 @@ import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import noman.googleplaces.NRPlaces;
+import noman.googleplaces.PlaceType;
+import noman.googleplaces.PlacesException;
+import noman.googleplaces.PlacesListener;
 import xyz.hasnat.sweettoast.SweetToast;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback{
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, PlacesListener {
     private GoogleMap mMap;
-    private Marker currentMarker = null;
+    private Marker currentMarker;
     private static long backPressed;
     int AUTOCOMPLETE_REQUEST_CODE = 1;
     private static final int TIME_LIMIT = 1500;
@@ -61,11 +64,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private FusedLocationProviderClient mFusedLocation;
     private LocationRequest locationRequest;
     Location mCurrentLocation;
-    LatLng currentPosition;
+    LatLng currentPosition, selected;
     String TAG = "MapsActivity";
-    String destination;
     SearchView searchInput;
     private String query;
+    List<Marker> previous_marker = null;
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -87,80 +90,36 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             // 21 버전 이상일 때 상태바 검은 색상, 흰색 아이콘
             getWindow().setStatusBarColor(Color.BLACK);
         }
-        // Initialize Places.
-        Places.initialize(getApplicationContext(), "AIzaSyD4i9LTNlcP6E9WFcXJOHLEAUgyXYmBDAk");
-        PlacesClient placesClient = Places.createClient(this);
-        AutocompleteSessionToken token = AutocompleteSessionToken.newInstance();
-        RectangularBounds bounds = RectangularBounds.newInstance(
-                new LatLng(-33.880490, 151.184363),
-                new LatLng(-33.858754, 151.229596));
-        FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder()
-                // Call either setLocationBias() OR setLocationRestriction().
-                .setLocationBias(bounds)
-                //.setLocationRestriction(bounds)
-                .setCountry("KR")
-                .setTypeFilter(TypeFilter.ADDRESS)
-                .setSessionToken(token)
-                .setQuery(query)
-                .build();
-        placesClient.findAutocompletePredictions(request).addOnSuccessListener((response) -> {
-            for (AutocompletePrediction prediction : response.getAutocompletePredictions()) {
-                Log.i(TAG, prediction.getPlaceId());
-                Log.i(TAG, prediction.getPrimaryText(null).toString());
-            }
-        }).addOnFailureListener((exception) -> {
-            if (exception instanceof ApiException) {
-                ApiException apiException = (ApiException) exception;
-                Log.e(TAG, "Place not found: " + apiException.getStatusCode());
-            }
-        });
-
-        permissions();
-        checkPermission();
-
-        locationRequest = new LocationRequest().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY).setInterval(UPDATE_INTERVAL_MS).setFastestInterval(FASTEST_UPDATE_INTERVAL_MS);
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
-        builder.addLocationRequest(locationRequest);
 
         // Maps Fragment
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        // Place Fragment
-//        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
-//                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-//
-//        // Specify the types of place data to return.
-//        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
-//
-//        // Set up a PlaceSelectionListener to handle the response.
-//        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-//            @Override
-//            public void onPlaceSelected(Place place) {
-//                destination = place.getName().toString();
-//            }
-//
-//            @Override
-//            public void onError(Status status) {
-//                // TODO: Handle the error.
-//                Log.i(TAG, "An error occurred: " + status);
-//            }
-//        });
-//
-//
-//
-//        autocompleteFragment.setTypeFilter(TypeFilter.ADDRESS);
+        permissions();
+        checkPermission();
+        mFusedLocation = LocationServices.getFusedLocationProviderClient(this);
+        previous_marker = new ArrayList<Marker>();
+        locationRequest = new LocationRequest().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY).setInterval(UPDATE_INTERVAL_MS).setFastestInterval(FASTEST_UPDATE_INTERVAL_MS);
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+        builder.addLocationRequest(locationRequest);
+
+        // Initialize Places.
+        Places.initialize(getApplicationContext(), "AIzaSyD4i9LTNlcP6E9WFcXJOHLEAUgyXYmBDAk");
+
+        // Place
         findViewById(R.id.searchInput).setOnClickListener(v -> {
-            List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
+            List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.PHOTO_METADATAS);
             Intent intent = new Autocomplete.IntentBuilder(
                     AutocompleteActivityMode.OVERLAY, fields)
                     .setCountry("KR")
                     .build(this);
             startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
         });
-        mFusedLocation = LocationServices.getFusedLocationProviderClient(this);
 
+
+        findViewById(R.id.btn_search_bank).setOnClickListener(v -> showBack(currentPosition));
+        findViewById(R.id.btn_search_Restaurant).setOnClickListener(v ->showRestaurant(currentPosition));
     }
 
     @Override
@@ -169,9 +128,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
-                SweetToast.success(this, "선택한 위치 : " + place.getName());
-                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
-                finish();
+                selected = place.getLatLng();
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(selected);
+                MarkerOptions markerOptions = new MarkerOptions();
+                mMap.clear();
+                if(selected != null) {
+                    markerOptions.position(selected);
+                    markerOptions.title(place.getName());
+                    markerOptions.snippet(place.getAddress());
+                    markerOptions.draggable(true);
+                    mMap.addMarker(markerOptions);
+                    mMap.moveCamera(cameraUpdate);
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(16.0f));
+                }
+                SweetToast.success(this, "이름 : " + place.getName() + "\n" + "위치 : " + place.getLatLng());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 // TODO: Handle the error.
                 Status status = Autocomplete.getStatusFromIntent(data);
@@ -258,6 +228,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             if (checkPermission()) {
                 mMap.setMyLocationEnabled(true);
                 mMap.getUiSettings().setZoomControlsEnabled(true);
+                mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+                    @Override
+                    public boolean onMyLocationButtonClick() {
+                        return false;
+                    }
+                });
             }
         }
     }
@@ -337,8 +313,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         } catch (IOException ioException) {
             // 네트워크 문제
-            SweetToast.error(this, "지오코더 서비스 사용불가");
-            return "지오코더 서비스 사용불가";
+            SweetToast.error(this, "인터넷을 연결해주세요");
+            return "인터넷을 연결해주세요";
         } catch (IllegalArgumentException illegalArgumentException) {
             SweetToast.error(this, "잘못된 GPS 좌표");
             return "잘못된 GPS 좌표";
@@ -381,4 +357,76 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         backPressed = System.currentTimeMillis();
     } //End Back button press for exit...
+
+    // 은행 검색
+    public void showBack(LatLng location)
+    {
+        mMap.clear();//지도 클리어
+
+        if (previous_marker != null)
+            previous_marker.clear();//지역정보 마커 클리어
+
+        new NRPlaces.Builder()
+                .listener(MapsActivity.this)
+                .key("AIzaSyD4i9LTNlcP6E9WFcXJOHLEAUgyXYmBDAk")
+                .latlng(location.latitude, location.longitude)//현재 위치
+                .radius(500) //500 미터 내에서 검색
+                .type(PlaceType.BANK) //음식점
+                .build()
+                .execute();
+    }
+    // 음식점 검색
+    public void showRestaurant(LatLng location)
+    {
+        mMap.clear();//지도 클리어
+
+        if (previous_marker != null)
+            previous_marker.clear();//지역정보 마커 클리어
+
+        new NRPlaces.Builder()
+                .listener(MapsActivity.this)
+                .key("AIzaSyD4i9LTNlcP6E9WFcXJOHLEAUgyXYmBDAk")
+                .latlng(location.latitude, location.longitude)//현재 위치
+                .radius(500) //500 미터 내에서 검색
+                .type(PlaceType.RESTAURANT) //음식점
+                .build()
+                .execute();
+    }
+
+    @Override
+    public void onPlacesFailure(PlacesException e) {
+
+    }
+
+    @Override
+    public void onPlacesStart() {
+
+    }
+
+    @Override
+    public void onPlacesSuccess(List<noman.googleplaces.Place> places) {
+        runOnUiThread(() -> {
+            for (noman.googleplaces.Place place : places) {
+                LatLng latLng = new LatLng(place.getLatitude(), place.getLongitude());
+                String markerSnippet = getCurrentAddress(latLng);
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(latLng);
+                markerOptions.title(place.getName());
+                markerOptions.snippet(markerSnippet);
+                Marker item = mMap.addMarker(markerOptions);
+                previous_marker.add(item);
+            }
+
+            //중복 마커 제거
+            HashSet<Marker> hashSet = new HashSet<Marker>();
+            hashSet.addAll(previous_marker);
+            previous_marker.clear();
+            previous_marker.addAll(hashSet);
+        });
+    }
+
+    @Override
+    public void onPlacesFinished() {
+
+    }
 }
