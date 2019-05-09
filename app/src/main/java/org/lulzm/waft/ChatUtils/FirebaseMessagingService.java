@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -37,8 +38,9 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         super.onMessageReceived(remoteMessage);
 
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         String NOTIFICATION_CHANNEL_ID = "WAFT_Channel_1";
+        CharSequence name = "WAFT";
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "WAFT Notifications", NotificationManager.IMPORTANCE_HIGH);
@@ -49,6 +51,8 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             notificationChannel.setLightColor(Color.BLUE);
             notificationChannel.setVibrationPattern(new long[]{0, 1000, 500, 1000});
             notificationChannel.enableVibration(true);
+            notificationChannel.setShowBadge(false);
+
             notificationManager.createNotificationChannel(notificationChannel);
         }
 
@@ -64,8 +68,8 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         notificationBuilder.setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
-                .setSmallIcon(R.drawable.logo)
-                .setTicker("infbox.com.bd")
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setTicker("알람 간단 설명")
                 .setPriority(Notification.PRIORITY_MAX)
                 .setContentTitle(notificationTitle)
                 .setContentText(notificationBody);

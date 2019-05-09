@@ -99,12 +99,7 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        backButton.setOnClickListener(v -> finish());
 
 
         // Setup recycler view
@@ -117,17 +112,11 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
-
-    /**
-     *  FirebaseUI for Android — UI Bindings for Firebase
-     *  Library link- https://github.com/firebase/FirebaseUI-Android
-     */
     private void searchPeopleProfile(final String searchString) {
         View view = getWindow().getDecorView();
 
         final Query searchQuery = peoplesDatabaseReference.orderByChild("search_name")
                 .startAt(searchString).endAt(searchString + "\uf8ff");
-        //final Query searchQuery = peoplesDatabaseReference.orderByChild("search_name").equalTo(searchString);
 
         FirebaseRecyclerOptions<ProfileInfo> recyclerOptions = new FirebaseRecyclerOptions.Builder<ProfileInfo>()
                 .setQuery(searchQuery, ProfileInfo.class)
@@ -160,6 +149,7 @@ public class SearchActivity extends AppCompatActivity {
                     startActivity(intent);
                 });
             }
+
             @NonNull
             @Override
             public SearchPeopleVH onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {

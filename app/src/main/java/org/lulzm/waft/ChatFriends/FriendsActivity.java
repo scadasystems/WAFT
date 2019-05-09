@@ -1,7 +1,6 @@
 package org.lulzm.waft.ChatFriends;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -83,11 +81,6 @@ public class FriendsActivity extends AppCompatActivity {
         showPeopleList();
     }
 
-    /**
-     * FirebaseUI for Android — UI Bindings for Firebase
-     * <p>
-     * Library link- https://github.com/firebase/FirebaseUI-Android
-     */
     private void showPeopleList() {
         FirebaseRecyclerOptions<Friends> recyclerOptions = new FirebaseRecyclerOptions.Builder<Friends>()
                 .setQuery(friendsDatabaseReference, Friends.class)
@@ -122,46 +115,37 @@ public class FriendsActivity extends AppCompatActivity {
                                 .into(holder.profile_thumb);
 
                         //click item, 2 options in a dialogue will be appear
-                        holder.itemView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                CharSequence options[] = new CharSequence[]{getString(R.string.send_message), userName + getString(R.string.users_profile)};
-                                AlertDialog.Builder builder = new AlertDialog.Builder(FriendsActivity.this);
-                                builder.setItems(options, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        if (which == 0) {
-                                            // user active status validation
-                                            if (dataSnapshot.child("active_now").exists()) {
+                        holder.itemView.setOnClickListener(v -> {
+                            CharSequence options[] = new CharSequence[]{getString(R.string.send_message), userName + getString(R.string.users_profile)};
+                            AlertDialog.Builder builder = new AlertDialog.Builder(FriendsActivity.this);
+                            builder.setItems(options, (dialog, which) -> {
+                                if (which == 0) {
+                                    // user active status validation
+                                    if (dataSnapshot.child("active_now").exists()) {
 
-                                                Intent chatIntent = new Intent(FriendsActivity.this, ChatActivity.class);
-                                                chatIntent.putExtra("visitUserId", userID);
-                                                chatIntent.putExtra("userName", userName);
-                                                startActivity(chatIntent);
+                                        Intent chatIntent = new Intent(FriendsActivity.this, ChatActivity.class);
+                                        chatIntent.putExtra("visitUserId", userID);
+                                        chatIntent.putExtra("userName", userName);
+                                        startActivity(chatIntent);
 
-                                            } else {
-                                                userDatabaseReference.child(userID).child("active_now")
-                                                        .setValue(ServerValue.TIMESTAMP).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
-                                                        Intent chatIntent = new Intent(FriendsActivity.this, ChatActivity.class);
-                                                        chatIntent.putExtra("visitUserId", userID);
-                                                        chatIntent.putExtra("userName", userName);
-                                                        startActivity(chatIntent);
-                                                    }
+                                    } else {
+                                        userDatabaseReference.child(userID).child("active_now")
+                                                .setValue(ServerValue.TIMESTAMP).addOnSuccessListener(aVoid -> {
+                                                    Intent chatIntent = new Intent(FriendsActivity.this, ChatActivity.class);
+                                                    chatIntent.putExtra("visitUserId", userID);
+                                                    chatIntent.putExtra("userName", userName);
+                                                    startActivity(chatIntent);
                                                 });
-                                            }
-                                        }
-
-                                        if (which == 1) {
-                                            Intent profileIntent = new Intent(FriendsActivity.this, ChatProfileActivity.class);
-                                            profileIntent.putExtra("visitUserId", userID);
-                                            startActivity(profileIntent);
-                                        }
                                     }
-                                });
-                                builder.show();
-                            }
+                                }
+
+                                if (which == 1) {
+                                    Intent profileIntent = new Intent(FriendsActivity.this, ChatProfileActivity.class);
+                                    profileIntent.putExtra("visitUserId", userID);
+                                    startActivity(profileIntent);
+                                }
+                            });
+                            builder.show();
                         });
                     }
 

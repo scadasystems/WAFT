@@ -4,7 +4,6 @@ package org.lulzm.waft.ChatAdapter;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Build;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,11 +71,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                             .placeholder(R.drawable.default_profile_image)
                             .into(holder.user_profile_image);
 
-//                    Glide.with(holder.user_profile_image.getContext())
-//                            .load(userProfileImage)
-//                            .placeholder(R.drawable.default_profile_image)
-//                            .into(holder.user_profile_image);
-
                     holder.chat_sender.setText(userName);
                     holder.chat_time_stamp.setText(send_time);
                 }
@@ -93,7 +87,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             if (from_user_ID.equals(sender_UID)) {
                 /* 변경 */
                 holder.chatItemLayout.setGravity(Gravity.RIGHT);
-                holder.chat_background.setBackgroundColor(Color.rgb(58, 205, 255));
+                holder.chat_background.setBackgroundColor(Color.rgb(254, 237, 255));
                 holder.user_profile_image.setVisibility(View.GONE);
                 holder.chat_sender.setVisibility(View.GONE);
                 holder.chat_message.setText(message.getMessage());
@@ -111,7 +105,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             if (from_user_ID.equals(sender_UID)) {
                 /* 변경 */
                 holder.chatItemLayout.setGravity(Gravity.RIGHT);
-                holder.chat_background.setBackgroundColor(Color.rgb(58, 205, 255));
+                holder.chat_background.setBackgroundColor(Color.rgb(254, 237, 255));
                 holder.user_profile_image.setVisibility(View.GONE);
                 holder.chat_sender.setVisibility(View.GONE);
                 holder.chat_message.setVisibility(View.GONE);
@@ -120,13 +114,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 mGlideRequestManager
                         .load(message.getMessage())
                         .into(holder.chat_message_image);
-
-//                Glide.with(holder.chat_message_image.getContext())
-//                        .load(message.getMessage())
-//                        .into(holder.chat_message_image);
-
-                Log.e("tag", "from adapter, link : " + message.getMessage());
-
             } else {
                 /* 변경*/
                 holder.chatItemLayout.setGravity(Gravity.LEFT);
@@ -139,12 +126,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 mGlideRequestManager
                         .load(message.getMessage())
                         .into(holder.chat_message_image);
-
-//                Glide.with(holder.chat_message_image.getContext())
-//                        .load(message.getMessage())
-//                        .into(holder.chat_message_image);
-
-                Log.e("tag", "from adapter, link : " + message.getMessage());
             }
         }
     }

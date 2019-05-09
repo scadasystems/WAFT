@@ -7,10 +7,8 @@
     </string>
 
     <!-- My Common Strings -->
-    <string name="student_name">WAFT</string>
     <string name="copyright">WAFT © 2019</string>
     <string name="profile_settings">프로필 설정</string>
-    <string name="thehasnatbd">LulzM</string>
     <string name="log_in">Log In</string>
     <string name="log_out">Log Out</string>
     <string name="profile">Profile</string>
@@ -24,6 +22,8 @@
     <string name="register_success_popup">회원가입을 성공했습니다.\n저희가 가입 인증 메일을 보냈으니 확인해주세요.\nWAFT의 회원이 되신 것을 축하드립니다.</string>
     <string name="recheck_gender">회원정보를 수정하기 위해서는 성별을 체크 하셔야 합니다.</string>
     <string name="if_have_account">이미 WAFT 회원입니다. 다시 확인해주세요.</string>
+
+    <!-- Slider strings -->
     <string name="next">다음</string>
     <string name="skip">건너뛰기</string>
     <string name="start">시작하기</string>
@@ -67,5 +67,8 @@
     <!-- 채팅방으로 이동 -->
     <string name="send_message">1:1 채팅</string>
     <string name="users_profile">의 프로필</string>
+    <string name="now_your_friend">현재 친구목록에 있습니다.</string>
+    <string name="cancel_request">친구요청을 취소했습니다.</string>
+    <string name="qr_generator_title">내 프로필</string>
 
 </resources>

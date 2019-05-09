@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -54,8 +53,6 @@ public class ChatsFragment extends Fragment {
     private FirebaseAuth mAuth;
 
     String current_user_id;
-
-    RequestManager mGlideRequestManager;
 
     public ChatsFragment() {
         // Required empty public constructor
@@ -100,7 +97,7 @@ public class ChatsFragment extends Fragment {
                 userDatabaseReference.child(userID).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()){
+                        if (dataSnapshot.exists()) {
                             final String userName = dataSnapshot.child("user_name").getValue().toString();
                             final String userPresence = dataSnapshot.child("active_now").getValue().toString();
                             final String userThumbPhoto = dataSnapshot.child("user_thumb_image").getValue().toString();
@@ -139,8 +136,8 @@ public class ChatsFragment extends Fragment {
                                     chatIntent.putExtra("userName", userName);
                                     startActivity(chatIntent);
                                 } else {
-                                    userDatabaseReference.child(userID).child("active_now")
-                                            .setValue(ServerValue.TIMESTAMP).addOnSuccessListener(aVoid -> {
+                                    userDatabaseReference.child(userID).child("active_now").setValue(ServerValue.TIMESTAMP)
+                                            .addOnSuccessListener(aVoid -> {
                                                 Intent chatIntent = new Intent(getContext(), ChatActivity.class);
                                                 chatIntent.putExtra("visitUserId", userID);
                                                 chatIntent.putExtra("userName", userName);
@@ -150,6 +147,7 @@ public class ChatsFragment extends Fragment {
                             });
                         }
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
@@ -167,10 +165,11 @@ public class ChatsFragment extends Fragment {
         adapter.startListening();
     }
 
-    public static class ChatsVH extends RecyclerView.ViewHolder{
+    public static class ChatsVH extends RecyclerView.ViewHolder {
         TextView user_name, user_presence;
         CircleImageView user_photo;
         ImageView active_icon;
+
         public ChatsVH(View itemView) {
             super(itemView);
             user_name = itemView.findViewById(R.id.all_user_name);
@@ -179,6 +178,4 @@ public class ChatsFragment extends Fragment {
             active_icon = itemView.findViewById(R.id.activeIcon);
         }
     }
-
-
 }

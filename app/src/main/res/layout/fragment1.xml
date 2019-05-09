@@ -229,16 +229,15 @@
                         android:layout_weight="1"
                         android:layout_marginRight="20dp"/>
 
-                <TextView
-                        android:elevation="10dp"
-                        android:background="@color/white"
+                <com.makeramen.roundedimageview.RoundedImageView
                         android:id="@+id/notic2"
-                        android:text="공지사항 링크"
-                        android:textSize="30dp"
+                        android:onClick="btnMovePassportInfo"
+                        android:elevation="10dp"
                         android:gravity="center"
-                        android:layout_width="300dp"
-                        android:layout_height="160dp"
-                        android:layout_marginRight="20dp"/>
+                        app:riv_corner_radius="15dip"
+                        android:layout_width="260dp"
+                        android:layout_height="150dp"
+                        android:layout_marginRight="10dp"/>
                 <TextView
                         android:text="공지사항 링크"
                         android:textSize="30dp"

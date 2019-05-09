@@ -60,6 +60,25 @@ public class MainActivity extends AppCompatActivity {
                 .addNetworkInterceptor(new StethoInterceptor())
                 .build();
 
+        // FirebaseAuth
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            String user_uID = mAuth.getCurrentUser().getUid();
+            userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(user_uID);
+        }
+
+        // 상태표시줄 색상 변경
+        View view = getWindow().getDecorView();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // 23 버전 이상일 때 상태바 하얀 색상, 회색 아이콘
+            view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            getWindow().setStatusBarColor(Color.parseColor("#f2f2f2"));
+        } else if (Build.VERSION.SDK_INT >= 21) {
+            // 21 버전 이상일 때 상태바 검은 색상, 흰색 아이콘
+            getWindow().setStatusBarColor(Color.BLACK);
+        }
+
         //menu
         flContent = findViewById(R.id.flContent);
         sliding_pane = findViewById(R.id.sliding_pane);
@@ -203,25 +222,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
-
-        // FirebaseAuth
-        mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            String user_uID = mAuth.getCurrentUser().getUid();
-            userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(user_uID);
-        }
-
-        // 상태표시줄 색상 변경
-        View view = getWindow().getDecorView();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // 23 버전 이상일 때 상태바 하얀 색상, 회색 아이콘
-            view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            getWindow().setStatusBarColor(Color.parseColor("#f2f2f2"));
-        } else if (Build.VERSION.SDK_INT >= 21) {
-            // 21 버전 이상일 때 상태바 검은 색상, 흰색 아이콘
-            getWindow().setStatusBarColor(Color.BLACK);
-        }
     } // end onCreate
 
     @Override
@@ -268,7 +268,22 @@ public class MainActivity extends AppCompatActivity {
 
     // QR코드
     public void btnqr(View view) {
-        SweetToast.success(this, "QR코드 클릭 이벤트");
+        if (isTransactionSafe) {
+            fragmentClass = FragmentQRMain.class;
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
+            transaction.replace(R.id.flContent, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        } else {
+            isTransactionPending = true;
+        }
     }
 
     // 네비게이션
@@ -318,6 +333,34 @@ public class MainActivity extends AppCompatActivity {
             transaction.replace(R.id.flContent, fragment);
             transaction.addToBackStack(null);
             transaction.commit();
+
+            // webview fragment 로 데이터 보내기.
+            Bundle bundle = new Bundle(1);  // 1개의 데이터만
+            bundle.putString("webURL", "http://www.0404.go.kr/m/dev/country.do");
+            fragment.setArguments(bundle);
+        } else {
+            isTransactionPending = true;
+        }
+    }
+    // 영사서비스/비자
+    public void btnMovePassportInfo(View view) {
+        if (isTransactionSafe) {
+            fragmentClass = MainWebview.class;
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
+            transaction.replace(R.id.flContent, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+
+            Bundle bundle = new Bundle(1);
+            bundle.putString("webURL", "http://www.0404.go.kr/m/consulate/consul_apo.jsp");
+            fragment.setArguments(bundle);
         } else {
             isTransactionPending = true;
         }

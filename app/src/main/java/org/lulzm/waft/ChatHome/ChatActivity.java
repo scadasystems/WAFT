@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -14,7 +15,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -113,6 +116,7 @@ public class ChatActivity extends AppCompatActivity {
 
         // firebase
         rootReference = FirebaseDatabase.getInstance().getReference();
+
         mAuth = FirebaseAuth.getInstance();
         messageSenderId = mAuth.getCurrentUser().getUid();
 
@@ -192,6 +196,7 @@ public class ChatActivity extends AppCompatActivity {
          */
         send_message.setOnClickListener(v -> {
             sendMessage();
+            // 클릭시 자동으로 스크롤 끝으로
             messageList_ReCyVw.scrollToPosition(messageAdapter.getItemCount() - 1);
         });
 
@@ -200,6 +205,7 @@ public class ChatActivity extends AppCompatActivity {
             Intent galleryIntent = new Intent().setAction(Intent.ACTION_GET_CONTENT);
             galleryIntent.setType("image/*");
             startActivityForResult(galleryIntent, GALLERY_PICK_CODE);
+            // 클릭시 자동으로 스크롤 끝으로
             messageList_ReCyVw.scrollToPosition(messageAdapter.getItemCount() - 1);
         });
     } // ending onCreate
@@ -224,9 +230,9 @@ public class ChatActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //  For image sending
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == GALLERY_PICK_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri imageUri = data.getData();
+
             // image message sending size compressing will be placed below
             final String message_sender_reference = "messages/" + messageSenderId + "/" + messageReceiverID;
             final String message_receiver_reference = "messages/" + messageReceiverID + "/" + messageSenderId;
@@ -290,6 +296,7 @@ public class ChatActivity extends AppCompatActivity {
                         if (dataSnapshot.exists()) {
                             Message message = dataSnapshot.getValue(Message.class);
                             messageList.add(message);
+                            messageAdapter.notifyDataSetChanged();
                             messageList_ReCyVw.scrollToPosition(messageAdapter.getItemCount() - 1);
                         }
                     }
@@ -348,7 +355,6 @@ public class ChatActivity extends AppCompatActivity {
                     Log.e("Sending message", databaseError.getMessage());
                 }
                 input_user_message.setText("");
-                messageList_ReCyVw.scrollToPosition(messageAdapter.getItemCount() - 1);
             });
         }
     }
@@ -359,7 +365,9 @@ public class ChatActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+            @SuppressLint("MissingPermission")
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
             ChatConnectionTV.setVisibility(View.GONE);
             if (networkInfo != null && networkInfo.isConnected()) {
                 ChatConnectionTV.setText(getString(R.string.internet_connect));
@@ -379,6 +387,23 @@ public class ChatActivity extends AppCompatActivity {
                 ChatConnectionTV.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    // editText clearFocus
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event);
     }
 
 }

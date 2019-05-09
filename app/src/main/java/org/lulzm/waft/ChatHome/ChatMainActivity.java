@@ -71,6 +71,7 @@ public class ChatMainActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(Color.BLACK);
         }
 
+        // firebase connect
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         if (currentUser != null){
@@ -82,7 +83,7 @@ public class ChatMainActivity extends AppCompatActivity {
 
 
         /**
-         * Tabs >> Viewpager for MainActivity
+         * Tabs >> Viewpager for ChatMainActivity
          */
         mViewPager = findViewById(R.id.tabs_pager);
         mTabsPagerAdapter = new TabsPagerAdapter(getSupportFragmentManager());
@@ -97,15 +98,7 @@ public class ChatMainActivity extends AppCompatActivity {
          */
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        //getSupportActionBar().setTitle("uMe");
-
     } // ending onCreate
-
-    private void setupTabIcons() {
-        //mTabLayout.getTabAt(0).setText("CHATS");
-        //mTabLayout.getTabAt(1).setText("REQUESTS");
-        //mTabLayout.getTabAt(2).setText("FRIENDS");
-    }
 
     @Override
     protected void onStart() {
@@ -126,17 +119,6 @@ public class ChatMainActivity extends AppCompatActivity {
         registerReceiver(connectivityReceiver, intentFilter);
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        // Unregister Connectivity Broadcast receiver
-        //unregisterReceiver(connectivityReceiver);
-//        if (currentUser != null){
-//            userDatabaseReference.child("active_now").setValue(ServerValue.TIMESTAMP);
-//        }
-    }
-
-
     // tool bar action menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -148,10 +130,12 @@ public class ChatMainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
+        // search friends
         if (item.getItemId() == R.id.menu_search){
             Intent intent =  new Intent(ChatMainActivity.this, SearchActivity.class);
             startActivity(intent);
         }
+        // friends list
         if (item.getItemId() == R.id.all_friends){
             Intent intent =  new Intent(ChatMainActivity.this, FriendsActivity.class);
             startActivity(intent);
@@ -164,18 +148,16 @@ public class ChatMainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+            @SuppressLint("MissingPermission")
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isConnected()){
 
             } else {
                 @SuppressLint("WrongConstant") Snackbar snackbar = Snackbar
-                        .make(mViewPager, "No internet connection! ", Snackbar.LENGTH_LONG)
-                        .setAction("Go settings", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Intent intent=new Intent(Settings.ACTION_WIRELESS_SETTINGS);
-                                startActivity(intent);
-                            }
+                        .make(mViewPager, getString(R.string.internet_disconnect), Snackbar.LENGTH_LONG)
+                        .setAction("Go settings", view -> {
+                            Intent intent1 =new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+                            startActivity(intent1);
                         });
                 // Changing action button text color
                 snackbar.setActionTextColor(Color.BLACK);

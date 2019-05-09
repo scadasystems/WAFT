@@ -1,5 +1,6 @@
 package org.lulzm.waft.MainFragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -39,6 +40,7 @@ import java.util.Objects;
 public class MainWebview extends Fragment {
     private WebView mWebView;
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -49,16 +51,18 @@ public class MainWebview extends Fragment {
         }
 
         mWebView = view.findViewById(R.id.webview_info);
-
+        // webview 자바 허용
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setDefaultTextEncodingName("UTF-8");
         mWebView.setWebViewClient(new WebViewClient());
         mWebView.addJavascriptInterface(new JavaScriptInterface(getActivity()), "android");
-        mWebView.loadUrl("http://www.0404.go.kr/m/dev/country.do");
+
+        // MainActivity.class 에서 bundle 로 보낸 데이터 받기.
+        String webUrl = getArguments().getString("webURL");
+        mWebView.loadUrl(webUrl);
 
         // WebView backButton
         mWebView.setOnKeyListener((v, keyCode, event) -> {
-            //This is the filter
             if (event.getAction()!=KeyEvent.ACTION_DOWN)
                 return true;
             if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -75,8 +79,7 @@ public class MainWebview extends Fragment {
         return view;
     }
 
-    
-
+    // webview interface
     private class JavaScriptInterface {
         Context context;
 
