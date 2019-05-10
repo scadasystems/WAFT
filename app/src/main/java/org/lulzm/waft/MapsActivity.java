@@ -17,14 +17,17 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.SearchView;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import com.akexorcist.googledirection.DirectionCallback;
+import com.akexorcist.googledirection.GoogleDirection;
+import com.akexorcist.googledirection.constant.AvoidType;
+import com.akexorcist.googledirection.model.Direction;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.*;
 import com.google.android.gms.maps.*;
@@ -35,6 +38,7 @@ import com.google.android.libraries.places.api.model.*;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import noman.googleplaces.NRPlaces;
 import noman.googleplaces.PlaceType;
 import noman.googleplaces.PlacesException;
@@ -60,10 +64,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     Location mCurrentLocation;
     LatLng currentPosition, selected;
     String TAG = "MapsActivity";
-    SearchView searchInput;
-    private String query;
     List<Marker> previous_marker = null;
 
+    private BottomSheetBehavior bottomSheetBehavior;
+    private LinearLayout linearLayoutBSheet;
+    private ToggleButton tbUoDown;
 
     @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -84,6 +89,34 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             // 21 버전 이상일 때 상태바 검은 색상, 흰색 아이콘
             getWindow().setStatusBarColor(Color.BLACK);
         }
+
+        init();
+
+        // bottomSheet 버튼이벤트
+        tbUoDown.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            } else {
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+        });
+        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View view, int newState) {
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    tbUoDown.setChecked(true);
+                } else {
+                    tbUoDown.setChecked(false);
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View view, float v) {
+
+            }
+        });
+
+
 
         // Maps Fragment
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -116,6 +149,40 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         findViewById(R.id.btn_search_restaurant).setOnClickListener(v ->showRestaurant(currentPosition));
         findViewById(R.id.btn_search_busStop).setOnClickListener(v -> showBusStation(currentPosition));
         findViewById(R.id.btn_search_police).setOnClickListener(v -> showPolice(currentPosition));
+        findViewById(R.id.btn_direction).setOnClickListener(v -> direction());
+
+
+
+    }
+
+    //bottomSheet 연결
+    private void init() {
+        this.linearLayoutBSheet = findViewById(R.id.bottom_sheet);
+        this.bottomSheetBehavior = BottomSheetBehavior.from(linearLayoutBSheet);
+        this.tbUoDown = findViewById(R.id.toggleButton);
+    }
+
+    public void direction() {
+        GoogleDirection.withServerKey("AIzaSyD4i9LTNlcP6E9WFcXJOHLEAUgyXYmBDAk")
+                .from(selected)
+                .to(currentPosition)
+                .avoid(AvoidType.FERRIES)
+                .avoid(AvoidType.HIGHWAYS)
+                .execute(new DirectionCallback() {
+                    @Override
+                    public void onDirectionSuccess(Direction direction, String rawBody) {
+                        if(direction.isOK()) {
+                            SweetToast.success(MapsActivity.this, "길찾기 성공");
+                        } else {
+                            // Do something
+                        }
+                    }
+
+                    @Override
+                    public void onDirectionFailure(Throwable t) {
+                        // Do something
+                    }
+                });
     }
 
     @Override
@@ -127,7 +194,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 selected = place.getLatLng();
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(selected);
                 MarkerOptions markerOptions = new MarkerOptions();
-                mMap.clear();
                 if(selected != null) {
                     markerOptions.position(selected);
                     markerOptions.title(place.getName());
@@ -177,7 +243,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 // 위치 권한 허용
                 mFusedLocation.getLastLocation().addOnSuccessListener(this, location -> {
                     if (location != null) {
-                        startLocationUpdates();
+                        startLocationUpdates(); 
                     }
                 });
         }
@@ -223,13 +289,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             if (checkPermission()) {
                 mMap.setMyLocationEnabled(true);
-                mMap.getUiSettings().setZoomControlsEnabled(true);
-                mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
-                    @Override
-                    public boolean onMyLocationButtonClick() {
-                        return false;
-                    }
-                });
             }
         }
     }
@@ -367,7 +426,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .key("AIzaSyD4i9LTNlcP6E9WFcXJOHLEAUgyXYmBDAk")
                 .latlng(location.latitude, location.longitude)//현재 위치
                 .radius(500) //500 미터 내에서 검색
-                .type(PlaceType.RESTAURANT) //음식점
+                .type(PlaceType.BANK) //은행
                 .build()
                 .execute();
     }
@@ -420,11 +479,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .key("AIzaSyD4i9LTNlcP6E9WFcXJOHLEAUgyXYmBDAk")
                 .latlng(location.latitude, location.longitude)//현재 위치
                 .radius(500) //500 미터 내에서 검색
-                .type(PlaceType.POLICE) //버스
+                .type(PlaceType.POLICE) //경찰서
                 .build()
                 .execute();
 //        if () {
-//            SweetToast.error(MapsActivity.this, "주변에 경창서가 없습니다.");
+//            SweetToast.error(MapsActivity.this, "주변에 경찰서가 없습니다.");
 //        }
     }
 
