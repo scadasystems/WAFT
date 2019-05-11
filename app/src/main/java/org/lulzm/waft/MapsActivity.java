@@ -26,7 +26,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import com.akexorcist.googledirection.DirectionCallback;
 import com.akexorcist.googledirection.GoogleDirection;
-import com.akexorcist.googledirection.constant.AvoidType;
+import com.akexorcist.googledirection.constant.*;
 import com.akexorcist.googledirection.model.Direction;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.*;
@@ -47,6 +47,7 @@ import xyz.hasnat.sweettoast.SweetToast;
 import com.google.android.libraries.places.api.Places;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, PlacesListener {
@@ -117,7 +118,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
 
-
         // Maps Fragment
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -146,11 +146,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         findViewById(R.id.btn_search_bank).setOnClickListener(v -> showBank(currentPosition));
-        findViewById(R.id.btn_search_restaurant).setOnClickListener(v ->showRestaurant(currentPosition));
+        findViewById(R.id.btn_search_restaurant).setOnClickListener(v -> showRestaurant(currentPosition));
         findViewById(R.id.btn_search_busStop).setOnClickListener(v -> showBusStation(currentPosition));
         findViewById(R.id.btn_search_police).setOnClickListener(v -> showPolice(currentPosition));
         findViewById(R.id.btn_direction).setOnClickListener(v -> direction());
-
 
 
     }
@@ -163,26 +162,35 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void direction() {
-        GoogleDirection.withServerKey("AIzaSyD4i9LTNlcP6E9WFcXJOHLEAUgyXYmBDAk")
-                .from(selected)
-                .to(currentPosition)
-                .avoid(AvoidType.FERRIES)
-                .avoid(AvoidType.HIGHWAYS)
-                .execute(new DirectionCallback() {
-                    @Override
-                    public void onDirectionSuccess(Direction direction, String rawBody) {
-                        if(direction.isOK()) {
-                            SweetToast.success(MapsActivity.this, "길찾기 성공");
-                        } else {
+        LatLng origin = currentPosition;
+        LatLng destination = selected;
+        if (origin != null && destination != null) {
+            GoogleDirection.withServerKey("AIzaSyD4i9LTNlcP6E9WFcXJOHLEAUgyXYmBDAk")
+                    .from(origin)
+                    .to(destination)
+                    .alternativeRoute(true)
+                    .avoid(AvoidType.FERRIES)
+                    .avoid(AvoidType.HIGHWAYS)
+                    .transportMode(TransportMode.WALKING)
+                    .language(Language.KOREAN)
+                    .unit(Unit.METRIC)
+                    .execute(new DirectionCallback() {
+                        @Override
+                        public void onDirectionSuccess(Direction direction, String rawBody) {
+                            String status = direction.getStatus();
+                            if (status.equals(RequestResult.OK)) {
+                                SweetToast.success(MapsActivity.this, "길찾기 성공");
+                            } else {
+                                // Do something
+                            }
+                        }
+
+                        @Override
+                        public void onDirectionFailure(Throwable t) {
                             // Do something
                         }
-                    }
-
-                    @Override
-                    public void onDirectionFailure(Throwable t) {
-                        // Do something
-                    }
-                });
+                    });
+        }
     }
 
     @Override
@@ -194,7 +202,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 selected = place.getLatLng();
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(selected);
                 MarkerOptions markerOptions = new MarkerOptions();
-                if(selected != null) {
+                if (selected != null) {
                     markerOptions.position(selected);
                     markerOptions.title(place.getName());
                     markerOptions.snippet(place.getAddress());
@@ -208,6 +216,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 // TODO: Handle the error.
                 Status status = Autocomplete.getStatusFromIntent(data);
                 Log.i(TAG, status.getStatusMessage());
+
             } else if (resultCode == RESULT_CANCELED) {
                 // The user canceled the operation.
             }
@@ -228,6 +237,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE_PERMISSIONS);
         }
     }
+
     // 권한 체크
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -243,7 +253,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 // 위치 권한 허용
                 mFusedLocation.getLastLocation().addOnSuccessListener(this, location -> {
                     if (location != null) {
-                        startLocationUpdates(); 
+                        startLocationUpdates();
                     }
                 });
         }
@@ -277,7 +287,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         if (!checkLocationServicesStatus()) {
             needRequest = true;
-        }else {
+        } else {
 
             int hasFineLocationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
             int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
@@ -292,6 +302,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -300,7 +311,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (checkPermission()) {
             Log.d(TAG, "onStart : call mFusedLocationClient.requestLocationUpdates");
             mFusedLocation.requestLocationUpdates(locationRequest, locationCallback, null);
-            if (mMap!=null)
+            if (mMap != null)
                 mMap.setMyLocationEnabled(true);
         }
     }
@@ -349,7 +360,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION);
 
-        if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED && hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED   ) {
+        if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED && hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED) {
             return true;
         }
         return false;
@@ -365,7 +376,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     latlng.latitude,
                     latlng.longitude,
                     1);
-
         } catch (IOException ioException) {
             // 네트워크 문제
             SweetToast.error(this, "인터넷을 연결해주세요");
@@ -382,40 +392,40 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             return address.getAddressLine(0);
         }
     }
+
     // edittext clearfocus
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
-            if ( v instanceof EditText) {
+            if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         }
-        return super.dispatchTouchEvent( event );
+        return super.dispatchTouchEvent(event);
     }
+
     // This method is used to detect back button
     @Override
     public void onBackPressed() {
-        if(TIME_LIMIT + backPressed > System.currentTimeMillis()){
+        if (TIME_LIMIT + backPressed > System.currentTimeMillis()) {
             Intent intent_home = new Intent(MapsActivity.this, MainActivity.class);
             startActivity(intent_home);
             finish();
             overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
-        }
-        else {
+        } else {
             SweetToast.info(getApplicationContext(), getString(R.string.press_back_main));
         }
         backPressed = System.currentTimeMillis();
     } //End Back button press for exit...
 
     // 은행 검색
-    public void showBank(LatLng location)
-    {
+    public void showBank(LatLng location) {
         mMap.clear();//지도 클리어
 
         if (previous_marker != null)
@@ -430,9 +440,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .build()
                 .execute();
     }
+
     // 음식점 검색
-    public void showRestaurant(LatLng location)
-    {
+    public void showRestaurant(LatLng location) {
         mMap.clear();//지도 클리어
 
         if (previous_marker != null)
@@ -449,8 +459,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     // 버스정류장 검색
-    public void showBusStation(LatLng location)
-    {
+    public void showBusStation(LatLng location) {
         mMap.clear();//지도 클리어
 
         if (previous_marker != null)
@@ -467,8 +476,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     // 경찰서 검색
-    public void showPolice(LatLng location)
-    {
+    public void showPolice(LatLng location) {
         mMap.clear();//지도 클리어
 
         if (previous_marker != null)
