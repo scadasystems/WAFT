@@ -37,7 +37,7 @@ android {
             //noinspection DevModeObsolete
             minSdkVersion 21
             aaptOptions.cruncherEnabled = false
-            resConfigs "ko", "xxxhdpi"
+            resConfigs "ko", "xxhdpi"
         }
         prd {
             dimension "stage"
