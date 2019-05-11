@@ -67,27 +67,27 @@
                         android:layout_height="wrap_content"/>
             </LinearLayout>
         </LinearLayout>
-        <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true">
-            <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_driving"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:textColor="@color/white"
-                    android:text="driving"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_walk"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:textColor="@color/white"
-                    android:text="walk"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-        </LinearLayout>
+        <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_centerVertical="true">-->
+            <!--<com.google.android.material.button.MaterialButton-->
+                    <!--android:id="@+id/btn_driving"-->
+                    <!--style="@style/Widget.MaterialComponents.Button.TextButton"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--android:text="driving"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"/>-->
+            <!--<com.google.android.material.button.MaterialButton-->
+                    <!--android:id="@+id/btn_walk"-->
+                    <!--style="@style/Widget.MaterialComponents.Button.TextButton"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--android:text="walk"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"/>-->
+        <!--</LinearLayout>-->
     </RelativeLayout>
 
 

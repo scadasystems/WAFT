@@ -39,6 +39,7 @@ import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.button.MaterialButton;
 import noman.googleplaces.NRPlaces;
 import noman.googleplaces.PlaceType;
 import noman.googleplaces.PlacesException;
@@ -70,6 +71,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private BottomSheetBehavior bottomSheetBehavior;
     private LinearLayout linearLayoutBSheet;
     private ToggleButton tbUoDown;
+//    private MaterialButton btn_driving, btn_walk;
 
     @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -159,6 +161,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         this.linearLayoutBSheet = findViewById(R.id.bottom_sheet);
         this.bottomSheetBehavior = BottomSheetBehavior.from(linearLayoutBSheet);
         this.tbUoDown = findViewById(R.id.toggleButton);
+//        this.btn_driving = findViewById(R.id.btn_driving);
+//        this.btn_walk = findViewById(R.id.btn_walk);
     }
 
     public void direction() {
