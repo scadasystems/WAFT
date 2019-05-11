@@ -69,6 +69,12 @@
     <string name="users_profile">의 프로필</string>
     <string name="now_your_friend">현재 친구목록에 있습니다.</string>
     <string name="cancel_request">친구요청을 취소했습니다.</string>
-    <string name="qr_generator_title">내 프로필</string>
+    <string name="qr_generator_title">코드 스캔</string>
+    <string name="upload">업로드</string>
+    <string name="download">다운로드</string>
+    <string name="add_friend">코드스캔\n(친구추가)</string>
+    <string name="my_profile">내프로필</string>
+    <string name="using_qr_add_me">위 코드로 상대방이 나를 친구로 추가할 수 있습니다.</string>
+    <string name="scan_qr_and_add_friends">QR코드를 스캔하여 친구 추가를 해보세요.</string>
 
 </resources>

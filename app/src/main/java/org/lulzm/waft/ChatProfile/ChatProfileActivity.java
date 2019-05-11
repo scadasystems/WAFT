@@ -104,7 +104,6 @@ public class ChatProfileActivity extends AppCompatActivity {
         sendFriendRequest_Button = findViewById(R.id.visitUserFrndRqstSendButton);
         declineFriendRequest_Button = findViewById(R.id.visitUserFrndRqstDeclineButton);
         profileName = findViewById(R.id.visitUserProfileName);
-//        profileNickname = findViewById(R.id.visitUserProfileNickName);
         profileStatus = findViewById(R.id.visitUserProfileStatus);
         profileCountry = findViewById(R.id.visitUserProfileCountry);
         profileGender = findViewById(R.id.visitUserProfileGender);
@@ -173,7 +172,7 @@ public class ChatProfileActivity extends AppCompatActivity {
 
                                     } else if (requestType.equals("received")) {
                                         CURRENT_STATE = "request_received";
-                                        sendFriendRequest_Button.setText("친구 요청 수락하기");
+                                        sendFriendRequest_Button.setText(getString(R.string.accept_friend_request));
 
                                         declineFriendRequest_Button.setVisibility(View.VISIBLE);
                                         declineFriendRequest_Button.setEnabled(true);

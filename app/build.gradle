@@ -55,6 +55,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:17.0.0'
     // FirebaseUI for Firebase Realtime Database
     implementation 'com.firebaseui:firebase-ui-database:3.3.1'
+    // Google Services - MLkit
+    implementation 'com.google.android.gms:play-services-vision:17.0.2'
     // Material design
     implementation 'com.google.android.material:material:1.0.0-alpha1'
     // 리사이클러뷰, 카드뷰
@@ -85,8 +87,7 @@ dependencies {
     // QR code
     implementation 'com.google.zxing:core:3.3.2'
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
-    implementation 'me.dm7.barcodescanner:zxing:1.9.8'
-    implementation 'com.github.SumiMakito:AwesomeQRCode:1.2.0'
+    implementation 'info.androidhive:barcode-reader:1.1.5'
     // Google API
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
     implementation 'com.google.android.gms:play-services:12.0.1'
