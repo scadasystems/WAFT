@@ -72,7 +72,7 @@
                 <!--android:layout_height="wrap_content"-->
                 <!--android:layout_below="@id/visitUserProfileName"-->
                 <!--android:layout_centerInParent="true"-->
-                <!--tools:text="닉네임"-->
+                <!--tools:currency_text="닉네임"-->
                 <!--android:gravity="center"-->
                 <!--android:textColor="@color/black"-->
                 <!--android:textStyle="normal"-->

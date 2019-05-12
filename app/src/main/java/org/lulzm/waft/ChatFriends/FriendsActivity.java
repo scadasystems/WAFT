@@ -114,7 +114,7 @@ public class FriendsActivity extends AppCompatActivity {
                                 .placeholder(R.drawable.default_profile_image)
                                 .into(holder.profile_thumb);
 
-                        //click item, 2 options in a dialogue will be appear
+                        //click currency_item, 2 options in a dialogue will be appear
                         holder.itemView.setOnClickListener(v -> {
                             CharSequence options[] = new CharSequence[]{getString(R.string.send_message), userName + getString(R.string.users_profile)};
                             AlertDialog.Builder builder = new AlertDialog.Builder(FriendsActivity.this);

@@ -26,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import okhttp3.OkHttpClient;
 import org.lulzm.waft.ChatHome.ChatMainActivity;
+import org.lulzm.waft.Currency.Main;
 import org.lulzm.waft.MainFragment.*;
 import org.lulzm.waft.ProfileSetting.ProfileActivity;
 import xyz.hasnat.sweettoast.SweetToast;
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 switch (msg.what) {
-                    // main
+                    // currency_main
                     case 0: {
                         if (isTransactionSafe) {
                             fragmentClass = Fragment1.class;
@@ -294,22 +295,8 @@ public class MainActivity extends AppCompatActivity {
 
     // 환전소
     public void btnmoney(View view) {
-        if (isTransactionSafe) {
-            fragmentClass = Fragment4.class;
-            try {
-                fragment = (Fragment) fragmentClass.newInstance();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
-            transaction.replace(R.id.flContent, fragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
-        } else {
-            isTransactionPending = true;
-        }
+        Intent intent_currency = new Intent(this, Main.class);
+        startActivity(intent_currency);
     }
 
     // 채팅방

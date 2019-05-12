@@ -171,7 +171,7 @@ public class RequestsFragment extends Fragment {
                                                                                                         @SuppressLint("WrongConstant")
                                                                                                         Snackbar snackbar = Snackbar
                                                                                                                 .make(view, getString(org.lulzm.waft.R.string.now_your_friend), Snackbar.LENGTH_LONG);
-                                                                                                        // Changing message text color
+                                                                                                        // Changing message currency_text color
                                                                                                         View sView = snackbar.getView();
                                                                                                         sView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
                                                                                                         TextView textView = sView.findViewById(com.google.android.material.R.id.snackbar_text);
@@ -201,7 +201,7 @@ public class RequestsFragment extends Fragment {
                                                                                     @SuppressLint("WrongConstant")
                                                                                     Snackbar snackbar = Snackbar
                                                                                             .make(view, getString(org.lulzm.waft.R.string.cancel_request), Snackbar.LENGTH_LONG);
-                                                                                    // Changing message text color
+                                                                                    // Changing message currency_text color
                                                                                     View sView = snackbar.getView();
                                                                                     sView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
                                                                                     TextView textView = sView.findViewById(com.google.android.material.R.id.snackbar_text);
@@ -275,7 +275,7 @@ public class RequestsFragment extends Fragment {
                                                                                     @SuppressLint("WrongConstant")
                                                                                     Snackbar snackbar = Snackbar
                                                                                             .make(view, getString(R.string.cancel_friend_request), Snackbar.LENGTH_LONG);
-                                                                                    // Changing message text color
+                                                                                    // Changing message currency_text color
                                                                                     View sView = snackbar.getView();
                                                                                     sView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
                                                                                     TextView textView = sView.findViewById(com.google.android.material.R.id.snackbar_text);

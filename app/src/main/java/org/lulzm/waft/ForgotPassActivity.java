@@ -6,7 +6,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.google.firebase.auth.FirebaseAuth;
 import xyz.hasnat.sweettoast.SweetToast;
+import android.graphics.Rect;
+import android.view.inputmethod.InputMethodManager;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,6 +30,23 @@ public class ForgotPassActivity extends AppCompatActivity {
     private Button resetPassButton;
 
     private FirebaseAuth auth;
+
+    // edittext clearfocus
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if ( v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +65,7 @@ public class ForgotPassActivity extends AppCompatActivity {
             // 21 버전 이상일 때 상태바 검은 색상, 흰색 아이콘
             getWindow().setStatusBarColor(Color.BLACK);
         }
+
 
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);

@@ -8,13 +8,13 @@
     <uses-permission android:name="android.permission.READ_PROFILE"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.hardware.camera" />
+    <uses-permission android:name="android.hardware.camera"/>
     <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.hardware.camera.autofocus"/>
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
@@ -31,7 +31,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true"
-            tools:ignore="AllowBackup,GoogleAppIndexingWarning"
+            tools:ignore="AllowBackup,GoogleAppIndexingWarning,InnerclassSeparator,MipmapIcons"
             tools:replace="android:allowBackup"
             tools:targetApi="m">
         <meta-data
@@ -67,36 +67,47 @@
                 android:configChanges="orientation|screenSize"/>
         <activity
                 android:name=".ProfileSetting.ProfileActivity"
-                android:configChanges="orientation|screenSize"/>
+                android:configChanges="orientation|screenSize" tools:ignore="InnerclassSeparator"/>
         <activity
                 android:name=".ProfileSetting.StatusUpdateActivity"
-                android:configChanges="orientation|screenSize"/>
+                android:configChanges="orientation|screenSize" tools:ignore="InnerclassSeparator"/>
 
         <!-- About Chat -->
         <activity
                 android:name=".ChatHome.ChatMainActivity"
-                android:configChanges="orientation|screenSize"/>
+                android:configChanges="orientation|screenSize" tools:ignore="InnerclassSeparator"/>
         <activity
                 android:name=".ChatFriends.FriendsActivity"
-                android:configChanges="orientation|screenSize"/>
+                android:configChanges="orientation|screenSize" tools:ignore="InnerclassSeparator"/>
         <activity
                 android:name=".ChatProfile.ChatProfileActivity"
-                android:configChanges="orientation|screenSize|screenLayout">
+                android:configChanges="orientation|screenSize|screenLayout" tools:ignore="InnerclassSeparator">
             <intent-filter>
                 <action android:name="org.lulzm.waft_TARGET_NOTIFICATION"/>
 
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity
-                android:name=".ChatHome.ChatActivity"/>
-        <activity
-                android:name=".ChatSearch.SearchActivity"
-                android:configChanges="orientation|screenSize"/>
+        <activity android:name=".ChatHome.ChatActivity"
+                  tools:ignore="InnerclassSeparator"/>
+        <activity android:name=".ChatSearch.SearchActivity"
+                  android:configChanges="orientation|screenSize"
+                  tools:ignore="InnerclassSeparator"/>
         <activity
                 android:name=".MapsActivity"/>
 
-        <!-- QR 세로 -->
+        <!-- 환전소 -->
+        <activity android:name=".Currency.Main"
+                  android:windowSoftInputMode="stateHidden"
+                  tools:ignore="InnerclassSeparator"/>
+        <activity android:name=".Currency.ChartActivity"
+                  android:screenOrientation="landscape"
+                  tools:ignore="InnerclassSeparator"/>
+        <activity android:name=".Currency.ChoiceDialog"
+                  tools:ignore="InnerclassSeparator"/>
+        <activity android:name=".Currency.SettingsActivity"
+                  tools:ignore="InnerclassSeparator"/>
+
 
         <!-- Cropping image library -->
         <activity

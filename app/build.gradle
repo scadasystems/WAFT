@@ -141,8 +141,10 @@ dependencies {
     implementation 'com.google.zxing:core:3.3.2'
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
     implementation 'info.androidhive:barcode-reader:1.1.5'
-    // remember text
+    // remember remember text
     implementation 'cn.zhaiyifan:rememberedittext:0.9.0'
+    // for currency currency_chart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 }
 
 

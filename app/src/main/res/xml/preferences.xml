@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:title="@string/settings">
+
+    <PreferenceCategory
+            android:key="pref_update_category"
+            android:title="@string/pref_update_category">
+
+        <CheckBoxPreference
+                android:defaultValue="true"
+                android:icon="@drawable/ic_pref_wifi_light"
+                android:key="pref_wifi"
+                android:persistent="true"
+                android:summary="@string/pref_wifi_summ"
+                android:title="@string/pref_wifi" />
+
+        <CheckBoxPreference
+                android:defaultValue="false"
+                android:icon="@drawable/ic_pref_roaming_light"
+                android:key="pref_roaming"
+                android:persistent="true"
+                android:summary="@string/pref_roaming_summ"
+                android:title="@string/pref_roaming" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:key="pref_select_category"
+            android:title="@string/pref_select">
+
+        <CheckBoxPreference
+                android:defaultValue="true"
+                android:icon="@drawable/ic_pref_select_all_light"
+                android:key="pref_select"
+                android:persistent="true"
+                android:summary="@string/pref_select_summ"
+                android:title="@string/pref_select" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:key="pref_numbers_category"
+            android:title="@string/pref_numbers">
+
+        <ListPreference
+                android:defaultValue="@string/pref_digit_default"
+                android:dialogIcon="@drawable/ic_pref_digits_light"
+                android:dialogTitle="@string/pref_digits"
+                android:entries="@array/pref_digit_entries"
+                android:entryValues="@array/pref_digit_values"
+                android:icon="@drawable/ic_pref_digits_light"
+                android:key="pref_digits"
+                android:title="@string/pref_digits" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:key="pref_chart_category"
+            android:title="@string/chart">
+
+        <CheckBoxPreference
+                android:defaultValue="true"
+                android:icon="@drawable/ic_pref_fill_light"
+                android:key="pref_fill"
+                android:persistent="true"
+                android:summary="@string/pref_fill_summ"
+                android:title="@string/pref_fill" />
+
+    </PreferenceCategory>
+
+
+
+
+</PreferenceScreen>

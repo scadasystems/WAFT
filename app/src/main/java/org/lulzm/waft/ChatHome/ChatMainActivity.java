@@ -159,9 +159,9 @@ public class ChatMainActivity extends AppCompatActivity {
                             Intent intent1 =new Intent(Settings.ACTION_WIRELESS_SETTINGS);
                             startActivity(intent1);
                         });
-                // Changing action button text color
+                // Changing action button currency_text color
                 snackbar.setActionTextColor(Color.BLACK);
-                // Changing message text color
+                // Changing message currency_text color
                 View view = snackbar.getView();
                 view.setBackgroundColor(ContextCompat.getColor(ChatMainActivity.this, R.color.colorPrimary));
                 TextView textView = view.findViewById(com.google.android.material.R.id.snackbar_text);

@@ -382,7 +382,7 @@ public class ChatProfileActivity extends AppCompatActivity {
                                                 .addOnCompleteListener(task2 -> {
 
                                                     if (task2.isSuccessful()) {
-                                                        // Request main mechanism
+                                                        // Request currency_main mechanism
                                                         sendFriendRequest_Button.setEnabled(true);
                                                         CURRENT_STATE = "request_sent";
                                                         sendFriendRequest_Button.setText(getString(R.string.cancel_friend_request));

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="pref_digit_entries">
+        <item>한 자릿수 (0.x)</item>
+        <item>두 자릿수 (0.xx)</item>
+        <item>세 자릿수(0.xxx)</item>
+        <item>네 자릿수(0.xxxx)</item>
+        <item>다섯 자릿수(0.xxxxx)</item>
+    </string-array>
+
+    <string-array name="pref_digit_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+</resources>
