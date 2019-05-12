@@ -98,11 +98,8 @@ android {
     buildToolsVersion '27.0.3' // Older versions may give compile errors
 }
 ```
-
 #### 채팅 관련
 카카오톡 개발자들 질의응답 사이트 - https://devtalk.kakao.com/
-##### 채팅 DB
-![5](https://user-images.githubusercontent.com/38491289/54652931-2f763200-4afc-11e9-8a27-9b75e0ea54d0.png)
 
 #### 현재 쓰인 퍼미션(권한)
 ```groovy
