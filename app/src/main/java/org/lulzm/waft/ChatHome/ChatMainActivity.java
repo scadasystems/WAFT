@@ -35,6 +35,7 @@ import xyz.hasnat.sweettoast.SweetToast;
 
 public class ChatMainActivity extends AppCompatActivity {
 
+    // for back button
     private static final int TIME_LIMIT = 1500;
     private static long backPressed;
 
@@ -159,9 +160,9 @@ public class ChatMainActivity extends AppCompatActivity {
                             Intent intent1 =new Intent(Settings.ACTION_WIRELESS_SETTINGS);
                             startActivity(intent1);
                         });
-                // Changing action button currency_text color
+                // Changing action button text color
                 snackbar.setActionTextColor(Color.BLACK);
-                // Changing message currency_text color
+                // Changing message text color
                 View view = snackbar.getView();
                 view.setBackgroundColor(ContextCompat.getColor(ChatMainActivity.this, R.color.colorPrimary));
                 TextView textView = view.findViewById(com.google.android.material.R.id.snackbar_text);
@@ -172,7 +173,7 @@ public class ChatMainActivity extends AppCompatActivity {
     }
 
 
-    // This method is used to detect back button
+    // back button event
     @Override
     public void onBackPressed() {
         if(TIME_LIMIT + backPressed > System.currentTimeMillis()){
@@ -185,7 +186,7 @@ public class ChatMainActivity extends AppCompatActivity {
             SweetToast.info(getApplicationContext(), getString(R.string.press_back_main));
         }
         backPressed = System.currentTimeMillis();
-    } //End Back button press for exit...
+    } //End Back button
 
 
 }

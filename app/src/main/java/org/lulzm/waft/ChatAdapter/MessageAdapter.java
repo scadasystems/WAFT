@@ -83,7 +83,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             }
         });
         // if message type is TEXT
-        if (from_message_TYPE.equals("currency_text")) {
+        if (from_message_TYPE.equals("text")) {
             if (from_user_ID.equals(sender_UID)) {
                 /* 변경 */
                 holder.chatItemLayout.setGravity(Gravity.RIGHT);
