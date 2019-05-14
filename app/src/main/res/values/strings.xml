@@ -160,5 +160,6 @@
     <string name="years">5년</string>
     <string name="max">모든 주기</string>
     <string name="update_failed">업데이트를 실패했습니다.</string>
+    <string name="press_back_currency">한번 더 누르면 환전소로 이동합니다.</string>
 
 </resources>

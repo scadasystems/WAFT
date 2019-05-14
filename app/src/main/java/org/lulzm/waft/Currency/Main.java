@@ -19,7 +19,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.lulzm.waft.ChatHome.ChatMainActivity;
+import org.lulzm.waft.MainActivity;
 import org.lulzm.waft.R;
+import xyz.hasnat.sweettoast.SweetToast;
 
 import java.text.DateFormat;
 import java.text.NumberFormat;
@@ -46,6 +49,11 @@ import java.util.*;
  *********************************************************/
 public class Main extends AppCompatActivity implements EditText.OnEditorActionListener, AdapterView.OnItemClickListener,
         AdapterView.OnItemLongClickListener, View.OnClickListener, TextWatcher, Data.TaskCallbacks {
+
+    // for back button
+    private static final int TIME_LIMIT = 1500;
+    private static long backPressed;
+
     // Initial currency name list
     public static final String CURRENCY_LIST[] =
             {
@@ -1238,4 +1246,19 @@ public class Main extends AppCompatActivity implements EditText.OnEditorActionLi
         else if (statusView != null)
             statusView.setText(R.string.failed);
     }
+
+    // back button event
+    @Override
+    public void onBackPressed() {
+        if(TIME_LIMIT + backPressed > System.currentTimeMillis()){
+            Intent intent_home = new Intent(Main.this, MainActivity.class);
+            startActivity(intent_home);
+            finish();
+            overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
+        }
+        else {
+            SweetToast.info(getApplicationContext(), getString(R.string.press_back_main));
+        }
+        backPressed = System.currentTimeMillis();
+    } //End Back button
 }

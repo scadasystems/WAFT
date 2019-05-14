@@ -1,7 +1,6 @@
 package org.lulzm.waft.Currency;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -16,13 +15,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.*;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import org.lulzm.waft.MainActivity;
 import org.lulzm.waft.R;
+import xyz.hasnat.sweettoast.SweetToast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -47,6 +49,11 @@ import java.util.*;
  * E-mail : redsmurf@lulzm.org                           
  *********************************************************/
 public class ChartActivity extends AppCompatActivity implements Singleton.TaskCallbacks {
+
+    // for back button
+    private static final int TIME_LIMIT = 1500;
+    private static long backPressed;
+
     public static final String TAG = "ChartActivity";
 
     public static final String INVERT = "invert";
@@ -960,4 +967,19 @@ public class ChartActivity extends AppCompatActivity implements Singleton.TaskCa
             return dateFormat.format(date);
         }
     }
+
+    // back button event
+    @Override
+    public void onBackPressed() {
+        if(TIME_LIMIT + backPressed > System.currentTimeMillis()){
+            Intent intent_home = new Intent(ChartActivity.this, Main.class);
+            startActivity(intent_home);
+            finish();
+            overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
+        }
+        else {
+            SweetToast.info(getApplicationContext(), getString(R.string.press_back_currency));
+        }
+        backPressed = System.currentTimeMillis();
+    } //End Back button
 }

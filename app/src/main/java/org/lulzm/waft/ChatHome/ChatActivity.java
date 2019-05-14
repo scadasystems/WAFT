@@ -340,7 +340,7 @@ public class ChatActivity extends AppCompatActivity {
             HashMap<String, Object> message_text_body = new HashMap<>();
             message_text_body.put("message", message);
             message_text_body.put("seen", false);
-            message_text_body.put("type", "currency_text");
+            message_text_body.put("type", "text");
             message_text_body.put("time", ServerValue.TIMESTAMP);
             message_text_body.put("from", messageSenderId);
             message_text_body.put("send_time", formatDate);
