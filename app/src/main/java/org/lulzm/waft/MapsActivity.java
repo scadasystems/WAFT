@@ -12,7 +12,9 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Looper;
+import android.text.Spannable;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,37 +23,40 @@ import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import com.akexorcist.googledirection.DirectionCallback;
 import com.akexorcist.googledirection.GoogleDirection;
-import com.akexorcist.googledirection.constant.*;
+import com.akexorcist.googledirection.constant.Language;
+import com.akexorcist.googledirection.constant.RequestResult;
+import com.akexorcist.googledirection.constant.TransportMode;
+import com.akexorcist.googledirection.constant.Unit;
 import com.akexorcist.googledirection.model.Direction;
+import com.akexorcist.googledirection.model.Route;
+import com.akexorcist.googledirection.util.DirectionConverter;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.*;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.libraries.places.api.model.*;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.button.MaterialButton;
+import com.otaliastudios.autocomplete.AutocompletePolicy;
 import noman.googleplaces.NRPlaces;
 import noman.googleplaces.PlaceType;
 import noman.googleplaces.PlacesException;
 import noman.googleplaces.PlacesListener;
 import xyz.hasnat.sweettoast.SweetToast;
-import com.google.android.libraries.places.api.Places;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.*;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, PlacesListener {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, PlacesListener, DirectionCallback, AutocompletePolicy {
     private GoogleMap mMap;
     private Marker currentMarker;
     private static long backPressed;
@@ -60,6 +65,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final int UPDATE_INTERVAL_MS = 1000;  // 1초
     private static final int FASTEST_UPDATE_INTERVAL_MS = 500; // 0.5초
     private static final int REQUEST_CODE_PERMISSIONS = 1000;
+    final private String serverKey = "AIzaSyD4i9LTNlcP6E9WFcXJOHLEAUgyXYmBDAk";
     boolean needRequest = false;
     private FusedLocationProviderClient mFusedLocation;
     private LocationRequest locationRequest;
@@ -67,7 +73,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     LatLng currentPosition, selected;
     String TAG = "MapsActivity";
     List<Marker> previous_marker = null;
-
     private BottomSheetBehavior bottomSheetBehavior;
     private LinearLayout linearLayoutBSheet;
     private ToggleButton tbUoDown;
@@ -134,11 +139,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         builder.addLocationRequest(locationRequest);
 
         // Initialize Places.
-        Places.initialize(getApplicationContext(), "AIzaSyD4i9LTNlcP6E9WFcXJOHLEAUgyXYmBDAk");
+        Places.initialize(getApplicationContext(), serverKey);
 
         // Place
         findViewById(R.id.searchInput).setOnClickListener(v -> {
-            List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.PHOTO_METADATAS);
+            List<Place.Field> fields = Arrays.asList(Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS);
             Intent intent = new Autocomplete.IntentBuilder(
                     AutocompleteActivityMode.OVERLAY, fields)
                     .setCountry("KR")
@@ -156,7 +161,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    //bottomSheet 연결
+    // bottomSheet 연결
     private void init() {
         this.linearLayoutBSheet = findViewById(R.id.bottom_sheet);
         this.bottomSheetBehavior = BottomSheetBehavior.from(linearLayoutBSheet);
@@ -165,38 +170,66 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        this.btn_walk = findViewById(R.id.btn_walk);
     }
 
+    //  direction 초기화
     public void direction() {
         LatLng origin = currentPosition;
         LatLng destination = selected;
-        if (origin != null && destination != null) {
-            GoogleDirection.withServerKey("AIzaSyD4i9LTNlcP6E9WFcXJOHLEAUgyXYmBDAk")
+        if (origin == null) {
+            SweetToast.error(MapsActivity.this, "목적지 " + destination + "\n" + "내위치 없음");
+        } else if (destination == null) {
+            SweetToast.error(MapsActivity.this, "내위치 " + origin + "\n" + "목적지 없음");
+        } else {
+            SweetToast.success(MapsActivity.this, "내위치 " + origin + "\n" + "목적지 " + destination);
+            GoogleDirection.withServerKey(serverKey)
                     .from(origin)
                     .to(destination)
-                    .alternativeRoute(true)
-                    .avoid(AvoidType.FERRIES)
-                    .avoid(AvoidType.HIGHWAYS)
+//                    .avoid(AvoidType.FERRIES)
+//                    .avoid(AvoidType.HIGHWAYS)
                     .transportMode(TransportMode.WALKING)
+//                    .transitMode(TransitMode.SUBWAY)
                     .language(Language.KOREAN)
                     .unit(Unit.METRIC)
-                    .execute(new DirectionCallback() {
-                        @Override
-                        public void onDirectionSuccess(Direction direction, String rawBody) {
-                            String status = direction.getStatus();
-                            if (status.equals(RequestResult.OK)) {
-                                SweetToast.success(MapsActivity.this, "길찾기 성공");
-                            } else {
-                                // Do something
-                            }
-                        }
-
-                        @Override
-                        public void onDirectionFailure(Throwable t) {
-                            // Do something
-                        }
-                    });
+                    .alternativeRoute(true)
+                    .execute(this);
         }
     }
 
+    @Override
+    public void onDirectionSuccess(Direction direction, String rawBody) {
+        String status = direction.getStatus();
+        switch (status) {
+            case RequestResult.OK:
+                Route route = direction.getRouteList().get(0);
+
+                ArrayList<LatLng> directionPositionList = route.getLegList().get(0).getDirectionPoint();
+                mMap.addPolyline(DirectionConverter.createPolyline(this, directionPositionList, 5, Color.RED));
+                break;
+            case RequestResult.NOT_FOUND:
+                SweetToast.error(MapsActivity.this, "원점 또는 목적지 또는 경유지를 지오 코딩 할 수 없습니다");
+                break;
+            case RequestResult.ZERO_RESULTS:
+                SweetToast.error(MapsActivity.this, "경로를 찾을 수 없습니다");
+                break;
+            case RequestResult.INVALID_REQUEST:
+                SweetToast.error(MapsActivity.this, "요청이 유효하지 않습니다");
+                break;
+            case RequestResult.OVER_QUERY_LIMIT:
+                SweetToast.error(MapsActivity.this, "OVER_QUERY_LIMIT");
+//                Handler handler = new Handler();
+//                handler.postDelayed(this::direction, 2000);
+                break;
+            case RequestResult.UNKNOWN_ERROR:
+                SweetToast.error(MapsActivity.this, "서버 오류로 인해 길 찾기 요청을 처리하지 못했습니다");
+                break;
+        }
+    }
+
+    @Override
+    public void onDirectionFailure(Throwable t) {
+
+    }
+
+    // Place Select Event
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -219,6 +252,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 // TODO: Handle the error.
                 Status status = Autocomplete.getStatusFromIntent(data);
+                if(status.equals("OVER_QUERY_LIMIT")) {
+                    Toast.makeText(this, "OVER_QUERY_LIMIT", Toast.LENGTH_SHORT).show();
+                }
                 Log.i(TAG, status.getStatusMessage());
 
             } else if (resultCode == RESULT_CANCELED) {
@@ -348,7 +384,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         markerOptions.draggable(true);
 
 
-        currentMarker = mMap.addMarker(markerOptions);
+//        currentMarker = mMap.addMarker(markerOptions);
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng);
         mMap.moveCamera(cameraUpdate);
@@ -437,7 +473,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         new NRPlaces.Builder()
                 .listener(MapsActivity.this)
-                .key("AIzaSyD4i9LTNlcP6E9WFcXJOHLEAUgyXYmBDAk")
+                .key(serverKey)
                 .latlng(location.latitude, location.longitude)//현재 위치
                 .radius(500) //500 미터 내에서 검색
                 .type(PlaceType.BANK) //은행
@@ -454,7 +490,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         new NRPlaces.Builder()
                 .listener(MapsActivity.this)
-                .key("AIzaSyD4i9LTNlcP6E9WFcXJOHLEAUgyXYmBDAk")
+                .key(serverKey)
                 .latlng(location.latitude, location.longitude)//현재 위치
                 .radius(500) //500 미터 내에서 검색
                 .type(PlaceType.RESTAURANT) //음식점
@@ -471,7 +507,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         new NRPlaces.Builder()
                 .listener(MapsActivity.this)
-                .key("AIzaSyD4i9LTNlcP6E9WFcXJOHLEAUgyXYmBDAk")
+                .key(serverKey)
                 .latlng(location.latitude, location.longitude)//현재 위치
                 .radius(500) //500 미터 내에서 검색
                 .type(PlaceType.BUS_STATION) //버스
@@ -488,9 +524,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         new NRPlaces.Builder()
                 .listener(MapsActivity.this)
-                .key("AIzaSyD4i9LTNlcP6E9WFcXJOHLEAUgyXYmBDAk")
+                .key(serverKey)
                 .latlng(location.latitude, location.longitude)//현재 위치
-                .radius(500) //500 미터 내에서 검색
+                .radius(1000) //500 미터 내에서 검색
                 .type(PlaceType.POLICE) //경찰서
                 .build()
                 .execute();
@@ -533,6 +569,26 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onPlacesFinished() {
+
+    }
+
+    @Override
+    public boolean shouldShowPopup(Spannable text, int cursorPos) {
+        return text.length() > 0;
+    }
+
+    @Override
+    public boolean shouldDismissPopup(Spannable text, int cursorPos) {
+        return text.length() == 0;
+    }
+
+    @Override
+    public CharSequence getQuery(Spannable text) {
+        return text;
+    }
+
+    @Override
+    public void onDismiss(Spannable text) {
 
     }
 }

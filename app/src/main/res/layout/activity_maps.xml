@@ -82,6 +82,7 @@
                                 app:backgroundTint="@color/olive_drab"
                                 app:cornerRadius="50dp"
                                 android:text="Police"
+                                android:layout_marginRight="5dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
                         <com.google.android.material.button.MaterialButton
@@ -89,7 +90,7 @@
                                 style="@style/Widget.AppCompat.Button.Colored"
                                 app:backgroundTint="@color/olive_drab"
                                 app:cornerRadius="50dp"
-                                android:text="Police"
+                                android:text="direction"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
                     </LinearLayout>
