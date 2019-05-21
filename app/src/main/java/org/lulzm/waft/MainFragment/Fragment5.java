@@ -1,5 +1,6 @@
 package org.lulzm.waft.MainFragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,21 +16,12 @@ public class Fragment5 extends Fragment {
 
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //  View view = inflater.inflate(R.layout.fragment1, container);
-        View view=inflater.inflate(R.layout.chat_main_activity, container,false);
-        slistview = view.findViewById(R.id.listView);
+         View view=inflater.inflate(R.layout.fragment5, container,false);
 
         // setListAdapter(new MenuListAdapter(R.layout.row_menu_action_item, getActivity(), MenuActionItem.values()));
-        return dataSetting(view);
-    }
-
-    private View dataSetting(View view) {
-        SettingAdapter settingAdapter = new SettingAdapter();
-
-
-        settingAdapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.qr), "name");
-
-        slistview.setAdapter(settingAdapter);
         return view;
     }
+
+
 
 }
