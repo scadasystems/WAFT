@@ -14,7 +14,6 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
-import android.text.Spannable;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -48,7 +47,6 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.otaliastudios.autocomplete.AutocompletePolicy;
 import noman.googleplaces.NRPlaces;
 import noman.googleplaces.PlaceType;
 import noman.googleplaces.PlacesException;
@@ -58,7 +56,7 @@ import xyz.hasnat.sweettoast.SweetToast;
 import java.io.IOException;
 import java.util.*;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, PlacesListener, DirectionCallback, AutocompletePolicy {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, PlacesListener, DirectionCallback {
     private GoogleMap mMap;
     private Marker currentMarker;
     private static long backPressed;
@@ -575,26 +573,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onPlacesFinished() {
-
-    }
-
-    @Override
-    public boolean shouldShowPopup(Spannable text, int cursorPos) {
-        return text.length() > 0;
-    }
-
-    @Override
-    public boolean shouldDismissPopup(Spannable text, int cursorPos) {
-        return text.length() == 0;
-    }
-
-    @Override
-    public CharSequence getQuery(Spannable text) {
-        return text;
-    }
-
-    @Override
-    public void onDismiss(Spannable text) {
 
     }
 }
