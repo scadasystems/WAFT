@@ -27,25 +27,27 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import com.akexorcist.googledirection.DirectionCallback;
 import com.akexorcist.googledirection.GoogleDirection;
+import com.akexorcist.googledirection.config.GoogleDirectionConfiguration;
 import com.akexorcist.googledirection.constant.Language;
-import com.akexorcist.googledirection.constant.RequestResult;
 import com.akexorcist.googledirection.constant.TransportMode;
 import com.akexorcist.googledirection.constant.Unit;
 import com.akexorcist.googledirection.model.Direction;
+import com.akexorcist.googledirection.model.Info;
+import com.akexorcist.googledirection.model.Leg;
 import com.akexorcist.googledirection.model.Route;
 import com.akexorcist.googledirection.util.DirectionConverter;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.*;
 import com.google.android.gms.maps.*;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.*;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.otaliastudios.autocomplete.AutocompletePolicy;
 import noman.googleplaces.NRPlaces;
 import noman.googleplaces.PlaceType;
@@ -76,7 +78,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private BottomSheetBehavior bottomSheetBehavior;
     private LinearLayout linearLayoutBSheet;
     private ToggleButton tbUoDown;
-//    private MaterialButton btn_driving, btn_walk;
+    TextView tv_duration, tv_distance;
+    Button btn_direction;
+    MaterialButton btn_walking, btn_driving;
+//    private Button btn_driving, btn_walk;
 
     @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -156,7 +161,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         findViewById(R.id.btn_search_restaurant).setOnClickListener(v -> showRestaurant(currentPosition));
         findViewById(R.id.btn_search_busStop).setOnClickListener(v -> showBusStation(currentPosition));
         findViewById(R.id.btn_search_police).setOnClickListener(v -> showPolice(currentPosition));
-        findViewById(R.id.btn_direction).setOnClickListener(v -> direction());
+        btn_direction = findViewById(R.id.btn_direction);
+        btn_direction.setOnClickListener(v -> direction());
 
 
     }
@@ -166,8 +172,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         this.linearLayoutBSheet = findViewById(R.id.bottom_sheet);
         this.bottomSheetBehavior = BottomSheetBehavior.from(linearLayoutBSheet);
         this.tbUoDown = findViewById(R.id.toggleButton);
-//        this.btn_driving = findViewById(R.id.btn_driving);
-//        this.btn_walk = findViewById(R.id.btn_walk);
+        this.tv_distance = findViewById(R.id.tv_distance);
+        this.tv_duration = findViewById(R.id.tv_duration);
+        this.btn_driving = findViewById(R.id.btn_driving);
+        this.btn_walking = findViewById(R.id.btn_walking);
     }
 
     //  direction 초기화
@@ -183,50 +191,48 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             GoogleDirection.withServerKey(serverKey)
                     .from(origin)
                     .to(destination)
-//                    .avoid(AvoidType.FERRIES)
-//                    .avoid(AvoidType.HIGHWAYS)
                     .transportMode(TransportMode.WALKING)
-//                    .transitMode(TransitMode.SUBWAY)
                     .language(Language.KOREAN)
                     .unit(Unit.METRIC)
-                    .alternativeRoute(true)
                     .execute(this);
         }
     }
 
     @Override
     public void onDirectionSuccess(Direction direction, String rawBody) {
-        String status = direction.getStatus();
-        switch (status) {
-            case RequestResult.OK:
+        GoogleDirectionConfiguration.getInstance().setLogEnabled(true);
+        if (direction.isOK()) {
                 Route route = direction.getRouteList().get(0);
+                Leg leg = route.getLegList().get(0);
+                mMap.addMarker(new MarkerOptions().position(selected));
+                // 경로표시
+                ArrayList<LatLng> directionPositionList = leg.getDirectionPoint();
+                PolylineOptions polylineOptions = DirectionConverter.createPolyline(this, directionPositionList, 3, Color.RED);
+                mMap.addPolyline(polylineOptions);
+                setCameraWithCoordinationBounds(route);
 
-                ArrayList<LatLng> directionPositionList = route.getLegList().get(0).getDirectionPoint();
-                mMap.addPolyline(DirectionConverter.createPolyline(this, directionPositionList, 5, Color.RED));
-                break;
-            case RequestResult.NOT_FOUND:
-                SweetToast.error(MapsActivity.this, "원점 또는 목적지 또는 경유지를 지오 코딩 할 수 없습니다");
-                break;
-            case RequestResult.ZERO_RESULTS:
-                SweetToast.error(MapsActivity.this, "경로를 찾을 수 없습니다");
-                break;
-            case RequestResult.INVALID_REQUEST:
-                SweetToast.error(MapsActivity.this, "요청이 유효하지 않습니다");
-                break;
-            case RequestResult.OVER_QUERY_LIMIT:
-                SweetToast.error(MapsActivity.this, "OVER_QUERY_LIMIT");
-//                Handler handler = new Handler();
-//                handler.postDelayed(this::direction, 2000);
-                break;
-            case RequestResult.UNKNOWN_ERROR:
-                SweetToast.error(MapsActivity.this, "서버 오류로 인해 길 찾기 요청을 처리하지 못했습니다");
-                break;
+                // 시간, 거리
+                Info distanceInfo = leg.getDistance();
+                Info durationInfo = leg.getDuration();
+                String distance = distanceInfo.getText();
+                String duration = durationInfo.getText();
+                tv_distance.setText(distance);
+                tv_duration.setText(duration);
+        } else {
+            Snackbar.make(btn_direction, direction.getStatus(), Snackbar.LENGTH_LONG).show();
         }
     }
 
     @Override
     public void onDirectionFailure(Throwable t) {
+        Snackbar.make(btn_direction, t.getMessage(), Snackbar.LENGTH_SHORT).show();
+    }
 
+    private void setCameraWithCoordinationBounds(Route route) {
+        LatLng southwest = route.getBound().getSouthwestCoordination().getCoordination();
+        LatLng northeast = route.getBound().getNortheastCoordination().getCoordination();
+        LatLngBounds bounds = new LatLngBounds(southwest, northeast);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
     }
 
     // Place Select Event

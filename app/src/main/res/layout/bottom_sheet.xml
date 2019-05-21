@@ -67,27 +67,33 @@
                         android:layout_height="wrap_content"/>
             </LinearLayout>
         </LinearLayout>
-        <!--<LinearLayout-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="horizontal"-->
-                <!--android:layout_alignParentEnd="true"-->
-                <!--android:layout_centerVertical="true">-->
-            <!--<com.google.android.material.button.MaterialButton-->
-                    <!--android:id="@+id/btn_driving"-->
-                    <!--style="@style/Widget.MaterialComponents.Button.TextButton"-->
-                    <!--android:textColor="@color/white"-->
-                    <!--android:currency_text="driving"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"/>-->
-            <!--<com.google.android.material.button.MaterialButton-->
-                    <!--android:id="@+id/btn_walk"-->
-                    <!--style="@style/Widget.MaterialComponents.Button.TextButton"-->
-                    <!--android:textColor="@color/white"-->
-                    <!--android:currency_text="walk"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"/>-->
-        <!--</LinearLayout>-->
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true">
+            <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_driving"
+                    style="@style/Widget.MaterialComponents.FloatingActionButton"
+                    android:backgroundTint="#00ffffff"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:layout_marginRight="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DRIVE"/>
+            <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_walking"
+                    style="@style/Widget.MaterialComponents.FloatingActionButton"
+                    android:backgroundTint="#00ffffff"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:layout_marginRight="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="WALK"/>
+        </LinearLayout>
     </RelativeLayout>
 
 
