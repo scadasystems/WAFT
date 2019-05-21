@@ -65,7 +65,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final int UPDATE_INTERVAL_MS = 1000;  // 1초
     private static final int FASTEST_UPDATE_INTERVAL_MS = 500; // 0.5초
     private static final int REQUEST_CODE_PERMISSIONS = 1000;
-    final private String serverKey = "AIzaSyD4i9LTNlcP6E9WFcXJOHLEAUgyXYmBDAk";
+    final private String androidKey = "AIzaSyD4i9LTNlcP6E9WFcXJOHLEAUgyXYmBDAk";
+    final private String serverKey = "AIzaSyChDbn5ae2fxwz56mgspasHXnAwwP_zBbU";
     boolean needRequest = false;
     private FusedLocationProviderClient mFusedLocation;
     private LocationRequest locationRequest;
@@ -79,6 +80,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     TextView tv_duration, tv_distance;
     Button btn_direction;
     MaterialButton btn_walking, btn_driving;
+    EditText edt_duration, edt_distance;
 //    private Button btn_driving, btn_walk;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -142,7 +144,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         builder.addLocationRequest(locationRequest);
 
         // Initialize Places.
-        Places.initialize(getApplicationContext(), serverKey);
+        Places.initialize(getApplicationContext(), androidKey);
 
         // Place
         findViewById(R.id.searchInput).setOnClickListener(v -> {
@@ -154,13 +156,21 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
         });
 
-
+        // 주변 탐색
         findViewById(R.id.btn_search_bank).setOnClickListener(v -> showBank(currentPosition));
         findViewById(R.id.btn_search_restaurant).setOnClickListener(v -> showRestaurant(currentPosition));
         findViewById(R.id.btn_search_busStop).setOnClickListener(v -> showBusStation(currentPosition));
         findViewById(R.id.btn_search_police).setOnClickListener(v -> showPolice(currentPosition));
-        btn_direction = findViewById(R.id.btn_direction);
-        btn_direction.setOnClickListener(v -> direction());
+
+        // 경로찾기 버튼이벤트
+        btn_walking.setOnClickListener(direction);
+        btn_driving.setOnClickListener(direction);
+
+        // 수정 불가
+        edt_duration.setFocusable(false);
+        edt_duration.setClickable(false);
+        edt_distance.setFocusable(false);
+        edt_distance.setClickable(false);
 
 
     }
@@ -174,10 +184,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         this.tv_duration = findViewById(R.id.tv_duration);
         this.btn_driving = findViewById(R.id.btn_driving);
         this.btn_walking = findViewById(R.id.btn_walking);
+        this.edt_duration = findViewById(R.id.edt_duration);
+        this.edt_distance = findViewById(R.id.edt_distance);
     }
 
     //  direction 초기화
-    public void direction() {
+    Button.OnClickListener direction = v -> {
         LatLng origin = currentPosition;
         LatLng destination = selected;
         if (origin == null) {
@@ -185,39 +197,81 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         } else if (destination == null) {
             SweetToast.error(MapsActivity.this, "내위치 " + origin + "\n" + "목적지 없음");
         } else {
-            SweetToast.success(MapsActivity.this, "내위치 " + origin + "\n" + "목적지 " + destination);
-            GoogleDirection.withServerKey(serverKey)
-                    .from(origin)
-                    .to(destination)
-                    .transportMode(TransportMode.WALKING)
-                    .language(Language.KOREAN)
-                    .unit(Unit.METRIC)
-                    .execute(this);
+            switch (v.getId()) {
+                case R.id.btn_walking:
+                    btn_walking.setSelected(true);
+                    btn_driving.setSelected(false);
+                    SweetToast.success(MapsActivity.this, "WALK모드" + "\n" + "내위치 " + origin + "\n" + "목적지 " + destination);
+                    GoogleDirection.withServerKey(serverKey)
+                            .from(origin)
+                            .to(destination)
+                            .transportMode(TransportMode.WALKING)
+                            .alternativeRoute(true)
+                            .language(Language.KOREAN)
+                            .unit(Unit.METRIC)
+                            .execute(this);
+                    break;
+
+                case R.id.btn_driving:
+                    btn_walking.setSelected(false);
+                    btn_driving.setSelected(true);
+                    SweetToast.success(MapsActivity.this, "DRIVE모드" + "\n" + "내위치 " + origin + "\n" + "목적지 " + destination);
+                    GoogleDirection.withServerKey(serverKey)
+                            .from(origin)
+                            .to(destination)
+                            .transportMode(TransportMode.DRIVING)
+                            .alternativeRoute(true)
+                            .language(Language.KOREAN)
+                            .unit(Unit.METRIC)
+                            .execute(this);
+                    break;
+            }
+
         }
-    }
+    };
+
+    //  direction 초기화
+//    public void direction() {
+//        LatLng origin = currentPosition;
+//        LatLng destination = selected;
+//        if (origin == null) {
+//            SweetToast.error(MapsActivity.this, "목적지 " + destination + "\n" + "내위치 없음");
+//        } else if (destination == null) {
+//            SweetToast.error(MapsActivity.this, "내위치 " + origin + "\n" + "목적지 없음");
+//        } else {
+//            SweetToast.success(MapsActivity.this, "내위치 " + origin + "\n" + "목적지 " + destination);
+//            GoogleDirection.withServerKey(serverKey)
+//                    .from(origin)
+//                    .to(destination)
+//                    .transportMode(TransportMode.WALKING)
+//                    .language(Language.KOREAN)
+//                    .unit(Unit.METRIC)
+//                    .execute(this);
+//        }
+//    }
 
     @Override
     public void onDirectionSuccess(Direction direction, String rawBody) {
         GoogleDirectionConfiguration.getInstance().setLogEnabled(true);
         if (direction.isOK()) {
-                Route route = direction.getRouteList().get(0);
-                Leg leg = route.getLegList().get(0);
-                mMap.addMarker(new MarkerOptions().position(selected));
-                // 경로표시
-                ArrayList<LatLng> directionPositionList = leg.getDirectionPoint();
-                PolylineOptions polylineOptions = DirectionConverter.createPolyline(this, directionPositionList, 3, Color.RED);
-                mMap.addPolyline(polylineOptions);
-                setCameraWithCoordinationBounds(route);
+            Route route = direction.getRouteList().get(0);
+            Leg leg = route.getLegList().get(0);
+            mMap.addMarker(new MarkerOptions().position(selected));
+            // 경로표시
+            ArrayList<LatLng> directionPositionList = leg.getDirectionPoint();
+            PolylineOptions polylineOptions = DirectionConverter.createPolyline(this, directionPositionList, 3, Color.RED);
+            mMap.addPolyline(polylineOptions);
+            setCameraWithCoordinationBounds(route);
 
-                // 시간, 거리
-                Info distanceInfo = leg.getDistance();
-                Info durationInfo = leg.getDuration();
-                String distance = distanceInfo.getText();
-                String duration = durationInfo.getText();
-                tv_distance.setText(distance);
-                tv_duration.setText(duration);
+            // 시간, 거리
+            Info distanceInfo = leg.getDistance();
+            Info durationInfo = leg.getDuration();
+            String distance = distanceInfo.getText();
+            String duration = durationInfo.getText();
+            tv_distance.setText(distance);
+            tv_duration.setText(duration);
         } else {
-            Snackbar.make(btn_direction, direction.getStatus(), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(btn_walking, direction.getStatus(), Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -248,15 +302,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     markerOptions.title(place.getName());
                     markerOptions.snippet(place.getAddress());
                     markerOptions.draggable(true);
+                    edt_duration.setText(getCurrentAddress(currentPosition));
+                    edt_distance.setText(place.getAddress());
                     mMap.addMarker(markerOptions);
                     mMap.moveCamera(cameraUpdate);
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(16.0f));
+                    tbUoDown.setChecked(true);
                 }
                 SweetToast.success(this, "이름 : " + place.getName() + "\n" + "위치 : " + place.getLatLng());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 // TODO: Handle the error.
                 Status status = Autocomplete.getStatusFromIntent(data);
-                if(status.equals("OVER_QUERY_LIMIT")) {
+                if (status.equals("OVER_QUERY_LIMIT")) {
                     Toast.makeText(this, "OVER_QUERY_LIMIT", Toast.LENGTH_SHORT).show();
                 }
                 Log.i(TAG, status.getStatusMessage());
@@ -477,7 +534,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         new NRPlaces.Builder()
                 .listener(MapsActivity.this)
-                .key(serverKey)
+                .key(androidKey)
                 .latlng(location.latitude, location.longitude)//현재 위치
                 .radius(500) //500 미터 내에서 검색
                 .type(PlaceType.BANK) //은행
@@ -494,7 +551,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         new NRPlaces.Builder()
                 .listener(MapsActivity.this)
-                .key(serverKey)
+                .key(androidKey)
                 .latlng(location.latitude, location.longitude)//현재 위치
                 .radius(500) //500 미터 내에서 검색
                 .type(PlaceType.RESTAURANT) //음식점
@@ -511,7 +568,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         new NRPlaces.Builder()
                 .listener(MapsActivity.this)
-                .key(serverKey)
+                .key(androidKey)
                 .latlng(location.latitude, location.longitude)//현재 위치
                 .radius(500) //500 미터 내에서 검색
                 .type(PlaceType.BUS_STATION) //버스
@@ -528,7 +585,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         new NRPlaces.Builder()
                 .listener(MapsActivity.this)
-                .key(serverKey)
+                .key(androidKey)
                 .latlng(location.latitude, location.longitude)//현재 위치
                 .radius(1000) //500 미터 내에서 검색
                 .type(PlaceType.POLICE) //경찰서
@@ -562,7 +619,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Marker item = mMap.addMarker(markerOptions);
                 previous_marker.add(item);
             }
-
             //중복 마커 제거
             HashSet<Marker> hashSet = new HashSet<Marker>();
             hashSet.addAll(previous_marker);

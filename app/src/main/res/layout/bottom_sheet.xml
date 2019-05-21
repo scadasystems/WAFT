@@ -3,7 +3,7 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:id="@+id/bottom_sheet"
               android:layout_width="match_parent"
-              android:layout_height="300dp"
+              android:layout_height="200dp"
               android:background="@android:color/white"
               android:orientation="vertical"
               app:behavior_peekHeight="?actionBarSize"
@@ -77,7 +77,7 @@
                     android:id="@+id/btn_driving"
                     style="@style/Widget.MaterialComponents.FloatingActionButton"
                     android:backgroundTint="#00ffffff"
-                    android:textColor="@color/white"
+                    android:textColor="@color/button_selector"
                     android:textStyle="bold"
                     android:layout_marginRight="15dp"
                     android:layout_width="wrap_content"
@@ -87,7 +87,7 @@
                     android:id="@+id/btn_walking"
                     style="@style/Widget.MaterialComponents.FloatingActionButton"
                     android:backgroundTint="#00ffffff"
-                    android:textColor="@color/white"
+                    android:textColor="@color/button_selector"
                     android:textStyle="bold"
                     android:layout_marginRight="15dp"
                     android:layout_width="wrap_content"
@@ -95,6 +95,50 @@
                     android:text="WALK"/>
         </LinearLayout>
     </RelativeLayout>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical">
+        <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:elevation="4dp"
+                android:background="@drawable/rounded2"
+                android:layout_marginBottom="8dp">
+            <EditText
+                    android:id="@+id/edt_duration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:hint="내위치"
+                    android:drawableLeft="@drawable/ic_place"
+                    android:drawablePadding="20dp"
+                    android:background="@null"
+                    android:inputType="textCapSentences|textPersonName"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:elevation="4dp"
+                android:background="@drawable/rounded2"
+                android:layout_marginBottom="8dp">
+            <EditText
+                    android:id="@+id/edt_distance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:hint="목적지"
+                    android:drawableLeft="@drawable/ic_place"
+                    android:drawablePadding="20dp"
+                    android:background="@null"
+                    android:inputType="textCapSentences|textPersonName"/>
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
 
 </LinearLayout>
