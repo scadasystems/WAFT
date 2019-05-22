@@ -1,8 +1,10 @@
 package org.lulzm.waft.MainFragment;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
@@ -10,17 +12,26 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 import com.google.zxing.BarcodeFormat;
@@ -31,25 +42,26 @@ import org.lulzm.waft.R;
 import xyz.hasnat.sweettoast.SweetToast;
 
 import java.io.*;
-import java.util.Random;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /*********************************************************
- *   $$\                  $$\             $$\      $$\   
- *   $$ |                 $$ |            $$$\    $$$ |  
- *   $$ |      $$\   $$\  $$ | $$$$$$$$\  $$$$\  $$$$ |  
- *   $$ |      $$ |  $$ | $$ | \____$$  | $$ \$\$$ $$ | 
- *   $$ |      $$ |  $$ | $$ |   $$$$ _/  $$  \$$  $$ |  
- *   $$ |      $$ |  $$ | $$ |  $$  _/    $$ | $  /$$ |  
- *   $$$$$$$$  \$$$$$$$ | $$ | $$$$$$$$\  $$ | \_/ $$ |  
- *   \_______| \______/   \__| \________| \__|     \__|  
+ *   $$\                  $$\             $$\      $$\
+ *   $$ |                 $$ |            $$$\    $$$ |
+ *   $$ |      $$\   $$\  $$ | $$$$$$$$\  $$$$\  $$$$ |
+ *   $$ |      $$ |  $$ | $$ | \____$$  | $$ \$\$$ $$ |
+ *   $$ |      $$ |  $$ | $$ |   $$$$ _/  $$  \$$  $$ |
+ *   $$ |      $$ |  $$ | $$ |  $$  _/    $$ | $  /$$ |
+ *   $$$$$$$$  \$$$$$$$ | $$ | $$$$$$$$\  $$ | \_/ $$ |
+ *   \_______| \______/   \__| \________| \__|     \__|
  *
- * Project : WAFT                             
- * Created by Android Studio                           
- * Developer : Lulz_M                                    
- * Date : 2019-05-08 008                                        
- * Time : 오후 2:03                                       
- * GitHub : https://github.com/scadasystems              
- * E-mail : redsmurf@lulzm.org                           
+ * Project : WAFT
+ * Created by Android Studio
+ * Developer : Lulz_M
+ * Date : 2019-05-08 008
+ * Time : 오후 2:03
+ * GitHub : https://github.com/scadasystems
+ * E-mail : redsmurf@lulzm.org
  *********************************************************/
 public class FragmentQRMain extends Fragment implements View.OnClickListener {
 
@@ -62,6 +74,8 @@ public class FragmentQRMain extends Fragment implements View.OnClickListener {
     private File file;
     private FileOutputStream fileoutputstream;
 
+    private static final int REQUEST_CODE_PERMISSIONS = 100;
+
     // firebase
     DatabaseReference getUserDatabaseReference;
     FirebaseAuth mAuth;
@@ -73,6 +87,9 @@ public class FragmentQRMain extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        permissions();
+        checkPermission();
     }
 
     @Override
@@ -107,23 +124,32 @@ public class FragmentQRMain extends Fragment implements View.OnClickListener {
         String user_id = mAuth.getCurrentUser().getUid();
         getUserDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(user_id);
 
-        getUserDatabaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String search_name = dataSnapshot.child("search_name").getValue().toString();
+        String imgPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath() + "/myQR.png";
 
-                Bitmap logo = BitmapFactory.decodeResource(view.getResources(), R.drawable.waft_icon);
+        Log.d("TAG", "---------------------" + imgPath);
 
-                Bitmap merge = mergeBitmaps(logo, GenerateQRCodeBitmap(search_name));
+//        if (TextUtils.isEmpty(imgPath)) {
+            getUserDatabaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    /** todo QR코드 search_name 값 => '?? ???'  고쳐야함 */
+                    String search_name = dataSnapshot.child("search_name").getValue().toString();
+                    String utf_search_name = new String(search_name.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
 
-                qr_image.setImageBitmap(merge);
-            }
+                    Bitmap logo = BitmapFactory.decodeResource(view.getResources(), R.drawable.waft_icon);
+                    Bitmap merge = mergeBitmaps(logo, GenerateQRCodeBitmap(utf_search_name));
+                    qr_image.setImageBitmap(merge);
+//                    saveImageLocally(qr_image);
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
+//        } else {
+//            Bitmap bm = BitmapFactory.decodeFile(imgPath);
+//            qr_image.setImageBitmap(bm);
+//        }
     }
 
     private Bitmap GenerateQRCodeBitmap(String data) {
@@ -131,7 +157,7 @@ public class FragmentQRMain extends Fragment implements View.OnClickListener {
         try {
             bitMatrix = new MultiFormatWriter().encode(
                     data, BarcodeFormat.QR_CODE,
-                    900, 900, null);
+                    600, 600, null);
         } catch (IllegalArgumentException Illegalargumentexception) {
             return null;
         } catch (WriterException e) {
@@ -154,7 +180,7 @@ public class FragmentQRMain extends Fragment implements View.OnClickListener {
         Bitmap.Config config;
         Bitmap bitmap = Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Config.ARGB_4444);
 
-        bitmap.setPixels(pixels, 0, 900, 0, 0, bitMatrixWidth, bitMatrixHeight);
+        bitmap.setPixels(pixels, 0, 600, 0, 0, bitMatrixWidth, bitMatrixHeight);
 
         return bitmap;
     }
@@ -178,25 +204,25 @@ public class FragmentQRMain extends Fragment implements View.OnClickListener {
 
         Bitmap bmp = iv.getDrawingCache();
 
-        File storageLocal = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM); //context.getExternalFilesDir(null);
+        File storageLocal = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsoluteFile(); //context.getExternalFilesDir(null);
 
-        Random random = new Random();
-        int n = 10000;
         String path;
-        n = random.nextInt(n);
-        String name = "Image-" + n + ".png";
+        String name = "myQR.png";
 
         File file = new File(storageLocal, name);
 
         path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
-        Toast.makeText(getActivity(), "Saved successfully in " + path + "/" + name, Toast.LENGTH_LONG).show();
 
         try {
-            FileOutputStream fos = new FileOutputStream(file);
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            fos.close();
-            scanFile(getActivity(), Uri.fromFile(file));
-
+            if (!file.exists()) {
+                FileOutputStream fos = new FileOutputStream(file);
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                fos.close();
+                SweetToast.success(getActivity(), getString(R.string.success_save) + path + "/" + name);
+                scanFile(getActivity(), Uri.fromFile(file));
+            } else {
+                SweetToast.info(getActivity(), getString(R.string.already_qrcode_save));
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -247,12 +273,50 @@ public class FragmentQRMain extends Fragment implements View.OnClickListener {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
                     intent.setType("image/png");
-                    startActivity(Intent.createChooser(intent, "Share image via"));
+                    startActivity(Intent.createChooser(intent, getString(R.string.share_QRcode)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
         }
+    }
+
+    // 권한 설정
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void permissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            if (getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_PERMISSIONS);
+            }
+    }
+
+    // 권한 체크
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST_CODE_PERMISSIONS:
+                // 위치 권한 허용X
+                if (getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_PERMISSIONS);
+                    SweetToast.error(getActivity(), getString(R.string.need_permission));
+                }
+        }
+    }
+
+    // 런타임 퍼미션 처리
+    private boolean checkPermission() {
+
+        int hasFineLocationPermission = ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.READ_EXTERNAL_STORAGE);
+        int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED && hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        return false;
     }
 
     private void setQRScannerFragment(Fragment child) {

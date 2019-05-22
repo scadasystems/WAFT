@@ -1,11 +1,12 @@
 package org.lulzm.waft.ChatAdapter;
 
-import org.lulzm.waft.ChatFragment.ChatsFragment;
-import org.lulzm.waft.ChatFragment.RequestsFragment;
-
+import android.content.Context;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import org.lulzm.waft.ChatFragment.ChatsFragment;
+import org.lulzm.waft.ChatFragment.RequestsFragment;
+import org.lulzm.waft.R;
 
 /*********************************************************
  *   $$\                  $$\             $$\      $$\   
@@ -27,9 +28,12 @@ import androidx.fragment.app.FragmentPagerAdapter;
  *********************************************************/
 public class TabsPagerAdapter extends FragmentPagerAdapter {
 
+    Context context;
 
-    public TabsPagerAdapter(FragmentManager fm) {
+
+    public TabsPagerAdapter(FragmentManager fm, Context nContext) {
         super(fm);
+        context = nContext;
     }
 
     @Override
@@ -55,9 +59,9 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position){
             case 0:
-                return "CHATS"; // ChatsFragment
+                return context.getString(R.string.chat_room); // ChatsFragment
             case 1:
-                return "REQUESTS"; // ttttRequestsFragment
+                return context.getString(R.string.request_room); // RequestsFragment
             default:
                 return null;
         }

@@ -141,7 +141,7 @@ public class SearchActivity extends AppCompatActivity {
                     holder.verified_icon.setVisibility(View.GONE);
                 }
 
-                /**on list >> clicking currency_item, then, go to single user profile*/
+                /** on list >> clicking currency_item, then, go to single user profile */
                 holder.itemView.setOnClickListener(v -> {
                     String visit_user_id = getRef(position).getKey();
                     Intent intent = new Intent(SearchActivity.this, ChatProfileActivity.class);

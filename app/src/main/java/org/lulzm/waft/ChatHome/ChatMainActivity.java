@@ -87,7 +87,7 @@ public class ChatMainActivity extends AppCompatActivity {
          * Tabs >> Viewpager for ChatMainActivity
          */
         mViewPager = findViewById(R.id.tabs_pager);
-        mTabsPagerAdapter = new TabsPagerAdapter(getSupportFragmentManager());
+        mTabsPagerAdapter = new TabsPagerAdapter(getSupportFragmentManager(), this);
         mViewPager.setAdapter(mTabsPagerAdapter);
 
         mTabLayout = findViewById(R.id.main_tabs);

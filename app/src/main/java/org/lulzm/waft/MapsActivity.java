@@ -311,7 +311,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
                 SweetToast.success(this, "이름 : " + place.getName() + "\n" + "위치 : " + place.getLatLng());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
-                // TODO: Handle the error.
                 Status status = Autocomplete.getStatusFromIntent(data);
                 if (status.equals("OVER_QUERY_LIMIT")) {
                     Toast.makeText(this, "OVER_QUERY_LIMIT", Toast.LENGTH_SHORT).show();

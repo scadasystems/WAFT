@@ -1,17 +1,17 @@
 package org.lulzm.waft.MainFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.google.android.gms.vision.barcode.Barcode;
 import info.androidhive.barcode.BarcodeReader;
+import org.lulzm.waft.ChatProfile.ChatProfileActivity;
 import org.lulzm.waft.R;
 import xyz.hasnat.sweettoast.SweetToast;
 
@@ -64,7 +64,10 @@ public class FragmentQRScanner extends Fragment implements BarcodeReader.Barcode
         barcodeReader.playBeep();
 
         getActivity().runOnUiThread(() -> {
-            SweetToast.success(getActivity(), "Barcode: " + barcode.displayValue);
+            Intent i = new Intent(getActivity(), ChatProfileActivity.class);
+            i.putExtra("visitUserId", barcode.displayValue);
+            startActivity(i);
+            SweetToast.success(getActivity(), "QRcode: " + barcode.displayValue);
         });
     }
 
@@ -76,7 +79,7 @@ public class FragmentQRScanner extends Fragment implements BarcodeReader.Barcode
         }
 
         final String finalCodes = codes;
-        getActivity().runOnUiThread(() -> SweetToast.info(getActivity(), "Barcodes: " + finalCodes));
+        getActivity().runOnUiThread(() -> SweetToast.info(getActivity(), "QRcodes: " + finalCodes));
     }
 
     @Override

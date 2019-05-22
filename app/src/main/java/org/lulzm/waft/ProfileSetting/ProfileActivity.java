@@ -159,7 +159,8 @@ public class ProfileActivity extends AppCompatActivity {
                 // 국가
                 countryCodePicker.setCountryForNameCode(country);
                 countryCodePicker.getSelectedCountryName();
-                // 이미지
+                // QR
+
 
 
                 // default image for new user
@@ -203,12 +204,9 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         /** cancel event */
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
-            }
+        btn_cancel.setOnClickListener(v -> {
+            finish();
+            overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
         });
 
         /** edit status */

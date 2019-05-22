@@ -56,7 +56,6 @@ public class LoginSignUpActivity extends AppCompatActivity {
     //Firebase
     private FirebaseAuth mAuth;
     private FirebaseUser user;
-
     private DatabaseReference storeDefaultDatabaseReference;
     private DatabaseReference userDatabaseReference;
 
@@ -421,7 +420,6 @@ public class LoginSignUpActivity extends AppCompatActivity {
                             // get and link storage
                             String current_userID = mAuth.getCurrentUser().getUid();
                             storeDefaultDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(current_userID);
-
                             storeDefaultDatabaseReference.child("user_name").setValue(name);
                             storeDefaultDatabaseReference.child("verified").setValue("false");
                             storeDefaultDatabaseReference.child("search_name").setValue(name.toLowerCase());

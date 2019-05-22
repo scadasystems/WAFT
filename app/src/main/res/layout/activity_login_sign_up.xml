@@ -156,7 +156,6 @@
                 android:layout_below="@+id/til2"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="20dp"
-                android:inputType="textCapSentences"
                 android:padding="20dp"
                 android:onClick="move_forgotPass"
                 android:text="Forgot Password ?" />

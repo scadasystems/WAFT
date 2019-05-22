@@ -141,8 +141,7 @@ public class Main extends AppCompatActivity implements EditText.OnEditorActionLi
     public static final String CHART_LIST = "chart_list";
     public static final String SAVE_SELECT = "save_select";
 
-    public static final String ECB_DAILY_URL =
-            "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml";
+    public static final String ECB_DAILY_URL = "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml";
 
     protected final static String CHOICE = "currency_choice";
 
@@ -194,17 +193,17 @@ public class Main extends AppCompatActivity implements EditText.OnEditorActionLi
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
-            if ( v instanceof EditText) {
+            if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         }
-        return super.dispatchTouchEvent( event );
+        return super.dispatchTouchEvent(event);
     }
 
     @Override
@@ -537,28 +536,32 @@ public class Main extends AppCompatActivity implements EditText.OnEditorActionLi
 
         // Check connected
         if (info == null || !info.isConnected()) {
-            if (statusView != null)
+            if (statusView != null) {
                 statusView.setText(R.string.no_connection);
+            }
             return;
         }
 
         // Check wifi
         if (wifi && info.getType() != ConnectivityManager.TYPE_WIFI) {
-            if (statusView != null)
+            if (statusView != null) {
                 statusView.setText(R.string.no_wifi);
+            }
             return;
         }
 
         // Check roaming
         if (!roaming && info.isRoaming()) {
-            if (statusView != null)
+            if (statusView != null) {
                 statusView.setText(R.string.roaming);
+            }
             return;
         }
 
         // Schedule update
-        if (statusView != null)
+        if (statusView != null) {
             statusView.setText(R.string.updating);
+        }
 
         // Start the task
         if (data != null)
@@ -610,8 +613,7 @@ public class Main extends AppCompatActivity implements EditText.OnEditorActionLi
 
     // On create options menu
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it
         // is present.
         MenuInflater inflater = getMenuInflater();
@@ -798,33 +800,46 @@ public class Main extends AppCompatActivity implements EditText.OnEditorActionLi
 
         // Check connected
         if (info == null || !info.isConnected()) {
-            if (statusView != null)
+            if (statusView != null) {
                 statusView.setText(R.string.no_connection);
+                statusView.setTextColor(Color.RED);
+            }
             return false;
         }
 
         // Check wifi
         if (wifi && info.getType() != ConnectivityManager.TYPE_WIFI) {
-            if (statusView != null)
-                statusView.setText(R.string.no_wifi);
+            if (statusView != null) {
+                statusView.setTextColor(Color.RED);
+                statusView.setText(R.string.need_setting);
+            }
+            return false;
+        }
+        // check roaming
+        if (roaming && info.getType() != ConnectivityManager.TYPE_MOBILE) {
+            if (statusView != null) {
+                statusView.setTextColor(Color.RED);
+                statusView.setText(R.string.need_setting);
+            }
             return false;
         }
 
-        // Check roaming
         if (!roaming && info.isRoaming()) {
-            if (statusView != null)
+            if (statusView != null) {
+                statusView.setTextColor(Color.BLUE);
                 statusView.setText(R.string.roaming);
+            }
             return false;
         }
-
         // Schedule update
-        if (statusView != null)
+        if (statusView != null) {
+            statusView.setTextColor(Color.BLUE);
             statusView.setText(R.string.updating);
+        }
 
         // Start the task
         if (data != null)
             data.startParseTask(ECB_DAILY_URL);
-
         return true;
     }
 
@@ -854,7 +869,7 @@ public class Main extends AppCompatActivity implements EditText.OnEditorActionLi
                 select = false;
                 break;
 
-            // Any other view
+// Any other view
             default:
                 // Clear value field selection
                 if (editView != null)
@@ -1190,7 +1205,7 @@ public class Main extends AppCompatActivity implements EditText.OnEditorActionLi
     }
 
     // The system calls this to perform work in the UI thread and
-    // delivers the result from doInBackground()
+// delivers the result from doInBackground()
     @Override
     public void onPostExecute(Map<String, Double> map) {
         // Check the map
@@ -1250,13 +1265,12 @@ public class Main extends AppCompatActivity implements EditText.OnEditorActionLi
     // back button event
     @Override
     public void onBackPressed() {
-        if(TIME_LIMIT + backPressed > System.currentTimeMillis()){
+        if (TIME_LIMIT + backPressed > System.currentTimeMillis()) {
             Intent intent_home = new Intent(Main.this, MainActivity.class);
             startActivity(intent_home);
             finish();
             overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
-        }
-        else {
+        } else {
             SweetToast.info(getApplicationContext(), getString(R.string.press_back_main));
         }
         backPressed = System.currentTimeMillis();
