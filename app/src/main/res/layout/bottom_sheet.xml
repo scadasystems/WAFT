@@ -40,7 +40,7 @@
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:textColor="@android:color/white"
-                        android:text="거리 : "/>
+                        android:text="@string/distance"/>
                 <TextView
                         android:id="@+id/tv_distance"
                         android:textStyle="bold"
@@ -57,7 +57,7 @@
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:textColor="@android:color/white"
-                        android:text="시간 : "/>
+                        android:text="@string/time"/>
                 <TextView
                         android:id="@+id/tv_duration"
                         android:text="1시간"
@@ -114,7 +114,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:hint="내위치"
+                    android:hint="@string/innerPosition"
                     android:drawableLeft="@drawable/ic_place"
                     android:drawablePadding="20dp"
                     android:background="@null"
@@ -132,7 +132,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:hint="목적지"
+                    android:hint="@string/destination"
                     android:drawableLeft="@drawable/ic_place"
                     android:drawablePadding="20dp"
                     android:background="@null"

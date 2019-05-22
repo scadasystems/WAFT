@@ -169,4 +169,14 @@
 
     <!-- Setting -->
     <string name="stname">환경설정</string>
+
+    <!-- 지도 -->
+    <string name="bank">은행</string>
+    <string name="restaurant">음식점</string>
+    <string name="busStop">버스정류장</string>
+    <string name="police">경찰서</string>
+    <string name="distance">거리 : </string>
+    <string name="time">시간 : </string>
+    <string name="innerPosition">내위치</string>
+    <string name="destination">목적지</string>
 </resources>
