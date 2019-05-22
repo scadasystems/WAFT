@@ -29,7 +29,7 @@
                 android:gravity="center"
                 android:background="#FDFDFD"
                 android:elevation="2dp"
-                android:id="@+id/appBarLayout">
+                android:id="@+id/appBarLayout" tools:ignore="MissingConstraints">
 
             <androidx.appcompat.widget.Toolbar
                     android:layout_width="match_parent"
@@ -60,16 +60,34 @@
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <FrameLayout
-                android:id="@+id/flContent"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" tools:layout_editor_absoluteX="0dp"
-                app:layout_constraintTop_toBottomOf="@id/appBarLayout"
-                tools:ignore="MissingConstraints"
-                app:layout_constraintBottom_toBottomOf="parent">
 
-        </FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="0dp"
+                                                           android:layout_height="0dp"
+                                                           android:layout_weight="1"
+                                                           app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+                                                           app:layout_constraintBottom_toBottomOf="parent"
+                                                           app:layout_constraintEnd_toEndOf="parent"
+                                                           app:layout_constraintStart_toStartOf="parent"
+        >
+            <View
+                    android:layout_width="0.3dp"
+                    android:layout_height="0dp"
+                    android:layout_centerHorizontal="true"
+                    android:elevation="10dp"
+                    android:background="#FDFDFD" tools:ignore="MissingConstraints"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/view"/>
+            <FrameLayout
+                    android:id="@+id/flContent"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    tools:ignore="MissingConstraints"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/view"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.slidingpanelayout.widget.SlidingPaneLayout>
