@@ -177,6 +177,7 @@
 
     <!-- Setting -->
     <string name="stname">환경설정</string>
+<<<<<<< Updated upstream
 
     <!-- 지도 -->
     <string name="bank">은행</string>
@@ -187,4 +188,7 @@
     <string name="time">시간 :</string>
     <string name="innerPosition">내위치</string>
     <string name="destination">목적지</string>
+=======
+    <string name="logouttx">로그아웃 하시겠어요?</string>
+>>>>>>> Stashed changes
 </resources>
