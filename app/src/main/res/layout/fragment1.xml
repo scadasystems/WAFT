@@ -279,36 +279,59 @@
             android:id="@+id/linearLayout2"
             app:layout_constraintTop_toTopOf="@+id/guideline5"
             app:layout_constraintBottom_toBottomOf="parent">
+
         <TextView
-                android:layout_width="match_parent"
+                android:text="@string/selecet_country_code"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:textAlignment="center"
+                android:layout_marginStart="15sp"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintEnd_toStartOf="@+id/guideline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/constraintLayout"/>
+        <TextView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/emergency"
-                android:textSize="20sp"
-                android:layout_marginStart="15sp"
+                android:textSize="17sp"
                 android:textStyle="bold"
                 android:id="@+id/textView3"
+                android:textAlignment="center"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintBottom_toTopOf="@+id/constraintLayout"/>
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent" android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3">
-            <Button
+                app:layout_constraintTop_toBottomOf="@+id/textView3" android:id="@+id/constraintLayout">
+            <com.hbb20.CountryCodePicker
                     android:id="@+id/sos1_main"
-                    android:layout_width="0dp" android:layout_height="0dp"
-                    android:text="sos" app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toTopOf="parent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:ccpDialog_keyboardAutoPopup="false"
+                    app:ccp_showFullName="false"
+                    app:ccp_showPhoneCode="false"
+                    android:gravity="center"
+                    app:ccp_textSize="23dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline6"
                     android:layout_marginStart="4dp"/>
-            <Button
-
-
+            <ImageView
                     android:id="@+id/sos2_main"
-                    android:layout_width="0dp" android:layout_height="0dp"
-                    android:text="sos" app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:src="@drawable/sos2"
+                    android:padding="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/guideline6"
                     android:layout_marginStart="2dp"
                     app:layout_constraintHorizontal_bias="1.0"
@@ -318,7 +341,13 @@
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/guideline6" app:layout_constraintGuide_percent=".5"/>
+                    android:id="@+id/guideline6"
+                    app:layout_constraintGuide_percent="0.5"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.Guideline
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/guideline" app:layout_constraintGuide_percent="0.5"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

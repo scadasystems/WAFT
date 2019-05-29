@@ -101,6 +101,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:17.0.0'
     // FirebaseUI for Firebase Realtime Database
     implementation 'com.firebaseui:firebase-ui-database:3.3.1'
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     // Google Services - MLkit
     implementation 'com.google.android.gms:play-services-vision:17.0.2'
     // Google API
@@ -141,6 +143,7 @@ dependencies {
     implementation 'com.google.zxing:core:3.3.2'
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
     implementation 'info.androidhive:barcode-reader:1.1.5'
+    implementation 'com.google.android.gms:play-services-vision:17.0.2'
     // remember text
     implementation 'cn.zhaiyifan:rememberedittext:0.9.0'
     // for currency_chart

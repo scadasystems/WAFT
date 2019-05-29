@@ -38,7 +38,7 @@
     <string name="chatting">채팅창</string>
     <string name="notice_manual">공지사항</string>
     <string name="emergency">긴급상황</string>
-
+    <string name="selecet_country_code">현재 나라</string>
 
     <!-- 백버튼 -->
     <string name="on_more_time_backpress">한번 더 누르면 종료됩니다.</string>

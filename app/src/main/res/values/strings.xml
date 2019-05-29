@@ -48,6 +48,7 @@
     <string name="chatting">Chatting</string>
     <string name="notice_manual">Notice</string>
     <string name="emergency">Emergency</string>
+    <string name="selecet_country_code">Present Country</string>
 
 
     <!-- 백버튼 -->
