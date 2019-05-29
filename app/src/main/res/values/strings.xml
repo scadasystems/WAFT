@@ -1,6 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">WAFT</string>
 
+    <!-- Base URL -->
+    <string name="baseUrl" translatable="false">https://storage.googleapis.com/emergency-json/</string>
+
     <!-- 회원가입 관련 -->
     <string name="register_success_popup">회원가입을 성공했습니다.\n저희가 가입 인증 메일을 보냈으니 확인해주세요.\nWAFT의 회원이 되신 것을 축하드립니다.</string>
     <string name="recheck_gender">회원정보를 수정하기 위해서는 성별을 체크 하셔야 합니다.</string>
@@ -186,8 +189,8 @@
     <string name="restaurant">음식점</string>
     <string name="busStop">버스정류장</string>
     <string name="police">경찰서</string>
-    <string name="distance">거리 : </string>
-    <string name="time">시간 : </string>
+    <string name="distance">거리 :</string>
+    <string name="time">시간 :</string>
     <string name="innerPosition">내위치</string>
     <string name="destination">목적지</string>
 
