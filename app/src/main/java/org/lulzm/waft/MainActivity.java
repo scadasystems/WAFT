@@ -1,6 +1,7 @@
 package org.lulzm.waft;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -9,8 +10,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -33,6 +36,7 @@ import xyz.hasnat.sweettoast.SweetToast;
 
 public class MainActivity extends AppCompatActivity {
 
+    Dialog emdialog;
     private static final int TIME_LIMIT = 1500;
     private static long backPressed;
     //menu
@@ -56,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Stetho.initializeWithDefaults(this);
         setContentView(R.layout.activity_main);
+        emdialog = new Dialog(this);
 
         new OkHttpClient.Builder()
                 .addNetworkInterceptor(new StethoInterceptor())
@@ -351,6 +356,27 @@ public class MainActivity extends AppCompatActivity {
         } else {
             isTransactionPending = true;
         }
+    }
+
+    // emergency 팝업창
+    public void btnemergency(View view) {
+        TextView txtclose;
+        TextView police;
+        TextView ambulance;
+        TextView fire;
+        Button btncoll;
+        emdialog.setContentView(R.layout.emergency_popup);
+        txtclose = emdialog.findViewById(R.id.txtclose);
+        police = emdialog.findViewById(R.id.police_number);
+        ambulance = emdialog.findViewById(R.id.ambulance_number);
+        fire = emdialog.findViewById(R.id.fire_number);
+        txtclose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                emdialog.dismiss();
+            }
+        });
+        emdialog.show();
     }
 }
 

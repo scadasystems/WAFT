@@ -326,6 +326,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/guideline6"
                     android:layout_marginStart="4dp"/>
             <ImageView
+                    android:onClick="btnemergency"
                     android:id="@+id/sos2_main"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
