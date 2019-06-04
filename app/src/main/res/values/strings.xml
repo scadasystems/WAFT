@@ -5,12 +5,12 @@
     <string name="baseUrl" translatable="false">https://storage.googleapis.com/emergency-json/</string>
 
     <!-- 회원가입 관련 -->
-    <string name="register_success_popup">회원가입을 성공했습니다.\n저희가 가입 인증 메일을 보냈으니 확인해주세요.\nWAFT의 회원이 되신 것을 축하드립니다.</string>
-    <string name="recheck_gender">회원정보를 수정하기 위해서는 성별을 체크 하셔야 합니다.</string>
-    <string name="if_have_account">이미 WAFT 회원입니다. 다시 확인해주세요.</string>
-    <string name="ResetPass">패스워드 재설정</string>
-    <string name="forgotPassHint">패스워드 재설정을 누르신 후,\n해당 이메일에 재설정 메일을 확인해주세요.</string>
-    <string name="success_forgot_password_message">패스워드 재설정을 완료했습니다. 재설정 메일을 확인해주세요.</string>
+    <string name="register_success_popup">You have successfully signed up for membership.\nWe sent you an e-mail to sign up, so please check.Congratulations on becoming a member of \nWAFT.</string>
+    <string name="recheck_gender">You need to check your gender to modify your membership information.</string>
+    <string name="if_have_account">I\'m already a member of WAFT. Please check again.</string>
+    <string name="ResetPass">Reset Password</string>
+    <string name="forgotPassHint">Click Reset Password, and\nCheck your email for resetting.</string>
+    <string name="success_forgot_password_message">Password reset completed. Please check the reset mail.</string>
     <string name="name">이름</string>
     <string name="nickname">닉네임</string>
     <string name="email">이메일</string>
@@ -21,12 +21,7 @@
     <string name="back">돌아가기</string>
     <string name="save">수정하기</string>
 
-    <string name="register_success_popup">You have successfully signed up for membership.\nWe sent you an e-mail to sign up, so please check.Congratulations on becoming a member of \nWAFT.</string>
-    <string name="recheck_gender">You need to check your gender to modify your membership information.</string>
-    <string name="if_have_account">I\'m already a member of WAFT. Please check again.</string>
-    <string name="ResetPass">Reset Password</string>
-    <string name="forgotPassHint">Click Reset Password, and\nCheck your email for resetting.</string>
-    <string name="success_forgot_password_message">Password reset completed. Please check the reset mail.</string>
+
 
     <!-- Slider 관련 -->
     <string name="next">Next</string>
@@ -202,6 +197,5 @@
 
     <!--profile  -->
 
-    <string name="stname">Setting</string>
     <string name="logouttx">Would you like to log out?</string>
 </resources>
