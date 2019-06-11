@@ -14,7 +14,7 @@
             android:icon="@drawable/theme"
     android:title="테마변경"
     android:summary="Black / white 원하는 색으로 변경하세요"/>
-    <SwitchPreference
+    <Preference
         android:defaultValue="false"
         android:persistent="true"
         android:key="pref_lag"

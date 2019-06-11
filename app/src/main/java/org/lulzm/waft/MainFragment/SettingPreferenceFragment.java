@@ -1,5 +1,7 @@
 package org.lulzm.waft.MainFragment;
 
+import android.content.ComponentName;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.*;
@@ -13,7 +15,7 @@ public class SettingPreferenceFragment extends PreferenceFragment {
     ListPreference preflist;
     Preference prefnotic;
     SwitchPreference prefblack;
-    SwitchPreference preflag;
+    Preference preflag;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -21,10 +23,18 @@ public class SettingPreferenceFragment extends PreferenceFragment {
         addPreferencesFromResource(R.xml.setting_ference);
 
         prefblack = (SwitchPreference) findPreference("pref_black");
-        preflag = (SwitchPreference) findPreference("pref_lag");
+        preflag =  findPreference("pref_lag");
         prefnotic = findPreference("pref_ntic");
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        preflag.setOnPreferenceClickListener(preference -> {
+            Intent intent = new Intent();
+            intent.setComponent( new ComponentName("com.android.settings","com.android.settings.Settings$LanguageAndInputSettingsActivity" ));
+            startActivity(intent);
+
+            return false;
+        });
 
     }
 }
