@@ -30,7 +30,7 @@ public class SettingPreferenceFragment extends PreferenceFragment {
 
         preflag.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent();
-            intent.setComponent( new ComponentName("com.android.settings","com.android.settings.Settings$LanguageAndInputSettingsActivityd" ));
+            intent.setComponent( new ComponentName("com.android.settings","com.android.settings.Settings$LanguageAndInputSettingsActivity" ));
             startActivity(intent);
 
             return false;
