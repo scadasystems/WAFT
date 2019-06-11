@@ -11,15 +11,19 @@
     <string name="ResetPass">Reset Password</string>
     <string name="forgotPassHint">Click Reset Password, and\nCheck your email for resetting.</string>
     <string name="success_forgot_password_message">Password reset completed. Please check the reset mail.</string>
-    <string name="name">이름</string>
-    <string name="nickname">닉네임</string>
-    <string name="email">이메일</string>
-    <string name="country">국가</string>
-    <string name="gender">성별</string>
-    <string name="male">남</string>
-    <string name="female">여</string>
-    <string name="back">돌아가기</string>
-    <string name="save">수정하기</string>
+    <string name="name">Name</string>
+    <string name="nickname">NickName</string>
+    <string name="email">E-mail</string>
+    <string name="country">Country</string>
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="back">Cancel</string>
+    <string name="save">Save</string>
+
+    <!-- 로그아웃 -->
+    <string name="logout_cancel">Cancel</string>
+    <string name="logout_success">Logout</string>
 
 
 

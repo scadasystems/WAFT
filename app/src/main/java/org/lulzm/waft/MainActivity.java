@@ -3,11 +3,13 @@ package org.lulzm.waft;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -33,6 +35,8 @@ import org.lulzm.waft.Currency.Main;
 import org.lulzm.waft.MainFragment.*;
 import org.lulzm.waft.ProfileSetting.ProfileActivity;
 import xyz.hasnat.sweettoast.SweetToast;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -105,6 +109,15 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.flContent, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+
+        Locale locale = getResources().getConfiguration().locale;
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putString("country", locale.getLanguage());
+        edit.commit();
+
 
         //menu 아이콘 클릭시 넘어가는 화면 링크
         HomeFragmentHandler = new Handler() {
@@ -191,8 +204,8 @@ public class MainActivity extends AppCompatActivity {
                             imageButton.setImageResource(R.drawable.logout);
 
                             builder.setCancelable(true);
-                            builder.setNegativeButton("취소", (dialog, which) -> dialog.cancel());
-                            builder.setPositiveButton("로그아웃 하기", (dialog, which) -> {
+                            builder.setNegativeButton(getString(R.string.logout_cancel), (dialog, which) -> dialog.cancel());
+                            builder.setPositiveButton(getString(R.string.logout_success), (dialog, which) -> {
                                 if (currentUser != null) {
                                     userDatabaseReference.child("active_now").setValue(ServerValue.TIMESTAMP);
                                 }
@@ -334,6 +347,7 @@ public class MainActivity extends AppCompatActivity {
             isTransactionPending = true;
         }
     }
+
     // 영사서비스/비자
     public void btnMovePassportInfo(View view) {
         if (isTransactionSafe) {

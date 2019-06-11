@@ -18,6 +18,10 @@
     <string name="back">돌아가기</string>
     <string name="save">수정하기</string>
 
+    <!-- 로그아웃 관련 -->
+    <string name="logout_cancel">취소</string>
+    <string name="logout_success">로그아웃 하기</string>
+
     <!-- Slider 관련 -->
     <string name="next">다음</string>
     <string name="skip">건너뛰기</string>
