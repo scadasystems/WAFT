@@ -1,14 +1,10 @@
 package org.lulzm.waft.MainFragment;
 
-import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.*;
-import android.widget.Toast;
 import androidx.annotation.Nullable;
 import org.lulzm.waft.R;
 
@@ -34,32 +30,33 @@ public class SettingPreferenceFragment extends PreferenceFragment {
         prefnotic = findPreference("pref_ntic");
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String l = prefs.getString("country", "없음");
-        Toast.makeText(getActivity(), l, Toast.LENGTH_SHORT).show();
 
+        // 언어변경 이벤트
         preflag.setOnPreferenceClickListener(preference -> {
             locale = getResources().getConfiguration().locale;
             SharedPreferences.Editor edit = prefs.edit();
-
             Intent i = getActivity().getIntent();
 
-            if (locale.getLanguage().equals("ko")) {
+            if (locale.getLanguage().equals("ko")) { // 현재 언어가 한국어 일때
                 locale = Locale.ENGLISH;
                 Configuration config = new Configuration();
                 config.locale = locale;
                 getResources().updateConfiguration(config, getResources().getDisplayMetrics());
-                Toast.makeText(getActivity(), locale.toString(), Toast.LENGTH_SHORT).show();
-                edit.putString("country", locale.getLanguage());
+                // 변경된 언어 값 저장
+                edit.putString("language", "en");
+                edit.apply();
+                // 새로고침
                 getActivity().finish();
                 startActivity(i);
-            } else if (locale.getLanguage().equals("en")) {
+            } else if (locale.getLanguage().equals("en")) { // 현재 언어가 영어 일때
                 locale = Locale.KOREA;
                 Configuration config = new Configuration();
                 config.locale = locale;
                 getResources().updateConfiguration(config, getResources().getDisplayMetrics());
-                edit.putString("country", locale.getLanguage());
-
-
+                // 변경된 언어 값 저장
+                edit.putString("language", "ko");
+                edit.apply();
+                // 새로고침
                 getActivity().finish();
                 startActivity(i);
             }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -110,13 +111,20 @@ public class MainActivity extends AppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
 
+        // 현재 기본설정 언어값을 넘겨줌
         Locale locale = getResources().getConfiguration().locale;
-
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
         SharedPreferences.Editor edit = prefs.edit();
         edit.putString("country", locale.getLanguage());
-        edit.commit();
+        edit.apply();
+        // 셋팅에서 넘어온 변경된 언어설정 받기, 저장
+        String language = prefs.getString("language", "");
+        Locale languageToLoad = new Locale(language);
+        Locale.setDefault(languageToLoad);
+        Configuration config = new Configuration();
+        config.locale = languageToLoad;
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+
 
 
         //menu 아이콘 클릭시 넘어가는 화면 링크
