@@ -139,7 +139,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         checkPermission();
         mFusedLocation = LocationServices.getFusedLocationProviderClient(this);
         previous_marker = new ArrayList<Marker>();
-        locationRequest = new LocationRequest().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY).setInterval(UPDATE_INTERVAL_MS).setFastestInterval(FASTEST_UPDATE_INTERVAL_MS);
+        locationRequest = new LocationRequest().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
         builder.addLocationRequest(locationRequest);
 
@@ -172,6 +172,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         edt_distance.setFocusable(false);
         edt_distance.setClickable(false);
 
+        edt_duration.setOnClickListener(v -> edt_duration.setText(getCurrentAddress(currentPosition)));
+        edt_distance.setOnClickListener(v -> {
+            List<Place.Field> fields = Arrays.asList(Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS);
+            Intent intent = new Autocomplete.IntentBuilder(
+                    AutocompleteActivityMode.OVERLAY, fields).build(this);
+            startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+        });
 
     }
 
@@ -229,26 +236,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         }
     };
-
-    //  direction 초기화
-//    public void direction() {
-//        LatLng origin = currentPosition;
-//        LatLng destination = selected;
-//        if (origin == null) {
-//            SweetToast.error(MapsActivity.this, "목적지 " + destination + "\n" + "내위치 없음");
-//        } else if (destination == null) {
-//            SweetToast.error(MapsActivity.this, "내위치 " + origin + "\n" + "목적지 없음");
-//        } else {
-//            SweetToast.success(MapsActivity.this, "내위치 " + origin + "\n" + "목적지 " + destination);
-//            GoogleDirection.withServerKey(serverKey)
-//                    .from(origin)
-//                    .to(destination)
-//                    .transportMode(TransportMode.WALKING)
-//                    .language(Language.KOREAN)
-//                    .unit(Unit.METRIC)
-//                    .execute(this);
-//        }
-//    }
 
     @Override
     public void onDirectionSuccess(Direction direction, String rawBody) {
