@@ -139,7 +139,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         checkPermission();
         mFusedLocation = LocationServices.getFusedLocationProviderClient(this);
         previous_marker = new ArrayList<Marker>();
-        locationRequest = new LocationRequest().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest = new LocationRequest();
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
         builder.addLocationRequest(locationRequest);
 
@@ -386,6 +386,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             if (checkPermission()) {
                 mMap.setMyLocationEnabled(true);
+                mMap.getUiSettings().setZoomControlsEnabled(true);
+                mMap.setPadding(0, 0, 0, 150);
             }
         }
     }
