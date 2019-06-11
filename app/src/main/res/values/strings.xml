@@ -183,17 +183,23 @@
 
 
     <!-- Setting -->
-    <string name="stname">환경설정</string>
+    <string name="stname">Configuration</string>
+    <string name="notice">Notice</string>
+    <string name="notice_str">Please check the notice.</string>
+    <string name="theme_change">Theme change</string>
+    <string name="theme_change_str">Black / White Change it to the color you want</string>
+    <string name="language">Language selection</string>
+    <string name="language_str">Click to go to Language Settings screen</string>
 
     <!-- 지도 -->
-    <string name="bank">은행</string>
-    <string name="restaurant">음식점</string>
-    <string name="busStop">버스정류장</string>
-    <string name="police">경찰서</string>
-    <string name="distance">거리 :</string>
-    <string name="time">시간 :</string>
-    <string name="innerPosition">내위치</string>
-    <string name="destination">목적지</string>
+    <string name="bank">Bank</string>
+    <string name="restaurant">Restaurant</string>
+    <string name="busStop">BusStop</string>
+    <string name="police">Police</string>
+    <string name="distance">Distance :</string>
+    <string name="time">Time :</string>
+    <string name="innerPosition">InnerPosition</string>
+    <string name="destination">Destination</string>
 
     <!--profile  -->
 

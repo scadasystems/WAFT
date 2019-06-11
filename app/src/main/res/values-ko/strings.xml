@@ -177,6 +177,12 @@
 
     <!-- Setting -->
     <string name="stname">환경설정</string>
+    <string name="notice">공지사항</string>
+    <string name="notice_str">공지사항을 확인 해주세요</string>
+    <string name="theme_change">테마변경</string>
+    <string name="theme_change_str">Black / White 원하는 색으로 변경하세요</string>
+    <string name="language">언어선택</string>
+    <string name="language_str">클릭 시 언어 설정 세팅 화면으로 이동합니다</string>
 
     <!-- 지도 -->
     <string name="bank">은행</string>

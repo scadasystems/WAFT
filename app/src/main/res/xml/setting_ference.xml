@@ -4,23 +4,23 @@
 <PreferenceCategory android:title="@string/stname">
     <Preference
     android:key="pref_ntic"
-    android:title="공지사항"
-    android:summary="공지사항을 확인 해주세요"
+    android:title="@string/notice"
+    android:summary="@string/notice_str"
     android:icon="@drawable/notic"/>
     <SwitchPreference
             android:key="pref_black"
             android:defaultValue="false"
             android:persistent="true"
             android:icon="@drawable/theme"
-    android:title="테마변경"
-    android:summary="Black / white 원하는 색으로 변경하세요"/>
+    android:title="@string/theme_change"
+    android:summary="@string/theme_change_str"/>
     <Preference
         android:defaultValue="false"
         android:persistent="true"
         android:key="pref_lag"
         android:icon="@drawable/lagig"
-        android:title="언어선택"
-        android:summary="클릭시 영어로 변경됩니다."/>
+        android:title="@string/language"
+        android:summary="@string/language_str"/>
 </PreferenceCategory>
 
 </PreferenceScreen>
