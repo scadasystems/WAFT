@@ -208,4 +208,5 @@
     <!--profile  -->
 
     <string name="logouttx">Would you like to log out?</string>
+    <string name="Configuration">Configuration</string>
 </resources>

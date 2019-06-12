@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:background="?attr/backgroundcolor">
 
-<PreferenceCategory android:title="@string/stname">
-    <Preference
-    android:key="pref_ntic"
-    android:title="@string/notice"
-    android:summary="@string/notice_str"
-    android:icon="@drawable/notic"/>
-    <SwitchPreference
-            android:key="pref_black"
-            android:defaultValue="false"
-            android:persistent="true"
-            android:icon="@drawable/theme"
-    android:title="@string/theme_change"
-    android:summary="@string/theme_change_str"/>
-    <Preference
-        android:defaultValue="false"
-        android:persistent="true"
-        android:key="pref_lag"
-        android:icon="@drawable/lagig"
-        android:title="@string/language"
-        android:summary="@string/language_str"/>
-</PreferenceCategory>
+    <PreferenceCategory android:title="@string/stname">
+        <Preference
+                android:key="pref_ntic"
+                android:title="@string/notice"
+                android:summary="@string/notice_str"
+                android:icon="@drawable/notic"/>
+        <SwitchPreference
+                android:key="pref_black"
+                android:defaultValue="false"
+                android:persistent="true"
+                android:icon="@drawable/theme"
+                android:title="@string/theme_change"
+                android:textAppearance="?attr/textcolor"
+                android:textColor="?attr/textcolor"
+                android:summary="@string/theme_change_str"/>
+        <Preference
+                android:defaultValue="false"
+                android:persistent="true"
+                android:key="pref_lag"
+                android:icon="@drawable/lagig"
+                android:title="@string/language"
+                android:summary="@string/language_str"/>
+    </PreferenceCategory>
 
 </PreferenceScreen>

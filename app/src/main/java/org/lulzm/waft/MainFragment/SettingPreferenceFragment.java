@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.*;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.lulzm.waft.R;
 
@@ -12,16 +15,24 @@ import java.util.Locale;
 
 public class SettingPreferenceFragment extends PreferenceFragment {
 
+    public interface OnThemeChangeListener {
+        void onThemeChanged(boolean isDarkMode);
+    }
+
+    OnThemeChangeListener mListener;
+
     PreferenceScreen prefscreen;
     SharedPreferences prefs;
     ListPreference preflist;
     Preference prefnotic;
-    SwitchPreference prefblack;
+    SwitchPreference prefmode;
     Preference preflag;
     Locale locale;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        sharedPref = new SharedPref(getActivity());
+
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.setting_ference);
 

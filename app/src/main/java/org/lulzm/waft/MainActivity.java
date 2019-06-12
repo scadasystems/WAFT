@@ -37,11 +37,10 @@ import org.lulzm.waft.MainFragment.*;
 import org.lulzm.waft.ProfileSetting.ProfileActivity;
 import xyz.hasnat.sweettoast.SweetToast;
 
-import java.util.Locale;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Fragment5.OnThemeChangeListener {
 
     Dialog emdialog;
+    TextView txtclose;
     private static final int TIME_LIMIT = 1500;
     private static long backPressed;
     //menu
@@ -180,25 +179,17 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
                     }
-                    // chat
+                    // sos
                     case 3: {
-                        if (isTransactionSafe) {
-                            fragmentClass = Fragment6.class;
-                            try {
-                                fragment = (Fragment) fragmentClass.newInstance();
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                        emdialog.setContentView(R.layout.emergency_popup);
+                        txtclose = emdialog.findViewById(R.id.txtclose);
+                        txtclose.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                emdialog.dismiss();
                             }
-                            FragmentManager fragmentManager = getSupportFragmentManager();
-                            FragmentTransaction transaction = fragmentManager.beginTransaction();
-                            transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
-                            transaction.replace(R.id.flContent, fragment);
-                            transaction.addToBackStack(null);
-                            transaction.commit();
-                            sliding_pane.closePane();
-                        } else {
-                            isTransactionPending = true;
-                        }
+                        });
+                        emdialog.show();
                         break;
                     }
                     // logout
@@ -382,7 +373,6 @@ public class MainActivity extends AppCompatActivity {
 
     // emergency 팝업창
     public void btnemergency(View view) {
-        TextView txtclose;
         TextView police;
         TextView ambulance;
         TextView fire;
@@ -399,6 +389,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         emdialog.show();
+    }
+
+    @Override
+    public void onThemeChanged(boolean isDarkMode) {
+
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.flContent, new Fragment5());
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }
 

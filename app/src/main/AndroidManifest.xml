@@ -34,8 +34,6 @@
             tools:ignore="AllowBackup,GoogleAppIndexingWarning,InnerclassSeparator,MipmapIcons"
             tools:replace="android:allowBackup"
             tools:targetApi="m">
-        <activity android:name=".Emergency.PoliceNumber">
-        </activity>
 
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
