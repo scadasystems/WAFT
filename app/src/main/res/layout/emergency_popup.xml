@@ -1,71 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="350dp"
-              android:layout_gravity="center"
-              android:padding="5dp"
-              android:background="@color/quantum_black_divider"
-              android:layout_height="wrap_content">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@color/quantum_black_divider"
+    android:orientation="vertical"
+    android:padding="5dp">
 
     <TextView
-            android:id="@+id/txtclose"
-            android:layout_gravity="end"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:background="@drawable/cerclebackground"
-            android:text="X"
-            android:layout_width="30dp" android:layout_height="30dp"/>
+        android:id="@+id/txtclose"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="end"
+        android:background="@drawable/cerclebackground"
+        android:gravity="center"
+        android:text="X"
+        android:textStyle="bold" />
 
     <TextView
-            android:text="Emergency Number"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Emergency Number"
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
-    <ImageView
-            android:id="@+id/im_word"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"
-            android:layout_width="250dp" android:layout_height="100dp"/>
+    <com.hbb20.CountryCodePicker
+        android:id="@+id/country_popup_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:ccp_showArrow="false"
+        app:ccp_clickable="false"
+        app:ccp_textSize="40sp"
+        app:ccp_textGravity="LEFT"
+        android:layout_marginTop="20dp"
+        app:ccpDialog_keyboardAutoPopup="false"
+        app:ccp_showFlag="true"
+        app:ccp_showFullName="true"
+        app:ccp_showPhoneCode="false"
+        app:ccp_showNameCode="false"/>
 
     <LinearLayout
-            android:padding="15dp"
-            android:layout_width="wrap_content" android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
         <ImageView
-                android:src="@drawable/sos2"
-                android:layout_width="50dp" android:layout_height="50dp"/>
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/sos2" />
+
         <TextView
-                android:id="@+id/police_number"
-                android:layout_gravity="center"
-                android:layout_marginStart="20dp"
-                android:text="Police Number"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            android:id="@+id/police_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:text="Police Number" />
     </LinearLayout>
+
     <LinearLayout
-            android:padding="15dp"
-            android:layout_width="wrap_content" android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
         <ImageView
-                android:src="@drawable/sos2"
-                android:layout_width="50dp" android:layout_height="50dp"/>
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/sos2" />
+
         <TextView
-                android:id="@+id/ambulance_number"
-                android:layout_gravity="center"
-                android:layout_marginStart="20dp"
-                android:text="Ambulance Number"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            android:id="@+id/ambulance_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:text="Ambulance Number" />
     </LinearLayout>
+
     <LinearLayout
-            android:padding="15dp"
-            android:layout_width="wrap_content" android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
         <ImageView
-                android:src="@drawable/sos2"
-                android:layout_width="50dp" android:layout_height="50dp"/>
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/sos2" />
+
         <TextView
-                android:id="@+id/fire_number"
-                android:layout_gravity="center"
-                android:layout_marginStart="20dp"
-                android:text="Fire Number"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            android:id="@+id/fire_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:text="Fire Number" />
     </LinearLayout>
 </LinearLayout>

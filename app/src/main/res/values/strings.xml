@@ -60,8 +60,8 @@
 
 
     <!-- 백버튼 -->
-    <string name="on_more_time_backpress">Press one more time to exit.</string>
-    <string name="press_back_main">Press one more time to go to Maine.</string>
+    <string name="on_more_time_backpress">Press one more time for exit.</string>
+    <string name="press_back_main">Press one more time for go to main.</string>
 
 
     <!-- 채팅방 관련 -->

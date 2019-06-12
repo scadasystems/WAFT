@@ -312,7 +312,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView3" android:id="@+id/constraintLayout">
             <com.hbb20.CountryCodePicker
-                    android:id="@+id/sos1_main"
+                    android:id="@+id/country_code_picker"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     app:ccpDialog_keyboardAutoPopup="false"
@@ -325,13 +325,15 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline6"
                     android:layout_marginStart="4dp"/>
-            <ImageView
-                    android:onClick="btnemergency"
-                    android:id="@+id/sos2_main"
+            <ImageButton
+                    android:id="@+id/btn_sos"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:src="@drawable/sos2"
-                    android:padding="15dp"
+                    android:background="@color/trans"
+                    android:scaleType="fitXY"
+                    android:scaleX="0.6"
+                    android:scaleY="0.7"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/guideline6"
                     android:layout_marginStart="2dp"

@@ -2,6 +2,7 @@ package org.lulzm.waft;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -17,12 +18,14 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.slidingpanelayout.widget.SlidingPaneLayout;
+
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,16 +33,24 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
-import okhttp3.OkHttpClient;
+import com.hbb20.CountryCodePicker;
+
 import org.lulzm.waft.ChatHome.ChatMainActivity;
 import org.lulzm.waft.Currency.Main;
-import org.lulzm.waft.MainFragment.*;
+import org.lulzm.waft.MainFragment.Fragment1;
+import org.lulzm.waft.MainFragment.Fragment5;
+import org.lulzm.waft.MainFragment.FragmentQRMain;
+import org.lulzm.waft.MainFragment.MainWebview;
 import org.lulzm.waft.ProfileSetting.ProfileActivity;
+
+import java.util.Locale;
+
+import okhttp3.OkHttpClient;
 import xyz.hasnat.sweettoast.SweetToast;
 
 public class MainActivity extends AppCompatActivity implements Fragment5.OnThemeChangeListener {
 
-    Dialog emdialog;
+    Dialog dialog_sos;
     TextView txtclose;
     private static final int TIME_LIMIT = 1500;
     private static long backPressed;
@@ -64,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements Fragment5.OnTheme
         super.onCreate(savedInstanceState);
         Stetho.initializeWithDefaults(this);
         setContentView(R.layout.activity_main);
-        emdialog = new Dialog(this);
+        dialog_sos = new Dialog(this);
 
         new OkHttpClient.Builder()
                 .addNetworkInterceptor(new StethoInterceptor())
@@ -125,7 +136,6 @@ public class MainActivity extends AppCompatActivity implements Fragment5.OnTheme
         getResources().updateConfiguration(config, getResources().getDisplayMetrics());
 
 
-
         //menu 아이콘 클릭시 넘어가는 화면 링크
         HomeFragmentHandler = new Handler() {
             public void handleMessage(Message msg) {
@@ -181,15 +191,18 @@ public class MainActivity extends AppCompatActivity implements Fragment5.OnTheme
                     }
                     // sos
                     case 3: {
-                        emdialog.setContentView(R.layout.emergency_popup);
-                        txtclose = emdialog.findViewById(R.id.txtclose);
-                        txtclose.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                emdialog.dismiss();
-                            }
-                        });
-                        emdialog.show();
+                        dialog_sos.setContentView(R.layout.emergency_popup);
+                        CountryCodePicker country_popup_name = dialog_sos.findViewById(R.id.country_popup_name);
+                        TextView tv_close = dialog_sos.findViewById(R.id.txtclose);
+                        TextView tv_police = dialog_sos.findViewById(R.id.police_number);
+                        TextView tv_amb = dialog_sos.findViewById(R.id.ambulance_number);
+                        TextView tv_fire = dialog_sos.findViewById(R.id.fire_number);
+
+                        SharedPreferences preferences2 = getSharedPreferences("pref_countryCode", Context.MODE_PRIVATE);
+                        String pref_countryCode_popUp_set = preferences2.getString("country_code", "");
+                        country_popup_name.setCountryForNameCode(pref_countryCode_popUp_set);
+                        tv_close.setOnClickListener(v -> dialog_sos.dismiss());
+                        dialog_sos.show();
                         break;
                     }
                     // logout
@@ -377,18 +390,18 @@ public class MainActivity extends AppCompatActivity implements Fragment5.OnTheme
         TextView ambulance;
         TextView fire;
         Button btncoll;
-        emdialog.setContentView(R.layout.emergency_popup);
-        txtclose = emdialog.findViewById(R.id.txtclose);
-        police = emdialog.findViewById(R.id.police_number);
-        ambulance = emdialog.findViewById(R.id.ambulance_number);
-        fire = emdialog.findViewById(R.id.fire_number);
+        dialog_sos.setContentView(R.layout.emergency_popup);
+        txtclose = dialog_sos.findViewById(R.id.txtclose);
+        police = dialog_sos.findViewById(R.id.police_number);
+        ambulance = dialog_sos.findViewById(R.id.ambulance_number);
+        fire = dialog_sos.findViewById(R.id.fire_number);
         txtclose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                emdialog.dismiss();
+                dialog_sos.dismiss();
             }
         });
-        emdialog.show();
+        dialog_sos.show();
     }
 
     @Override
