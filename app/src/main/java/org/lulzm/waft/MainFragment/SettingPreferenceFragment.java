@@ -4,11 +4,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.preference.*;
-import android.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
-import androidx.annotation.NonNull;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
+import android.preference.SwitchPreference;
+
 import androidx.annotation.Nullable;
+
 import org.lulzm.waft.R;
 
 import java.util.Locale;
@@ -31,12 +35,12 @@ public class SettingPreferenceFragment extends PreferenceFragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        sharedPref = new SharedPref(getActivity());
+//        sharedPref = new SharedPref(getActivity());
 
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.setting_ference);
 
-        prefblack = (SwitchPreference) findPreference("pref_black");
+//        prefblack = (SwitchPreference) findPreference("pref_black");
         preflag = findPreference("pref_lag");
         prefnotic = findPreference("pref_ntic");
 
