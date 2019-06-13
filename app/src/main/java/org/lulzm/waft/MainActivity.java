@@ -16,14 +16,12 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.slidingpanelayout.widget.SlidingPaneLayout;
-
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,7 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.hbb20.CountryCodePicker;
-
+import okhttp3.OkHttpClient;
 import org.lulzm.waft.ChatHome.ChatMainActivity;
 import org.lulzm.waft.Currency.Main;
 import org.lulzm.waft.MainFragment.Fragment1;
@@ -40,6 +38,7 @@ import org.lulzm.waft.MainFragment.Fragment5;
 import org.lulzm.waft.MainFragment.FragmentQRMain;
 import org.lulzm.waft.MainFragment.MainWebview;
 import org.lulzm.waft.ProfileSetting.ProfileActivity;
+import xyz.hasnat.sweettoast.SweetToast;
 
 import okhttp3.OkHttpClient;
 import xyz.hasnat.sweettoast.SweetToast;
