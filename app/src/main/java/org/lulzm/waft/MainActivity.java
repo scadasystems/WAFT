@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -40,8 +41,7 @@ import org.lulzm.waft.MainFragment.MainWebview;
 import org.lulzm.waft.ProfileSetting.ProfileActivity;
 import xyz.hasnat.sweettoast.SweetToast;
 
-import okhttp3.OkHttpClient;
-import xyz.hasnat.sweettoast.SweetToast;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements Fragment5.OnThemeChangeListener {
 
@@ -83,6 +83,14 @@ public class MainActivity extends AppCompatActivity implements Fragment5.OnTheme
             String user_uID = mAuth.getCurrentUser().getUid();
             userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(user_uID);
         }
+
+        // 현재 기본설정 언어값을 넘겨줌
+        Locale locale = getResources().getConfiguration().locale;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putString("language", locale.getLanguage());
+        edit.putString("lang", locale.getLanguage());
+        edit.apply();
 
         // 상태표시줄 색상 변경
         View view = getWindow().getDecorView();

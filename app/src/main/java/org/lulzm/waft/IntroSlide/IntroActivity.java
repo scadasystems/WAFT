@@ -4,17 +4,24 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
+import android.preference.PreferenceManager;
 import android.text.Html;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import org.lulzm.waft.MainActivity;
 import org.lulzm.waft.R;
+
+import java.util.Locale;
 
 /*********************************************************
  *   $$\                  $$\             $$\      $$\   
@@ -57,6 +64,26 @@ public class IntroActivity extends Activity {
             startActivity(new Intent(IntroActivity.this, MainActivity.class));
             finish();
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        }
+
+        // 셋팅에서 넘어온 변경된 언어설정 받기, 저장
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String language = prefs.getString("language", "");
+        String lang = prefs.getString("lang", "");
+        assert language != null;
+        assert lang != null;
+        if (language.equals("en") || language.equals("English") && lang.equals("ko")) {
+            Locale languageToLoad = new Locale(language);
+            Locale.setDefault(languageToLoad);
+            Configuration config = new Configuration();
+            config.locale = languageToLoad;
+            getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+        } else if (language.equals("ko") || language.equals("한국어") && lang.equals("en")) {
+            Locale languageToLoad = new Locale(language);
+            Locale.setDefault(languageToLoad);
+            Configuration config = new Configuration();
+            config.locale = languageToLoad;
+            getResources().updateConfiguration(config, getResources().getDisplayMetrics());
         }
 
         // initializations
