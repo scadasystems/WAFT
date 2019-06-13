@@ -1,131 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="org.lulzm.waft">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="org.lulzm.waft">
     <!-- 권한 -->
-    <uses-permission android:name="android.hardware.camera"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.hardware.camera.autofocus"/>
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_PROFILE"/>
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
-            android:name=".ChatUtils.WAFTOffline"
-            android:allowBackup="false"
-            android:fullBackupContent="false"
-            android:hardwareAccelerated="true"
-            android:icon="@drawable/ic_launcher_trans"
-            android:label="@string/app_name"
-            android:largeHeap="true"
-            android:roundIcon="@drawable/ic_launcher_trans"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme"
-            android:usesCleartextTraffic="true"
-            tools:ignore="AllowBackup,GoogleAppIndexingWarning,InnerclassSeparator,MipmapIcons"
-            tools:replace="android:allowBackup"
-            tools:targetApi="m">
+        android:name=".ChatUtils.WAFTOffline"
+        android:allowBackup="false"
+        android:fullBackupContent="false"
+        android:hardwareAccelerated="true"
+        android:icon="@drawable/ic_launcher_trans"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:roundIcon="@drawable/ic_launcher_trans"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning,InnerclassSeparator,MipmapIcons"
+        tools:replace="android:allowBackup"
+        tools:targetApi="m">
 
         <meta-data
-                android:name="com.google.android.geo.API_KEY"
-                android:value="@string/google_maps_key"/>
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
 
         <activity
-                android:name=".IntroSlide.SplashActivity"
-                android:configChanges="orientation|screenSize">
-        </activity> <!-- Start Activity -->
+            android:name=".IntroSlide.SplashActivity"
+            android:configChanges="orientation|screenSize">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <!-- Start Activity -->
         <activity
-                android:name=".IntroSlide.IntroActivity"
-                android:configChanges="orientation|screenSize">
+            android:name=".IntroSlide.IntroActivity"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.SEND" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.SEND"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-
-                <data android:mimeType="text/plain"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <meta-data
-                    android:name="android.app.shortcuts"
-                    android:resource="@xml/shortcuts"/>
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
         <activity
-                android:name=".LoginSignUpActivity"
-                android:configChanges="orientation|screenSize"/>
+            android:name=".LoginSignUpActivity"
+            android:configChanges="orientation|screenSize" />
         <activity
-                android:name=".ForgotPassActivity"
-                android:parentActivityName=".LoginSignUpActivity"/>
+            android:name=".ForgotPassActivity"
+            android:parentActivityName=".LoginSignUpActivity" />
         <activity
-                android:name=".MainActivity"
-                android:configChanges="orientation|screenSize"/>
+            android:name=".MainActivity"
+            android:configChanges="orientation|screenSize" />
         <activity
-                android:name=".ProfileSetting.ProfileActivity"
-                android:configChanges="orientation|screenSize"
-                tools:ignore="InnerclassSeparator"/>
+            android:name=".ProfileSetting.ProfileActivity"
+            android:configChanges="orientation|screenSize"
+            tools:ignore="InnerclassSeparator" />
         <activity
-                android:name=".ProfileSetting.StatusUpdateActivity"
-                android:configChanges="orientation|screenSize"
-                tools:ignore="InnerclassSeparator"/> <!-- About Chat -->
+            android:name=".ProfileSetting.StatusUpdateActivity"
+            android:configChanges="orientation|screenSize"
+            tools:ignore="InnerclassSeparator" /> <!-- About Chat -->
         <activity
-                android:name=".ChatHome.ChatMainActivity"
-                android:configChanges="orientation|screenSize"
-                tools:ignore="InnerclassSeparator"/>
+            android:name=".ChatHome.ChatMainActivity"
+            android:configChanges="orientation|screenSize"
+            tools:ignore="InnerclassSeparator" />
         <activity
-                android:name=".ChatFriends.FriendsActivity"
-                android:configChanges="orientation|screenSize"
-                tools:ignore="InnerclassSeparator"/>
+            android:name=".ChatFriends.FriendsActivity"
+            android:configChanges="orientation|screenSize"
+            tools:ignore="InnerclassSeparator" />
         <activity
-                android:name=".ChatProfile.ChatProfileActivity"
-                android:configChanges="orientation|screenSize|screenLayout"
-                tools:ignore="InnerclassSeparator">
+            android:name=".ChatProfile.ChatProfileActivity"
+            android:configChanges="orientation|screenSize|screenLayout"
+            tools:ignore="InnerclassSeparator">
             <intent-filter>
-                <action android:name="org.lulzm.waft_TARGET_NOTIFICATION"/>
+                <action android:name="org.lulzm.waft_TARGET_NOTIFICATION" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-                android:name=".ChatHome.ChatActivity"
-                tools:ignore="InnerclassSeparator"/>
+            android:name=".ChatHome.ChatActivity"
+            tools:ignore="InnerclassSeparator" />
         <activity
-                android:name=".ChatSearch.SearchActivity"
-                android:configChanges="orientation|screenSize"
-                tools:ignore="InnerclassSeparator"/>
-        <activity android:name=".MapsActivity"/> <!-- 환전소 -->
+            android:name=".ChatSearch.SearchActivity"
+            android:configChanges="orientation|screenSize"
+            tools:ignore="InnerclassSeparator" />
+        <activity android:name=".MapsActivity" /> <!-- 환전소 -->
         <activity
-                android:name=".Currency.Main"
-                android:windowSoftInputMode="stateHidden"
-                tools:ignore="InnerclassSeparator"/>
+            android:name=".Currency.Main"
+            android:windowSoftInputMode="stateHidden"
+            tools:ignore="InnerclassSeparator" />
         <activity
-                android:name=".Currency.ChartActivity"
-                android:screenOrientation="landscape"
-                tools:ignore="InnerclassSeparator"/>
+            android:name=".Currency.ChartActivity"
+            android:screenOrientation="landscape"
+            tools:ignore="InnerclassSeparator" />
         <activity
-                android:name=".Currency.ChoiceDialog"
-                tools:ignore="InnerclassSeparator"/>
+            android:name=".Currency.ChoiceDialog"
+            tools:ignore="InnerclassSeparator" />
         <activity
-                android:name=".Currency.SettingsActivity"
-                tools:ignore="InnerclassSeparator"/> <!-- Cropping image library -->
+            android:name=".Currency.SettingsActivity"
+            tools:ignore="InnerclassSeparator" /> <!-- Cropping image library -->
         <activity
-                android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-                android:theme="@style/Base.Theme.AppCompat"/> <!-- Firebase Messaging Service -->
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" /> <!-- Firebase Messaging Service -->
         <service android:name=".ChatUtils.FirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
     </application>

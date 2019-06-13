@@ -3,7 +3,10 @@ package org.lulzm.waft.MainFragment;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +23,16 @@ import com.hbb20.CountryCodePicker;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.lulzm.waft.R;
+import org.lulzm.waft.SosAdapter.ApiService;
+import org.lulzm.waft.SosAdapter.Datum;
+import org.lulzm.waft.SosAdapter.RetroClient;
+import org.lulzm.waft.SosAdapter.SosList;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Fragment1 extends Fragment {
 
@@ -30,6 +43,9 @@ public class Fragment1 extends Fragment {
 
     /* sos 다이어로그 */
     Dialog dialog_sos;
+
+    /* Sos parsing */
+    private ArrayList<Datum> datumList;
 
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -64,21 +80,77 @@ public class Fragment1 extends Fragment {
             Log.d("나라코드", pref_countryCode_set);
         });
 
+        /* Sos parsing */
+        ApiService api = RetroClient.getApiService();
+        Call<SosList> call = api.getMyJSON();
+
         /* sos 버튼 이벤트 처리 */
         btn_sos.setOnClickListener(v -> {
             dialog_sos.setContentView(R.layout.emergency_popup);
+            dialog_sos.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+            // 나라코드
             CountryCodePicker country_popup_name = dialog_sos.findViewById(R.id.country_popup_name);
+            // 각 전화번호
             TextView tv_close = dialog_sos.findViewById(R.id.txtclose);
             TextView tv_police = dialog_sos.findViewById(R.id.police_number);
             TextView tv_amb = dialog_sos.findViewById(R.id.ambulance_number);
             TextView tv_fire = dialog_sos.findViewById(R.id.fire_number);
+            // 전화걸기
+            ImageButton call_police = dialog_sos.findViewById(R.id.call_police);
+            ImageButton call_amb = dialog_sos.findViewById(R.id.call_ambulance);
+            ImageButton call_fire = dialog_sos.findViewById(R.id.call_fire);
 
+            // 나라코드 가져오기
             SharedPreferences preferences2 = getActivity().getSharedPreferences("pref_countryCode", Context.MODE_PRIVATE);
             String pref_countryCode_popUp_set = preferences2.getString("country_code", "");
             country_popup_name.setCountryForNameCode(pref_countryCode_popUp_set);
 
+            // call.enquere 는 중복처리가 안되는 거 같아서 clone을 씀.
+            call.clone().enqueue(new Callback<SosList>() {
+                @Override
+                public void onResponse(Call<SosList> call, Response<SosList> response) {
+                    if (response.isSuccessful()) {
+                        datumList = response.body().getData();
 
+//                        SharedPreferences preferences3 = getActivity().getSharedPreferences("pref_country")
 
+                        for (Datum datum : datumList) {
+                            if (datum.getCountry().getISOCode().equals(pref_countryCode_popUp_set)) {
+                                String num_police = datum.getPolice().getAll().get(0).trim();
+                                String num_ambulance = datum.getAmbulance().getAll().get(0).trim();
+                                String num_fire = datum.getFire().getAll().get(0).trim();
+                                // 각 전화번호
+                                tv_police.setText(num_police);
+                                tv_amb.setText(num_ambulance);
+                                tv_fire.setText(num_fire);
+                                // 경찰 전화걸기
+                                call_police.setOnClickListener(v12 -> {
+                                    Intent intent_police = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num_police));
+                                    startActivity(intent_police);
+                                });
+                                // 응급 전화걸기
+                                call_amb.setOnClickListener(v13 -> {
+                                    Intent intent_ambulance = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num_ambulance));
+                                    startActivity(intent_ambulance);
+                                });
+                                // 소방 전화걸기
+                                call_fire.setOnClickListener(v14 -> {
+                                    Intent intent_fire = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num_fire));
+                                    startActivity(intent_fire);
+                                });
+
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<SosList> call, Throwable t) {
+
+                }
+            });
+            // 팝업 닫기 버튼
             tv_close.setOnClickListener(v1 -> dialog_sos.dismiss());
             dialog_sos.show();
         });

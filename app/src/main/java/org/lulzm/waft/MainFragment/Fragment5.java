@@ -1,25 +1,20 @@
 package org.lulzm.waft.MainFragment;
 
-import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
-import android.widget.TextView;
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import org.lulzm.waft.R;
 
-import java.util.Objects;
-import java.util.zip.Inflater;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import org.lulzm.waft.R;
 
 public class Fragment5 extends Fragment {
 
@@ -36,8 +31,10 @@ public class Fragment5 extends Fragment {
     private Fragment fragment = null;
     private boolean isTransactionSafe;
     private boolean isTransactionPending;
+    //    언어변경
+    LinearLayout language_setting;
 
-    public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         sharedPref = new SharedPref(getContext());
         if (sharedPref.loadNightModeState() == true) {
@@ -48,25 +45,35 @@ public class Fragment5 extends Fragment {
 
         //  View view = inflater.inflate(R.layout.fragment1, container);
 
-         View view= inflater.inflate(R.layout.fragment5, container, false);
+        View view = inflater.inflate(R.layout.fragment5, container, false);
+
+        language_setting = view.findViewById(R.id.language_setting);
+
+        language_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setComponent(new ComponentName("com.android.settings", "com.android.settings.Settings$LanguageAndInputSettingsActivity"));
+                startActivity(intent);
+            }
+        });
 
 
-         myswitch = view.findViewById(R.id.myswitch);
-         if (sharedPref.loadNightModeState() == true){
+        myswitch = view.findViewById(R.id.myswitch);
+        if (sharedPref.loadNightModeState() == true) {
             myswitch.setChecked(true);
         }
 
-         myswitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-             mListener.onThemeChanged(isChecked);
-             if (isChecked){
-                 sharedPref.setNightModeState(true);
+        myswitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            mListener.onThemeChanged(isChecked);
+            if (isChecked) {
+                sharedPref.setNightModeState(true);
 //                 restartApp();
-             }
-             else {
-                 sharedPref.setNightModeState(false);
+            } else {
+                sharedPref.setNightModeState(false);
 //                 restartApp();
-             }
-         });
+            }
+        });
 
         // setListAdapter(new MenuListAdapter(R.layout.row_menu_action_item, getActivity(), MenuActionItem.values()));
         return view;
