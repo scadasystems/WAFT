@@ -71,7 +71,7 @@ public class Fragment5 extends Fragment {
 
         /* 언어변경 */
         prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String language = prefs.getString("country", "");
+        String language = prefs.getString("language", "");
         Toast.makeText(getActivity(), language, Toast.LENGTH_SHORT).show();
 //        Locale languageToLoad = new Locale(language);
 //        Locale.setDefault(languageToLoad);

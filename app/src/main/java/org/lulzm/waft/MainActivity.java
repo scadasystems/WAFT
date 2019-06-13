@@ -18,14 +18,12 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.slidingpanelayout.widget.SlidingPaneLayout;
-
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,7 +32,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.hbb20.CountryCodePicker;
-
+import okhttp3.OkHttpClient;
 import org.lulzm.waft.ChatHome.ChatMainActivity;
 import org.lulzm.waft.Currency.Main;
 import org.lulzm.waft.MainFragment.Fragment1;
@@ -42,11 +40,9 @@ import org.lulzm.waft.MainFragment.Fragment5;
 import org.lulzm.waft.MainFragment.FragmentQRMain;
 import org.lulzm.waft.MainFragment.MainWebview;
 import org.lulzm.waft.ProfileSetting.ProfileActivity;
+import xyz.hasnat.sweettoast.SweetToast;
 
 import java.util.Locale;
-
-import okhttp3.OkHttpClient;
-import xyz.hasnat.sweettoast.SweetToast;
 
 public class MainActivity extends AppCompatActivity implements Fragment5.OnThemeChangeListener {
 
@@ -125,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements Fragment5.OnTheme
         Locale locale = getResources().getConfiguration().locale;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor edit = prefs.edit();
-        edit.putString("country", locale.getLanguage());
+        edit.putString("language", locale.getLanguage());
         edit.apply();
         // 셋팅에서 넘어온 변경된 언어설정 받기, 저장
         String language = prefs.getString("language", "");
