@@ -189,6 +189,7 @@ public class Main extends AppCompatActivity implements EditText.OnEditorActionLi
 
     Toolbar myToolbar;
 
+
     // edittext clearfocus
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {

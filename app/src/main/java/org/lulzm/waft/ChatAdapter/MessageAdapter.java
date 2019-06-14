@@ -10,18 +10,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.RequestManager;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.*;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.makeramen.roundedimageview.RoundedImageView;
-import de.hdodenhof.circleimageview.CircleImageView;
+
 import org.lulzm.waft.ChatModel.Message;
 import org.lulzm.waft.R;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
     private List<Message> messageList;
@@ -82,28 +90,31 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
             }
         });
+
         // if message type is TEXT
         if (from_message_TYPE.equals("text")) {
             if (from_user_ID.equals(sender_UID)) {
-                /* 변경 */
                 holder.chatItemLayout.setGravity(Gravity.RIGHT);
                 holder.chat_background.setBackgroundColor(Color.rgb(254, 237, 255));
                 holder.user_profile_image.setVisibility(View.GONE);
                 holder.chat_sender.setVisibility(View.GONE);
+                holder.chat_message_image.setVisibility(View.GONE);
+                holder.chat_message.setVisibility(View.VISIBLE);
                 holder.chat_message.setText(message.getMessage());
             } else {
-                /* 변경 */
                 holder.chatItemLayout.setGravity(Gravity.LEFT);
                 holder.chat_background.setBackgroundColor(Color.WHITE);
                 holder.user_profile_image.setVisibility(View.VISIBLE);
                 holder.chat_sender.setVisibility(View.VISIBLE);
+                holder.chat_message_image.setVisibility(View.GONE);
+                holder.chat_message.setVisibility(View.VISIBLE);
                 holder.chat_message.setText(message.getMessage());
             }
         }
+
         // if message type is image
         if (from_message_TYPE.equals("image")) {
             if (from_user_ID.equals(sender_UID)) {
-                /* 변경 */
                 holder.chatItemLayout.setGravity(Gravity.RIGHT);
                 holder.chat_background.setBackgroundColor(Color.rgb(254, 237, 255));
                 holder.user_profile_image.setVisibility(View.GONE);
@@ -115,7 +126,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                         .load(message.getMessage())
                         .into(holder.chat_message_image);
             } else {
-                /* 변경*/
                 holder.chatItemLayout.setGravity(Gravity.LEFT);
                 holder.chat_background.setBackgroundColor(Color.WHITE);
                 holder.user_profile_image.setVisibility(View.VISIBLE);
@@ -152,6 +162,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             user_profile_image = view.findViewById(R.id.messageUserImage);
         }
     }
+
+
 
 
 }

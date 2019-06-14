@@ -1,77 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context=".ChatHome.ChatActivity"
->
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChatHome.ChatActivity">
+
     <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white">
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
 
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
-            android:padding="2dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="3dp"
-            android:visibility="gone"
-            android:background="@color/colorPrimary"
-            android:layout_below="@id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="No internet"
-            android:textAlignment="center"
-            android:id="@+id/ChatConnectionTV"/>
+        android:id="@+id/ChatConnectionTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="3dp"
+        android:background="@color/colorPrimary"
+        android:padding="2dp"
+        android:text="No internet"
+        android:textAlignment="center"
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
-            android:layout_below="@id/ChatConnectionTV"
-            android:id="@+id/message_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="55dp" />
+        android:id="@+id/message_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ChatConnectionTV"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="55dp" />
 
 
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:padding="5dp"
-            android:background="@drawable/white_gray_border_top"
-    >
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/white_gray_border_top"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <ImageView
-                android:id="@+id/c_send_image_BTN"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_add_a_photo"
-                android:layout_gravity="center"
-                android:padding="5dp"/>
+            android:id="@+id/c_send_image_BTN"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:src="@drawable/ic_add_a_photo" />
 
         <EditText
-                android:id="@+id/c_input_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:ems="10"
-                android:hint="Your message..."
-                android:inputType="textMultiLine"
-                android:padding="10dp"/>
+            android:id="@+id/c_input_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:maxHeight="130dp"
+            android:ems="10"
+            android:hint="@string/edit_message_send"
+            android:inputType="textMultiLine"
+            android:padding="10dp" />
 
         <ImageView
-                android:id="@+id/c_send_message_BTN"
-                android:layout_gravity="center"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_send"
-                android:padding="5dp"/>
+            android:id="@+id/c_send_message_BTN"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:src="@drawable/ic_send" />
 
 
     </LinearLayout>

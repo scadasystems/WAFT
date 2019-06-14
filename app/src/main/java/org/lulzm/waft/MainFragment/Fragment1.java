@@ -90,8 +90,9 @@ public class Fragment1 extends Fragment {
             dialog_sos.getWindow().setBackgroundDrawable(new ColorDrawable(0));
             // 나라코드
             CountryCodePicker country_popup_name = dialog_sos.findViewById(R.id.country_popup_name);
+            // 닫기버튼
+            ImageButton tv_close = dialog_sos.findViewById(R.id.txtclose);
             // 각 전화번호
-            TextView tv_close = dialog_sos.findViewById(R.id.txtclose);
             TextView tv_police = dialog_sos.findViewById(R.id.police_number);
             TextView tv_amb = dialog_sos.findViewById(R.id.ambulance_number);
             TextView tv_fire = dialog_sos.findViewById(R.id.fire_number);
@@ -159,8 +160,8 @@ public class Fragment1 extends Fragment {
         Glide.with(this).load(R.drawable.nav_bt).into(nav_icon);
         Glide.with(this).load(R.drawable.money_blue2).into(money_icon);
         Glide.with(this).load(R.drawable.chat_bt).into(chat_icon);
-        Glide.with(this).load(R.drawable.service_safeinfo).into(notice1);
-        Glide.with(this).load(R.drawable.service_passportinfo).into(notice2);
+        Glide.with(this).load(R.drawable.service_safeinfo).placeholder(R.drawable.service_safeinfo).override(500).into(notice1);
+        Glide.with(this).load(R.drawable.service_passportinfo).placeholder(R.drawable.service_passportinfo).override(500).into(notice2);
 
         return view;
     }

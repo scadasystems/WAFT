@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,40 +14,44 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.slidingpanelayout.widget.SlidingPaneLayout;
+
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.hbb20.CountryCodePicker;
-import okhttp3.OkHttpClient;
+
 import org.lulzm.waft.ChatHome.ChatMainActivity;
 import org.lulzm.waft.Currency.Main;
 import org.lulzm.waft.MainFragment.Fragment1;
 import org.lulzm.waft.MainFragment.Fragment5;
 import org.lulzm.waft.MainFragment.FragmentQRMain;
 import org.lulzm.waft.MainFragment.MainWebview;
+import org.lulzm.waft.MainFragment.SharedPref;
 import org.lulzm.waft.ProfileSetting.ProfileActivity;
-import xyz.hasnat.sweettoast.SweetToast;
 
 import java.util.Locale;
+
+import okhttp3.OkHttpClient;
+import xyz.hasnat.sweettoast.SweetToast;
 
 public class MainActivity extends AppCompatActivity implements Fragment5.OnThemeChangeListener {
 
     Dialog dialog_sos;
-    TextView txtclose;
     private static final int TIME_LIMIT = 1500;
     private static long backPressed;
     //menu
@@ -64,9 +69,19 @@ public class MainActivity extends AppCompatActivity implements Fragment5.OnTheme
     private DatabaseReference userDatabaseReference;
     public FirebaseUser currentUser;
 
+    // 툴바
+    AppBarLayout appBarLayout;
+    SharedPref sharedPref;
+
     @SuppressLint({"HandlerLeak"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedPref = new SharedPref(this);
+        if (sharedPref.loadNightModeState() == true) {
+            setTheme(R.style.darktheme);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         Stetho.initializeWithDefaults(this);
         setContentView(R.layout.activity_main);
@@ -124,9 +139,6 @@ public class MainActivity extends AppCompatActivity implements Fragment5.OnTheme
         transaction.addToBackStack(null);
         transaction.commit();
 
-
-
-
         //menu 아이콘 클릭시 넘어가는 화면 링크
         HomeFragmentHandler = new Handler() {
             public void handleMessage(Message msg) {
@@ -146,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements Fragment5.OnTheme
                             transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
                             transaction.replace(R.id.flContent, fragment);
                             transaction.addToBackStack(null);
-                            transaction.commit();
+                            transaction.detach(fragment).attach(fragment).commit();
                             sliding_pane.closePane();
                         } else {
                             isTransactionPending = true;
@@ -183,8 +195,10 @@ public class MainActivity extends AppCompatActivity implements Fragment5.OnTheme
                     // sos
                     case 3: {
                         dialog_sos.setContentView(R.layout.emergency_popup);
+                        dialog_sos.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+
                         CountryCodePicker country_popup_name = dialog_sos.findViewById(R.id.country_popup_name);
-                        TextView tv_close = dialog_sos.findViewById(R.id.txtclose);
+                        ImageButton tv_close = dialog_sos.findViewById(R.id.txtclose);
                         TextView tv_police = dialog_sos.findViewById(R.id.police_number);
                         TextView tv_amb = dialog_sos.findViewById(R.id.ambulance_number);
                         TextView tv_fire = dialog_sos.findViewById(R.id.fire_number);
@@ -377,30 +391,8 @@ public class MainActivity extends AppCompatActivity implements Fragment5.OnTheme
         }
     }
 
-    // emergency 팝업창
-    public void btnemergency(View view) {
-        TextView police;
-        TextView ambulance;
-        TextView fire;
-        Button btncoll;
-        dialog_sos.setContentView(R.layout.emergency_popup);
-        txtclose = dialog_sos.findViewById(R.id.txtclose);
-        police = dialog_sos.findViewById(R.id.police_number);
-        ambulance = dialog_sos.findViewById(R.id.ambulance_number);
-        fire = dialog_sos.findViewById(R.id.fire_number);
-        txtclose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog_sos.dismiss();
-            }
-        });
-        dialog_sos.show();
-    }
-
     @Override
     public void onThemeChanged(boolean isDarkMode) {
-
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.flContent, new Fragment5());
@@ -408,4 +400,3 @@ public class MainActivity extends AppCompatActivity implements Fragment5.OnTheme
         transaction.commit();
     }
 }
-

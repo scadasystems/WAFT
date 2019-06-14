@@ -114,7 +114,6 @@ public class Fragment5 extends Fragment {
         return view;
     }
 
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);

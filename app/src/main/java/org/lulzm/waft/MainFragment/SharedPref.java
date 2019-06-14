@@ -12,7 +12,7 @@ public class SharedPref {
     public void setNightModeState(Boolean state) {
         SharedPreferences.Editor editor = mySharedPref.edit();
         editor.putBoolean("NightMode",state);
-        editor.commit();
+        editor.apply();
     }
     // this method will load the Night Mode State
     public Boolean loadNightModeState (){

@@ -19,7 +19,7 @@
     </style>
 
     <!-- Night / dark  Mode theme. -->
-    <style name="darktheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="darktheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#212121</item>
         <item name="colorPrimaryDark">#000000</item>

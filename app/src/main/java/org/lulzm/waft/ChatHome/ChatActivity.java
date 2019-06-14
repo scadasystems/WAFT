@@ -1,6 +1,7 @@
 package org.lulzm.waft.ChatHome;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -21,28 +22,43 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.*;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import de.hdodenhof.circleimageview.CircleImageView;
+
 import org.lulzm.waft.ChatAdapter.MessageAdapter;
 import org.lulzm.waft.ChatModel.Message;
 import org.lulzm.waft.ChatUtils.UserLastSeenTime;
 import org.lulzm.waft.R;
-import xyz.hasnat.sweettoast.SweetToast;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import xyz.hasnat.sweettoast.SweetToast;
 
 /*********************************************************
  *   $$\                  $$\             $$\      $$\
@@ -94,6 +110,8 @@ public class ChatActivity extends AppCompatActivity {
 
     private ConnectivityReceiver connectivityReceiver;
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,6 +150,13 @@ public class ChatActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
 
+        // progressbar
+        progressDialog = new ProgressDialog(ChatActivity.this);
+        progressDialog.setMessage(getString(R.string.image_upload));
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
+//        progressDialog.show();
+
         LayoutInflater layoutInflater = (LayoutInflater)
                 this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = layoutInflater.inflate(R.layout.chat_appbar, null);
@@ -155,6 +180,7 @@ public class ChatActivity extends AppCompatActivity {
         messageList_ReCyVw.setLayoutManager(linearLayoutManager);
         messageList_ReCyVw.setHasFixedSize(true);
         messageList_ReCyVw.setAdapter(messageAdapter);
+        messageList_ReCyVw.setNestedScrollingEnabled(false);
         fetchMessages();
 
         chatUserName.setText(messageReceiverName);
@@ -202,6 +228,7 @@ public class ChatActivity extends AppCompatActivity {
 
         /** SEND IMAGE MESSAGE BUTTON */
         send_image.setOnClickListener(v -> {
+            progressDialog.show();
             Intent galleryIntent = new Intent().setAction(Intent.ACTION_GET_CONTENT);
             galleryIntent.setType("image/*");
             startActivityForResult(galleryIntent, GALLERY_PICK_CODE);
@@ -298,6 +325,7 @@ public class ChatActivity extends AppCompatActivity {
                             messageList.add(message);
                             messageAdapter.notifyDataSetChanged();
                             messageList_ReCyVw.scrollToPosition(messageAdapter.getItemCount() - 1);
+                            progressDialog.dismiss();
                         }
                     }
 

@@ -1,59 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.slidingpanelayout.widget.SlidingPaneLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-        android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/sliding_pane"
-        android:orientation="horizontal">
+<androidx.slidingpanelayout.widget.SlidingPaneLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sliding_pane"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
 
     <!--Master fragment-->
     <fragment
-            android:elevation="2dp"
-            android:name="org.lulzm.waft.MenuFragment"
-            android:layout_width="160dp"
-            android:layout_height="match_parent"
-            android:id="@+id/fragment_master">
-    </fragment>
+        android:id="@+id/fragment_master"
+        android:name="org.lulzm.waft.MenuFragment"
+        android:layout_width="160dp"
+        android:layout_height="match_parent"
+        android:elevation="2dp" />
 
     <!--Detail layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:orientation="vertical"
-            android:layout_width="1000dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginLeft="56dp">
+        android:layout_width="1000dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="56dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
         <com.google.android.material.appbar.AppBarLayout
-                android:layout_width="match_parent"
-                android:layout_height="70sp"
-                android:gravity="center"
-                android:background="#FDFDFD"
-                android:elevation="2dp"
-                android:id="@+id/appBarLayout" tools:ignore="MissingConstraints">
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="70sp"
+            android:background="#FDFDFD"
+            android:elevation="2dp"
+            android:gravity="center"
+            tools:ignore="MissingConstraints">
 
             <androidx.appcompat.widget.Toolbar
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:popupTheme="@style/AppTheme.PopupOverlay">
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
 
                 <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                     <ImageView
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:src="@drawable/waft_icon"/>
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/waft_icon" />
 
 
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="70dp"
-                            android:text="WAFT"
-                            android:textColor="#32870e"
-                            android:textSize="40sp"
-                            android:textStyle="bold"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="70dp"
+                        android:text="WAFT"
+                        android:textColor="#32870e"
+                        android:textSize="40sp"
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
 
@@ -61,31 +63,36 @@
         </com.google.android.material.appbar.AppBarLayout>
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="0dp"
-                                                           android:layout_height="0dp"
-                                                           android:layout_weight="1"
-                                                           app:layout_constraintTop_toBottomOf="@id/appBarLayout"
-                                                           app:layout_constraintBottom_toBottomOf="parent"
-                                                           app:layout_constraintEnd_toEndOf="parent"
-                                                           app:layout_constraintStart_toStartOf="parent"
-        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appBarLayout">
+
             <View
-                    android:layout_width="0.3dp"
-                    android:layout_height="0dp"
-                    android:layout_centerHorizontal="true"
-                    android:elevation="10dp"
-                    android:background="#FDFDFD" tools:ignore="MissingConstraints"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
-                    android:id="@+id/view"/>
+                android:id="@+id/view"
+                android:layout_width="0.3dp"
+                android:layout_height="0dp"
+                android:layout_centerHorizontal="true"
+                android:background="#FDFDFD"
+                android:elevation="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints" />
+
             <FrameLayout
-                    android:id="@+id/flContent"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    tools:ignore="MissingConstraints"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/view"/>
+                android:id="@+id/flContent"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/view"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

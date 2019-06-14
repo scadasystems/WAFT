@@ -240,26 +240,6 @@
                     android:onClick="btnMovePassportInfo"
                     app:riv_corner_radius="15dip" />
 
-                <TextView
-                    android:layout_width="300dp"
-                    android:layout_height="160dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@color/white"
-                    android:elevation="10dp"
-                    android:gravity="center"
-                    android:text="공지사항 링크"
-                    android:textSize="30dp" />
-
-                <TextView
-                    android:layout_width="300dp"
-                    android:layout_height="160dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@color/white"
-                    android:elevation="10dp"
-                    android:gravity="center"
-                    android:text="공지사항 링크"
-                    android:textSize="30dp" />
-
             </LinearLayout>
 
         </HorizontalScrollView>

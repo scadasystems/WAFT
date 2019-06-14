@@ -5,20 +5,25 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.fragment.app.Fragment;
+
 import com.bumptech.glide.Glide;
+
+import org.lulzm.waft.databinding.FragmentMenuBinding;
+
 import io.reactivex.annotations.NonNull;
 import io.reactivex.annotations.Nullable;
-import org.lulzm.waft.databinding.FragmentMenuBinding;
 
 public class MenuFragment extends Fragment {
 
     @SuppressLint("StaticFieldLeak")
     public static FragmentMenuBinding fragmentMenuBinding;
 
-    public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fragmentMenuBinding = FragmentMenuBinding.inflate(inflater, container, false);
-//        getActivity().getActionBar().hide();
+
         return fragmentMenuBinding.getRoot();
     }
 
@@ -27,8 +32,7 @@ public class MenuFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         fragmentMenuBinding.lilPost.setOnClickListener(view1 -> {
-            if(MainActivity.HomeFragmentHandler != null)
-            {
+            if (MainActivity.HomeFragmentHandler != null) {
                 MainActivity.HomeFragmentHandler.sendEmptyMessage(0);
             }
 
@@ -43,12 +47,10 @@ public class MenuFragment extends Fragment {
             fragmentMenuBinding.textHistory.setTextColor(getResources().getColor(R.color.black));
             fragmentMenuBinding.textShareus.setTextColor(getResources().getColor(R.color.black));
             fragmentMenuBinding.textLogout.setTextColor(getResources().getColor(R.color.black));
-
         });
 
         fragmentMenuBinding.lilAccounts.setOnClickListener(view12 -> {
-            if(MainActivity.HomeFragmentHandler != null)
-            {
+            if (MainActivity.HomeFragmentHandler != null) {
                 MainActivity.HomeFragmentHandler.sendEmptyMessage(1);
             }
 
@@ -63,11 +65,9 @@ public class MenuFragment extends Fragment {
             fragmentMenuBinding.textHistory.setTextColor(getResources().getColor(R.color.black));
             fragmentMenuBinding.textShareus.setTextColor(getResources().getColor(R.color.black));
             fragmentMenuBinding.textLogout.setTextColor(getResources().getColor(R.color.black));
-
         });
         fragmentMenuBinding.lilHistory.setOnClickListener(view13 -> {
-            if(MainActivity.HomeFragmentHandler != null)
-            {
+            if (MainActivity.HomeFragmentHandler != null) {
                 MainActivity.HomeFragmentHandler.sendEmptyMessage(2);
             }
 
@@ -85,8 +85,7 @@ public class MenuFragment extends Fragment {
         });
 
         fragmentMenuBinding.lilShareus.setOnClickListener(view14 -> {
-            if(MainActivity.HomeFragmentHandler != null)
-            {
+            if (MainActivity.HomeFragmentHandler != null) {
                 MainActivity.HomeFragmentHandler.sendEmptyMessage(3);
             }
             Glide.with(MenuFragment.this).load(R.drawable.home).into(fragmentMenuBinding.iconPost);
@@ -103,8 +102,7 @@ public class MenuFragment extends Fragment {
         });
 
         fragmentMenuBinding.lilLogout.setOnClickListener(view15 -> {
-            if(MainActivity.HomeFragmentHandler != null)
-            {
+            if (MainActivity.HomeFragmentHandler != null) {
                 MainActivity.HomeFragmentHandler.sendEmptyMessage(4);
             }
             Glide.with(MenuFragment.this).load(R.drawable.home).into(fragmentMenuBinding.iconPost);
