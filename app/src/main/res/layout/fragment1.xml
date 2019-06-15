@@ -14,6 +14,7 @@
         android:layout_marginEnd="2dp"
         app:cardCornerRadius="10dp"
         app:cardUseCompatPadding="true"
+        app:cardBackgroundColor="?attr/cardbackground"
         app:contentPadding="5dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,6 +41,7 @@
                     android:gravity="left"
                     android:text="@string/category"
                     android:textSize="25sp"
+                    android:textColor="?attr/tintcolor"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -71,6 +73,7 @@
                         android:autoSizeMaxTextSize="50sp"
                         android:autoSizeMinTextSize="16sp"
                         android:text="@string/qr_code"
+                        android:textColor="?attr/tintcolor"
                         android:textAlignment="center"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -101,6 +104,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/navigation"
                         android:textAlignment="center"
+                        android:textColor="?attr/tintcolor"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -136,6 +140,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/exchange_money"
                         android:textAlignment="center"
+                        android:textColor="?attr/tintcolor"
                         android:textSize="16dp"
                         android:textStyle="bold" />
 
@@ -165,6 +170,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/chatting"
                         android:textAlignment="center"
+                        android:textColor="?attr/tintcolor"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -203,6 +209,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15sp"
             android:layout_marginBottom="5dp"
+            android:textColor="?attr/tintcolor"
             android:text="@string/notice_manual"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -270,6 +277,7 @@
             android:layout_marginStart="15sp"
             android:text="@string/selecet_country_code"
             android:textAlignment="center"
+            android:textColor="?attr/tintcolor"
             android:textSize="17sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
@@ -285,6 +293,7 @@
             android:text="@string/emergency"
             android:textAlignment="center"
             android:textSize="17sp"
+            android:textColor="?attr/tintcolor"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
             app:layout_constraintEnd_toEndOf="parent"
@@ -309,6 +318,12 @@
                 android:gravity="center"
                 app:ccpDialog_keyboardAutoPopup="false"
                 app:ccp_defaultNameCode="KR"
+                app:ccp_contentColor="?attr/tintcolor"
+                app:ccpDialog_textColor="?attr/tintcolor"
+                app:ccp_arrowColor="?attr/tintcolor"
+
+                app:ccpDialog_showCloseIcon="true"
+                app:ccpDialog_backgroundColor="?attr/backgroundcolor"
                 app:ccp_showFullName="false"
                 app:ccp_showPhoneCode="false"
                 app:ccp_textSize="23dp"

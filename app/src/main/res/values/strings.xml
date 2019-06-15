@@ -11,6 +11,8 @@
     <string name="ResetPass">Reset Password</string>
     <string name="forgotPassHint">Click Reset Password, and\nCheck your email for resetting.</string>
     <string name="success_forgot_password_message">Password reset completed. Please check the reset mail.</string>
+
+    <!-- 회원가입 -->
     <string name="name">Name</string>
     <string name="nickname">NickName</string>
     <string name="email">E-mail</string>
@@ -20,6 +22,7 @@
     <string name="female">Female</string>
     <string name="back">Cancel</string>
     <string name="save">Save</string>
+    <string name="correct_member_activity">★★ Success change profile infomation ★★</string>
 
     <!-- 로그아웃 -->
     <string name="logout_cancel">Cancel</string>
@@ -181,6 +184,9 @@
     <string name="update_failed">Update failed.</string>
     <string name="press_back_currency">Press one more time to go to the Currency Exchange.</string>
     <string name="success_save">Saved successfully:</string>
+
+    <string name="currency_waft">WAFT currency</string>
+
     <string name="share_QRcode">Sharing QR-Code</string>
 
     <!-- 권한 -->
@@ -197,7 +203,6 @@
     <string name="language_str">Click to go to Language Settings screen</string>
 
     <!-- 지도 -->
-    <string name="bank">Bank</string>
     <string name="restaurant">Restaurant</string>
     <string name="busStop">BusStop</string>
     <string name="police">Police</string>
@@ -205,12 +210,26 @@
     <string name="time">Time :</string>
     <string name="innerPosition">InnerPosition</string>
     <string name="destination">Destination</string>
+    <string name="bank">Bank</string>
 
     <!--profile  -->
-    <string name="logouttx">Would you like to log out?</string>
+    <string name="logouttx">Would you like to logout?</string>
     <string name="Configuration">Configuration</string>
 
+
     <!-- sos 팝업 -->
-    <string name="emergency" tools:ignore="ExtraTranslation">Emergency</string>\
+    <string name="emergency" tools:ignore="ExtraTranslation">Emergency</string>
+    <string name="sos_police">Police :</string>
+    <string name="sos_ambulance">Ambulance :</string>
+    <string name="sos_fire">Fire :</string>
+    <string name="sos_loading">loading emergency numbers…</string>
+
+    <!-- chat -->
+    <string name="chat_gender">Gender :</string>
+    <string name="chat_edit_profile">Edit Profile</string>
+    <string name="search_a_name">Search a name</string>
+    <string name="not_found">Not found</string>
+    <string name="clear_history">Clear History</string>
+
 
 </resources>

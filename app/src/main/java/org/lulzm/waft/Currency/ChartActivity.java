@@ -10,25 +10,39 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.*;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import com.github.mikephil.charting.charts.Chart;
+
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.*;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import org.lulzm.waft.MainActivity;
+
 import org.lulzm.waft.R;
-import xyz.hasnat.sweettoast.SweetToast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import xyz.hasnat.sweettoast.SweetToast;
 
 /*********************************************************
  *   $$\                  $$\             $$\      $$\   
@@ -101,6 +115,14 @@ public class ChartActivity extends AppCompatActivity implements Singleton.TaskCa
     @Override
     @SuppressWarnings("deprecation")
     public void onCreate(Bundle savedInstanceState) {
+        // 다크모드 적용
+        SharedPreferences sharedPreferences = getSharedPreferences("change_theme", MODE_PRIVATE);
+        if (sharedPreferences.getBoolean("dark_theme", false)) {
+            setTheme(R.style.darktheme);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.currency_chart);
 
@@ -108,12 +130,13 @@ public class ChartActivity extends AppCompatActivity implements Singleton.TaskCa
         myToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(myToolbar);
 
-        // 상태표시줄
+        // 상태표시줄 색상 변경
         View view = getWindow().getDecorView();
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (view != null) {
-                // 23 버전 이상일 때 상태바 하얀 색상, 회색 아이콘
+            // 23 버전 이상일 때 상태바 하얀 색상, 회색 아이콘
+            if (sharedPreferences.getBoolean("dark_theme", false)) {
+                getWindow().setStatusBarColor(Color.BLACK);
+            } else {
                 view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 getWindow().setStatusBarColor(Color.parseColor("#f2f2f2"));
             }

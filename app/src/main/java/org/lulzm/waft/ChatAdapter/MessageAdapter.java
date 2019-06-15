@@ -2,6 +2,8 @@ package org.lulzm.waft.ChatAdapter;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.view.Gravity;
@@ -40,6 +42,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     // for glide error
     public RequestManager mGlideRequestManager;
 
+    private SharedPreferences sharedPreferences;
+
     public MessageAdapter(List<Message> messageList, RequestManager requestManager) {
         this.messageList = messageList;
         mGlideRequestManager = requestManager;
@@ -51,6 +55,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.chat_item_messages, parent, false);
         mAuth = FirebaseAuth.getInstance();
+
+        sharedPreferences = view.getContext().getSharedPreferences("change_theme", Context.MODE_PRIVATE);
 
         return new MessageViewHolder(view);
     }
@@ -95,7 +101,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         if (from_message_TYPE.equals("text")) {
             if (from_user_ID.equals(sender_UID)) {
                 holder.chatItemLayout.setGravity(Gravity.RIGHT);
-                holder.chat_background.setBackgroundColor(Color.rgb(254, 237, 255));
+                holder.chat_background.setBackgroundResource(R.drawable.chat_sender_background);
                 holder.user_profile_image.setVisibility(View.GONE);
                 holder.chat_sender.setVisibility(View.GONE);
                 holder.chat_message_image.setVisibility(View.GONE);
@@ -103,12 +109,22 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 holder.chat_message.setText(message.getMessage());
             } else {
                 holder.chatItemLayout.setGravity(Gravity.LEFT);
-                holder.chat_background.setBackgroundColor(Color.WHITE);
+                holder.chat_background.setBackgroundResource(R.drawable.chat_receive_background);
                 holder.user_profile_image.setVisibility(View.VISIBLE);
                 holder.chat_sender.setVisibility(View.VISIBLE);
                 holder.chat_message_image.setVisibility(View.GONE);
                 holder.chat_message.setVisibility(View.VISIBLE);
                 holder.chat_message.setText(message.getMessage());
+                // 테마별 글자색
+                if (sharedPreferences.getBoolean("dark_theme", false)) {
+                    holder.chat_sender.setTextColor(Color.parseColor("#c7c7c7"));
+                    holder.chat_message.setTextColor(Color.WHITE);
+                    holder.chat_time_stamp.setTextColor(Color.parseColor("#c7c7c7"));
+                } else {
+                    holder.chat_sender.setTextColor(Color.parseColor("#212121"));
+                    holder.chat_message.setTextColor(Color.BLACK);
+                    holder.chat_time_stamp.setTextColor(Color.parseColor("#212121"));
+                }
             }
         }
 
@@ -116,22 +132,30 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         if (from_message_TYPE.equals("image")) {
             if (from_user_ID.equals(sender_UID)) {
                 holder.chatItemLayout.setGravity(Gravity.RIGHT);
-                holder.chat_background.setBackgroundColor(Color.rgb(254, 237, 255));
+                holder.chat_background.setBackgroundResource(R.drawable.chat_sender_background);
                 holder.user_profile_image.setVisibility(View.GONE);
                 holder.chat_sender.setVisibility(View.GONE);
                 holder.chat_message.setVisibility(View.GONE);
                 holder.chat_message_image.setVisibility(View.VISIBLE);
-
                 mGlideRequestManager
                         .load(message.getMessage())
                         .into(holder.chat_message_image);
             } else {
                 holder.chatItemLayout.setGravity(Gravity.LEFT);
-                holder.chat_background.setBackgroundColor(Color.WHITE);
+                holder.chat_background.setBackgroundResource(R.drawable.chat_receive_background);
                 holder.user_profile_image.setVisibility(View.VISIBLE);
                 holder.chat_sender.setVisibility(View.VISIBLE);
                 holder.chat_message.setVisibility(View.GONE);
                 holder.chat_message_image.setVisibility(View.VISIBLE);
+                if (sharedPreferences.getBoolean("dark_theme", false)) {
+                    holder.chat_sender.setTextColor(Color.parseColor("#c7c7c7"));
+                    holder.chat_message.setTextColor(Color.WHITE);
+                    holder.chat_time_stamp.setTextColor(Color.parseColor("#c7c7c7"));
+                } else {
+                    holder.chat_sender.setTextColor(Color.parseColor("#212121"));
+                    holder.chat_message.setTextColor(Color.BLACK);
+                    holder.chat_time_stamp.setTextColor(Color.parseColor("#212121"));
+                }
 
                 mGlideRequestManager
                         .load(message.getMessage())
@@ -162,8 +186,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             user_profile_image = view.findViewById(R.id.messageUserImage);
         }
     }
-
-
 
 
 }

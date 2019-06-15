@@ -1,19 +1,29 @@
 package org.lulzm.waft.ChatProfile;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.*;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.hbb20.CountryCodePicker;
+
 import org.lulzm.waft.ProfileSetting.ProfileActivity;
 import org.lulzm.waft.R;
 
@@ -65,8 +75,32 @@ public class ChatProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // 다크모드 적용
+        SharedPreferences sharedPreferences = getSharedPreferences("change_theme", MODE_PRIVATE);
+        if (sharedPreferences.getBoolean("dark_theme", false)) {
+            setTheme(R.style.darktheme);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_activity_profile);
+
+        // 상태표시줄 색상 변경
+        View view = getWindow().getDecorView();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // 23 버전 이상일 때 상태바 하얀 색상, 회색 아이콘
+            if (sharedPreferences.getBoolean("dark_theme", false)) {
+                getWindow().setStatusBarColor(Color.BLACK);
+            } else {
+                view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                getWindow().setStatusBarColor(Color.parseColor("#f2f2f2"));
+            }
+        } else if (Build.VERSION.SDK_INT >= 21) {
+            // 21 버전 이상일 때 상태바 검은 색상, 흰색 아이콘
+            getWindow().setStatusBarColor(Color.BLACK);
+        }
+
 
         // for glide error -> You cannot start a load for a destroyed activity
         mGlideRequestManager = Glide.with(getApplicationContext());
@@ -83,9 +117,6 @@ public class ChatProfileActivity extends AppCompatActivity {
 
         notificationDatabaseReference = FirebaseDatabase.getInstance().getReference().child("notifications");
         notificationDatabaseReference.keepSynced(true); // for offline
-
-
-        View view = getWindow().getDecorView();
 
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);

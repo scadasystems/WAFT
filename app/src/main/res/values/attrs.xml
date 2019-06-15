@@ -1,10 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="ds" >
+    <declare-styleable name="ds">
+        <attr name="colorPrimary" format="color" />
         <attr name="backgroundcolor" format="color" />
         <attr name="cardbackground" format="color" />
+        <attr name="buttoncolor" format="color" />
+        <attr name="sideMenuColor" format="color" />
+        <attr name="changeTitleColor" format="color" />
+        <attr name="chagneMainTitleColor" format="color" />
+        <attr name="infomationWallpaper" format="color" />
+
+        <!-- 텍스트 관련 -->
         <attr name="textcolor" format="color" />
         <attr name="tintcolor" format="color" />
-        <attr name="buttoncolor" format="color" />
+        <attr name="textGrayColor" format="color" />
+
+        <!-- 툴바 -->
+        <attr name="menubuttoncolor" format="color" />
+        <attr name="chatIcSearch" format="color" />
+        <attr name="cancelButton_WB" format="color" />
+
+        <!-- chatting 말풍선 -->
+        <attr name="chat_sender_stroke" format="color" />
+        <attr name="chat_sender_solid" format="color" />
+        <attr name="chat_receiver_stroke" format="color" />
+        <attr name="chat_receiver_solid" format="color" />
+        <attr name="chat_sender_text" format="color" />
+        <attr name="chat_sender_timeStamp" format="color" />
+        <attr name="chat_receiver_sender" format="color" />
+        <attr name="chat_receiver_text" format="color" />
+        <attr name="chat_receiver_timeStamp" format="color" />
+
     </declare-styleable>
 </resources>

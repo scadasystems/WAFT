@@ -52,7 +52,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2; // 2 is total fragment number (e.x- Chats, Requests)
+        return 2;
     }
 
     @Override
@@ -65,6 +65,5 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
             default:
                 return null;
         }
-        //return super.getPageTitle(position);
     }
 }

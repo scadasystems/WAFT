@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -16,21 +17,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 import org.lulzm.waft.ChatAdapter.TabsPagerAdapter;
 import org.lulzm.waft.ChatFriends.FriendsActivity;
 import org.lulzm.waft.ChatSearch.SearchActivity;
 import org.lulzm.waft.MainActivity;
 import org.lulzm.waft.R;
+
 import xyz.hasnat.sweettoast.SweetToast;
 
 public class ChatMainActivity extends AppCompatActivity {
@@ -55,15 +60,24 @@ public class ChatMainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // 다크모드 적용
+        SharedPreferences sharedPreferences = getSharedPreferences("change_theme", MODE_PRIVATE);
+        if (sharedPreferences.getBoolean("dark_theme", false)) {
+            setTheme(R.style.darktheme);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_main_activity);
 
-        // 상태표시줄
+        // 상태표시줄 색상 변경
         View view = getWindow().getDecorView();
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (view != null) {
-                // 23 버전 이상일 때 상태바 하얀 색상, 회색 아이콘
+            // 23 버전 이상일 때 상태바 하얀 색상, 회색 아이콘
+            if (sharedPreferences.getBoolean("dark_theme", false)) {
+                getWindow().setStatusBarColor(Color.BLACK);
+            } else {
                 view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 getWindow().setStatusBarColor(Color.parseColor("#f2f2f2"));
             }

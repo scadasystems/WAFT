@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +51,6 @@ public class Fragment1 extends Fragment {
 
     @SuppressLint("SetJavaScriptEnabled")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //  View view = inflater.inflate(R.layout.fragment1, container);
         View view = inflater.inflate(R.layout.fragment1, container, false);
 
         dialog_sos = new Dialog(getActivity());
@@ -63,6 +63,18 @@ public class Fragment1 extends Fragment {
         notice2 = view.findViewById(R.id.notic2);
         countryCodePicker = view.findViewById(R.id.country_code_picker);
         btn_sos = view.findViewById(R.id.btn_sos);
+
+        /* 언어변경 */
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String language = prefs.getString("language", "");
+        assert language != null;
+        // country code picker 언어 변경
+        if (language.equals("ko") || language.equals("한국어")) {
+            countryCodePicker.changeDefaultLanguage(CountryCodePicker.Language.KOREAN);
+
+        } else if (language.equals("en") || language.equals("English")) {
+            countryCodePicker.changeDefaultLanguage(CountryCodePicker.Language.ENGLISH);
+        }
 
         /* 나라 코드 저장 */
         SharedPreferences preferences = getActivity().getSharedPreferences("pref_countryCode", Context.MODE_PRIVATE);
@@ -100,6 +112,14 @@ public class Fragment1 extends Fragment {
             ImageButton call_police = dialog_sos.findViewById(R.id.call_police);
             ImageButton call_amb = dialog_sos.findViewById(R.id.call_ambulance);
             ImageButton call_fire = dialog_sos.findViewById(R.id.call_fire);
+
+            // country code picker 언어 변경
+            if (language.equals("ko") || language.equals("한국어")) {
+                country_popup_name.changeDefaultLanguage(CountryCodePicker.Language.KOREAN);
+
+            } else if (language.equals("en") || language.equals("English")) {
+                country_popup_name.changeDefaultLanguage(CountryCodePicker.Language.ENGLISH);
+            }
 
             // 나라코드 가져오기
             SharedPreferences preferences2 = getActivity().getSharedPreferences("pref_countryCode", Context.MODE_PRIVATE);

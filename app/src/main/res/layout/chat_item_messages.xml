@@ -28,6 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        app:cardBackgroundColor="@color/trans"
         android:layout_marginTop="5dp"
         android:layout_marginRight="3dp"
         android:layout_marginBottom="5dp"
@@ -37,6 +38,7 @@
             android:id="@+id/chat_background"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/trans"
             android:orientation="vertical"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
@@ -62,7 +64,7 @@
                 android:layout_marginTop="08dp"
                 android:visibility="gone"
                 app:riv_border_width="0.5dip"
-                app:riv_corner_radius="15dp" />
+                app:riv_corner_radius="10dp" />
 
             <TextView
                 android:id="@+id/chat_message"
@@ -71,15 +73,16 @@
                 android:layout_marginTop="5dp"
                 android:gravity="start"
                 android:maxWidth="240dp"
+                android:textColor="?attr/chat_sender_text"
                 android:text="보낼 메세지"
-                android:textColor="@android:color/black"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/chat_time_stamp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:textColor="?attr/chat_sender_timeStamp"
                 android:text="보낸시간"
                 android:textSize="9sp" />
         </LinearLayout>

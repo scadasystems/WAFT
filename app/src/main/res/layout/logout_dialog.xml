@@ -1,39 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/cardbackground">
 
 
     <RelativeLayout
-            android:id="@+id/body"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_round"
-            android:paddingBottom="30dp"
-            android:paddingTop="30dp">
+        android:id="@+id/body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_round"
+        android:paddingTop="30dp"
+        android:paddingBottom="30dp">
 
         <ImageButton
-                android:id="@+id/logoutImg"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:background="#00FFFFFF"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="15dp"
-                android:scaleType="centerCrop"
-                android:contentDescription="image"
-                android:src="@drawable/logout" />
+            android:id="@+id/logoutImg"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:background="#00FFFFFF"
+            android:contentDescription="image"
+            android:scaleType="centerCrop"
+            android:src="@drawable/logout" />
 
         <TextView
-                android:id="@+id/titleText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/logoutImg"
-                android:layout_marginTop="10dp"
-                android:textColor="#000"
-                android:gravity="center"
-                android:text="@string/logouttx"
-        />
+            android:id="@+id/titleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/logoutImg"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/logouttx"
+            android:textColor="?attr/textcolor" />
     </RelativeLayout>
 
 </RelativeLayout>

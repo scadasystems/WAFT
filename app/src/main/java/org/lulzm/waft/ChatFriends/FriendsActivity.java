@@ -2,27 +2,40 @@ package org.lulzm.waft.ChatFriends;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.*;
-import de.hdodenhof.circleimageview.CircleImageView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
+
 import org.lulzm.waft.ChatHome.ChatActivity;
 import org.lulzm.waft.ChatModel.Friends;
 import org.lulzm.waft.ChatProfile.ChatProfileActivity;
 import org.lulzm.waft.R;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /*********************************************************
  *   $$\                  $$\             $$\      $$\   
@@ -55,8 +68,31 @@ public class FriendsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // 다크모드 적용
+        SharedPreferences sharedPreferences = getSharedPreferences("change_theme", MODE_PRIVATE);
+        if (sharedPreferences.getBoolean("dark_theme", false)) {
+            setTheme(R.style.darktheme);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_activity_friends);
+
+        // 상태표시줄 색상 변경
+        View view = getWindow().getDecorView();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // 23 버전 이상일 때 상태바 하얀 색상, 회색 아이콘
+            if (sharedPreferences.getBoolean("dark_theme", false)) {
+                getWindow().setStatusBarColor(Color.BLACK);
+            } else {
+                view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                getWindow().setStatusBarColor(Color.parseColor("#f2f2f2"));
+            }
+        } else if (Build.VERSION.SDK_INT >= 21) {
+            // 21 버전 이상일 때 상태바 검은 색상, 흰색 아이콘
+            getWindow().setStatusBarColor(Color.BLACK);
+        }
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -117,35 +153,39 @@ public class FriendsActivity extends AppCompatActivity {
                         //click currency_item, 2 options in a dialogue will be appear
                         holder.itemView.setOnClickListener(v -> {
                             CharSequence options[] = new CharSequence[]{getString(R.string.send_message), userName + getString(R.string.users_profile)};
-                            AlertDialog.Builder builder = new AlertDialog.Builder(FriendsActivity.this);
-                            builder.setItems(options, (dialog, which) -> {
-                                if (which == 0) {
-                                    // user active status validation
-                                    if (dataSnapshot.child("active_now").exists()) {
 
-                                        Intent chatIntent = new Intent(FriendsActivity.this, ChatActivity.class);
-                                        chatIntent.putExtra("visitUserId", userID);
-                                        chatIntent.putExtra("userName", userName);
-                                        startActivity(chatIntent);
+                            SharedPreferences sharedPreferences = getSharedPreferences("change_theme", MODE_PRIVATE);
 
-                                    } else {
-                                        userDatabaseReference.child(userID).child("active_now")
-                                                .setValue(ServerValue.TIMESTAMP).addOnSuccessListener(aVoid -> {
-                                                    Intent chatIntent = new Intent(FriendsActivity.this, ChatActivity.class);
-                                                    chatIntent.putExtra("visitUserId", userID);
-                                                    chatIntent.putExtra("userName", userName);
-                                                    startActivity(chatIntent);
-                                                });
+                            if (sharedPreferences.getBoolean("dark_theme", false)) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(FriendsActivity.this);
+                                builder.setItems(options, (dialog, which) -> {
+                                    if (which == 0) {
+                                        // user active status validation
+                                        if (dataSnapshot.child("active_now").exists()) {
+
+                                            Intent chatIntent = new Intent(FriendsActivity.this, ChatActivity.class);
+                                            chatIntent.putExtra("visitUserId", userID);
+                                            chatIntent.putExtra("userName", userName);
+                                            startActivity(chatIntent);
+
+                                        } else {
+                                            userDatabaseReference.child(userID).child("active_now")
+                                                    .setValue(ServerValue.TIMESTAMP).addOnSuccessListener(aVoid -> {
+                                                Intent chatIntent = new Intent(FriendsActivity.this, ChatActivity.class);
+                                                chatIntent.putExtra("visitUserId", userID);
+                                                chatIntent.putExtra("userName", userName);
+                                                startActivity(chatIntent);
+                                            });
+                                        }
                                     }
-                                }
-
-                                if (which == 1) {
-                                    Intent profileIntent = new Intent(FriendsActivity.this, ChatProfileActivity.class);
-                                    profileIntent.putExtra("visitUserId", userID);
-                                    startActivity(profileIntent);
-                                }
-                            });
-                            builder.show();
+                                    if (which == 1) {
+                                        Intent profileIntent = new Intent(FriendsActivity.this, ChatProfileActivity.class);
+                                        profileIntent.putExtra("visitUserId", userID);
+                                        startActivity(profileIntent);
+                                    }
+                                });
+                                builder.show();
+                            }
                         });
                     }
 
@@ -180,6 +220,16 @@ public class FriendsActivity extends AppCompatActivity {
             profile_thumb = itemView.findViewById(R.id.all_user_profile_img);
             active_icon = itemView.findViewById(R.id.activeIcon);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

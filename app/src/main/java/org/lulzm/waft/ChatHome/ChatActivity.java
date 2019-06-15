@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -114,16 +116,24 @@ public class ChatActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // 다크모드 적용
+        SharedPreferences sharedPreferences = getSharedPreferences("change_theme", MODE_PRIVATE);
+        if (sharedPreferences.getBoolean("dark_theme", false)) {
+            setTheme(R.style.darktheme);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_activity);
-        // for glide error
-        mGlideRequestManager = Glide.with(ChatActivity.this);
 
-        // 상태표시줄
+        // 상태표시줄 색상 변경
         View view = getWindow().getDecorView();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (view != null) {
-                // 23 버전 이상일 때 상태바 하얀 색상, 회색 아이콘
+            // 23 버전 이상일 때 상태바 하얀 색상, 회색 아이콘
+            if (sharedPreferences.getBoolean("dark_theme", false)) {
+                getWindow().setStatusBarColor(Color.BLACK);
+            } else {
                 view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 getWindow().setStatusBarColor(Color.parseColor("#f2f2f2"));
             }
@@ -131,6 +141,9 @@ public class ChatActivity extends AppCompatActivity {
             // 21 버전 이상일 때 상태바 검은 색상, 흰색 아이콘
             getWindow().setStatusBarColor(Color.BLACK);
         }
+
+        // for glide error
+        mGlideRequestManager = Glide.with(ChatActivity.this);
 
         // firebase
         rootReference = FirebaseDatabase.getInstance().getReference();
@@ -434,4 +447,13 @@ public class ChatActivity extends AppCompatActivity {
         return super.dispatchTouchEvent(event);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

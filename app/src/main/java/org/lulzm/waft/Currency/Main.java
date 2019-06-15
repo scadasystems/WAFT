@@ -1,6 +1,10 @@
 package org.lulzm.waft.Currency;
 
-import android.content.*;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -11,23 +15,41 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.*;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.lulzm.waft.ChatHome.ChatMainActivity;
 import org.lulzm.waft.MainActivity;
 import org.lulzm.waft.R;
-import xyz.hasnat.sweettoast.SweetToast;
 
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import xyz.hasnat.sweettoast.SweetToast;
 
 /*********************************************************
  *   $$\                  $$\             $$\      $$\   
@@ -209,15 +231,24 @@ public class Main extends AppCompatActivity implements EditText.OnEditorActionLi
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        // 다크모드 적용
+        SharedPreferences sharedPreferences = getSharedPreferences("change_theme", MODE_PRIVATE);
+        if (sharedPreferences.getBoolean("dark_theme", false)) {
+            setTheme(R.style.darktheme);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.currency_main);
 
-        // 상태표시줄
+        // 상태표시줄 색상 변경
         View view = getWindow().getDecorView();
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (view != null) {
-                // 23 버전 이상일 때 상태바 하얀 색상, 회색 아이콘
+            // 23 버전 이상일 때 상태바 하얀 색상, 회색 아이콘
+            if (sharedPreferences.getBoolean("dark_theme", false)) {
+                getWindow().setStatusBarColor(Color.BLACK);
+            } else {
                 view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 getWindow().setStatusBarColor(Color.parseColor("#f2f2f2"));
             }
@@ -227,7 +258,7 @@ public class Main extends AppCompatActivity implements EditText.OnEditorActionLi
         }
 
         myToolbar = findViewById(R.id.toolbar);
-        myToolbar.setTitle("WAFT 환전");
+        myToolbar.setTitle(getString(R.string.currency_waft));
         myToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(myToolbar);
 

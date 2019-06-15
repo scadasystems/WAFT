@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -15,7 +16,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -31,19 +32,28 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import com.bumptech.glide.Glide;
+
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.*;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
-import org.lulzm.waft.R;
-import xyz.hasnat.sweettoast.SweetToast;
 
-import java.io.*;
-import java.nio.charset.Charset;
+import org.lulzm.waft.R;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+
+import xyz.hasnat.sweettoast.SweetToast;
 
 /*********************************************************
  *   $$\                  $$\             $$\      $$\
@@ -84,6 +94,7 @@ public class FragmentQRMain extends Fragment implements View.OnClickListener {
         return new FragmentQRMain();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,23 +140,23 @@ public class FragmentQRMain extends Fragment implements View.OnClickListener {
         Log.d("TAG", "---------------------" + imgPath);
 
 //        if (TextUtils.isEmpty(imgPath)) {
-            getUserDatabaseReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    /** todo QR코드 search_name 값 => '?? ???'  고쳐야함 */
-                    String search_name = dataSnapshot.child("search_name").getValue().toString();
-                    String utf_search_name = new String(search_name.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
+        getUserDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                /** todo QR코드 search_name 값 => '?? ???'  고쳐야함 */
+                String search_name = dataSnapshot.child("search_name").getValue().toString();
+                String utf_search_name = new String(search_name.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
 
-                    Bitmap logo = BitmapFactory.decodeResource(view.getResources(), R.drawable.waft_icon);
-                    Bitmap merge = mergeBitmaps(logo, GenerateQRCodeBitmap(utf_search_name));
-                    qr_image.setImageBitmap(merge);
+                Bitmap logo = BitmapFactory.decodeResource(view.getResources(), R.drawable.waft_icon);
+                Bitmap merge = mergeBitmaps(logo, GenerateQRCodeBitmap(utf_search_name));
+                qr_image.setImageBitmap(merge);
 //                    saveImageLocally(qr_image);
-                }
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                }
-            });
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
 //        } else {
 //            Bitmap bm = BitmapFactory.decodeFile(imgPath);
 //            qr_image.setImageBitmap(bm);
@@ -167,15 +178,33 @@ public class FragmentQRMain extends Fragment implements View.OnClickListener {
         int bitMatrixWidth = bitMatrix.getWidth();
         int bitMatrixHeight = bitMatrix.getHeight();
 
+        // 다크모드 적용
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("change_theme", getActivity().MODE_PRIVATE);
+
+
         int[] pixels = new int[bitMatrixWidth * bitMatrixHeight];
         for (int y = 0; y < bitMatrixHeight; y++) {
             int offset = y * bitMatrixWidth;
 
-            for (int x = 0; x < bitMatrixWidth; x++) {
-                pixels[offset + x] = bitMatrix.get(x, y) ?
-                        getResources().getColor(R.color.oil) :
-                        getResources().getColor(R.color.trans);
+            if (sharedPreferences.getBoolean("dark_theme", false)) {
+                for (int x = 0; x < bitMatrixWidth; x++) {
+                    pixels[offset + x] = bitMatrix.get(x, y) ?
+                            getResources().getColor(R.color.white) :
+                            getResources().getColor(R.color.trans);
+                }
+            } else {
+                for (int x = 0; x < bitMatrixWidth; x++) {
+                    pixels[offset + x] = bitMatrix.get(x, y) ?
+                            getResources().getColor(R.color.black) :
+                            getResources().getColor(R.color.trans);
+                }
             }
+
+//            for (int x = 0; x < bitMatrixWidth; x++) {
+//                pixels[offset + x] = bitMatrix.get(x, y) ?
+//                        getResources().getColor(R.color.oil) :
+//                        getResources().getColor(R.color.trans);
+//            }
         }
         Bitmap.Config config;
         Bitmap bitmap = Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Config.ARGB_4444);

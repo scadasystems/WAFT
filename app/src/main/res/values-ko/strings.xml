@@ -8,6 +8,8 @@
     <string name="ResetPass">패스워드 재설정</string>
     <string name="forgotPassHint">패스워드 재설정을 누르신 후,\n해당 이메일에 재설정 메일을 확인해주세요.</string>
     <string name="success_forgot_password_message">패스워드 재설정을 완료했습니다. 재설정 메일을 확인해주세요.</string>
+
+    <!-- 정보 수정 -->
     <string name="name">이름</string>
     <string name="nickname">닉네임</string>
     <string name="email">이메일</string>
@@ -17,6 +19,7 @@
     <string name="female">여</string>
     <string name="back">돌아가기</string>
     <string name="save">수정하기</string>
+    <string name="correct_member_activity">★★ 회원 정보를 수정하였습니다. ★★</string>
 
     <!-- 로그아웃 관련 -->
     <string name="logout_cancel">취소</string>
@@ -173,7 +176,10 @@
     <string name="max">모든 주기</string>
     <string name="update_failed">업데이트를 실패했습니다.</string>
     <string name="press_back_currency">한번 더 누르면 환전소로 이동합니다.</string>
+    <string name="currency_waft">WAFT 환전</string>
+
     <string name="success_save">저장 성공:</string>
+
     <string name="share_QRcode">QR코드 공유하기</string>
 
     <!-- 권한 -->
@@ -203,4 +209,16 @@
 
     <!-- sos 팝업-->
     <string name="emergency" tools:ignore="ExtraTranslation">긴급전화</string>
+    <string name="sos_police">경찰 :</string>
+    <string name="sos_ambulance">응급 :</string>
+    <string name="sos_fire">소방 :</string>
+    <string name="sos_loading">긴급번호를 업데이트 중입니다…</string>
+
+    <!-- chat -->
+    <string name="chat_gender">성별 :</string>
+    <string name="chat_edit_profile">프로필 수정하기</string>
+    <string name="search_a_name">사람을 찾기 위해 검색하세요</string>
+    <string name="not_found">친구를 찾지 못했습니다.</string>
+    <string name="clear_history">검색기록 삭제</string>
+
 </resources>

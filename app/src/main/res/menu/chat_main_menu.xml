@@ -6,7 +6,7 @@
     <item
             android:title="@string/menu_search"
             android:id="@+id/menu_search"
-            android:icon="@drawable/ic_search_black_24dp"
+            android:icon="?attr/chatIcSearch"
             app:showAsAction="always"/>
     <item
             android:title="@string/all_friends"

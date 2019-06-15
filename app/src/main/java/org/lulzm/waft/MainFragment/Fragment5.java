@@ -1,6 +1,5 @@
 package org.lulzm.waft.MainFragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -11,20 +10,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Switch;
-import androidx.annotation.NonNull;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
 import org.lulzm.waft.R;
 
 import java.util.Locale;
+import java.util.Objects;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class Fragment5 extends Fragment {
-
-    public interface OnThemeChangeListener {
-        void onThemeChanged(boolean isDarkMode);
-    }
-
-    OnThemeChangeListener mListener;
 
     SharedPref sharedPref;
     private Switch myswitch;
@@ -38,35 +37,27 @@ public class Fragment5 extends Fragment {
     Locale locale;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        sharedPref = new SharedPref(getContext());
-        if (sharedPref.loadNightModeState() == true) {
+        SharedPreferences sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("change_theme", MODE_PRIVATE);
+        if (sharedPreferences.getBoolean("dark_theme", false)) {
             getActivity().setTheme(R.style.darktheme);
         } else {
             getActivity().setTheme(R.style.AppTheme);
         }
 
-        //  View view = inflater.inflate(R.layout.fragment1, container);
-
         View view = inflater.inflate(R.layout.fragment5, container, false);
 
-//        language_setting = view.findViewById(R.id.language_setting);
-//
-//        language_setting.setOnClickListener(v -> {
-//            Intent intent = new Intent();
-//            intent.setComponent(new ComponentName("com.android.settings", "com.android.settings.Settings$LanguageAndInputSettingsActivity"));
-//            startActivity(intent);
-//        });
         /* 언어변경 */
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         String language = prefs.getString("language", "");
+
+        // 새로고침
+        Intent i = getActivity().getIntent();
 
         language_setting = view.findViewById(R.id.language_setting);
         language_setting.setOnClickListener(v -> {
 
             locale = getResources().getConfiguration().locale;
             SharedPreferences.Editor edit = prefs.edit();
-            Intent i = getActivity().getIntent();
 
             assert language != null;
             if (language.equals("ko") || language.equals("한국어")) { // 현재 언어가 한국어 일때
@@ -94,32 +85,37 @@ public class Fragment5 extends Fragment {
             }
         });
 
-
         myswitch = view.findViewById(R.id.myswitch);
-        if (sharedPref.loadNightModeState() == true) {
+
+        if (String.valueOf(sharedPreferences.getBoolean("dark_theme", false)).equals("true")) {
             myswitch.setChecked(true);
+        } else {
+            myswitch.setChecked(false);
         }
 
         myswitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            mListener.onThemeChanged(isChecked);
-            if (isChecked) {
-                sharedPref.setNightModeState(true);
-//                 restartApp();
-            } else {
-                sharedPref.setNightModeState(false);
-//                 restartApp();
-            }
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("dark_theme", isChecked);
+            editor.apply();
+            Toast.makeText(getActivity(), String.valueOf(sharedPreferences.getBoolean("dark_theme", false)), Toast.LENGTH_SHORT).show();
+            handleDarkMode(sharedPreferences.getBoolean("dark_theme", false));
         });
-
         return view;
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-        mListener = (OnThemeChangeListener) context;
+    private void handleDarkMode(boolean active) {
+        // 새로고침
+        Intent i = getActivity().getIntent();
+        if (active) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            // 새로고침
+            getActivity().finish();
+            startActivity(i);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            // 새로고침
+            getActivity().finish();
+            startActivity(i);
+        }
     }
-
-
 }

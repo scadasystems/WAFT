@@ -27,6 +27,7 @@
         <item name="textcolor">#808080</item>
         <item name="tintcolor">#000000</item>
         <item name="buttoncolor">#2196F3</item>
+        <item name="sideMenuColor">#fff</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
     </style>
 
@@ -43,6 +44,7 @@
         <item name="textcolor">#ffffff</item>
         <item name="tintcolor">#ffffff</item>
         <item name="buttoncolor">#2196F3</item>
+        <item name="sideMenuColor">#212121</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
 
     </style>

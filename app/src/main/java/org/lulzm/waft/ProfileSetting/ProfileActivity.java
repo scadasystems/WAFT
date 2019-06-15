@@ -3,37 +3,46 @@ package org.lulzm.waft.ProfileSetting;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.*;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.hbb20.CountryCodePicker;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
-import de.hdodenhof.circleimageview.CircleImageView;
-import id.zelory.compressor.Compressor;
+
 import org.lulzm.waft.R;
-import xyz.hasnat.sweettoast.SweetToast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -42,8 +51,11 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+import id.zelory.compressor.Compressor;
+import xyz.hasnat.sweettoast.SweetToast;
+
 public class ProfileActivity extends AppCompatActivity {
-    Toolbar toolbar;
 
     private EditText display_name, user_nickname, display_email;
     private TextView updateMsg, display_nickname, display_status, recheckGender;
@@ -69,6 +81,14 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // 태마 변경
+        SharedPreferences sharedPreferences = getSharedPreferences("change_theme", MODE_PRIVATE);
+        if (sharedPreferences.getBoolean("dark_theme", false)) {
+            setTheme(R.style.darktheme);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
@@ -109,12 +129,25 @@ public class ProfileActivity extends AppCompatActivity {
         display_email.setFocusable(false);
         display_email.setClickable(false);
 
-        // 상태표시줄
-        View view = getWindow().getDecorView();
+        /* 언어변경 */
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String language = prefs.getString("language", "");
+        assert language != null;
+        // country code picker 언어 변경
+        if (language.equals("ko") || language.equals("한국어")) {
+            countryCodePicker.changeDefaultLanguage(CountryCodePicker.Language.KOREAN);
 
+        } else if (language.equals("en") || language.equals("English")) {
+            countryCodePicker.changeDefaultLanguage(CountryCodePicker.Language.ENGLISH);
+        }
+
+        // 상태표시줄 색상 변경
+        View view = getWindow().getDecorView();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (view != null) {
-                // 23 버전 이상일 때 상태바 하얀 색상, 회색 아이콘
+            // 23 버전 이상일 때 상태바 하얀 색상, 회색 아이콘
+            if (sharedPreferences.getBoolean("dark_theme", false)) {
+                getWindow().setStatusBarColor(Color.BLACK);
+            } else {
                 view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 getWindow().setStatusBarColor(Color.parseColor("#f2f2f2"));
             }

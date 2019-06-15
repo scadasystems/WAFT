@@ -2,11 +2,13 @@ package org.lulzm.waft;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,7 +29,6 @@ import androidx.slidingpanelayout.widget.SlidingPaneLayout;
 
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -41,15 +42,21 @@ import org.lulzm.waft.MainFragment.Fragment1;
 import org.lulzm.waft.MainFragment.Fragment5;
 import org.lulzm.waft.MainFragment.FragmentQRMain;
 import org.lulzm.waft.MainFragment.MainWebview;
-import org.lulzm.waft.MainFragment.SharedPref;
 import org.lulzm.waft.ProfileSetting.ProfileActivity;
+import org.lulzm.waft.SosAdapter.ApiService;
+import org.lulzm.waft.SosAdapter.Datum;
+import org.lulzm.waft.SosAdapter.RetroClient;
+import org.lulzm.waft.SosAdapter.SosList;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Response;
 import xyz.hasnat.sweettoast.SweetToast;
 
-public class MainActivity extends AppCompatActivity implements Fragment5.OnThemeChangeListener {
+public class MainActivity extends AppCompatActivity {
 
     Dialog dialog_sos;
     private static final int TIME_LIMIT = 1500;
@@ -69,23 +76,34 @@ public class MainActivity extends AppCompatActivity implements Fragment5.OnTheme
     private DatabaseReference userDatabaseReference;
     public FirebaseUser currentUser;
 
-    // 툴바
-    AppBarLayout appBarLayout;
-    SharedPref sharedPref;
+    private ProgressDialog progressDialog;
+
+    /* Sos parsing */
+    private ArrayList<Datum> datumList;
 
     @SuppressLint({"HandlerLeak"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        sharedPref = new SharedPref(this);
-        if (sharedPref.loadNightModeState() == true) {
+        // 다크모드 적용
+        SharedPreferences sharedPreferences = getSharedPreferences("change_theme", MODE_PRIVATE);
+        if (sharedPreferences.getBoolean("dark_theme", false)) {
             setTheme(R.style.darktheme);
         } else {
             setTheme(R.style.AppTheme);
         }
+
         super.onCreate(savedInstanceState);
         Stetho.initializeWithDefaults(this);
         setContentView(R.layout.activity_main);
+
+        // sos 팝업
         dialog_sos = new Dialog(this);
+
+        // progressbar
+        progressDialog = new ProgressDialog(MainActivity.this);
+        progressDialog.setMessage(getString(R.string.sos_loading));
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
 
         new OkHttpClient.Builder()
                 .addNetworkInterceptor(new StethoInterceptor())
@@ -111,8 +129,12 @@ public class MainActivity extends AppCompatActivity implements Fragment5.OnTheme
         View view = getWindow().getDecorView();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // 23 버전 이상일 때 상태바 하얀 색상, 회색 아이콘
-            view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            getWindow().setStatusBarColor(Color.parseColor("#f2f2f2"));
+            if (sharedPreferences.getBoolean("dark_theme", false)) {
+                getWindow().setStatusBarColor(Color.BLACK);
+            } else {
+                view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                getWindow().setStatusBarColor(Color.parseColor("#f2f2f2"));
+            }
         } else if (Build.VERSION.SDK_INT >= 21) {
             // 21 버전 이상일 때 상태바 검은 색상, 흰색 아이콘
             getWindow().setStatusBarColor(Color.BLACK);
@@ -197,11 +219,29 @@ public class MainActivity extends AppCompatActivity implements Fragment5.OnTheme
                         dialog_sos.setContentView(R.layout.emergency_popup);
                         dialog_sos.getWindow().setBackgroundDrawable(new ColorDrawable(0));
 
+                        // 나라코드
                         CountryCodePicker country_popup_name = dialog_sos.findViewById(R.id.country_popup_name);
+                        // 닫기버튼
                         ImageButton tv_close = dialog_sos.findViewById(R.id.txtclose);
+                        // 각 전화번호
                         TextView tv_police = dialog_sos.findViewById(R.id.police_number);
                         TextView tv_amb = dialog_sos.findViewById(R.id.ambulance_number);
                         TextView tv_fire = dialog_sos.findViewById(R.id.fire_number);
+                        // 전화걸기
+                        ImageButton call_police = dialog_sos.findViewById(R.id.call_police);
+                        ImageButton call_amb = dialog_sos.findViewById(R.id.call_ambulance);
+                        ImageButton call_fire = dialog_sos.findViewById(R.id.call_fire);
+
+                        /* 언어변경 */
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                        String language = prefs.getString("language", "");
+                        assert language != null;
+                        // country code picker 언어 변경
+                        if (language.equals("ko") || language.equals("한국어")) {
+                            country_popup_name.changeDefaultLanguage(CountryCodePicker.Language.KOREAN);
+                        } else if (language.equals("en") || language.equals("English")) {
+                            country_popup_name.changeDefaultLanguage(CountryCodePicker.Language.ENGLISH);
+                        }
 
                         SharedPreferences preferences2 = getSharedPreferences("pref_countryCode", Context.MODE_PRIVATE);
                         country_popup_name.setDefaultCountryUsingNameCode("KR");
@@ -209,30 +249,105 @@ public class MainActivity extends AppCompatActivity implements Fragment5.OnTheme
                         String pref_countryCode_popUp_set = preferences2.getString("country_code", "");
                         country_popup_name.setCountryForNameCode(pref_countryCode_popUp_set);
                         tv_close.setOnClickListener(v -> dialog_sos.dismiss());
+
+                        /* Sos parsing */
+                        ApiService api = RetroClient.getApiService();
+                        Call<SosList> call = api.getMyJSON();
+
+                        call.clone().enqueue(new retrofit2.Callback<SosList>() {
+                            @Override
+                            public void onResponse(Call<SosList> call, Response<SosList> response) {
+
+                                progressDialog.show();
+
+                                if (response.isSuccessful()) {
+                                    datumList = response.body().getData();
+
+                                    for (Datum datum : datumList) {
+                                        if (datum.getCountry().getISOCode().equals(pref_countryCode_popUp_set)) {
+
+                                            String num_police = datum.getPolice().getAll().get(0).trim();
+                                            String num_ambulance = datum.getAmbulance().getAll().get(0).trim();
+                                            String num_fire = datum.getFire().getAll().get(0).trim();
+                                            // 각 전화번호
+                                            tv_police.setText(num_police);
+                                            tv_amb.setText(num_ambulance);
+                                            tv_fire.setText(num_fire);
+                                            // 경찰 전화걸기
+                                            call_police.setOnClickListener(v12 -> {
+                                                Intent intent_police = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num_police));
+                                                startActivity(intent_police);
+                                            });
+                                            // 응급 전화걸기
+                                            call_amb.setOnClickListener(v13 -> {
+                                                Intent intent_ambulance = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num_ambulance));
+                                                startActivity(intent_ambulance);
+                                            });
+                                            // 소방 전화걸기
+                                            call_fire.setOnClickListener(v14 -> {
+                                                Intent intent_fire = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num_fire));
+                                                startActivity(intent_fire);
+                                            });
+                                            progressDialog.dismiss();
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<SosList> call, Throwable t) {
+
+                            }
+                        });
+                        // 팝업 닫기 버튼
+                        tv_close.setOnClickListener(v1 -> dialog_sos.dismiss());
                         dialog_sos.show();
+
                         break;
                     }
                     // logout
                     case 4: {
                         // todo 로그아웃 다이얼로그에 radius 넣어야함.
                         if (isTransactionSafe) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                            View view_logout = LayoutInflater.from(MainActivity.this).inflate(R.layout.logout_dialog, null);
 
-                            ImageButton imageButton = view_logout.findViewById(R.id.logoutImg);
-                            imageButton.setImageResource(R.drawable.logout);
+                            // 로그아웃 다이얼로그 커스텀
+                            if (sharedPreferences.getBoolean("dark_theme", false)) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.alertDialog_dark);
+                                View view_logout = LayoutInflater.from(MainActivity.this).inflate(R.layout.logout_dialog, null);
+                                ImageButton imageButton = view_logout.findViewById(R.id.logoutImg);
+                                imageButton.setImageResource(R.drawable.logout);
 
-                            builder.setCancelable(true);
-                            builder.setNegativeButton(getString(R.string.logout_cancel), (dialog, which) -> dialog.cancel());
-                            builder.setPositiveButton(getString(R.string.logout_success), (dialog, which) -> {
-                                if (currentUser != null) {
-                                    userDatabaseReference.child("active_now").setValue(ServerValue.TIMESTAMP);
-                                }
-                                mAuth.signOut();
-                                logOutUser();
-                            });
-                            builder.setView(view_logout);
-                            builder.show();
+                                builder.setCancelable(true);
+                                builder.setNegativeButton(getString(R.string.logout_cancel), (dialog, which) -> dialog.cancel());
+                                builder.setPositiveButton(getString(R.string.logout_success), (dialog, which) -> {
+                                    if (currentUser != null) {
+                                        userDatabaseReference.child("active_now").setValue(ServerValue.TIMESTAMP);
+                                    }
+                                    mAuth.signOut();
+                                    logOutUser();
+                                });
+                                builder.setView(view_logout);
+                                builder.show();
+                            } else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.alertDialog);
+                                View view_logout = LayoutInflater.from(MainActivity.this).inflate(R.layout.logout_dialog, null);
+                                ImageButton imageButton = view_logout.findViewById(R.id.logoutImg);
+                                imageButton.setImageResource(R.drawable.logout);
+
+                                builder.setCancelable(true);
+                                builder.setNegativeButton(getString(R.string.logout_cancel), (dialog, which) -> dialog.cancel());
+                                builder.setPositiveButton(getString(R.string.logout_success), (dialog, which) -> {
+                                    if (currentUser != null) {
+                                        userDatabaseReference.child("active_now").setValue(ServerValue.TIMESTAMP);
+                                    }
+                                    mAuth.signOut();
+                                    logOutUser();
+                                });
+                                builder.setView(view_logout);
+                                builder.show();
+                            }
+
                         } else {
                             isTransactionPending = true;
                         }
@@ -389,14 +504,5 @@ public class MainActivity extends AppCompatActivity implements Fragment5.OnTheme
         } else {
             isTransactionPending = true;
         }
-    }
-
-    @Override
-    public void onThemeChanged(boolean isDarkMode) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.flContent, new Fragment5());
-        transaction.addToBackStack(null);
-        transaction.commit();
     }
 }

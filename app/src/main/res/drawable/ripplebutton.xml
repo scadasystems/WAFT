@@ -3,7 +3,7 @@
     <item
             android:state_pressed="true">
         <shape>
-            <solid android:color="@color/colorPrimary"></solid>
+            <solid android:color="?attr/cardbackground"></solid>
             <corners
                     android:radius="4dp"
             />
@@ -16,7 +16,7 @@
 
     <item>
         <shape>
-            <solid android:color="@color/white"></solid>
+            <solid android:color="?attr/cardbackground"></solid>
             <corners
                     android:radius="4dp"
             />
