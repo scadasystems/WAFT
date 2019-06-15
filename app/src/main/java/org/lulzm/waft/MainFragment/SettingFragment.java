@@ -1,107 +1,108 @@
-package org.lulzm.waft.MainFragment
+package org.lulzm.waft.MainFragment;
 
-import android.content.Context.MODE_PRIVATE
-import android.content.res.Configuration
-import android.os.Bundle
-import android.preference.PreferenceManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.Switch
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import org.lulzm.waft.R
-import java.util.*
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.Switch;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.Fragment;
+import org.lulzm.waft.R;
 
-@Suppress("DEPRECATION")
-class SettingFragment : Fragment() {
+import java.util.Locale;
+import java.util.Objects;
+
+import static android.content.Context.MODE_PRIVATE;
+
+public class SettingFragment extends Fragment {
 
     // Theme 스위치
-    private var myswitch: Switch? = null
+    private Switch myswitch;
     // 언어변경
-    private var language_setting: LinearLayout? = null
-     private var locale: Locale? = null
+    LinearLayout language_setting;
+    Locale locale;
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Light/ Dark 테마 값 저장
-        val sharedPreferences =
-            Objects.requireNonNull<FragmentActivity>(activity).getSharedPreferences("change_theme", MODE_PRIVATE)
+        SharedPreferences sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("change_theme", MODE_PRIVATE);
         if (sharedPreferences.getBoolean("dark_theme", false)) {
-            activity!!.setTheme(R.style.darktheme)
+            getActivity().setTheme(R.style.darktheme);
         } else {
-            activity!!.setTheme(R.style.AppTheme)
+            getActivity().setTheme(R.style.AppTheme);
         }
-        val view = inflater.inflate(R.layout.fragment_setting, container, false)
+        View view = inflater.inflate(R.layout.fragment_setting, container, false);
         /* 언어변경 */
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        val language = prefs.getString("language", "")
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String language = prefs.getString("language", "");
 
-        language_setting = view.findViewById(R.id.language_setting)
         // 새로고침
-        val i = activity!!.intent
+        Intent i = getActivity().getIntent();
         // 언어 변경 클릭 이벤트
-        language_setting?.setOnClickListener {
-            locale = resources.configuration.locale
-            val edit = prefs.edit()
-            assert(language != null)
-            if (language == "ko" || language == "한국어") { // 현재 언어가 한국어 일때
-                locale = Locale.ENGLISH
-                val config = Configuration()
-                config.locale = locale
-                resources.updateConfiguration(config, resources.displayMetrics)
+        language_setting = view.findViewById(R.id.language_setting);
+        language_setting.setOnClickListener(v -> {
+            locale = getResources().getConfiguration().locale;
+            SharedPreferences.Editor edit = prefs.edit();
+            assert language != null;
+            if (language.equals("ko") || language.equals("한국어")) { // 현재 언어가 한국어 일때
+                locale = Locale.ENGLISH;
+                Configuration config = new Configuration();
+                config.locale = locale;
+                getResources().updateConfiguration(config, getResources().getDisplayMetrics());
                 // 변경된 언어 값 저장
-                edit.putString("language", "English")
-                edit.apply()
+                edit.putString("language", "English");
+                edit.apply();
                 // 새로고침
-                activity!!.finish()
-                startActivity(i)
-            } else if (language == "en" || language == "English") { // 현재 언어가 영어 일때
-                locale = Locale.KOREA
-                val config = Configuration()
-                config.locale = locale
-                resources.updateConfiguration(config, resources.displayMetrics)
+                getActivity().finish();
+                startActivity(i);
+            } else if (language.equals("en") || language.equals("English")) { // 현재 언어가 영어 일때
+                locale = Locale.KOREA;
+                Configuration config = new Configuration();
+                config.locale = locale;
+                getResources().updateConfiguration(config, getResources().getDisplayMetrics());
                 // 변경된 언어 값 저장
-                edit.putString("language", "ko")
-                edit.apply()
+                edit.putString("language", "ko");
+                edit.apply();
                 // 새로고침
-                activity!!.finish()
-                startActivity(i)
+                getActivity().finish();
+                startActivity(i);
             }
-        }
-
+        });
         // 테마변경 클릭 이벤트 및 값 전달
-        myswitch = view.findViewById(R.id.myswitch)
-        myswitch!!.isChecked = sharedPreferences.getBoolean("dark_theme", false).toString() == "true"
-        myswitch!!.setOnCheckedChangeListener { _, isChecked ->
-            val editor = sharedPreferences.edit()
-            editor.putBoolean("dark_theme", isChecked)
-            editor.apply()
-            Toast.makeText(
-                activity,
-                sharedPreferences.getBoolean("dark_theme", false).toString(),
-                Toast.LENGTH_SHORT
-            ).show()
-            handleDarkMode(sharedPreferences.getBoolean("dark_theme", false))
+        myswitch = view.findViewById(R.id.myswitch);
+        if (String.valueOf(sharedPreferences.getBoolean("dark_theme", false)).equals("true")) {
+            myswitch.setChecked(true);
+        } else {
+            myswitch.setChecked(false);
         }
-        return view
+        myswitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("dark_theme", isChecked);
+            editor.apply();
+            Toast.makeText(getActivity(), String.valueOf(sharedPreferences.getBoolean("dark_theme", false)), Toast.LENGTH_SHORT).show();
+            handleDarkMode(sharedPreferences.getBoolean("dark_theme", false));
+        });
+        return view;
     }
 
-    private fun handleDarkMode(active: Boolean) {
+    private void handleDarkMode(boolean active) {
         // 테마변경 클릭시 앱 새로고침
-        val i = activity!!.intent
+        Intent i = getActivity().getIntent();
         if (active) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             // 새로고침
-            activity!!.finish()
-            startActivity(i)
+            getActivity().finish();
+            startActivity(i);
         } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             // 새로고침
-            activity!!.finish()
-            startActivity(i)
+            getActivity().finish();
+            startActivity(i);
         }
     }
 }
