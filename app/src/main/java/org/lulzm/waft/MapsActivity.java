@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -27,7 +28,6 @@ import androidx.core.content.ContextCompat;
 import com.akexorcist.googledirection.DirectionCallback;
 import com.akexorcist.googledirection.GoogleDirection;
 import com.akexorcist.googledirection.config.GoogleDirectionConfiguration;
-import com.akexorcist.googledirection.constant.Language;
 import com.akexorcist.googledirection.constant.TransportMode;
 import com.akexorcist.googledirection.constant.Unit;
 import com.akexorcist.googledirection.model.Direction;
@@ -62,8 +62,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static long backPressed;
     int AUTOCOMPLETE_REQUEST_CODE = 1;
     private static final int TIME_LIMIT = 1500;
-    private static final int UPDATE_INTERVAL_MS = 1000;  // 1초
-    private static final int FASTEST_UPDATE_INTERVAL_MS = 500; // 0.5초
     private static final int REQUEST_CODE_PERMISSIONS = 1000;
     final private String androidKey = "AIzaSyD4i9LTNlcP6E9WFcXJOHLEAUgyXYmBDAk";
     final private String serverKey = "AIzaSyChDbn5ae2fxwz56mgspasHXnAwwP_zBbU";
@@ -81,12 +79,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     Button btn_direction;
     MaterialButton btn_walking, btn_driving;
     EditText edt_duration, edt_distance;
-//    private Button btn_driving, btn_walk;
+
+    private String Status;
 
     @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // 다크모드 적용
+        SharedPreferences sharedPreferences = getSharedPreferences("change_theme", MODE_PRIVATE);
+        if (sharedPreferences.getBoolean("dark_theme", false)) {
+            setTheme(R.style.darktheme);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         Log.d(TAG, "onCreate");
@@ -103,6 +109,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             getWindow().setStatusBarColor(Color.BLACK);
         }
 
+        // Bottom_sheet 연결
         init();
 
         // bottomSheet 버튼이벤트
@@ -156,7 +163,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
         });
 
-        // 주변 탐색
+        // 주변 탐색 버튼이벤트
         findViewById(R.id.btn_search_bank).setOnClickListener(v -> showBank(currentPosition));
         findViewById(R.id.btn_search_restaurant).setOnClickListener(v -> showRestaurant(currentPosition));
         findViewById(R.id.btn_search_busStop).setOnClickListener(v -> showBusStation(currentPosition));
@@ -172,6 +179,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         edt_distance.setFocusable(false);
         edt_distance.setClickable(false);
 
+        // bottomSheet 내위치 / 목적지 클릭 이벤트
         edt_duration.setOnClickListener(v -> edt_duration.setText(getCurrentAddress(currentPosition)));
         edt_distance.setOnClickListener(v -> {
             List<Place.Field> fields = Arrays.asList(Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS);
@@ -205,7 +213,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             SweetToast.error(MapsActivity.this, "내위치 " + origin + "\n" + "목적지 없음");
         } else {
             switch (v.getId()) {
-                case R.id.btn_walking:
+                case R.id.btn_walking:      // walk 모드
                     btn_walking.setSelected(true);
                     btn_driving.setSelected(false);
                     SweetToast.success(MapsActivity.this, "WALK모드" + "\n" + "내위치 " + origin + "\n" + "목적지 " + destination);
@@ -214,12 +222,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             .to(destination)
                             .transportMode(TransportMode.WALKING)
                             .alternativeRoute(true)
-                            .language(Language.KOREAN)
                             .unit(Unit.METRIC)
                             .execute(this);
                     break;
 
-                case R.id.btn_driving:
+                case R.id.btn_driving:      // drive 모드
                     btn_walking.setSelected(false);
                     btn_driving.setSelected(true);
                     SweetToast.success(MapsActivity.this, "DRIVE모드" + "\n" + "내위치 " + origin + "\n" + "목적지 " + destination);
@@ -228,7 +235,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             .to(destination)
                             .transportMode(TransportMode.DRIVING)
                             .alternativeRoute(true)
-                            .language(Language.KOREAN)
                             .unit(Unit.METRIC)
                             .execute(this);
                     break;
@@ -237,10 +243,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     };
 
+    //   Direction 이벤트 Callback
     @Override
     public void onDirectionSuccess(Direction direction, String rawBody) {
         GoogleDirectionConfiguration.getInstance().setLogEnabled(true);
-        if (direction.isOK()) {
+        if (direction.isOK()) {     // 성공 시
+            mMap.clear();
             Route route = direction.getRouteList().get(0);
             Leg leg = route.getLegList().get(0);
             mMap.addMarker(new MarkerOptions().position(selected));
@@ -267,6 +275,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Snackbar.make(btn_direction, t.getMessage(), Snackbar.LENGTH_SHORT).show();
     }
 
+    // 카메라 위치 업데이트
     private void setCameraWithCoordinationBounds(Route route) {
         LatLng southwest = route.getBound().getSouthwestCoordination().getCoordination();
         LatLng northeast = route.getBound().getNortheastCoordination().getCoordination();
@@ -314,6 +323,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(final GoogleMap map) {
         Log.d(TAG, "onMapReady :");
         mMap = map;
+        SharedPreferences sharedPreferences = getSharedPreferences("change_theme", MODE_PRIVATE);
+        if (sharedPreferences.getBoolean("dark_theme", false)) {
+            mMap.setMapStyle(new MapStyleOptions(getResources().getString(R.string.style_json)));
+        }
+
         startLocationUpdates();
     }
 
@@ -385,9 +399,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             mFusedLocation.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
 
             if (checkPermission()) {
-                mMap.setMyLocationEnabled(true);
-                mMap.getUiSettings().setZoomControlsEnabled(true);
-                mMap.setPadding(0, 0, 0, 150);
+                mMap.setMyLocationEnabled(true);    // 내위치 버튼
+                mMap.getUiSettings().setZoomControlsEnabled(true);  // 맵 컨트롤 버튼
+                mMap.getUiSettings().setMapToolbarEnabled(false);
+                mMap.setPadding(0, 0, 0, 150);      // 맵 컨트롤 버튼 위치조정
             }
         }
     }
@@ -431,9 +446,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         markerOptions.title(markerTitle);
         markerOptions.snippet(markerSnippet);
         markerOptions.draggable(true);
-
-
-//        currentMarker = mMap.addMarker(markerOptions);
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng);
         mMap.moveCamera(cameraUpdate);
@@ -516,7 +528,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     // 은행 검색
     public void showBank(LatLng location) {
         mMap.clear();//지도 클리어
-
         if (previous_marker != null)
             previous_marker.clear();//지역정보 마커 클리어
 
@@ -524,7 +535,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .listener(MapsActivity.this)
                 .key(androidKey)
                 .latlng(location.latitude, location.longitude)//현재 위치
-                .radius(500) //500 미터 내에서 검색
+                .radius(700) //700 미터 내에서 검색
                 .type(PlaceType.BANK) //은행
                 .build()
                 .execute();
@@ -541,7 +552,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .listener(MapsActivity.this)
                 .key(androidKey)
                 .latlng(location.latitude, location.longitude)//현재 위치
-                .radius(500) //500 미터 내에서 검색
+                .radius(700) //700 미터 내에서 검색
                 .type(PlaceType.RESTAURANT) //음식점
                 .build()
                 .execute();
@@ -558,7 +569,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .listener(MapsActivity.this)
                 .key(androidKey)
                 .latlng(location.latitude, location.longitude)//현재 위치
-                .radius(500) //500 미터 내에서 검색
+                .radius(700) //700 미터 내에서 검색
                 .type(PlaceType.BUS_STATION) //버스
                 .build()
                 .execute();
@@ -575,13 +586,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .listener(MapsActivity.this)
                 .key(androidKey)
                 .latlng(location.latitude, location.longitude)//현재 위치
-                .radius(1000) //500 미터 내에서 검색
+                .radius(700) //700 미터 내에서 검색
                 .type(PlaceType.POLICE) //경찰서
                 .build()
                 .execute();
-//        if () {
-//            SweetToast.error(MapsActivity.this, "주변에 경찰서가 없습니다.");
-//        }
+
     }
 
     @Override
@@ -594,6 +603,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    // 주변검색
     @Override
     public void onPlacesSuccess(List<noman.googleplaces.Place> places) {
         runOnUiThread(() -> {
