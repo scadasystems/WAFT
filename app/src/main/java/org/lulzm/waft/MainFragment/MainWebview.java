@@ -91,7 +91,7 @@ public class MainWebview extends Fragment {
         public void changePage(String idxNum) {
             FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.flContent, new Fragment1()).commit();
+            fragmentTransaction.replace(R.id.flContent, new MainFragment()).commit();
         }
     }
 }

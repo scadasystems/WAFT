@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- 테마별 Color -->
     <declare-styleable name="ds">
+        <!-- App 배경 및 카드 관련-->
         <attr name="colorPrimary" format="color" />
         <attr name="backgroundcolor" format="color" />
         <attr name="cardbackground" format="color" />

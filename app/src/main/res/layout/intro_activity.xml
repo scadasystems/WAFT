@@ -2,14 +2,12 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/activity_intro"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-
-                tools:context="">
+                android:layout_height="match_parent">
 
     <androidx.viewpager.widget.ViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
 
     <LinearLayout
             android:id="@+id/layoutDots"
@@ -26,7 +24,7 @@
             android:layout_height="1dp"
             android:alpha=".5"
             android:layout_above="@id/layoutDots"
-            android:background="@android:color/white" />
+            android:background="@android:color/white"/>
 
     <Button
             android:id="@+id/btn_next"
@@ -38,7 +36,7 @@
             android:background="@null"
             android:text="@string/next"
             android:onClick="btnNextClick"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"/>
 
     <Button
             android:id="@+id/btn_skip"
@@ -50,6 +48,6 @@
             android:background="@null"
             android:text="@string/skip"
             android:onClick="btnSkipClick"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"/>
 
 </RelativeLayout>

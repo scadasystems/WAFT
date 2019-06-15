@@ -19,14 +19,12 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.slidingpanelayout.widget.SlidingPaneLayout;
-
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,11 +33,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.hbb20.CountryCodePicker;
-
+import okhttp3.OkHttpClient;
 import org.lulzm.waft.ChatHome.ChatMainActivity;
 import org.lulzm.waft.Currency.Main;
-import org.lulzm.waft.MainFragment.Fragment1;
-import org.lulzm.waft.MainFragment.Fragment5;
+import org.lulzm.waft.MainFragment.MainFragment;
+import org.lulzm.waft.MainFragment.SettingFragment;
 import org.lulzm.waft.MainFragment.FragmentQRMain;
 import org.lulzm.waft.MainFragment.MainWebview;
 import org.lulzm.waft.ProfileSetting.ProfileActivity;
@@ -47,14 +45,12 @@ import org.lulzm.waft.SosAdapter.ApiService;
 import org.lulzm.waft.SosAdapter.Datum;
 import org.lulzm.waft.SosAdapter.RetroClient;
 import org.lulzm.waft.SosAdapter.SosList;
-
-import java.util.ArrayList;
-import java.util.Locale;
-
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
 import xyz.hasnat.sweettoast.SweetToast;
+
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -64,34 +60,29 @@ public class MainActivity extends AppCompatActivity {
     //menu
     private boolean isTransactionSafe;
     private boolean isTransactionPending;
-
     private FrameLayout flContent;
     private Fragment fragment = null;
     private Class fragmentClass;
     public static Handler HomeFragmentHandler;
     private SlidingPaneLayout sliding_pane;
-
     // Firebase
     private FirebaseAuth mAuth;
     private DatabaseReference userDatabaseReference;
     public FirebaseUser currentUser;
-
     private ProgressDialog progressDialog;
-
     /* Sos parsing */
     private ArrayList<Datum> datumList;
 
     @SuppressLint({"HandlerLeak"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // 다크모드 적용
+        // Light/ Dark 테마 값 받아오기
         SharedPreferences sharedPreferences = getSharedPreferences("change_theme", MODE_PRIVATE);
         if (sharedPreferences.getBoolean("dark_theme", false)) {
             setTheme(R.style.darktheme);
         } else {
             setTheme(R.style.AppTheme);
         }
-
         super.onCreate(savedInstanceState);
         Stetho.initializeWithDefaults(this);
         setContentView(R.layout.activity_main);
@@ -104,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.setMessage(getString(R.string.sos_loading));
         progressDialog.setIndeterminate(false);
         progressDialog.setCancelable(false);
-
         new OkHttpClient.Builder()
                 .addNetworkInterceptor(new StethoInterceptor())
                 .build();
@@ -144,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         flContent = findViewById(R.id.flContent);
         sliding_pane = findViewById(R.id.sliding_pane);
         sliding_pane.setSliderFadeColor(getResources().getColor(android.R.color.transparent));
-        fragmentClass = Fragment1.class;
+        fragmentClass = MainFragment.class;
         try {
             fragment = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {
@@ -169,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                     // currency_main
                     case 0: {
                         if (isTransactionSafe) {
-                            fragmentClass = Fragment1.class;
+                            fragmentClass = MainFragment.class;
                             try {
                                 fragment = (Fragment) fragmentClass.newInstance();
                             } catch (Exception e) {
@@ -196,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                     // setting
                     case 2: {
                         if (isTransactionSafe) {
-                            fragmentClass = Fragment5.class;
+                            fragmentClass = SettingFragment.class;
                             try {
                                 fragment = (Fragment) fragmentClass.newInstance();
                             } catch (Exception e) {
@@ -242,18 +232,14 @@ public class MainActivity extends AppCompatActivity {
                         } else if (language.equals("en") || language.equals("English")) {
                             country_popup_name.changeDefaultLanguage(CountryCodePicker.Language.ENGLISH);
                         }
-
                         SharedPreferences preferences2 = getSharedPreferences("pref_countryCode", Context.MODE_PRIVATE);
                         country_popup_name.setDefaultCountryUsingNameCode("KR");
-
                         String pref_countryCode_popUp_set = preferences2.getString("country_code", "");
                         country_popup_name.setCountryForNameCode(pref_countryCode_popUp_set);
                         tv_close.setOnClickListener(v -> dialog_sos.dismiss());
-
                         /* Sos parsing */
                         ApiService api = RetroClient.getApiService();
                         Call<SosList> call = api.getMyJSON();
-
                         call.clone().enqueue(new retrofit2.Callback<SosList>() {
                             @Override
                             public void onResponse(Call<SosList> call, Response<SosList> response) {
@@ -297,20 +283,17 @@ public class MainActivity extends AppCompatActivity {
 
                             @Override
                             public void onFailure(Call<SosList> call, Throwable t) {
-
                             }
                         });
                         // 팝업 닫기 버튼
                         tv_close.setOnClickListener(v1 -> dialog_sos.dismiss());
                         dialog_sos.show();
-
                         break;
                     }
                     // logout
                     case 4: {
                         // todo 로그아웃 다이얼로그에 radius 넣어야함.
                         if (isTransactionSafe) {
-
                             // 로그아웃 다이얼로그 커스텀
                             if (sharedPreferences.getBoolean("dark_theme", false)) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.alertDialog_dark);
@@ -347,7 +330,6 @@ public class MainActivity extends AppCompatActivity {
                                 builder.setView(view_logout);
                                 builder.show();
                             }
-
                         } else {
                             isTransactionPending = true;
                         }
@@ -355,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     default:
                         if (isTransactionSafe) {
-                            fragmentClass = Fragment1.class;
+                            fragmentClass = MainFragment.class;
                             try {
                                 fragment = (Fragment) fragmentClass.newInstance();
                             } catch (Exception e) {
@@ -398,6 +380,7 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
+    /* 메뉴 아이콘 클릭 값 */
     public void onPostResume() {
         super.onPostResume();
         isTransactionSafe = true;

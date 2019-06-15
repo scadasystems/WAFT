@@ -4,7 +4,6 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-
     <RelativeLayout
         android:id="@+id/body"
         android:layout_width="match_parent"
@@ -36,8 +35,7 @@
             android:gravity="center"
             android:padding="5dp"
             android:textSize="15dp"
-            android:text="@string/register_success_popup"
-            />
+            android:text="@string/register_success_popup"/>
     </RelativeLayout>
 
 </RelativeLayout>

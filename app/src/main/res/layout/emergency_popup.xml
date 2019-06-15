@@ -1,202 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="350dp"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    app:layout_constraintCircleRadius="20dp"
-    android:orientation="vertical">
-
-
-    <TextView
-        android:layout_width="wrap_content"
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/emergency"
-        android:textSize="30dp"
-        android:textStyle="bold"
-        android:textColor="@color/white"/>
+        app:layout_constraintCircleRadius="20dp"
+        android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:background="@drawable/popup_top_radius">
-
-        <com.hbb20.CountryCodePicker
-            android:id="@+id/country_popup_name"
-            android:layout_width="250dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="8dp"
-            app:ccpDialog_keyboardAutoPopup="false"
-            app:ccp_clickable="false"
-            app:ccp_contentColor="@color/white"
-            app:ccp_showArrow="false"
-            app:ccp_showFlag="true"
-            app:ccp_showFullName="true"
-            app:ccp_showNameCode="false"
-            app:ccp_showPhoneCode="false"
-            app:ccp_textGravity="LEFT"
-            app:ccp_textSize="30dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/txtclose"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints" />
-
-        <ImageButton
-            android:id="@+id/txtclose"
+    <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:background="@color/trans"
-            android:src="@drawable/ic_cancel_white_48dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints" />
+            android:layout_gravity="center"
+            android:text="@string/emergency"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:background="@drawable/popup_top_radius">
+
+        <com.hbb20.CountryCodePicker
+                android:id="@+id/country_popup_name"
+                android:layout_width="250dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                app:ccpDialog_keyboardAutoPopup="false"
+                app:ccp_clickable="false"
+                app:ccp_contentColor="@color/white"
+                app:ccp_showArrow="false"
+                app:ccp_showFlag="true"
+                app:ccp_showFullName="true"
+                app:ccp_showNameCode="false"
+                app:ccp_showPhoneCode="false"
+                app:ccp_textGravity="LEFT"
+                app:ccp_textSize="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/txtclose"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints"/>
+
+        <ImageButton
+                android:id="@+id/txtclose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:background="@color/trans"
+                android:src="@drawable/ic_cancel_white_48dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/popup_trans_radius"
-        android:orientation="vertical">
-
-        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp">
+            android:background="@drawable/popup_trans_radius"
+            android:orientation="vertical">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp">
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:src="@drawable/police_car" />
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/police_car"/>
 
             <TextView
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:text="@string/sos_police"
-                android:textColor="@color/white"
-                android:layout_marginLeft="20dp"
-                android:textSize="21sp"
-                android:layout_gravity="center"/>
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sos_police"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="21sp"
+                    android:layout_gravity="center"/>
 
             <TextView
-                android:id="@+id/police_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:textSize="30sp"
-                android:text="000"
-                android:textColor="@color/white"/>
+                    android:id="@+id/police_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:textSize="30sp"
+                    android:text="000"
+                    android:textColor="@color/white"/>
             <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
 
             <ImageButton
-                android:id="@+id/call_police"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:background="@color/trans"
-                android:src="@drawable/ic_call" />
+                    android:id="@+id/call_police"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:background="@color/trans"
+                    android:src="@drawable/ic_call"/>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp">
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ambulance" />
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ambulance"/>
 
             <TextView
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:text="@string/sos_ambulance"
-                android:textColor="@color/white"
-                android:layout_marginLeft="20dp"
-                android:textSize="21sp"
-                android:layout_gravity="center"/>
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sos_ambulance"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="21sp"
+                    android:layout_gravity="center"/>
 
             <TextView
-                android:id="@+id/ambulance_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:textSize="30sp"
-                android:textColor="@color/white"
-                android:text="000" />
+                    android:id="@+id/ambulance_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:textSize="30sp"
+                    android:textColor="@color/white"
+                    android:text="000"/>
 
             <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
 
             <ImageButton
-                android:id="@+id/call_ambulance"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:background="@color/trans"
-                android:src="@drawable/ic_call" />
+                    android:id="@+id/call_ambulance"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:background="@color/trans"
+                    android:src="@drawable/ic_call"/>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp">
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:src="@drawable/fire_truck" />
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/fire_truck"/>
             <TextView
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:text="@string/sos_fire"
-                android:textColor="@color/white"
-                android:layout_marginLeft="20dp"
-                android:textSize="21sp"
-                android:layout_gravity="center"/>
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sos_fire"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="21sp"
+                    android:layout_gravity="center"/>
 
             <TextView
-                android:id="@+id/fire_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:textSize="30sp"
-                android:textColor="@color/white"
-                android:text="000" />
+                    android:id="@+id/fire_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:textSize="30sp"
+                    android:textColor="@color/white"
+                    android:text="000"/>
 
             <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
 
             <ImageButton
-                android:id="@+id/call_fire"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:background="@color/trans"
-                android:src="@drawable/ic_call" />
+                    android:id="@+id/call_fire"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:background="@color/trans"
+                    android:src="@drawable/ic_call"/>
         </LinearLayout>
 
     </LinearLayout>

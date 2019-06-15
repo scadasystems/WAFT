@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:id="@+id/bottom_sheet"
-              android:layout_width="match_parent"
-              android:layout_height="200dp"
-              android:background="@android:color/white"
-              android:orientation="vertical"
-              app:behavior_peekHeight="?actionBarSize"
-              app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        app:behavior_peekHeight="?actionBarSize"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <RelativeLayout
             android:layout_width="match_parent"

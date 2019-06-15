@@ -14,6 +14,7 @@
         <item name="changeTitleColor">@color/address</item>
         <item name="chagneMainTitleColor">#388E3C</item>
         <item name="infomationWallpaper">@drawable/polg</item>
+        <!-- Light 테마 일 경우 메뉴바 텍스트 Color -->
         <item name="menubuttoncolor">@color/menubt_color</item>
         <!-- 텍스트 -->
         <item name="textcolor">#808080</item>
@@ -60,6 +61,7 @@
         <item name="changeTitleColor">#ffffff</item>
         <item name="chagneMainTitleColor">#ffffff</item>
         <item name="infomationWallpaper">@drawable/polg_dark</item>
+        <!-- Dark 경우 메뉴바 텍스트 Color-->
         <item name="menubuttoncolor">@color/menubt_darkcolor</item>
         <!-- 텍스트 -->
         <item name="textcolor">#ffffff</item>

@@ -1,40 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?attr/cardbackground">
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/cardbackground">
 
     <TextView
-        android:id="@+id/chat_user_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:text="WAFT"
-        android:textColor="?attr/tintcolor"
-        android:textSize="18.5sp"
-        android:textStyle="normal" />
+            android:id="@+id/chat_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="WAFT"
+            android:textColor="?attr/tintcolor"
+            android:textSize="18.5sp"
+            android:textStyle="normal"/>
 
     <TextView
-        android:id="@+id/chat_active_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/chat_user_name"
-        android:textColor="?attr/textGrayColor"
-        android:text="@string/messenger_active_now"
-        android:textSize="14sp" />
+            android:id="@+id/chat_active_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/chat_user_name"
+            android:textColor="?attr/textGrayColor"
+            android:text="@string/messenger_active_now"
+            android:textSize="14sp"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/chat_profile_image"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignBottom="@+id/chat_active_status"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="6dp"
-        android:layout_marginBottom="1dp"
-        android:src="@drawable/default_profile_image"
-        app:civ_border_color="?attr/textcolor"
-        app:civ_border_overlay="true"
-        app:civ_border_width=".10dp" />
+            android:id="@+id/chat_profile_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignBottom="@+id/chat_active_status"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="6dp"
+            android:layout_marginBottom="1dp"
+            android:src="@drawable/default_profile_image"
+            app:civ_border_color="?attr/textcolor"
+            app:civ_border_overlay="true"
+            app:civ_border_width=".10dp"/>
 
 </RelativeLayout>

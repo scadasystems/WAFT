@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
->
-
+      xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
             android:title="@string/menu_search"
             android:id="@+id/menu_search"
@@ -12,5 +10,4 @@
             android:title="@string/all_friends"
             android:id="@+id/all_friends"
             app:showAsAction="never"/>
-
 </menu>
