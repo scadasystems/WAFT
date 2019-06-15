@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:background="?attr/cardbackground"
+        android:id="@+id/menu_background"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:id="@+id/lil_post"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/icon_post"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginRight="16dp"/>
+
+            <TextView
+                android:id="@+id/text_post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="Home"
+                android:textColor="?attr/menubuttoncolor"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:id="@+id/lil_accounts"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/icon_accounts"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginRight="16dp"/>
+
+            <TextView
+                android:id="@+id/text_accounts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="Profile"
+                android:textColor="?attr/menubuttoncolor"/>/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:id="@+id/lil_history"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/icon_history"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginRight="16dp"/>
+
+            <TextView
+                android:id="@+id/text_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="Settings"
+                android:textColor="?attr/menubuttoncolor"/>/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:id="@+id/lil_shareus"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/icon_shareus"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginRight="16dp"/>
+
+            <TextView
+                android:id="@+id/text_shareus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="sos"
+                android:textColor="?attr/menubuttoncolor"/>/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:id="@+id/lil_logout"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/icon_logout"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginRight="16dp"/>
+
+            <TextView
+                android:id="@+id/text_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="Logout"
+                android:textColor="?attr/menubuttoncolor"/>/>
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@android:id/list"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:divider="@null">
+        </ListView>
+
+    </LinearLayout>
+</layout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_height="match_parent"
+              android:layout_width="match_parent"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              tools:context=".ForgotPassActivity"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white_smoke"
+    >
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <LinearLayout
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:padding="4dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="70dp"
+                android:layout_marginBottom="8dp">
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/forgotEmail"
+                    android:inputType="textEmailAddress"
+                    android:hint="이메일을 입력해주세요."/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/resetPassButton"
+                android:text="@string/ResetPass"
+                android:textSize="18sp"
+                android:textAllCaps="false"
+                android:padding="10dp"
+                android:background="#00675b"
+                android:textColor="@color/white"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="10dp"/>
+
+        <TextView
+                android:id="@+id/tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/forgotPassHint"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+                android:gravity="center"/>
+    </LinearLayout>
+
+</LinearLayout>

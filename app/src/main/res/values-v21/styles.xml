@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="drawerArrowStyle">@style/DrawerIcon</item>
+        <item name="backgroundcolor">#fcfcfc</item>
+        <item name="cardbackground">#ffffff</item>
+        <item name="buttoncolor">#2196F3</item>
+        <item name="sideMenuColor">#fff</item>
+        <item name="changeTitleColor">@color/address</item>
+        <item name="chagneMainTitleColor">#388E3C</item>
+        <item name="infomationWallpaper">@drawable/polg</item>
+        <item name="menubuttoncolor">@color/menubt_color</item>
+        <!-- 텍스트 -->
+        <item name="textcolor">#808080</item>
+        <item name="tintcolor">#000000</item>
+        <item name="textGrayColor">#616161</item>
+        <!-- 툴바 커스텀 -->
+        <item name="colorControlNormal">#000000</item>
+        <item name="chatIcSearch">@drawable/ic_search_black_24dp</item>
+        <item name="cancelButton_WB">@drawable/ic_close_black_24dp</item>
+        <!-- Menu 커스텀 -->
+        <item name="android:itemBackground">@color/white</item>
+        <item name="android:itemTextAppearance">@color/black</item>
+        <!-- chat sender -->
+        <item name="chat_sender_stroke">@color/trans</item>
+        <item name="chat_sender_solid">#fafafa</item>
+        <!-- chat receiver -->
+        <item name="chat_receiver_stroke">@color/trans</item>
+        <item name="chat_receiver_solid">#80d8ff</item>
+        <!-- chat text -->
+        <item name="chat_sender_text">#000000</item>
+        <item name="chat_sender_timeStamp">#212121</item>
+        <item name="chat_receiver_sender">#212121</item>
+        <item name="chat_receiver_text">#000000</item>
+        <item name="chat_receiver_timeStamp">#212121</item>
+        <!---->
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+        <!-- 공지사항 관련 -->
+        <item name="notice_country_info">@drawable/notice_countrys_info</item>
+        <item name="notice_country_info_eng">@drawable/notice_countrys_info_eng</item>
+        <item name="notice_country_visa">@drawable/notice_countrys_visa</item>
+        <item name="notice_country_visa_eng">@drawable/notice_countrys_visa_eng</item>
+
+    </style>
+
+    <style name="DrawerIcon" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@color/white</item>
+    </style>
+
+    <!-- Night / dark  Mode theme. -->
+    <style name="darktheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#212121</item>
+        <item name="colorPrimaryDark">#000000</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="drawerArrowStyle">@style/DrawerIcon</item>
+        <item name="backgroundcolor">#303030</item>
+        <item name="cardbackground">#424242</item>
+        <item name="buttoncolor">#2196F3</item>
+        <item name="sideMenuColor">#212121</item>
+        <item name="changeTitleColor">#ffffff</item>
+        <item name="chagneMainTitleColor">#ffffff</item>
+        <item name="infomationWallpaper">@drawable/polg_dark</item>
+        <item name="menubuttoncolor">@color/menubt_darkcolor</item>
+        <!-- 텍스트 -->
+        <item name="textcolor">#ffffff</item>
+        <item name="tintcolor">#ffffff</item>
+        <item name="textGrayColor">#9E9E9E</item>
+        <!-- 툴바 커스텀 -->
+        <item name="colorControlNormal">#ffffff</item>
+        <item name="chatIcSearch">@drawable/ic_search_white_24dp</item>
+        <item name="cancelButton_WB">@drawable/ic_close_white_24dp</item>
+        <!-- Menu custom -->
+        <item name="android:itemBackground">@color/jet</item>
+        <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
+        <!-- chat sender -->
+        <item name="chat_sender_stroke">#ffff00</item>
+        <item name="chat_sender_solid">@color/trans</item>
+        <!-- chat receiver -->
+        <item name="chat_receiver_stroke">#ffffff</item>
+        <item name="chat_receiver_solid">@color/trans</item>
+        <!-- chat text -->
+        <item name="chat_sender_text">@color/yellow</item>
+        <item name="chat_sender_timeStamp">#c7cc00</item>
+        <item name="chat_receiver_sender">#c7c7c7</item>
+        <item name="chat_receiver_text">#ffffff</item>
+        <item name="chat_receiver_timeStamp">#c7c7c7</item>
+        <!---->
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+        <!-- 공지사항 관련 -->
+        <item name="notice_country_info">@drawable/notice_countrys_info_dark</item>
+        <item name="notice_country_info_eng">@drawable/notice_countrys_info_eng_dark</item>
+        <item name="notice_country_visa">@drawable/notice_countrys_visa_dark</item>
+        <item name="notice_country_visa_eng">@drawable/notice_countrys_visa_eng_dark</item>
+    </style>
+
+    <!-- menu text custom -->
+    <style name="myCustomMenuTextApearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+
+    <style name="WindowAnimationTransition">
+        <item name="android:windowEnterAnimation" >@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
+    <!-- alterDialog custom -->
+    <style name="alertDialog" parent="Base.Theme.AppCompat.Light.Dialog">
+        <item name="android:background">#ffffff</item>
+        <item name="android:colorAccent">#EC407A</item>
+    </style>
+    <style name="alertDialog_dark" parent="Base.Theme.AppCompat.Light.Dialog">
+        <item name="android:background">#424242</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:colorAccent">#ffffff</item>
+        <item name="android:colorPrimary">#ffffff</item>
+    </style>
+
+</resources>

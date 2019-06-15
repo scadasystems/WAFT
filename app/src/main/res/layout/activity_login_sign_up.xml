@@ -1,0 +1,196 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainFrame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/backImg"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="false"
+        android:scaleX="3"
+        android:scaleY="3"
+        android:src="@drawable/pp" />
+
+    <LinearLayout
+        android:id="@+id/mainLinear"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="5"
+        tools:context=".MainActivity">
+
+        <RelativeLayout
+            android:id="@+id/relative"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.75"
+            android:background="#C378C8BE"
+            android:gravity="center">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til3"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="20dp"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/email2"
+                    android:singleLine="true"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Email"
+                    android:inputType="textCapSentences|textEmailAddress"
+                    android:visibility="gone" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til4"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/til3"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="20dp"
+                android:visibility="gone"
+                app:passwordToggleDrawable="@drawable/pass_icon_selector"
+                app:passwordToggleEnabled="true">
+
+                <EditText
+                    android:id="@+id/pass2"
+                    android:singleLine="true"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Password"
+                    android:inputType="textCapSentences|textPassword"
+                    android:visibility="gone" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til5"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/til4"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="20dp"
+                android:visibility="gone"
+                app:passwordToggleDrawable="@drawable/pass_icon_selector"
+                app:passwordToggleEnabled="true">
+
+                <EditText
+                    android:id="@+id/pass3"
+                    android:singleLine="true"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Confirm Pass"
+                    android:inputType="textCapSentences|textPassword"
+                    android:visibility="gone" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/signUp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/til5"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:rotation="90"
+                android:text="SIGN UP"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/relative2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4.25"
+            android:background="#C37A80C1"
+            android:gravity="center">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="20dp">
+
+                <EditText
+                    android:id="@+id/email"
+                    android:singleLine="true"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Email"
+                    android:inputType="textCapSentences|textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til2"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/til1"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="20dp"
+                app:passwordToggleDrawable="@drawable/pass_icon_selector"
+                app:passwordToggleEnabled="true">
+
+                <EditText
+                    android:id="@+id/pass"
+                    android:singleLine="true"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Password"
+                    android:inputType="textCapSentences|textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                android:id="@+id/forget"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/til2"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="20dp"
+                android:padding="20dp"
+                android:onClick="move_forgotPass"
+                android:text="Forgot Password ?" />
+
+
+            <TextView
+                android:id="@+id/login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forget"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:scaleX="2"
+                android:scaleY="2"
+                android:text="LOGIN"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginStart="30dp"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+
+    </LinearLayout>
+
+
+</FrameLayout>

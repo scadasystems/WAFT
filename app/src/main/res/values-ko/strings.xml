@@ -1,0 +1,224 @@
+﻿<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">WAFT</string>
+
+    <!-- 회원가입 관련 -->
+    <string name="register_success_popup">회원가입을 성공했습니다.\n저희가 가입 인증 메일을 보냈으니 확인해주세요.\nWAFT의 회원이 되신 것을 축하드립니다.</string>
+    <string name="recheck_gender">회원정보를 수정하기 위해서는 성별을 체크 하셔야 합니다.</string>
+    <string name="if_have_account">이미 WAFT 회원입니다. 다시 확인해주세요.</string>
+    <string name="ResetPass">패스워드 재설정</string>
+    <string name="forgotPassHint">패스워드 재설정을 누르신 후,\n해당 이메일에 재설정 메일을 확인해주세요.</string>
+    <string name="success_forgot_password_message">패스워드 재설정을 완료했습니다. 재설정 메일을 확인해주세요.</string>
+
+    <!-- 정보 수정 -->
+    <string name="name">이름</string>
+    <string name="nickname">닉네임</string>
+    <string name="email">이메일</string>
+    <string name="country">국가</string>
+    <string name="gender">성별</string>
+    <string name="male">남</string>
+    <string name="female">여</string>
+    <string name="back">돌아가기</string>
+    <string name="save">수정하기</string>
+    <string name="correct_member_activity">★★ 회원 정보를 수정하였습니다. ★★</string>
+
+    <!-- 로그아웃 관련 -->
+    <string name="logout_cancel">취소</string>
+    <string name="logout_success">로그아웃 하기</string>
+
+    <!-- Slider 관련 -->
+    <string name="next">다음</string>
+    <string name="skip">건너뛰기</string>
+    <string name="start">시작하기</string>
+    <string name="title_slide1">환영합니다!</string>
+    <string name="desc_slide1">WAFT 어플을 사용하기 전 \n간단한 어플 소개를 시작하겠습니다.</string>
+    <string name="title_slide2">Friendship</string>
+    <string name="desc_slide2">여행에서 친해진 사람들과 \n우정을 나눠보세요~</string>
+    <string name="title_slide3">Chatting</string>
+    <string name="desc_slide3">WAFT만의 채팅 시스템을 통하여 여행에서 친해진 사람들과 소통을 나눠보세요~</string>
+
+    <!-- Map 관련 -->
+    <string name="title_activity_maps">Map</string>
+
+
+    <!-- 인터넷 관련 -->
+    <string name="internet_connect">인터넷이 연결되었습니다.</string>
+    <string name="internet_disconnect">인터넷을 연결해주세요.</string>
+    <string name="on_internet_msg">인터넷이 연결되어 있지 않습니다! 인터넷 연결을 확인 해주세요.</string>
+
+
+    <!-- 메인 fragment -->
+    <string name="category">카테고리</string>
+    <string name="qr_code">QR-코드</string>
+    <string name="navigation">네비게이션</string>
+    <string name="exchange_money">환전소</string>
+    <string name="chatting">채팅창</string>
+    <string name="notice_manual">공지사항</string>
+    <string name="selecet_country_code">현재 나라</string>
+
+    <!-- 백버튼 -->
+    <string name="on_more_time_backpress">한번 더 누르면 종료됩니다.</string>
+    <string name="press_back_main">한번 더 누르시면 메인으로 이동합니다.</string>
+
+
+    <!-- 채팅방 관련 -->
+    <string name="send_message">1:1 채팅</string>
+    <string name="users_profile">의 프로필</string>
+    <string name="now_your_friend">현재 친구목록에 있습니다.</string>
+    <string name="cancel_request">친구요청을 취소했습니다.</string>
+    <string name="chat_room">채팅방</string>
+    <string name="menu_search">찾기</string>
+    <string name="request_room">친구요청</string>
+    <string name="friendshipDate">접속한 날짜:\n</string>
+    <string name="please_send_message">보낼 메세지를 적어주세요</string>
+    <string name="failed_send_message">메세지를 보낼 수 없습니다.\\n다시 시도해주세요.</string>
+    <string name="all_friends">친구목록</string>
+    <string name="send_friend_request">친구 요청 보내기</string>
+    <string name="cancel_friend_request">친구 요청 취소하기</string>
+    <string name="accept_friend_request">친구 요청 수락하기</string>
+    <string name="unfriend_this_person">친구 삭제하기</string>
+    <string name="enter_message">메세지를 입력해주세요.</string>
+    <string name="messenger_active_now">현재 접속 중</string>
+    <string name="search_history_cleared_successfully">검색을 삭제했습니다.</string>
+    <string name="image_upload">이미지를 업로드 중입니다...</string>
+    <string name="edit_message_send">텍스트를 입력하세요...</string>
+
+
+    <!-- QR코드 관련 -->
+    <string name="qr_generator_title">코드 스캔</string>
+    <string name="upload">업로드</string>
+    <string name="share">공유하기</string>
+    <string name="download">다운로드</string>
+    <string name="add_friend">코드스캔\n(친구추가)</string>
+    <string name="my_profile">내프로필</string>
+    <string name="using_qr_add_me">위 코드로 상대방이 나를 친구로 추가할 수 있습니다.</string>
+    <string name="scan_qr_and_add_friends">QR코드를 스캔하여 친구 추가를 해보세요.</string>
+
+
+    <!-- 환전소 관련 -->
+    <string name="not_updated">업데이트가 필요합니다.</string>
+    <string name="usd_name">USD</string>
+    <string name="usd_symbol">$</string>
+    <string name="digits">0123456789,.</string>
+    <string name="decimal">금액을 입력하세요.</string>
+    <string name="num_one">1</string>
+    <!-- 환율 이름 -->
+    <string name="long_aud">호주 달러</string>
+    <string name="long_bgn">불가리아 레프</string>
+    <string name="long_brl">브라질 헤알</string>
+    <string name="long_cad">캐나다 달러</string>
+    <string name="long_chf">스위스 프랑</string>
+    <string name="long_cny">중국 위안</string>
+    <string name="long_czk">체코 코루나</string>
+    <string name="long_dkk">덴마크 크로네</string>
+    <string name="long_eur">유럽 유로</string>
+    <string name="long_gbp">영국 파운드</string>
+    <string name="long_hkd">홍콩 달러</string>
+    <string name="long_hrk">크로아티아 쿠나</string>
+    <string name="long_huf">헝가리 포린트</string>
+    <string name="long_idr">인도네시아 루피아</string>
+    <string name="long_ils">이스라엘 셰켈</string>
+    <string name="long_inr">인도 루피</string>
+    <string name="long_isk">아이슬란드 크로나</string>
+    <string name="long_jpy">일본 엔</string>
+    <string name="long_krw">대한민국 원</string>
+    <string name="long_mxn">멕시코 페소</string>
+    <string name="long_myr">말레이시아 링깃</string>
+    <string name="long_nok">노르웨이 크로네</string>
+    <string name="long_nzd">뉴질랜드 달러</string>
+    <string name="long_php">필리핀 페소</string>
+    <string name="long_pln">폴란드 즈워티</string>
+    <string name="long_ron">루마니아 레우</string>
+    <string name="long_rub">러시아 루블</string>
+    <string name="long_sek">스웨덴 크로나</string>
+    <string name="long_sgd">싱가폴 달러</string>
+    <string name="long_thb">태국 바트</string>
+    <string name="long_try">터키 리라</string>
+    <string name="long_usd">미국 달러</string>
+    <string name="long_zar">남아공 랜드</string>
+    <!--=============================================-->
+    <string name="updated">업데이트: %s</string>
+    <string name="failed">실패했습니다.</string>
+    <string name="no_connection">인터넷이 연결되어 있지 않습니다.</string>
+    <string name="need_setting">위의 설정에서 인터넷 관련 설정을 다시 해주세요.</string>
+    <string name="no_wifi">와이파이를 연결해주세요.</string>
+    <string name="roaming">로밍중입니다.</string>
+    <string name="updating">업데이트 중입니다.</string>
+    <string name="add">Add</string>
+    <string name="refresh">새로고침</string>
+    <string name="settings">환경설정</string>
+    <string name="clear">전체 삭제</string>
+    <string name="remove">지우기</string>
+    <string name="chart">차트</string>
+    <string name="copy">복사하기</string>
+    <string name="cancel">취소</string>
+    <string name="select">선택</string>
+    <string name="pref_update_category">업데이트</string>
+    <string name="pref_wifi_summ">WiFi를 이용하여 업데이트를 합니다.</string>
+    <string name="pref_wifi">WIFI</string>
+    <string name="pref_roaming">데이터(4G/5G)</string>
+    <string name="pref_roaming_summ">데이터를 이용하여 업데이트를 합니다.</string>
+    <string name="pref_select">선택하기</string>
+    <string name="pref_select_summ">터치하면 다중 선택됩니다.</string>
+    <string name="pref_numbers">환율 숫자 관련</string>
+    <string name="pref_digit_default">3</string>
+    <string name="pref_digits">소수 자릿수를 변경합니다.</string>
+    <string name="pref_fill_summ">차트를 가득 채웁니다.</string>
+    <string name="pref_fill">채우기</string>
+    <string name="action_invert">바꾸기</string>
+    <string name="new_chart">새로운 차트 생성</string>
+    <string name="hist">History</string>
+    <string name="range">시간</string>
+    <string name="week">일주일</string>
+    <string name="month">한달</string>
+    <string name="quarter">4주 간격</string>
+    <string name="year">일년</string>
+    <string name="years">5년</string>
+    <string name="max">모든 주기</string>
+    <string name="update_failed">업데이트를 실패했습니다.</string>
+    <string name="press_back_currency">한번 더 누르면 환전소로 이동합니다.</string>
+    <string name="currency_waft">WAFT 환전</string>
+
+    <string name="success_save">저장 성공:</string>
+
+    <string name="share_QRcode">QR코드 공유하기</string>
+
+    <!-- 권한 -->
+    <string name="need_permission">사용하시려면 권한설정을 해야합니다.</string>
+    <string name="already_qrcode_save">이미 저장되어 있습니다.</string>
+
+    <!-- Setting -->
+    <string name="stname">환경설정</string>
+    <string name="notice">공지사항</string>
+    <string name="notice_str">공지사항을 확인 해주세요</string>
+    <string name="theme_change">테마변경</string>
+    <string name="theme_change_str">Black / White 테마를 변경하세요</string>
+    <string name="language">언어선택</string>
+    <string name="language_str">언어 설정 창에서 자신의 국적으로 변경해주세요</string>
+
+    <!-- 지도 -->
+    <string name="bank">은행</string>
+    <string name="restaurant">음식점</string>
+    <string name="busStop">버스정류장</string>
+    <string name="police">경찰서</string>
+    <string name="distance">거리 :</string>
+    <string name="time">시간 :</string>
+    <string name="innerPosition">내위치</string>
+    <string name="destination">목적지</string>
+    <string name="logouttx">로그아웃 하시겠어요?</string>
+    <string name="Configuration">환경설정</string>
+
+    <!-- sos 팝업-->
+    <string name="emergency" tools:ignore="ExtraTranslation">긴급전화</string>
+    <string name="sos_police">경찰 :</string>
+    <string name="sos_ambulance">응급 :</string>
+    <string name="sos_fire">소방 :</string>
+    <string name="sos_loading">긴급번호를 업데이트 중입니다…</string>
+
+    <!-- chat -->
+    <string name="chat_gender">성별 :</string>
+    <string name="chat_edit_profile">프로필 수정하기</string>
+    <string name="search_a_name">사람을 찾기 위해 검색하세요</string>
+    <string name="not_found">친구를 찾지 못했습니다.</string>
+    <string name="clear_history">검색기록 삭제</string>
+
+</resources>

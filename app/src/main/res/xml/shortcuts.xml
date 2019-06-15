@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+            android:shortcutId="chat"
+            android:enabled="true"
+            android:icon="@mipmap/ic_chat"
+            android:shortcutShortLabel="@string/chatting"
+            android:shortcutLongLabel="@string/chatting">
+
+        <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="org.lulzm.waft.ChatHome"
+                android:targetClass="org.lulzm.waft.ChatHome.ChatMainActivity"/>
+    </shortcut>
+</shortcuts>
