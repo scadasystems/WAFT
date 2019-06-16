@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="ds">
+        <!-- 로그인, 회원가입 -->
+        <attr name="loginSign_main_background" format="color" />
+        <attr name="loginSign_side_background" format="color" />
+
         <attr name="colorPrimary" format="color" />
         <attr name="backgroundcolor" format="color" />
         <attr name="cardbackground" format="color" />

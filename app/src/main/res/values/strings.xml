@@ -9,7 +9,7 @@
     <string name="recheck_gender">You need to check your gender to modify your membership information.</string>
     <string name="if_have_account">I\'m already a member of WAFT. Please check again.</string>
     <string name="ResetPass">Reset Password</string>
-    <string name="forgotPassHint">Click Reset Password, and\nCheck your email for resetting.</string>
+    <string name="forgotPassHint">Click "Reset Password".\nPlease check the reset email for this email.</string>
     <string name="success_forgot_password_message">Password reset completed. Please check the reset mail.</string>
 
     <!-- 회원가입 -->
@@ -230,6 +230,29 @@
     <string name="search_a_name">Search a name</string>
     <string name="not_found">Not found</string>
     <string name="clear_history">Clear History</string>
+
+    <!-- 로그인, 회원가입, 재설정 -->
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="login">LOGIN</string>
+    <string name="password">Password</string>
+    <string name="sign_email">E-mail</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="confirm_pass">Confirm Pass</string>
+    <string name="input_email">Enter your e-mail</string>
+    <string name="correct_email_format">Please enter the correct e-mail format.</string>
+    <string name="check_email">Please check your e-mail.</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="success_login">Now login, waiting…</string>
+    <string name="wrong_email_fomat">Email format is invalid.</string>
+    <string name="enter_password">Please enter your password.</string>
+    <string name="wrong_password_format">Password must be at least 6 digits.</string>
+    <string name="wrong_emailPassword">Email and password are incorrect. Please check again.</string>
+    <string name="confirm_password">Please re-enter your password.</string>
+    <string name="wrong_password">Password doesn\'t match.</string>
+    <string name="authenticate_email">You need to authenticate your e-mail.</string>
+    <string name="singing">Singing up now.</string>
+    <string name="please_wait">Please wait a minute…</string>
+    <string name="not_authenticated_email">Email not authenticated. \nPlease authenticate to use the app.</string>
 
 
 </resources>

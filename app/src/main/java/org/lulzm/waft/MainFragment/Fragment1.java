@@ -16,24 +16,20 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.fragment.app.Fragment;
-
 import com.bumptech.glide.Glide;
 import com.hbb20.CountryCodePicker;
 import com.makeramen.roundedimageview.RoundedImageView;
-
 import org.lulzm.waft.R;
 import org.lulzm.waft.SosAdapter.ApiService;
 import org.lulzm.waft.SosAdapter.Datum;
 import org.lulzm.waft.SosAdapter.RetroClient;
 import org.lulzm.waft.SosAdapter.SosList;
-
-import java.util.ArrayList;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.util.ArrayList;
 
 public class Fragment1 extends Fragment {
 
@@ -111,7 +107,7 @@ public class Fragment1 extends Fragment {
         });
 
         /* Sos parsing */
-        ApiService api = RetroClient.getApiService();
+        ApiService api = RetroClient.INSTANCE.getApiService();
         Call<SosList> call = api.getMyJSON();
 
         /* sos 버튼 이벤트 처리 */
@@ -154,7 +150,7 @@ public class Fragment1 extends Fragment {
 //                        SharedPreferences preferences3 = getActivity().getSharedPreferences("pref_country")
 
                         for (Datum datum : datumList) {
-                            if (datum.getCountry().getISOCode().equals(pref_countryCode_popUp_set)) {
+                            if (datum.getCountry().getIsoCode().equals(pref_countryCode_popUp_set)) {
                                 String num_police = datum.getPolice().getAll().get(0);
                                 String num_ambulance = datum.getAmbulance().getAll().get(0);
                                 String num_fire = datum.getFire().getAll().get(0);

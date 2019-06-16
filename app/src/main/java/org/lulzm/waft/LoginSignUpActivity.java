@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -36,6 +37,8 @@ import xyz.hasnat.sweettoast.SweetToast;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static android.animation.ObjectAnimator.ofFloat;
+
 public class LoginSignUpActivity extends AppCompatActivity {
     private Context myContext = LoginSignUpActivity.this;
 
@@ -63,29 +66,39 @@ public class LoginSignUpActivity extends AppCompatActivity {
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
-            if ( v instanceof EditText) {
+            if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         }
-        return super.dispatchTouchEvent( event );
+        return super.dispatchTouchEvent(event);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // 다크모드 적용
+        SharedPreferences sharedPreferences = getSharedPreferences("change_theme", MODE_PRIVATE);
+        if (sharedPreferences.getBoolean("dark_theme", false)) {
+            setTheme(R.style.darktheme);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_sign_up);
 
         // 상태표시줄 색상 변경
         View view = getWindow().getDecorView();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (view != null) {
-                // 23 버전 이상일 때 상태바 하얀 색상, 회색 아이콘
+            // 23 버전 이상일 때 상태바 하얀 색상, 회색 아이콘
+            if (sharedPreferences.getBoolean("dark_theme", false)) {
+                getWindow().setStatusBarColor(Color.BLACK);
+            } else {
                 view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 getWindow().setStatusBarColor(Color.parseColor("#f2f2f2"));
             }
@@ -149,16 +162,16 @@ public class LoginSignUpActivity extends AppCompatActivity {
             if (keypadHeight > screenHeight * 0.15) {
                 // keyboard is opened
                 if (params.weight == 4.25) {
-                    animator1 = ObjectAnimator.ofFloat(back, "scaleX", (float) 1.95);
-                    animator2 = ObjectAnimator.ofFloat(back, "scaleY", (float) 1.95);
+                    animator1 = ofFloat(back, "scaleX", (float) 1.95);
+                    animator2 = ofFloat(back, "scaleY", (float) 1.95);
                     AnimatorSet set = new AnimatorSet();
                     set.playTogether(animator1, animator2);
                     set.setDuration(1000);
                     set.start();
 
                 } else {
-                    animator1 = ObjectAnimator.ofFloat(back, "scaleX", (float) 1.75);
-                    animator2 = ObjectAnimator.ofFloat(back, "scaleY", (float) 1.75);
+                    animator1 = ofFloat(back, "scaleX", (float) 1.75);
+                    animator2 = ofFloat(back, "scaleY", (float) 1.75);
                     AnimatorSet set = new AnimatorSet();
                     set.playTogether(animator1, animator2);
                     set.setDuration(500);
@@ -166,8 +179,8 @@ public class LoginSignUpActivity extends AppCompatActivity {
                 }
             } else {
                 // keyboard is closed
-                animator1 = ObjectAnimator.ofFloat(back, "scaleX", 3);
-                animator2 = ObjectAnimator.ofFloat(back, "scaleY", 3);
+                animator1 = ofFloat(back, "scaleX", 3);
+                animator2 = ofFloat(back, "scaleY", 3);
                 AnimatorSet set = new AnimatorSet();
                 set.playTogether(animator1, animator2);
                 set.setDuration(500);
@@ -200,24 +213,24 @@ public class LoginSignUpActivity extends AppCompatActivity {
             bounds.addListener(new Transition.TransitionListener() {
                 @Override
                 public void onTransitionStart(Transition transition) {
-                    ObjectAnimator animator1 = ObjectAnimator.ofFloat(signUp, "translationX", mainLinear.getWidth() / 2 - relativeLayout2.getWidth() / 2 - signUp.getWidth() / 2);
-                    ObjectAnimator animator2 = ObjectAnimator.ofFloat(img, "translationX", -relativeLayout2.getX());
-                    ObjectAnimator animator3 = ObjectAnimator.ofFloat(signUp, "rotation", 0);
-                    ObjectAnimator animator4 = ObjectAnimator.ofFloat(email_login, "alpha", 1, 0);
-                    ObjectAnimator animator5 = ObjectAnimator.ofFloat(LoginSignUpActivity.this.pass_login, "alpha", 1, 0);
-                    ObjectAnimator animator6 = ObjectAnimator.ofFloat(forgetPass, "alpha", 1, 0);
-                    ObjectAnimator animator7 = ObjectAnimator.ofFloat(login, "rotation", 90);
-                    ObjectAnimator animator8 = ObjectAnimator.ofFloat(login, "y", relativeLayout2.getHeight() / 2);
-                    ObjectAnimator animator9 = ObjectAnimator.ofFloat(email_sign, "alpha", 0, 1);
-                    ObjectAnimator animator10 = ObjectAnimator.ofFloat(confirmPass, "alpha", 0, 1);
-                    ObjectAnimator animator11 = ObjectAnimator.ofFloat(pass_sign, "alpha", 0, 1);
-                    ObjectAnimator animator12 = ObjectAnimator.ofFloat(signUp, "y", login.getY());
-                    ObjectAnimator animator13 = ObjectAnimator.ofFloat(back, "translationX", img.getX());
-                    ObjectAnimator animator14 = ObjectAnimator.ofFloat(signUp, "scaleX", 2);
-                    ObjectAnimator animator15 = ObjectAnimator.ofFloat(signUp, "scaleY", 2);
-                    ObjectAnimator animator16 = ObjectAnimator.ofFloat(login, "scaleX", 1);
-                    ObjectAnimator animator17 = ObjectAnimator.ofFloat(login, "scaleY", 1);
-                    ObjectAnimator animator18 = ObjectAnimator.ofFloat(logo, "x", relativeLayout2.getRight() / 2 - relativeLayout.getRight());
+                    ObjectAnimator animator1 = ofFloat(signUp, "translationX", mainLinear.getWidth() / 2 - relativeLayout2.getWidth() / 2 - signUp.getWidth() / 2);
+                    ObjectAnimator animator2 = ofFloat(img, "translationX", -relativeLayout2.getX());
+                    ObjectAnimator animator3 = ofFloat(signUp, "rotation", 0);
+                    ObjectAnimator animator4 = ofFloat(email_login, "alpha", 1, 0);
+                    ObjectAnimator animator5 = ofFloat(LoginSignUpActivity.this.pass_login, "alpha", 1, 0);
+                    ObjectAnimator animator6 = ofFloat(forgetPass, "alpha", 1, 0);
+                    ObjectAnimator animator7 = ofFloat(login, "rotation", 90);
+                    ObjectAnimator animator8 = ofFloat(login, "y", relativeLayout2.getHeight() / 2);
+                    ObjectAnimator animator9 = ofFloat(email_sign, "alpha", 0, 1);
+                    ObjectAnimator animator10 = ofFloat(confirmPass, "alpha", 0, 1);
+                    ObjectAnimator animator11 = ofFloat(pass_sign, "alpha", 0, 1);
+                    ObjectAnimator animator12 = ofFloat(signUp, "y", login.getY());
+                    ObjectAnimator animator13 = ofFloat(back, "translationX", img.getX());
+                    ObjectAnimator animator14 = ofFloat(signUp, "scaleX", 2);
+                    ObjectAnimator animator15 = ofFloat(signUp, "scaleY", 2);
+                    ObjectAnimator animator16 = ofFloat(login, "scaleX", 1);
+                    ObjectAnimator animator17 = ofFloat(login, "scaleY", 1);
+                    ObjectAnimator animator18 = ofFloat(logo, "x", relativeLayout2.getRight() / 2 - relativeLayout.getRight());
 
                     AnimatorSet set = new AnimatorSet();
                     set.playTogether(animator1, animator2, animator3, animator4, animator5, animator6, animator7,
@@ -290,24 +303,24 @@ public class LoginSignUpActivity extends AppCompatActivity {
                 public void onTransitionStart(Transition transition) {
 
 
-                    ObjectAnimator animator1 = ObjectAnimator.ofFloat(login, "translationX", mainLinear.getWidth() / 2 - relativeLayout.getWidth() / 2 - login.getWidth() / 2);
-                    ObjectAnimator animator2 = ObjectAnimator.ofFloat(img, "translationX", (relativeLayout.getX()));
-                    ObjectAnimator animator3 = ObjectAnimator.ofFloat(login, "rotation", 0);
-                    ObjectAnimator animator4 = ObjectAnimator.ofFloat(email_login, "alpha", 0, 1);
-                    ObjectAnimator animator5 = ObjectAnimator.ofFloat(LoginSignUpActivity.this.pass_login, "alpha", 0, 1);
-                    ObjectAnimator animator6 = ObjectAnimator.ofFloat(forgetPass, "alpha", 0, 1);
-                    ObjectAnimator animator7 = ObjectAnimator.ofFloat(signUp, "rotation", 90);
-                    ObjectAnimator animator8 = ObjectAnimator.ofFloat(signUp, "y", relativeLayout.getHeight() / 2);
-                    ObjectAnimator animator9 = ObjectAnimator.ofFloat(email_sign, "alpha", 1, 0);
-                    ObjectAnimator animator10 = ObjectAnimator.ofFloat(confirmPass, "alpha", 1, 0);
-                    ObjectAnimator animator11 = ObjectAnimator.ofFloat(pass_sign, "alpha", 1, 0);
-                    ObjectAnimator animator12 = ObjectAnimator.ofFloat(login, "y", signUp.getY());
-                    ObjectAnimator animator13 = ObjectAnimator.ofFloat(back, "translationX", -img.getX());
-                    ObjectAnimator animator14 = ObjectAnimator.ofFloat(login, "scaleX", 2);
-                    ObjectAnimator animator15 = ObjectAnimator.ofFloat(login, "scaleY", 2);
-                    ObjectAnimator animator16 = ObjectAnimator.ofFloat(signUp, "scaleX", 1);
-                    ObjectAnimator animator17 = ObjectAnimator.ofFloat(signUp, "scaleY", 1);
-                    ObjectAnimator animator18 = ObjectAnimator.ofFloat(logo, "x", logo.getX() + relativeLayout2.getWidth());
+                    ObjectAnimator animator1 = ofFloat(login, "translationX", mainLinear.getWidth() / 2 - relativeLayout.getWidth() / 2 - login.getWidth() / 2);
+                    ObjectAnimator animator2 = ofFloat(img, "translationX", (relativeLayout.getX()));
+                    ObjectAnimator animator3 = ofFloat(login, "rotation", 0);
+                    ObjectAnimator animator4 = ofFloat(email_login, "alpha", 0, 1);
+                    ObjectAnimator animator5 = ofFloat(LoginSignUpActivity.this.pass_login, "alpha", 0, 1);
+                    ObjectAnimator animator6 = ofFloat(forgetPass, "alpha", 0, 1);
+                    ObjectAnimator animator7 = ofFloat(signUp, "rotation", 90);
+                    ObjectAnimator animator8 = ofFloat(signUp, "y", relativeLayout.getHeight() / 2);
+                    ObjectAnimator animator9 = ofFloat(email_sign, "alpha", 1, 0);
+                    ObjectAnimator animator10 = ofFloat(confirmPass, "alpha", 1, 0);
+                    ObjectAnimator animator11 = ofFloat(pass_sign, "alpha", 1, 0);
+                    ObjectAnimator animator12 = ofFloat(login, "y", signUp.getY());
+                    ObjectAnimator animator13 = ofFloat(back, "translationX", -img.getX());
+                    ObjectAnimator animator14 = ofFloat(login, "scaleX", 2);
+                    ObjectAnimator animator15 = ofFloat(login, "scaleY", 2);
+                    ObjectAnimator animator16 = ofFloat(signUp, "scaleX", 1);
+                    ObjectAnimator animator17 = ofFloat(signUp, "scaleY", 1);
+                    ObjectAnimator animator18 = ofFloat(logo, "x", logo.getX() + relativeLayout2.getWidth());
 
 
                     AnimatorSet set = new AnimatorSet();
@@ -359,16 +372,16 @@ public class LoginSignUpActivity extends AppCompatActivity {
     private void loginUserAccount(String email, String password) {
         //just validation
         if (TextUtils.isEmpty(email)) {
-            SweetToast.error(this, "이메일을 입력하세요.");
+            SweetToast.error(this, getString(R.string.input_email));
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            SweetToast.error(this, "이메일 형식이 올바르지 않습니다.");
+            SweetToast.error(this, getString(R.string.wrong_email_fomat));
         } else if (TextUtils.isEmpty(password)) {
-            SweetToast.error(this, "패스워드를 입력하세요.");
+            SweetToast.error(this, getString(R.string.enter_password));
         } else if (password.length() < 6) {
-            SweetToast.error(this, "패스워드는 6자리 이상으로\n 만들어야 합니다.");
+            SweetToast.error(this, getString(R.string.wrong_password_format));
         } else {
             //progress bar
-            progressDialog.setMessage("로그인 중입니다...");
+            progressDialog.setMessage(getString(R.string.success_login));
             progressDialog.show();
             progressDialog.setCanceledOnTouchOutside(false);
 
@@ -384,7 +397,7 @@ public class LoginSignUpActivity extends AppCompatActivity {
                                     .addOnSuccessListener(aVoid -> checkVerifiedEmail());
 
                         } else {
-                            SweetToast.error(LoginSignUpActivity.this, "이메일과 패스워드가 옳지 않습니다. 다시 한번 확인해주세요.");
+                            SweetToast.error(LoginSignUpActivity.this, getString(R.string.wrong_emailPassword));
                         }
 
                         progressDialog.dismiss();
@@ -398,17 +411,17 @@ public class LoginSignUpActivity extends AppCompatActivity {
     private void registerAccount(String email, String password, String confirmPassword) {
 
         if (TextUtils.isEmpty(email)) {
-            SweetToast.error(myContext, "이메일을 입력하세요.");
+            SweetToast.error(myContext, getString(R.string.input_email));
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            SweetToast.error(myContext, "이메일 형식이 올바르지 않습니다.");
+            SweetToast.error(myContext, getString(R.string.wrong_email_fomat));
         } else if (TextUtils.isEmpty(password)) {
-            SweetToast.error(myContext, "패스워드를 입력하세요.");
+            SweetToast.error(myContext, getString(R.string.enter_password));
         } else if (password.length() < 6) {
-            SweetToast.error(myContext, "패스워드는 6자리 이상으로\n 만들어야 합니다.");
+            SweetToast.error(myContext, getString(R.string.wrong_password_format));
         } else if (TextUtils.isEmpty(confirmPassword)) {
-            SweetToast.warning(myContext, "패스워드를 재입력해주세요.");
+            SweetToast.warning(myContext, getString(R.string.confirm_password));
         } else if (!confirmPassword.equals(password)) {
-            SweetToast.error(myContext, "패스워드가 일치하지 않습니다.");
+            SweetToast.error(myContext, getString(R.string.wrong_password));
         } else {
             // create user
             mAuth.createUserWithEmailAndPassword(email, password)
@@ -424,7 +437,7 @@ public class LoginSignUpActivity extends AppCompatActivity {
                             storeDefaultDatabaseReference.child("verified").setValue("false");
                             storeDefaultDatabaseReference.child("search_name").setValue(name.toLowerCase());
                             storeDefaultDatabaseReference.child("user_email").setValue(email);
-                            storeDefaultDatabaseReference.child("user_nickname").setValue("WAFT 유저");
+                            storeDefaultDatabaseReference.child("user_nickname").setValue("Welcome to WAFT");
                             storeDefaultDatabaseReference.child("user_gender").setValue("");
                             storeDefaultDatabaseReference.child("user_country").setValue("KR");
                             storeDefaultDatabaseReference.child("created_at").setValue(ServerValue.TIMESTAMP);
@@ -454,7 +467,7 @@ public class LoginSignUpActivity extends AppCompatActivity {
                                                                             startActivity(mainIntent);
                                                                             finish();
                                                                             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                                                            SweetToast.info(myContext, "이메일을 인증하셔야 합니다.");
+                                                                            SweetToast.info(myContext, getString(R.string.authenticate_email));
                                                                         });
                                                                     }
                                                                 }, 8000);
@@ -467,13 +480,13 @@ public class LoginSignUpActivity extends AppCompatActivity {
                                     });
                         } else {
                             String message = task.getException().getMessage();
-                            SweetToast.error(myContext, "에러 : " + message);
+                            SweetToast.error(myContext, "Error : " + message);
                         }
                         progressDialog.dismiss();
                     });
             //config progressbar
-            progressDialog.setTitle("회원가입 중입니다.");
-            progressDialog.setMessage("잠시만 기다려주세요.....");
+            progressDialog.setTitle(getString(R.string.singing));
+            progressDialog.setMessage(getString(R.string.please_wait));
             progressDialog.show();
             progressDialog.setCanceledOnTouchOutside(false);
         }
@@ -520,7 +533,7 @@ public class LoginSignUpActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
         } else {
-            SweetToast.info(LoginSignUpActivity.this, "이메일을 인증하지 않았습니다.\n어플 사용을 위해 인증해주세요.");
+            SweetToast.info(LoginSignUpActivity.this, getString(R.string.not_authenticated_email));
             mAuth.signOut();
         }
     }

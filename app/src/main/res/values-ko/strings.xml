@@ -37,7 +37,7 @@
     <string name="desc_slide3">WAFT만의 채팅 시스템을 통하여 여행에서 친해진 사람들과 소통을 나눠보세요~</string>
 
     <!-- Map 관련 -->
-    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_maps">지도</string>
 
 
     <!-- 인터넷 관련 -->
@@ -220,5 +220,29 @@
     <string name="search_a_name">사람을 찾기 위해 검색하세요</string>
     <string name="not_found">친구를 찾지 못했습니다.</string>
     <string name="clear_history">검색기록 삭제</string>
+
+
+    <!-- 로그인, 회원가입, 재설정 -->
+    <string name="forgot_password">패스워드를 잃어버렸나요?</string>
+    <string name="login">로그인</string>
+    <string name="password">패스워드</string>
+    <string name="sign_email">이메일</string>
+    <string name="sign_up">회원가입</string>
+    <string name="confirm_pass">패스워드 재입력</string>
+    <string name="input_email">이메일을 입력하세요.</string>
+    <string name="correct_email_format">올바른 이메일 형식을 입력해주세요.</string>
+    <string name="check_email">이메일을 확인해주세요.</string>
+    <string name="reset_password">패스워드 재설정</string>
+    <string name="success_login">로그인 중입니다…</string>
+    <string name="wrong_email_fomat">이메일 형식이 올바르지 않습니다.</string>
+    <string name="enter_password">패스워드를 입력하세요.</string>
+    <string name="wrong_password_format">패스워드는 6자리 이상으로\n만들어야 합니다.</string>
+    <string name="wrong_emailPassword">이메일과 패스워드가 옳지 않습니다. 다시 한번 확인해주세요.</string>
+    <string name="confirm_password">패스워드를 재입력해주세요.</string>
+    <string name="wrong_password">패스워드가 일치하지 않습니다.</string>
+    <string name="authenticate_email">이메일을 인증하셔야 합니다.</string>
+    <string name="singing">회원가입 중입니다.</string>
+    <string name="please_wait">잠시만 기다려주세요…</string>
+    <string name="not_authenticated_email">이메일을 인증하지 않았습니다. \n어플 사용을 위해 인증해주세요.</string>
 
 </resources>

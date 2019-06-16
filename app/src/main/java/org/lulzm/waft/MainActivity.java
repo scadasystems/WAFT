@@ -19,14 +19,12 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.slidingpanelayout.widget.SlidingPaneLayout;
-
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,7 +33,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.hbb20.CountryCodePicker;
-
+import okhttp3.OkHttpClient;
 import org.lulzm.waft.ChatHome.ChatMainActivity;
 import org.lulzm.waft.Currency.Main;
 import org.lulzm.waft.MainFragment.Fragment1;
@@ -47,14 +45,12 @@ import org.lulzm.waft.SosAdapter.ApiService;
 import org.lulzm.waft.SosAdapter.Datum;
 import org.lulzm.waft.SosAdapter.RetroClient;
 import org.lulzm.waft.SosAdapter.SosList;
-
-import java.util.ArrayList;
-import java.util.Locale;
-
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
 import xyz.hasnat.sweettoast.SweetToast;
+
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -251,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
                         tv_close.setOnClickListener(v -> dialog_sos.dismiss());
 
                         /* Sos parsing */
-                        ApiService api = RetroClient.getApiService();
+                        ApiService api = RetroClient.INSTANCE.getApiService();
                         Call<SosList> call = api.getMyJSON();
 
                         call.clone().enqueue(new retrofit2.Callback<SosList>() {
@@ -264,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
                                     datumList = response.body().getData();
 
                                     for (Datum datum : datumList) {
-                                        if (datum.getCountry().getISOCode().equals(pref_countryCode_popUp_set)) {
+                                        if (datum.getCountry().getIsoCode().equals(pref_countryCode_popUp_set)) {
 
                                             String num_police = datum.getPolice().getAll().get(0);
                                             String num_ambulance = datum.getAmbulance().getAll().get(0);

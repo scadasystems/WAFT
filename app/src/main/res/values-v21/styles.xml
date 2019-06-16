@@ -15,6 +15,9 @@
         <item name="chagneMainTitleColor">#388E3C</item>
         <item name="infomationWallpaper">@drawable/polg</item>
         <item name="menubuttoncolor">@color/menubt_color</item>
+        <!-- 로그인,회원가입 -->
+        <item name="loginSign_main_background">#C37A80C1</item>
+        <item name="loginSign_side_background">#C378C8BE</item>
         <!-- 텍스트 -->
         <item name="textcolor">#808080</item>
         <item name="tintcolor">#000000</item>
@@ -67,6 +70,9 @@
         <item name="chagneMainTitleColor">#ffffff</item>
         <item name="infomationWallpaper">@drawable/polg_dark</item>
         <item name="menubuttoncolor">@color/menubt_darkcolor</item>
+        <!-- 로그인,회원가입 -->
+        <item name="loginSign_main_background">#C3263238</item>
+        <item name="loginSign_side_background">#C3004D40</item>
         <!-- 텍스트 -->
         <item name="textcolor">#ffffff</item>
         <item name="tintcolor">#ffffff</item>
