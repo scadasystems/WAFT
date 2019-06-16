@@ -86,6 +86,14 @@ class MessageAdapter(
                 holder.chat_message_image.visibility = View.GONE
                 holder.chat_message.visibility = View.VISIBLE
                 holder.chat_message.text = message.message
+                // 테마별 글자색
+                if (sharedPreferences!!.getBoolean("dark_theme", false)) {
+                    holder.chat_message.setTextColor(Color.YELLOW)
+                    holder.chat_time_stamp.setTextColor(Color.parseColor("#c7cc00"))
+                } else {
+                    holder.chat_message.setTextColor(Color.BLACK)
+                    holder.chat_time_stamp.setTextColor(Color.parseColor("#212121"))
+                }
             } else {
                 holder.chatItemLayout.gravity = Gravity.LEFT
                 holder.chat_background.setBackgroundResource(R.drawable.chat_receive_background)
@@ -119,6 +127,12 @@ class MessageAdapter(
                 mGlideRequestManager
                     .load(message.message)
                     .into(holder.chat_message_image)
+                // 테마별 글자색
+                if (sharedPreferences!!.getBoolean("dark_theme", false)) {
+                    holder.chat_time_stamp.setTextColor(Color.parseColor("#c7cc00"))
+                } else {
+                    holder.chat_time_stamp.setTextColor(Color.parseColor("#212121"))
+                }
             } else {
                 holder.chatItemLayout.gravity = Gravity.LEFT
                 holder.chat_background.setBackgroundResource(R.drawable.chat_receive_background)
@@ -128,11 +142,9 @@ class MessageAdapter(
                 holder.chat_message_image.visibility = View.VISIBLE
                 if (sharedPreferences!!.getBoolean("dark_theme", false)) {
                     holder.chat_sender.setTextColor(Color.parseColor("#c7c7c7"))
-                    holder.chat_message.setTextColor(Color.WHITE)
                     holder.chat_time_stamp.setTextColor(Color.parseColor("#c7c7c7"))
                 } else {
                     holder.chat_sender.setTextColor(Color.parseColor("#212121"))
-                    holder.chat_message.setTextColor(Color.BLACK)
                     holder.chat_time_stamp.setTextColor(Color.parseColor("#212121"))
                 }
 
