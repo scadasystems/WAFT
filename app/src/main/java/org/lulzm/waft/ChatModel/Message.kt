@@ -8,10 +8,8 @@ class Message {
     var isSeen: Boolean = false
     var from: String? = null
     var send_time: String? = null
-
     // default constructor
     constructor() {}
-
     // constructor
     constructor(
         message: String,

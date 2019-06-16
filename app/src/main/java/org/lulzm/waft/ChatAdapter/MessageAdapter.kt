@@ -23,7 +23,7 @@ import org.lulzm.waft.ChatModel.Message
 import org.lulzm.waft.R
 
 class MessageAdapter(
-    private val messageList: List<Message>, // for glide error
+    private val messageList: List<Message>,
     var mGlideRequestManager: RequestManager
 ) : RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {
     // firebase
@@ -51,8 +51,7 @@ class MessageAdapter(
         val from_message_TYPE = message.type
         val send_time = message.send_time
 
-        databaseReference =
-            FirebaseDatabase.getInstance().reference.child("users").child(from_user_ID.toString())
+        databaseReference = FirebaseDatabase.getInstance().reference.child("users").child(from_user_ID.toString())
         databaseReference!!.keepSynced(true) // for offline
         databaseReference!!.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {

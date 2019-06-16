@@ -31,18 +31,15 @@ class Parser {
     // Get date
     var date: String? = null
         private set
-
     // Get map
     fun getMap(): Map<String, Double>? {
         return map
     }
-
     // Start parser for a url
     fun startParser(s: String): Boolean {
         // Create the map and add value for Euro
         map = HashMap()
         map!!["EUR"] = 1.0
-
         // Read the xml from the url
         try {
             val url = URL(s)
@@ -53,10 +50,8 @@ class Parser {
         } catch (e: Exception) {
             map!!.clear()
         }
-
         return false
     }
-
     // Start parser from a resource
     fun startParser(context: Context, id: Int): Boolean {
         // Create the map and add value for Euro
@@ -64,7 +59,6 @@ class Parser {
         map!!["EUR"] = 1.0
 
         val resources = context.resources
-
         // Read the xml from the resources
         try {
             val stream = resources.openRawResource(id)
@@ -74,10 +68,8 @@ class Parser {
         } catch (e: Exception) {
             map!!.clear()
         }
-
         return false
     }
-
     // Handler class
     private inner class Handler : DefaultHandler() {
         // Start element
@@ -93,10 +85,8 @@ class Parser {
                     // Get the date
                     when (attributes.getLocalName(i)) {
                         "time" -> date = attributes.getValue(i)
-
                         // Get the currency name
                         "currency" -> name = attributes.getValue(i)
-
                         // Get the currency rate
                         "rate" -> {
                             try {
@@ -104,7 +94,6 @@ class Parser {
                             } catch (e: Exception) {
                                 rate = 1.0
                             }
-
                             // Add new currency to the map
                             map!![name] = rate
                         }

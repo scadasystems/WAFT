@@ -26,15 +26,12 @@ import com.squareup.picasso.Picasso
  * E-mail : redsmurf@lulzm.org
  */
 class WAFTOffline : Application() {
-
     private var userDatabaseReference: DatabaseReference? = null
     private var mAuth: FirebaseAuth? = null
     private var currentOnlineUser: FirebaseUser? = null
 
     override fun onCreate() {
-
         super.onCreate()
-
         //  all strings >> load offline
         FirebaseDatabase.getInstance().setPersistenceEnabled(true)
 
@@ -46,7 +43,6 @@ class WAFTOffline : Application() {
         builtPicasso.isLoggingEnabled = true
 
         Picasso.setSingletonInstance(builtPicasso)
-
 
         // ONLINE STATUS
         mAuth = FirebaseAuth.getInstance()
@@ -60,20 +56,11 @@ class WAFTOffline : Application() {
 
             userDatabaseReference!!.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-
                     userDatabaseReference!!.child("active_now").onDisconnect()
                         .setValue(ServerValue.TIMESTAMP)
-
                 }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-
-                }
+                override fun onCancelled(databaseError: DatabaseError) { }
             })
-
-
         }
-
-
     }
 }
