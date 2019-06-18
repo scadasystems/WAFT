@@ -256,4 +256,7 @@
 
     <string name="loding_webview">Loading information…</string>
 
+    <!-- shortcut 에러 -->
+    <string name="compose_disabled_message">Error…</string>
+
 </resources>
