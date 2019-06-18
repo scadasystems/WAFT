@@ -254,5 +254,6 @@
     <string name="please_wait">Please wait a minute…</string>
     <string name="not_authenticated_email">Email not authenticated. \nPlease authenticate to use the app.</string>
 
+    <string name="loding_webview">Loading information…</string>
 
 </resources>

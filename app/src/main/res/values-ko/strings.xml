@@ -245,4 +245,6 @@
     <string name="please_wait">잠시만 기다려주세요…</string>
     <string name="not_authenticated_email">이메일을 인증하지 않았습니다. \n어플 사용을 위해 인증해주세요.</string>
 
+    <string name="loding_webview">정보를 로딩하고 있습니다…</string>
+
 </resources>

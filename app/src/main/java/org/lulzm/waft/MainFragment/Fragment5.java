@@ -11,10 +11,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
-
 import org.lulzm.waft.R;
 
 import java.util.Locale;
@@ -26,7 +24,7 @@ public class Fragment5 extends Fragment {
 
     private Switch myswitch;
 
-    //    언어변경
+    // 언어변경
     LinearLayout language_setting;
     Locale locale;
 

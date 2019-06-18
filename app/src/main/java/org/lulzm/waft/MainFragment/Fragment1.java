@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Fragment1 extends Fragment {
 
@@ -38,12 +40,14 @@ public class Fragment1 extends Fragment {
     CountryCodePicker countryCodePicker;
     ImageButton btn_sos;
 
+    // 언어 변경
+    Locale locale;
+
     /* sos 다이어로그 */
     Dialog dialog_sos;
 
     /* Sos parsing */
     private ArrayList<Datum> datumList;
-
 
     @SuppressLint({"SetJavaScriptEnabled", "ResourceType"})
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,6 +70,10 @@ public class Fragment1 extends Fragment {
         /* 언어변경 */
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         String language = prefs.getString("language", "");
+        Configuration config = new Configuration();
+        config.setLocale(Locale.forLanguageTag(language));
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+
         assert language != null;
         // country code picker 언어 변경
         if (language.equals("ko") || language.equals("한국어")) {
@@ -197,7 +205,6 @@ public class Fragment1 extends Fragment {
         Glide.with(this).load(R.drawable.nav_bt).into(nav_icon);
         Glide.with(this).load(R.drawable.money_blue2).into(money_icon);
         Glide.with(this).load(R.drawable.chat_bt).into(chat_icon);
-
 
         return view;
     }

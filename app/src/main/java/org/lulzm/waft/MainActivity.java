@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -114,12 +115,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // 현재 기본설정 언어값을 넘겨줌
-        Locale locale = getResources().getConfiguration().locale;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        SharedPreferences.Editor edit = prefs.edit();
-        edit.putString("language", locale.getLanguage());
-        edit.putString("lang", locale.getLanguage());
-        edit.apply();
+        String language = prefs.getString("language", "");
+        Configuration config = new Configuration();
+        config.setLocale(Locale.forLanguageTag(language));
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+//        Locale locale = getResources().getConfiguration().locale;
+//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//        SharedPreferences.Editor edit = prefs.edit();
+//        edit.putString("language", locale.getLanguage());
+//        edit.putString("lang", locale.getLanguage());
+//        edit.apply();
 
         // 상태표시줄 색상 변경
         View view = getWindow().getDecorView();
@@ -408,9 +414,39 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (TIME_LIMIT + backPressed > System.currentTimeMillis()) {
-            super.onBackPressed();
+            if (fragmentClass == Fragment1.class) {
+                finish();
+            } else if (fragmentClass == MainWebview.class) {
+                fragmentClass = Fragment1.class;
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
+                transaction.replace(R.id.flContent, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            } else if (fragmentClass == FragmentQRMain.class) {
+                fragmentClass = Fragment1.class;
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
+                transaction.replace(R.id.flContent, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            } else {
+                super.onBackPressed();
+            }
         } else {
-            SweetToast.info(this, "한번 더 누르면 종료됩니다.");
+            SweetToast.info(this, getString(R.string.on_more_time_backpress));
         }
         backPressed = System.currentTimeMillis();
     } //End Back button press for exit...
@@ -488,6 +524,9 @@ public class MainActivity extends AppCompatActivity {
                 if (sharedPreferences.getBoolean("dark_theme", false)) {
                     bundle.putString("webURL", "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories.html/");
                 } else {
+                    Configuration config = new Configuration();
+                    config.setLocale(Locale.forLanguageTag(language));
+                    getResources().updateConfiguration(config, getResources().getDisplayMetrics());
                     bundle.putString("webURL", "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories.html/");
                 }
             }
