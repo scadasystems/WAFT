@@ -67,23 +67,35 @@ public class IntroActivity extends Activity {
         }
 
         // 셋팅에서 넘어온 변경된 언어설정 받기, 저장
+        // 현재 기본설정 언어값을 넘겨줌
+
+        Locale locale = getResources().getConfiguration().locale;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
         String language = prefs.getString("language", "");
         String lang = prefs.getString("lang", "");
-        assert language != null;
-        assert lang != null;
-        if (language.equals("en") || language.equals("English") && lang.equals("ko")) {
-            Locale languageToLoad = new Locale(language);
-            Locale.setDefault(languageToLoad);
-            Configuration config = new Configuration();
-            config.locale = languageToLoad;
-            getResources().updateConfiguration(config, getResources().getDisplayMetrics());
-        } else if (language.equals("ko") || language.equals("한국어") && lang.equals("en")) {
-            Locale languageToLoad = new Locale(language);
-            Locale.setDefault(languageToLoad);
-            Configuration config = new Configuration();
-            config.locale = languageToLoad;
-            getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+
+        if (language.isEmpty()) {
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.putString("language", locale.getLanguage());
+            edit.putString("lang", locale.getLanguage());
+            edit.apply();
+        } else {
+            assert language != null;
+            assert lang != null;
+            if (language.equals("en") || language.equals("English") && lang.equals("ko")) {
+                Locale languageToLoad = new Locale(language);
+                Locale.setDefault(languageToLoad);
+                Configuration config = new Configuration();
+                config.locale = languageToLoad;
+                getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+            } else if (language.equals("ko") || language.equals("한국어") && lang.equals("en")) {
+                Locale languageToLoad = new Locale(language);
+                Locale.setDefault(languageToLoad);
+                Configuration config = new Configuration();
+                config.locale = languageToLoad;
+                getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+            }
         }
 
         // initializations
@@ -135,10 +147,12 @@ public class IntroActivity extends Activity {
         finish();
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
+
     // 건너뛰기 누를 시
     public void btnSkipClick(View view) {
         launchHomeScreen();
     }
+
     // 다음 누를 시
     public void btnNextClick(View view) {
         int current = getItem(1);
@@ -152,8 +166,8 @@ public class IntroActivity extends Activity {
     }
 
     /*
-    * add pageChangeListener
-    * */
+     * add pageChangeListener
+     * */
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int arg0, float arg1, int arg2) {
@@ -164,7 +178,7 @@ public class IntroActivity extends Activity {
             addBottomDots(postion);
 
             // '다음' 을 '시작하기' 로 바꾸기
-            if (postion == layouts.length -1) {
+            if (postion == layouts.length - 1) {
                 btn_next.setText(getString(R.string.start));
                 btn_skip.setVisibility(View.GONE);
             } else {

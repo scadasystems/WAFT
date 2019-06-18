@@ -2,6 +2,7 @@ package org.lulzm.waft.MainFragment;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -46,12 +47,21 @@ public class Fragment1 extends Fragment {
     /* sos 다이어로그 */
     Dialog dialog_sos;
 
+    // 진행바
+    private ProgressDialog progressDialog;
+
     /* Sos parsing */
     private ArrayList<Datum> datumList;
 
     @SuppressLint({"SetJavaScriptEnabled", "ResourceType"})
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment1, container, false);
+
+        // progressDialog
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage(getString(R.string.loding_webview));
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
 
         dialog_sos = new Dialog(getActivity());
 
@@ -146,8 +156,13 @@ public class Fragment1 extends Fragment {
             // 나라코드 가져오기
             SharedPreferences preferences2 = getActivity().getSharedPreferences("pref_countryCode", Context.MODE_PRIVATE);
             String pref_countryCode_popUp_set = preferences2.getString("country_code", "");
-            country_popup_name.setCountryForNameCode(pref_countryCode_popUp_set);
+            if (pref_countryCode_popUp_set.isEmpty()) {
+                country_popup_name.setCountryForNameCode("KR");
+            } else {
+                country_popup_name.setCountryForNameCode(pref_countryCode_popUp_set);
+            }
 
+            progressDialog.show();
             // call.enquere 는 중복처리가 안되는 거 같아서 clone을 씀.
             call.clone().enqueue(new Callback<SosList>() {
                 @Override
@@ -158,34 +173,61 @@ public class Fragment1 extends Fragment {
 //                        SharedPreferences preferences3 = getActivity().getSharedPreferences("pref_country")
 
                         for (Datum datum : datumList) {
-                            if (datum.getCountry().getIsoCode().equals(pref_countryCode_popUp_set)) {
-                                String num_police = datum.getPolice().getAll().get(0);
-                                String num_ambulance = datum.getAmbulance().getAll().get(0);
-                                String num_fire = datum.getFire().getAll().get(0);
+                            if (pref_countryCode_popUp_set.isEmpty()) {
+                                if (datum.getCountry().getIsoCode().equals("KR")) {
+                                    String num_police = datum.getPolice().getAll().get(0);
+                                    String num_ambulance = datum.getAmbulance().getAll().get(0);
+                                    String num_fire = datum.getFire().getAll().get(0);
+                                    // 전화번호
+                                    tv_police.setText(num_police);
+                                    tv_amb.setText(num_ambulance);
+                                    tv_fire.setText(num_fire);
+                                    // 경찰 전화걸기
+                                    call_police.setOnClickListener(v12 -> {
+                                        Intent intent_police = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num_police));
+                                        startActivity(intent_police);
+                                    });
+                                    // 응급 전화걸기
+                                    call_amb.setOnClickListener(v13 -> {
+                                        Intent intent_ambulance = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num_ambulance));
+                                        startActivity(intent_ambulance);
+                                    });
+                                    // 소방 전화걸기
+                                    call_fire.setOnClickListener(v14 -> {
+                                        Intent intent_fire = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num_fire));
+                                        startActivity(intent_fire);
+                                    });
+                                    break;
+                                }
+                                progressDialog.dismiss();
+                            } else {
+                                if (datum.getCountry().getIsoCode().equals(pref_countryCode_popUp_set)) {
+                                    String num_police = datum.getPolice().getAll().get(0);
+                                    String num_ambulance = datum.getAmbulance().getAll().get(0);
+                                    String num_fire = datum.getFire().getAll().get(0);
 
-                                tv_police.setText(num_police);
-                                tv_amb.setText(num_ambulance);
-                                tv_fire.setText(num_fire);
+                                    tv_police.setText(num_police);
+                                    tv_amb.setText(num_ambulance);
+                                    tv_fire.setText(num_fire);
 
-                                // 각 전화번호
-
-                                // 경찰 전화걸기
-                                call_police.setOnClickListener(v12 -> {
-                                    Intent intent_police = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num_police));
-                                    startActivity(intent_police);
-                                });
-                                // 응급 전화걸기
-                                call_amb.setOnClickListener(v13 -> {
-                                    Intent intent_ambulance = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num_ambulance));
-                                    startActivity(intent_ambulance);
-                                });
-                                // 소방 전화걸기
-                                call_fire.setOnClickListener(v14 -> {
-                                    Intent intent_fire = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num_fire));
-                                    startActivity(intent_fire);
-                                });
-
-                                break;
+                                    // 경찰 전화걸기
+                                    call_police.setOnClickListener(v12 -> {
+                                        Intent intent_police = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num_police));
+                                        startActivity(intent_police);
+                                    });
+                                    // 응급 전화걸기
+                                    call_amb.setOnClickListener(v13 -> {
+                                        Intent intent_ambulance = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num_ambulance));
+                                        startActivity(intent_ambulance);
+                                    });
+                                    // 소방 전화걸기
+                                    call_fire.setOnClickListener(v14 -> {
+                                        Intent intent_fire = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num_fire));
+                                        startActivity(intent_fire);
+                                    });
+                                    break;
+                                }
+                                progressDialog.dismiss();
                             }
                         }
                     }
