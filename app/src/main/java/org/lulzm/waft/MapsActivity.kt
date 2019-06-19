@@ -215,7 +215,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PlacesListener, Di
             val intent = Autocomplete.IntentBuilder(
                 AutocompleteActivityMode.OVERLAY, fields
             )
-                //                    .setCountry("KR")
                 .build(this)
             startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
         }
@@ -243,7 +242,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PlacesListener, Di
                     .from(origin)
                     .to(destination)
                     .transportMode(TransportMode.WALKING)
-                    .alternativeRoute(true)
+//                    .alternativeRoute(true)
                     .unit(Unit.METRIC)
                     .execute(this)
             }
@@ -264,7 +263,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PlacesListener, Di
                     .from(origin)
                     .to(destination)
                     .transportMode(TransportMode.DRIVING)
-                    .alternativeRoute(true)
+//                    .alternativeRoute(true)
                     .unit(Unit.METRIC)
                     .execute(this)
             }
