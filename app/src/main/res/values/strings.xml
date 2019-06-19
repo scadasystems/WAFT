@@ -211,6 +211,9 @@
     <string name="innerPosition">InnerPosition</string>
     <string name="destination">Destination</string>
     <string name="bank">Bank</string>
+    <string name="gps">Do you want to use the GPS function?</string>
+    <string name="gps_cancel">CANCEL</string>
+    <string name="gps_success">set up</string>
 
     <!--profile  -->
     <string name="logouttx">Would you like to logout?</string>

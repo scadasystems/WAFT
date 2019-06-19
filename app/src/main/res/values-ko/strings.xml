@@ -206,6 +206,9 @@
     <string name="destination">목적지</string>
     <string name="logouttx">로그아웃 하시겠어요?</string>
     <string name="Configuration">환경설정</string>
+    <string name="gps">GPS 기능을 사용하시겠습니까?</string>
+    <string name="gps_cancel">취소</string>
+    <string name="gps_success">설정하기</string>
 
     <!-- sos 팝업-->
     <string name="emergency" tools:ignore="ExtraTranslation">긴급전화</string>

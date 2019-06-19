@@ -15,12 +15,15 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.provider.Settings
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -46,6 +49,7 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_maps.*
 import noman.googleplaces.NRPlaces
 import noman.googleplaces.PlaceType
 import noman.googleplaces.PlacesException
@@ -58,8 +62,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PlacesListener, Di
     private var mMap: GoogleMap? = null
     private val currentMarker: Marker? = null
     private var AUTOCOMPLETE_REQUEST_CODE = 1
-    private val androidKey = "AIzaSyD4i9LTNlcP6E9WFcXJOHLEAUgyXYmBDAk"
-    private val serverKey = "AIzaSyChDbn5ae2fxwz56mgspasHXnAwwP_zBbU"
+    private var androidKey: String = ""
+    private var serverKey: String = ""
     private var needRequest = false
     private var mFusedLocation: FusedLocationProviderClient? = null
     private var locationRequest: LocationRequest? = null
@@ -78,6 +82,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PlacesListener, Di
     private lateinit var btn_driving: MaterialButton
     private lateinit var edt_duration: EditText
     private lateinit var edt_distance: EditText
+    private lateinit var locationManager: LocationManager
 
     private var locationCallback: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult?) {
@@ -129,6 +134,41 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PlacesListener, Di
             // 21 버전 이상일 때 상태바 검은 색상, 흰색 아이콘
             window.statusBarColor = Color.BLACK
         }
+        //GPS ON/OFF 확인해서 OFF이면 GPS 설정화면으로 이동하기
+        //LocationManager , GPS 기능 사용 유무 확인 이벤트
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            SweetToast.error(applicationContext,"GPS기능을 켜주세요")
+            //다크테마
+            if (sharedPreferences.getBoolean("dark_theme", false)) {
+                val builder = AlertDialog.Builder(this@MapsActivity, R.style.alertDialog_dark)
+                val view_gps = LayoutInflater.from(this@MapsActivity).inflate(R.layout.gps_dialog, null)
+
+                builder.setCancelable(true)
+                builder.setNegativeButton(getString(R.string.gps_cancel)) { dialog, which -> dialog.cancel() }
+                builder.setPositiveButton(getString(R.string.gps_success)) { dialog, which ->
+                    val gpsOptionsIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                    startActivity(gpsOptionsIntent)
+                }
+                builder.setView(view_gps)
+                builder.show()
+            } else { // 기본 앱테마
+                val builder = AlertDialog.Builder(this@MapsActivity, R.style.alertDialog)
+                val view_gps = LayoutInflater.from(this@MapsActivity).inflate(R.layout.gps_dialog, null)
+
+                builder.setCancelable(true)
+                builder.setNegativeButton(getString(R.string.gps_cancel)) { dialog, which -> dialog.cancel() }
+                builder.setPositiveButton(getString(R.string.gps_success)) { dialog, which ->
+                    val gpsOptionsIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                    startActivity(gpsOptionsIntent)
+                }
+                builder.setView(view_gps)
+                builder.show()
+            }
+        } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            maps.visibility = View.VISIBLE
+        }
+
 
         // Bottom_sheet 연결
         init()
@@ -166,6 +206,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PlacesListener, Di
         builder.addLocationRequest(locationRequest!!)
 
         // Initialize Places.
+        androidKey = resources.getString(R.string.google_maps_key)
         Places.initialize(applicationContext, androidKey)
 
         // Place
@@ -187,7 +228,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PlacesListener, Di
 
         // 경로찾기 버튼이벤트
         // 경로찾기 버튼이벤트 - Walk 모드
-        btn_walking.setOnClickListener{
+        btn_walking.setOnClickListener {
+            serverKey = resources.getString(R.string.serverKey)
             val origin = currentPosition
             val destination = selected
             // 목적지 설정 x
@@ -207,7 +249,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PlacesListener, Di
             }
         }
         // 경로찾기 버튼이벤트 - Drive 모드
-        btn_driving.setOnClickListener{
+        btn_driving.setOnClickListener {
+            serverKey = resources.getString(R.string.serverKey)
             val origin = currentPosition
             val destination = selected
             // 목적지 설정 x
@@ -279,7 +322,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PlacesListener, Di
             val duration = durationInfo.text
             tv_distance.text = distance
             tv_duration.text = duration
-        } else {
+        } else {    // 그 외 status 표시
             Snackbar.make(btn_walking, direction.status, Snackbar.LENGTH_LONG).show()
         }
     }
@@ -301,6 +344,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PlacesListener, Di
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
+                mMap?.clear()
                 val place = Autocomplete.getPlaceFromIntent(data!!)
                 selected = place.latLng
                 val cameraUpdate = CameraUpdateFactory.newLatLng(selected)
@@ -331,10 +375,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PlacesListener, Di
     override fun onMapReady(map: GoogleMap) {
         Log.d(TAG, "onMapReady :")
         mMap = map
+        GoogleMap.OnMyLocationButtonClickListener { true }
         val sharedPreferences = getSharedPreferences("change_theme", Context.MODE_PRIVATE)
         if (sharedPreferences.getBoolean("dark_theme", false)) {
             mMap!!.setMapStyle(MapStyleOptions(resources.getString(R.string.style_json)))
         }
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {maps.visibility = View.VISIBLE}
 
         startLocationUpdates()
     }
@@ -416,7 +462,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PlacesListener, Di
             Log.d(TAG, "onStart : call mFusedLocationClient.requestLocationUpdates")
             mFusedLocation!!.requestLocationUpdates(locationRequest, locationCallback, null)
             if (mMap != null)
-                mMap!!.isMyLocationEnabled = true
+                mMap?.isMyLocationEnabled = true
         }
     }
 
@@ -424,11 +470,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PlacesListener, Di
         super.onStop()
         if (mFusedLocation != null) {
             Log.d(TAG, "onStop : call stopLocationUpdates")
-            mFusedLocation!!.removeLocationUpdates(locationCallback)
+            mFusedLocation?.removeLocationUpdates(locationCallback)
         }
     }
 
-    fun checkLocationServicesStatus(): Boolean {
+    override fun onResume() {
+        super.onResume()
+        //GPS 셋팅 화면에서 체크 하고 돌아왔을때 체크가 되어있다면 맵을 보여줌
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            maps.visibility = View.VISIBLE
+        }
+    }
+
+    private fun checkLocationServicesStatus(): Boolean {
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
@@ -448,8 +502,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PlacesListener, Di
         markerOptions.draggable(true)
 
         val cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng)
-        mMap!!.moveCamera(cameraUpdate)
-        mMap!!.animateCamera(CameraUpdateFactory.zoomTo(16.0f))
+        mMap?.moveCamera(cameraUpdate)
+        mMap?.animateCamera(CameraUpdateFactory.zoomTo(16.0f))
 
     }
 
@@ -465,9 +519,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PlacesListener, Di
             Manifest.permission.ACCESS_COARSE_LOCATION
         )
 
-        return if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED && hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED) {
-            true
-        } else false
+        return hasFineLocationPermission == PackageManager.PERMISSION_GRANTED && hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED
     }
 
     fun getCurrentAddress(latlng: LatLng): String {
@@ -531,15 +583,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PlacesListener, Di
 
     // 은행 검색
     fun showBank(location: LatLng) {
-        mMap!!.clear()//지도 클리어
+        mMap?.clear()//지도 클리어
+        androidKey = resources.getString(R.string.google_maps_key)
         if (previous_marker != null)
             previous_marker!!.clear()//지역정보 마커 클리어
-
         NRPlaces.Builder()
             .listener(this@MapsActivity)
             .key(androidKey)
             .latlng(location.latitude, location.longitude)//현재 위치
-            .radius(700) //700 미터 내에서 검색
+            .radius(500) //500 미터 내에서 검색
             .type(PlaceType.BANK) //은행
             .build()
             .execute()
@@ -547,16 +599,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PlacesListener, Di
 
     // 음식점 검색
     fun showRestaurant(location: LatLng) {
-        mMap!!.clear()//지도 클리어
-
+        mMap?.clear()//지도 클리어
+        androidKey = resources.getString(R.string.google_maps_key)
         if (previous_marker != null)
             previous_marker!!.clear()//지역정보 마커 클리어
-
         NRPlaces.Builder()
             .listener(this@MapsActivity)
             .key(androidKey)
             .latlng(location.latitude, location.longitude)//현재 위치
-            .radius(700) //700 미터 내에서 검색
+            .radius(500) //500 미터 내에서 검색
             .type(PlaceType.RESTAURANT) //음식점
             .build()
             .execute()
@@ -564,16 +615,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PlacesListener, Di
 
     // 버스정류장 검색
     fun showBusStation(location: LatLng) {
-        mMap!!.clear()//지도 클리어
-
+        mMap?.clear()//지도 클리어
+        androidKey = resources.getString(R.string.google_maps_key)
         if (previous_marker != null)
             previous_marker!!.clear()//지역정보 마커 클리어
-
         NRPlaces.Builder()
             .listener(this@MapsActivity)
             .key(androidKey)
             .latlng(location.latitude, location.longitude)//현재 위치
-            .radius(700) //700 미터 내에서 검색
+            .radius(500) //500 미터 내에서 검색
             .type(PlaceType.BUS_STATION) //버스
             .build()
             .execute()
@@ -581,16 +631,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PlacesListener, Di
 
     // 경찰서 검색
     fun showPolice(location: LatLng) {
-        mMap!!.clear()//지도 클리어
+        mMap?.clear()//지도 클리어
+        androidKey = resources.getString(R.string.google_maps_key)
 
         if (previous_marker != null)
             previous_marker!!.clear()//지역정보 마커 클리어
-
         NRPlaces.Builder()
             .listener(this@MapsActivity)
             .key(androidKey)
             .latlng(location.latitude, location.longitude)//현재 위치
-            .radius(700) //700 미터 내에서 검색
+            .radius(500) //500 미터 내에서 검색
             .type(PlaceType.POLICE) //경찰서
             .build()
             .execute()
@@ -636,3 +686,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PlacesListener, Di
         private val REQUEST_CODE_PERMISSIONS = 1000
     }
 }
+
+
+
+
+
+
