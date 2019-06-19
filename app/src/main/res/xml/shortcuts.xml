@@ -10,7 +10,7 @@
         <intent
                 android:action="android.intent.action.VIEW"
                 android:targetPackage="org.lulzm.waft"
-                android:targetClass="org.lulzm.waft.ChatHome.ChatMainActivity"/>
+                android:targetClass="org.lulzm.waft.chatHome.ChatMainActivity"/>
         <categories android:name="android.shortcut.conversation"/>
 
     </shortcut>

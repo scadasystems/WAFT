@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="?attr/cardbackground"
-    tools:context=".ChatSearch.SearchActivity">
+    tools:context=".chatSearch.SearchActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
