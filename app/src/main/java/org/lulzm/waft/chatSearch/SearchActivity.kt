@@ -23,9 +23,9 @@ import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import de.hdodenhof.circleimageview.CircleImageView
+import org.lulzm.waft.R
 import org.lulzm.waft.chatModel.ProfileInfo
 import org.lulzm.waft.chatProfile.ChatProfileActivity
-import org.lulzm.waft.R
 import xyz.hasnat.sweettoast.SweetToast
 
 /*********************************************************
@@ -168,6 +168,7 @@ class SearchActivity : AppCompatActivity() {
                     /** on list >> clicking currency_item, then, go to single user profile  */
                     holder.itemView.setOnClickListener { v ->
                         val visit_user_id = getRef(position).key
+                        SweetToast.info(applicationContext, visit_user_id, 4000)
                         val intent = Intent(this@SearchActivity, ChatProfileActivity::class.java)
                         intent.putExtra("visitUserId", visit_user_id)
                         startActivity(intent)

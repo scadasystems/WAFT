@@ -237,6 +237,7 @@ public class MainActivity extends AppCompatActivity {
                         /* 언어변경 */
                         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                         String language = prefs.getString("language", "");
+
                         assert language != null;
                         // country code picker 언어 변경
                         if (language.equals("ko") || language.equals("한국어")) {
@@ -266,32 +267,62 @@ public class MainActivity extends AppCompatActivity {
                                     datumList = response.body().getData();
 
                                     for (Datum datum : datumList) {
-                                        if (datum.getCountry().getIsoCode().equals(pref_countryCode_popUp_set)) {
+                                        if (pref_countryCode_popUp_set.isEmpty()) {
+                                            if (datum.getCountry().getIsoCode().equals("KR")) {
 
-                                            String num_police = datum.getPolice().getAll().get(0);
-                                            String num_ambulance = datum.getAmbulance().getAll().get(0);
-                                            String num_fire = datum.getFire().getAll().get(0);
-                                            // 각 전화번호
-                                            tv_police.setText(num_police);
-                                            tv_amb.setText(num_ambulance);
-                                            tv_fire.setText(num_fire);
-                                            // 경찰 전화걸기
-                                            call_police.setOnClickListener(v12 -> {
-                                                Intent intent_police = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num_police));
-                                                startActivity(intent_police);
-                                            });
-                                            // 응급 전화걸기
-                                            call_amb.setOnClickListener(v13 -> {
-                                                Intent intent_ambulance = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num_ambulance));
-                                                startActivity(intent_ambulance);
-                                            });
-                                            // 소방 전화걸기
-                                            call_fire.setOnClickListener(v14 -> {
-                                                Intent intent_fire = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num_fire));
-                                                startActivity(intent_fire);
-                                            });
-                                            progressDialog.dismiss();
-                                            break;
+                                                String num_police = datum.getPolice().getAll().get(0);
+                                                String num_ambulance = datum.getAmbulance().getAll().get(0);
+                                                String num_fire = datum.getFire().getAll().get(0);
+                                                // 각 전화번호
+                                                tv_police.setText(num_police);
+                                                tv_amb.setText(num_ambulance);
+                                                tv_fire.setText(num_fire);
+                                                // 경찰 전화걸기
+                                                call_police.setOnClickListener(v12 -> {
+                                                    Intent intent_police = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num_police));
+                                                    startActivity(intent_police);
+                                                });
+                                                // 응급 전화걸기
+                                                call_amb.setOnClickListener(v13 -> {
+                                                    Intent intent_ambulance = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num_ambulance));
+                                                    startActivity(intent_ambulance);
+                                                });
+                                                // 소방 전화걸기
+                                                call_fire.setOnClickListener(v14 -> {
+                                                    Intent intent_fire = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num_fire));
+                                                    startActivity(intent_fire);
+                                                });
+                                                progressDialog.dismiss();
+                                                break;
+                                            }
+                                        } else {
+                                            if (datum.getCountry().getIsoCode().equals(pref_countryCode_popUp_set)) {
+
+                                                String num_police = datum.getPolice().getAll().get(0);
+                                                String num_ambulance = datum.getAmbulance().getAll().get(0);
+                                                String num_fire = datum.getFire().getAll().get(0);
+                                                // 각 전화번호
+                                                tv_police.setText(num_police);
+                                                tv_amb.setText(num_ambulance);
+                                                tv_fire.setText(num_fire);
+                                                // 경찰 전화걸기
+                                                call_police.setOnClickListener(v12 -> {
+                                                    Intent intent_police = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num_police));
+                                                    startActivity(intent_police);
+                                                });
+                                                // 응급 전화걸기
+                                                call_amb.setOnClickListener(v13 -> {
+                                                    Intent intent_ambulance = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num_ambulance));
+                                                    startActivity(intent_ambulance);
+                                                });
+                                                // 소방 전화걸기
+                                                call_fire.setOnClickListener(v14 -> {
+                                                    Intent intent_fire = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num_fire));
+                                                    startActivity(intent_fire);
+                                                });
+                                                progressDialog.dismiss();
+                                                break;
+                                            }
                                         }
                                     }
                                 }

@@ -8,31 +8,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
-import com.google.firebase.database.ValueEventListener;
-
+import com.google.firebase.database.*;
+import de.hdodenhof.circleimageview.CircleImageView;
+import org.lulzm.waft.R;
 import org.lulzm.waft.chatHome.ChatActivity;
 import org.lulzm.waft.chatModel.Friends;
 import org.lulzm.waft.chatUtils.UserLastSeenTime;
-import org.lulzm.waft.R;
 
 import java.util.Objects;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /*********************************************************
  *   $$\                  $$\             $$\      $$\

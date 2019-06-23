@@ -9,6 +9,7 @@
     <color name="dark">#80000000</color>
     <color name="popup_trans">#000000</color>
     <color name="trans">#00ff0000</color>
+    <color name="background_color">#212121</color>
     <color name="ivory">#FFFFF0</color>
     <color name="light_yellow">#FFFFE0</color>
     <color name="yellow">#FFFF00</color>

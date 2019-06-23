@@ -183,7 +183,7 @@
     <string name="max">All cycles</string>
     <string name="update_failed">Update failed.</string>
     <string name="press_back_currency">Press one more time to go to the Currency Exchange.</string>
-    <string name="success_save">Saved successfully:</string>
+    <string name="success_save">Saved successfully: </string>
 
     <string name="currency_waft">WAFT currency</string>
 
@@ -194,7 +194,7 @@
     <string name="already_qrcode_save">Already saved.</string>
 
     <!-- Setting -->
-    <string name="stname">Configuration</string>
+    <string name="stname">Setting</string>
     <string name="notice">Notice</string>
     <string name="notice_str">Please check the notice.</string>
     <string name="theme_change">Theme change</string>
@@ -217,7 +217,7 @@
 
     <!--profile  -->
     <string name="logouttx">Would you like to logout?</string>
-    <string name="Configuration">Configuration</string>
+    <string name="Configuration">Setting</string>
 
 
     <!-- sos 팝업 -->
@@ -257,9 +257,17 @@
     <string name="please_wait">Please wait a minute…</string>
     <string name="not_authenticated_email">Email not authenticated. \nPlease authenticate to use the app.</string>
 
-    <string name="loding_webview">Loading information…</string>
+    <string name="loding_webview">Loading information. \nplease waiting…</string>
 
     <!-- shortcut 에러 -->
     <string name="compose_disabled_message">Error…</string>
+
+    <!-- 메뉴 -->
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="menu_settings">Setting</string>
+    <string name="menu_sos">sos</string>
+    <string name="menu_logout">Logout</string>
+    <string name="permission_camera">This app needs camera permission to scan barcode</string>
 
 </resources>

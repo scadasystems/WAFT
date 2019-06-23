@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical" android:layout_width="match_parent"
         android:background="?attr/cardbackground"
@@ -26,17 +26,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:text="Home"
+                android:text="@string/home"
                 android:textColor="?attr/menubuttoncolor"/>
 
         </LinearLayout>
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:id="@+id/lil_accounts"
-            android:gravity="center_vertical">
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:id="@+id/lil_accounts"
+                android:gravity="center_vertical" tools:ignore="ExtraText">
 
             <ImageView
                 android:id="@+id/icon_accounts"
@@ -49,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:text="Profile"
+                android:text="@string/profile"
                 android:textColor="?attr/menubuttoncolor"/>/>
 
         </LinearLayout>
@@ -72,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:text="Settings"
+                android:text="@string/menu_settings"
                 android:textColor="?attr/menubuttoncolor"/>/>
 
         </LinearLayout>
@@ -95,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:text="sos"
+                android:text="@string/menu_sos"
                 android:textColor="?attr/menubuttoncolor"/>/>
 
         </LinearLayout>
@@ -118,7 +118,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:text="Logout"
+                android:text="@string/menu_logout"
                 android:textColor="?attr/menubuttoncolor"/>/>
 
         </LinearLayout>

@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Switch;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import org.lulzm.waft.R;
@@ -89,7 +88,6 @@ public class Fragment5 extends Fragment {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean("dark_theme", isChecked);
             editor.apply();
-            Toast.makeText(getActivity(), String.valueOf(sharedPreferences.getBoolean("dark_theme", false)), Toast.LENGTH_SHORT).show();
             handleDarkMode(sharedPreferences.getBoolean("dark_theme", false));
         });
         return view;
