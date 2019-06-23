@@ -65,16 +65,16 @@ World Adviser's help for Friendly Travel 의 약어로써
 ### Collaborators
 | Name | Email | Personal Site |
 | - | - | - |
-| 양윤모| redsmurf@lulzm.org | https://github.com/scadasystems?tab=repositories
+| 양윤모| redsmurf@lulzm.org | https://github.com/scadasystems
 | 나광진 |  skrhkdwls77@gmail.com | https://github.com/NaKwangJin
 | 윤장원 | yunjang2@gmail.com | https://github.com/jangdoll
 
 ### 담당분야
 | 이름 | 담당분야 | 수행역할 |
 | - | - | - 
-| 양윤모 | Back-end 개발 | JAVA / Kotlin 개발, Chatting 구현, 공공 API 및 Firebase 이용하여 DB 구성 
-| 윤장원 | Front-end 개발, 디자인 | 레이아웃 구성과 전반적인 디자인 구성
-|나광진 | Front-end 개발, 기획자 | 전반적인 구성 기획 및 메인, 메뉴 레이아웃 구성과 디자인
+| 양윤모 | Back-end 개발 | JAVA / Kotlin 개발, 공공 API 이용 및 json parsing, Google Firebase 이용하여 DB 구성, 로그인과 회원가입 및 패스워드 재설정, 사용자 정보수정 관련,  QR코드 생성·스캔·다운로드·공유하기, 환전소·환전소 환경설정·환전데이터 최신화 구현, 채팅창·친구추가·친구검색·친구요청·친구목록·채팅시스템·이미지 캐시을 줄이기 위해 crop과 glide 활용 및 최적화, 국가별 기본정보와 영사 서비스 / 비자 공지사항, sos 긴급전화 팝업·json parsing·이벤트 처리·전화걸기, 다크테마 개발 및 전체 처리
+| 윤장원 | Front-end 개발, 디자인 | 앱 디자인 (Material Design) / JAVA 개발, Google API 활용 (Maps API, Places API, Direction API)Map 구현 , 언어변경 이벤트 기능 구현(한글, 영어만 지원)
+|나광진 | Front-end 개발, 기획자 | 앱 디자인과 기능 기획, 앱 전체적인 디자인 개발(material Design) / JAVA개발, 환경설정 = > 번역 (한글, 영어 String값 생성 및 변경 구현), 테마 (Light / Dark 두가지를 이용하여 글자 아이콘들을 색에 맞춰 변경), 각 이미지들을 Glide를 활용하여 최적화를 시킴, Data-Binding을 활용하여 메뉴 구현 (대용량 라이브러리를 사용)
 ***
 
 # 기타
