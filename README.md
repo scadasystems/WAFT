@@ -26,7 +26,6 @@ World Adviser's help for Friendly Travel 의 약어로써
 ###### 어플에 들어갈 사항들입니다. 
 
 * **회원가입과 로그인 구현**을 위한 [Firebase](https://firebase.google.com/) 연동
-* **언어 번역**을 위해 [Naver사의 Papago 인공신경망 번역 API](https://developers.naver.com/docs/papago/) 를 활용
 * **지도 검색**을 위한 안드로이드 위치 권한 허용 - [Permission Setting Code List.txt](https://github.com/scadasystems/WAFT/files/2986161/Permission.Setting.Code.List.txt)
 * **길 안내**를 위해 [구글 지도 API](https://enterprise.google.com/intl/ko/maps/)를 활용
 * **SOS**를 위해 위치 권한을 사용하여 현재 본인이 위치해 있는 나라에 맞는 police 번호 및 대사관 번호를 스마트폰으로 제공 
@@ -38,10 +37,8 @@ World Adviser's help for Friendly Travel 의 약어로써
   `단, 보안을 위해 허락 시스템을 만들어 서로간의 허락이 없다면 위치 공유는 불가능하다.`
 ***
 
-# 레이아웃 구성 - 스케치
-![1](https://user-images.githubusercontent.com/38491289/54652641-db1e8280-4afa-11e9-992b-6f14247704a6.png) 
-![3](https://user-images.githubusercontent.com/38491289/54652649-dfe33680-4afa-11e9-9d57-46434aed5038.png)
-![2](https://user-images.githubusercontent.com/38491289/54652646-dd80dc80-4afa-11e9-9311-58ea0a04ce40.png) 
+# 레이아웃 구성
+![전체](https://user-images.githubusercontent.com/38491289/59971663-56407a80-95bb-11e9-9d22-76220c0a317a.png)
 ***
 
 # 동작과정
