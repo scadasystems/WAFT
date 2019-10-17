@@ -20,12 +20,14 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.slidingpanelayout.widget.SlidingPaneLayout;
+
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,7 +36,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.hbb20.CountryCodePicker;
-import okhttp3.OkHttpClient;
+
 import org.lulzm.waft.chatHome.ChatMainActivity;
 import org.lulzm.waft.currency.Main;
 import org.lulzm.waft.mainFragment.Fragment1;
@@ -46,12 +48,14 @@ import org.lulzm.waft.sosAdapter.ApiService;
 import org.lulzm.waft.sosAdapter.Datum;
 import org.lulzm.waft.sosAdapter.RetroClient;
 import org.lulzm.waft.sosAdapter.SosList;
-import retrofit2.Call;
-import retrofit2.Response;
-import xyz.hasnat.sweettoast.SweetToast;
 
 import java.util.ArrayList;
 import java.util.Locale;
+
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Response;
+import xyz.hasnat.sweettoast.SweetToast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -120,12 +124,6 @@ public class MainActivity extends AppCompatActivity {
         Configuration config = new Configuration();
         config.setLocale(Locale.forLanguageTag(language));
         getResources().updateConfiguration(config, getResources().getDisplayMetrics());
-//        Locale locale = getResources().getConfiguration().locale;
-//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//        SharedPreferences.Editor edit = prefs.edit();
-//        edit.putString("language", locale.getLanguage());
-//        edit.putString("lang", locale.getLanguage());
-//        edit.apply();
 
         // 상태표시줄 색상 변경
         View view = getWindow().getDecorView();

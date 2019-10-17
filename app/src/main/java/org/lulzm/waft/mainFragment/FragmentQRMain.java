@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -29,18 +30,28 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.*;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
+
 import org.lulzm.waft.BuildConfig;
 import org.lulzm.waft.R;
-import xyz.hasnat.sweettoast.SweetToast;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Objects;
+
+import xyz.hasnat.sweettoast.SweetToast;
 
 /*********************************************************
  *   $$\                  $$\             $$\      $$\
@@ -62,25 +73,16 @@ import java.util.Objects;
  *********************************************************/
 public class FragmentQRMain extends Fragment implements View.OnClickListener {
 
-    private View view;
     private TextView qr_title, qr_subtitle;
     private ImageView qr_image;
     private Button btnScanner, btnProfile, btnSave, btnShare;
     private FrameLayout fl_qrscanner;
-    private ByteArrayOutputStream bytearrayoutputstream;
-    private File file;
-    private FileOutputStream fileoutputstream;
 
     private static final int REQUEST_CODE_PERMISSIONS = 100;
 
     // firebase
     DatabaseReference getUserDatabaseReference;
     FirebaseAuth mAuth;
-
-
-    public static FragmentQRMain newInstance() {
-        return new FragmentQRMain();
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -130,9 +132,7 @@ public class FragmentQRMain extends Fragment implements View.OnClickListener {
         getUserDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                String search_name = dataSnapshot.child("search_name").getValue().toString();
                 String search_name = mAuth.getCurrentUser().getUid();
-//                String utf_search_name = new String(search_name.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
                 Bitmap logo = BitmapFactory.decodeResource(view.getResources(), R.drawable.waft_icon);
                 Bitmap merge = mergeBitmaps(logo, GenerateQRCodeBitmap(search_name));
                 qr_image.setImageBitmap(merge);
