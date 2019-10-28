@@ -86,6 +86,7 @@ public class MainWebview extends Fragment {
         mWebView.getSettings().setDefaultTextEncodingName("UTF-8");
         // MainActivity.class 에서 bundle 로 보낸 데이터 받기.
         mWebView.addJavascriptInterface(new JavaScriptInterface(getActivity()), "android");
+        assert getArguments() != null;
         String webUrl = getArguments().getString("webURL");
         mWebView.setWebViewClient(new WebViewClient() {
             @Override

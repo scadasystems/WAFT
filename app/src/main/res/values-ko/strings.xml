@@ -256,9 +256,17 @@
     <!-- 메뉴 -->
     <string name="home">홈</string>
     <string name="profile">내 정보</string>
+    <string name="qrcode">나의 QR 코드</string>
     <string name="menu_settings">환경설정</string>
     <string name="menu_sos">긴급전화</string>
     <string name="menu_logout">로그아웃</string>
     <string name="permission_camera">카메라 권한을 허용해주세요.</string>
+    <string name="translate_btn">번역기</string>
+
+    <!--  번역 관련 -->
+    <string name="translate_before">번역할 텍스트를 입력하세요.</string>
+    <string name="trans_btn">번역하기</string>
+    <string name="success_trans_clip">텍스트를 복사했습니다 ! </string>
+    <string name="speaker_not">지원하지 않습니다 :(</string>
 
 </resources>

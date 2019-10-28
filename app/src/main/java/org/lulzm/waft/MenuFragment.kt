@@ -46,6 +46,8 @@ class MenuFragment : Fragment() {
                 .into(fragmentMenuBinding.iconPost)
             Glide.with(this@MenuFragment).load(R.drawable.profile)
                 .into(fragmentMenuBinding.iconAccounts)
+            Glide.with(this@MenuFragment).load(R.drawable.qr)
+                .into(fragmentMenuBinding.iconQr)
             Glide.with(this@MenuFragment).load(R.drawable.settings)
                 .into(fragmentMenuBinding.iconHistory)
             Glide.with(this@MenuFragment).load(R.drawable.sos1)
@@ -55,6 +57,7 @@ class MenuFragment : Fragment() {
 
             fragmentMenuBinding.textPost.isSelected = true
             fragmentMenuBinding.textAccounts.isSelected = false
+            fragmentMenuBinding.textQr.isSelected = false
             fragmentMenuBinding.textHistory.isSelected = false
             fragmentMenuBinding.textShareus.isSelected = false
             fragmentMenuBinding.textLogout.isSelected = false
@@ -66,69 +69,126 @@ class MenuFragment : Fragment() {
                 MainActivity.HomeFragmentHandler.sendEmptyMessage(1)
             }
 
-            Glide.with(this@MenuFragment).load(R.drawable.home).into(fragmentMenuBinding.iconPost)
-            Glide.with(this@MenuFragment).load(R.drawable.profile_blue).into(fragmentMenuBinding.iconAccounts)
-            Glide.with(this@MenuFragment).load(R.drawable.settings).into(fragmentMenuBinding.iconHistory)
-            Glide.with(this@MenuFragment).load(R.drawable.sos1).into(fragmentMenuBinding.iconShareus)
-            Glide.with(this@MenuFragment).load(R.drawable.logout).into(fragmentMenuBinding.iconLogout)
+            Glide.with(this@MenuFragment).load(R.drawable.home)
+                .into(fragmentMenuBinding.iconPost)
+            Glide.with(this@MenuFragment).load(R.drawable.profile_blue)
+                .into(fragmentMenuBinding.iconAccounts)
+            Glide.with(this@MenuFragment).load(R.drawable.qr)
+                .into(fragmentMenuBinding.iconQr)
+            Glide.with(this@MenuFragment).load(R.drawable.settings)
+                .into(fragmentMenuBinding.iconHistory)
+            Glide.with(this@MenuFragment).load(R.drawable.sos1)
+                .into(fragmentMenuBinding.iconShareus)
+            Glide.with(this@MenuFragment).load(R.drawable.logout)
+                .into(fragmentMenuBinding.iconLogout)
 
             fragmentMenuBinding.textPost.isSelected = false
             fragmentMenuBinding.textAccounts.isSelected = true
+            fragmentMenuBinding.textQr.isSelected = false
             fragmentMenuBinding.textHistory.isSelected = false
             fragmentMenuBinding.textShareus.isSelected = false
             fragmentMenuBinding.textLogout.isSelected = false
-
-
         }
-        fragmentMenuBinding.lilHistory.setOnClickListener { view3 ->
+
+        fragmentMenuBinding.lilQr.setOnClickListener { view3 ->
             if (MainActivity.HomeFragmentHandler != null) {
                 MainActivity.HomeFragmentHandler.sendEmptyMessage(2)
             }
 
-            Glide.with(this@MenuFragment).load(R.drawable.home).into(fragmentMenuBinding.iconPost)
-            Glide.with(this@MenuFragment).load(R.drawable.profile).into(fragmentMenuBinding.iconAccounts)
-            Glide.with(this@MenuFragment).load(R.drawable.settings_blue).into(fragmentMenuBinding.iconHistory)
-            Glide.with(this@MenuFragment).load(R.drawable.sos1).into(fragmentMenuBinding.iconShareus)
-            Glide.with(this@MenuFragment).load(R.drawable.logout).into(fragmentMenuBinding.iconLogout)
+            Glide.with(this@MenuFragment).load(R.drawable.home)
+                .into(fragmentMenuBinding.iconPost)
+            Glide.with(this@MenuFragment).load(R.drawable.profile)
+                .into(fragmentMenuBinding.iconAccounts)
+            Glide.with(this@MenuFragment).load(R.drawable.qr_blue)
+                .into(fragmentMenuBinding.iconQr)
+            Glide.with(this@MenuFragment).load(R.drawable.settings)
+                .into(fragmentMenuBinding.iconHistory)
+            Glide.with(this@MenuFragment).load(R.drawable.sos1)
+                .into(fragmentMenuBinding.iconShareus)
+            Glide.with(this@MenuFragment).load(R.drawable.logout)
+                .into(fragmentMenuBinding.iconLogout)
 
             fragmentMenuBinding.textPost.isSelected = false
             fragmentMenuBinding.textAccounts.isSelected = false
+            fragmentMenuBinding.textQr.isSelected = true
+            fragmentMenuBinding.textHistory.isSelected = false
+            fragmentMenuBinding.textShareus.isSelected = false
+            fragmentMenuBinding.textLogout.isSelected = false
+        }
+
+        fragmentMenuBinding.lilHistory.setOnClickListener { view4 ->
+            if (MainActivity.HomeFragmentHandler != null) {
+                MainActivity.HomeFragmentHandler.sendEmptyMessage(3)
+            }
+
+            Glide.with(this@MenuFragment).load(R.drawable.home)
+                .into(fragmentMenuBinding.iconPost)
+            Glide.with(this@MenuFragment).load(R.drawable.profile)
+                .into(fragmentMenuBinding.iconAccounts)
+            Glide.with(this@MenuFragment).load(R.drawable.qr)
+                .into(fragmentMenuBinding.iconQr)
+            Glide.with(this@MenuFragment).load(R.drawable.settings_blue)
+                .into(fragmentMenuBinding.iconHistory)
+            Glide.with(this@MenuFragment).load(R.drawable.sos1)
+                .into(fragmentMenuBinding.iconShareus)
+            Glide.with(this@MenuFragment).load(R.drawable.logout)
+                .into(fragmentMenuBinding.iconLogout)
+
+            fragmentMenuBinding.textPost.isSelected = false
+            fragmentMenuBinding.textAccounts.isSelected = false
+            fragmentMenuBinding.textQr.isSelected = false
             fragmentMenuBinding.textHistory.isSelected = true
             fragmentMenuBinding.textShareus.isSelected = false
             fragmentMenuBinding.textLogout.isSelected = false
 
         }
 
-        fragmentMenuBinding.lilShareus.setOnClickListener { view4 ->
+        fragmentMenuBinding.lilShareus.setOnClickListener { view5 ->
             if (MainActivity.HomeFragmentHandler != null) {
-                MainActivity.HomeFragmentHandler.sendEmptyMessage(3)
+                MainActivity.HomeFragmentHandler.sendEmptyMessage(4)
             }
-            Glide.with(this@MenuFragment).load(R.drawable.home).into(fragmentMenuBinding.iconPost)
-            Glide.with(this@MenuFragment).load(R.drawable.profile).into(fragmentMenuBinding.iconAccounts)
-            Glide.with(this@MenuFragment).load(R.drawable.settings).into(fragmentMenuBinding.iconHistory)
-            Glide.with(this@MenuFragment).load(R.drawable.sos1).into(fragmentMenuBinding.iconShareus)
-            Glide.with(this@MenuFragment).load(R.drawable.logout).into(fragmentMenuBinding.iconLogout)
+            Glide.with(this@MenuFragment).load(R.drawable.home)
+                .into(fragmentMenuBinding.iconPost)
+            Glide.with(this@MenuFragment).load(R.drawable.profile)
+                .into(fragmentMenuBinding.iconAccounts)
+            Glide.with(this@MenuFragment).load(R.drawable.qr)
+                .into(fragmentMenuBinding.iconQr)
+            Glide.with(this@MenuFragment).load(R.drawable.settings)
+                .into(fragmentMenuBinding.iconHistory)
+            Glide.with(this@MenuFragment).load(R.drawable.sos1)
+                .into(fragmentMenuBinding.iconShareus)
+            Glide.with(this@MenuFragment).load(R.drawable.logout)
+                .into(fragmentMenuBinding.iconLogout)
 
             fragmentMenuBinding.textPost.isSelected = false
             fragmentMenuBinding.textAccounts.isSelected = false
+            fragmentMenuBinding.textQr.isSelected = false
             fragmentMenuBinding.textHistory.isSelected = false
             fragmentMenuBinding.textShareus.isSelected = true
             fragmentMenuBinding.textLogout.isSelected = false
 
         }
 
-        fragmentMenuBinding.lilLogout.setOnClickListener { view5 ->
+        fragmentMenuBinding.lilLogout.setOnClickListener { view6 ->
             if (MainActivity.HomeFragmentHandler != null) {
-                MainActivity.HomeFragmentHandler.sendEmptyMessage(4)
+                MainActivity.HomeFragmentHandler.sendEmptyMessage(5)
             }
-            Glide.with(this@MenuFragment).load(R.drawable.home).into(fragmentMenuBinding.iconPost)
-            Glide.with(this@MenuFragment).load(R.drawable.profile).into(fragmentMenuBinding.iconAccounts)
-            Glide.with(this@MenuFragment).load(R.drawable.settings).into(fragmentMenuBinding.iconHistory)
-            Glide.with(this@MenuFragment).load(R.drawable.sos1).into(fragmentMenuBinding.iconShareus)
-            Glide.with(this@MenuFragment).load(R.drawable.logout).into(fragmentMenuBinding.iconLogout)
+            Glide.with(this@MenuFragment).load(R.drawable.home)
+                .into(fragmentMenuBinding.iconPost)
+            Glide.with(this@MenuFragment).load(R.drawable.profile)
+                .into(fragmentMenuBinding.iconAccounts)
+            Glide.with(this@MenuFragment).load(R.drawable.qr)
+                .into(fragmentMenuBinding.iconQr)
+            Glide.with(this@MenuFragment).load(R.drawable.settings)
+                .into(fragmentMenuBinding.iconHistory)
+            Glide.with(this@MenuFragment).load(R.drawable.sos1)
+                .into(fragmentMenuBinding.iconShareus)
+            Glide.with(this@MenuFragment).load(R.drawable.logout)
+                .into(fragmentMenuBinding.iconLogout)
 
             fragmentMenuBinding.textPost.isSelected = false
             fragmentMenuBinding.textAccounts.isSelected = false
+            fragmentMenuBinding.textQr.isSelected = false
             fragmentMenuBinding.textHistory.isSelected = false
             fragmentMenuBinding.textShareus.isSelected = false
             fragmentMenuBinding.textLogout.isSelected = true

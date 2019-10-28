@@ -9,6 +9,7 @@
         <item name="drawerArrowStyle">@style/DrawerIcon</item>
         <item name="backgroundcolor">#fcfcfc</item>
         <item name="cardbackground">#ffffff</item>
+        <item name="translateBackground">#DCEDC8</item>
         <item name="buttoncolor">#2196F3</item>
         <item name="sideMenuColor">#fff</item>
         <item name="changeTitleColor">@color/address</item>
@@ -64,6 +65,7 @@
         <item name="drawerArrowStyle">@style/DrawerIcon</item>
         <item name="backgroundcolor">#303030</item>
         <item name="cardbackground">#424242</item>
+        <item name="translateBackground">#006064</item>
         <item name="buttoncolor">#2196F3</item>
         <item name="sideMenuColor">#212121</item>
         <item name="changeTitleColor">#ffffff</item>

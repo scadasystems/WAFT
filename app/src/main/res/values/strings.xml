@@ -29,7 +29,6 @@
     <string name="logout_success">Logout</string>
 
 
-
     <!-- Slider 관련 -->
     <string name="next">Next</string>
     <string name="skip">Skip</string>
@@ -265,9 +264,18 @@
     <!-- 메뉴 -->
     <string name="home">Home</string>
     <string name="profile">Profile</string>
+    <string name="qrcode">My QR code</string>
     <string name="menu_settings">Setting</string>
     <string name="menu_sos">sos</string>
     <string name="menu_logout">Logout</string>
     <string name="permission_camera">This app needs camera permission to scan barcode</string>
+    <string name="translate_btn">Translator</string>
+
+    <!--  번역 관련 -->
+    <string name="translate_before">Write text to translate.</string>
+    <string name="trans_btn">Translate</string>
+    <string name="success_trans_clip">Copied text !</string>
+    <string name="speaker_not">Not supported :(</string>
+
 
 </resources>

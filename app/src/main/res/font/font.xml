@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+    <font
+            android:font="@font/jua"
+            android:fontStyle="normal"
+            android:fontWeight="500"
+            tools:targetApi="o" />
+
+    <font
+            android:font="@font/black_han_sans"
+            android:fontStyle="normal"
+            android:fontWeight="100"
+            tools:targetApi="o" />
+</font-family>

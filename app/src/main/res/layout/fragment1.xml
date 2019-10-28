@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                   xmlns:tools="http://schemas.android.com/tools"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="match_parent">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
             android:id="@+id/cardView2"
@@ -12,11 +12,11 @@
             android:layout_gravity="center"
             android:layout_marginStart="2dp"
             android:layout_marginEnd="2dp"
-            app:cardCornerRadius="10dp"
-            app:cardUseCompatPadding="true"
             app:cardBackgroundColor="?attr/cardbackground"
-            app:contentPadding="5dp"
+            app:cardCornerRadius="10dp"
             app:cardElevation="8dp"
+            app:cardUseCompatPadding="true"
+            app:contentPadding="5dp"
             app:layout_constraintBottom_toTopOf="@+id/guideline4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,14 +41,14 @@
                         android:layout_height="wrap_content"
                         android:gravity="left"
                         android:text="@string/category"
-                        android:textSize="25sp"
                         android:textColor="?attr/tintcolor"
-                        android:textStyle="bold"/>
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
 
             </LinearLayout>
 
             <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1">
 
@@ -60,24 +60,24 @@
                         android:orientation="vertical">
 
                     <ImageView
-                            android:id="@+id/qr_icon"
+                            android:id="@+id/translate_icon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="6dp"
                             android:layout_weight="1"
-                            android:onClick="btnqr"
-                            tools:src="@drawable/qr"/>
+                            android:onClick="btn_translate"
+                            tools:src="@drawable/qr" />
 
                     <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:autoSizeMaxTextSize="50sp"
                             android:autoSizeMinTextSize="16sp"
-                            android:text="@string/qr_code"
-                            android:textColor="?attr/tintcolor"
+                            android:text="@string/translate_btn"
                             android:textAlignment="center"
+                            android:textColor="?attr/tintcolor"
                             android:textSize="16sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -98,7 +98,7 @@
                             android:layout_marginBottom="6dp"
                             android:layout_weight="1"
                             android:onClick="btnnav"
-                            tools:src="@drawable/qr"/>
+                            tools:src="@drawable/qr" />
 
                     <TextView
                             android:layout_width="match_parent"
@@ -107,7 +107,7 @@
                             android:textAlignment="center"
                             android:textColor="?attr/tintcolor"
                             android:textSize="16sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -134,7 +134,7 @@
                             android:layout_marginBottom="6dp"
                             android:layout_weight="1"
                             android:onClick="btnmoney"
-                            tools:src="@drawable/qr"/>
+                            tools:src="@drawable/qr" />
 
                     <TextView
                             android:layout_width="match_parent"
@@ -143,7 +143,7 @@
                             android:textAlignment="center"
                             android:textColor="?attr/tintcolor"
                             android:textSize="16dp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -164,7 +164,7 @@
                             android:layout_marginBottom="6dp"
                             android:layout_weight="1"
                             android:onClick="btnchatting"
-                            tools:src="@drawable/qr"/>
+                            tools:src="@drawable/qr" />
 
                     <TextView
                             android:layout_width="match_parent"
@@ -173,7 +173,7 @@
                             android:textAlignment="center"
                             android:textColor="?attr/tintcolor"
                             android:textSize="16sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -191,7 +191,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.5"/>
+            app:layout_constraintGuide_percent="0.5" />
 
     <LinearLayout
             android:id="@+id/linearLayout"
@@ -210,10 +210,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15sp"
                 android:layout_marginBottom="5dp"
-                android:textColor="?attr/tintcolor"
                 android:text="@string/notice_manual"
+                android:textColor="?attr/tintcolor"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
         <HorizontalScrollView
                 android:layout_width="match_parent"
@@ -234,7 +234,7 @@
                         android:layout_marginRight="20dp"
                         android:gravity="center"
                         android:onClick="btnMoveSafeInfo"
-                        app:riv_corner_radius="10dip"/>
+                        app:riv_corner_radius="10dip" />
 
                 <com.makeramen.roundedimageview.RoundedImageView
                         android:id="@+id/notic2"
@@ -244,7 +244,7 @@
                         android:elevation="10dp"
                         android:gravity="center"
                         android:onClick="btnMovePassportInfo"
-                        app:riv_corner_radius="10dip"/>
+                        app:riv_corner_radius="10dip" />
 
             </LinearLayout>
 
@@ -258,7 +258,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="443dp"
-            app:layout_constraintGuide_percent=".75"/>
+            app:layout_constraintGuide_percent=".75" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout2"
@@ -282,7 +282,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/guideline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="MissingConstraints"/>
+                tools:ignore="MissingConstraints" />
 
         <TextView
                 android:id="@+id/textView3"
@@ -290,13 +290,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/emergency"
                 android:textAlignment="center"
-                android:textSize="20sp"
                 android:textColor="?attr/tintcolor"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout"
@@ -313,32 +313,32 @@
                     android:layout_height="0dp"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    app:cardBackgroundColor="?attr/cardbackground"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="8dp"
+                    app:cardUseCompatPadding="true"
+                    app:contentPadding="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline6"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="MissingConstraints"
-                    app:cardCornerRadius="10dp"
-                    app:cardUseCompatPadding="true"
-                    app:cardElevation="8dp"
-                    app:cardBackgroundColor="?attr/cardbackground"
-                    app:contentPadding="10dp">
+                    tools:ignore="MissingConstraints">
 
                 <com.hbb20.CountryCodePicker
                         android:id="@+id/country_code_picker"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        app:ccpDialog_backgroundColor="?attr/backgroundcolor"
                         app:ccpDialog_keyboardAutoPopup="false"
-                        app:ccp_defaultNameCode="KR"
-                        app:ccp_contentColor="?attr/tintcolor"
+                        app:ccpDialog_showCloseIcon="true"
                         app:ccpDialog_textColor="?attr/tintcolor"
                         app:ccp_arrowColor="?attr/tintcolor"
-                        app:ccpDialog_showCloseIcon="true"
-                        app:ccpDialog_backgroundColor="?attr/backgroundcolor"
+                        app:ccp_contentColor="?attr/tintcolor"
+                        app:ccp_defaultNameCode="KR"
                         app:ccp_showFullName="false"
                         app:ccp_showPhoneCode="false"
-                        app:ccp_textSize="27dp"/>
+                        app:ccp_textSize="27dp" />
 
             </androidx.cardview.widget.CardView>
 
@@ -357,14 +357,14 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@+id/guideline6"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.5"/>
+                    app:layout_constraintGuide_percent="0.5" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.Guideline
@@ -372,6 +372,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5"/>
+                app:layout_constraintGuide_percent="0.5" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

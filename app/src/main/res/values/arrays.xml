@@ -17,4 +17,40 @@
         <item>5</item>
     </string-array>
 
+    <string-array name="csr_lang_source_spinner">
+        <item>한국어</item>
+        <item>영어</item>
+        <item>중국어(간체)</item>
+        <item>중국어(번체)</item>
+        <item>프랑스어</item>
+        <item>스페인어</item>
+        <item>베트남어</item>
+        <item>태국어</item>
+        <item>일본어</item>
+    </string-array>
+
+    <string-array name="csr_lang_target_spinner">
+
+        <item>영어</item>
+        <item>중국어(간체)</item>
+        <item>중국어(번체)</item>
+        <item>프랑스어</item>
+        <item>스페인어</item>
+        <item>베트남어</item>
+        <item>태국어</item>
+        <item>일본어</item>
+
+    </string-array>
+
+    <string-array name="css_lang_spinner">
+        <item>clara(영어)</item>
+        <item>matt(영어)</item>
+        <item>yuri(일본어)</item>
+        <item>shinji(일본어)</item>
+        <item>meimei(중국어)</item>
+        <item>liangliang(중국어)</item>
+        <item>jose(스페인어)</item>
+        <item>carmen(스페인어)</item>
+    </string-array>
+
 </resources>

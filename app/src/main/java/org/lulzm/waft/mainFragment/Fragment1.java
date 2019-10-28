@@ -18,25 +18,29 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.fragment.app.Fragment;
+
 import com.bumptech.glide.Glide;
 import com.hbb20.CountryCodePicker;
 import com.makeramen.roundedimageview.RoundedImageView;
+
 import org.lulzm.waft.R;
 import org.lulzm.waft.sosAdapter.ApiService;
 import org.lulzm.waft.sosAdapter.Datum;
 import org.lulzm.waft.sosAdapter.RetroClient;
 import org.lulzm.waft.sosAdapter.SosList;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class Fragment1 extends Fragment {
 
-    ImageView qr_icon, nav_icon, money_icon, chat_icon, sos1_main, sos2_main;
+    ImageView trans_icon, nav_icon, money_icon, chat_icon, sos1_main, sos2_main;
     RoundedImageView notice1, notice2;
     CountryCodePicker countryCodePicker;
     ImageButton btn_sos;
@@ -65,7 +69,7 @@ public class Fragment1 extends Fragment {
 
         dialog_sos = new Dialog(getActivity());
 
-        qr_icon = view.findViewById(R.id.qr_icon);
+        trans_icon = view.findViewById(R.id.translate_icon);
         nav_icon = view.findViewById(R.id.nav_icon);
         money_icon = view.findViewById(R.id.money_icon);
         chat_icon = view.findViewById(R.id.chat_icon);
@@ -243,7 +247,7 @@ public class Fragment1 extends Fragment {
             dialog_sos.show();
         });
 
-        Glide.with(this).load(R.drawable.qr_bt).into(qr_icon);
+        Glide.with(this).load(R.drawable.translate_bt).into(trans_icon);
         Glide.with(this).load(R.drawable.nav_bt).into(nav_icon);
         Glide.with(this).load(R.drawable.money_blue2).into(money_icon);
         Glide.with(this).load(R.drawable.chat_bt).into(chat_icon);

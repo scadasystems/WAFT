@@ -22,6 +22,6 @@ import retrofit2.http.GET;
  * E-mail : redsmurf@lulzm.org                           
  *********************************************************/
 public interface ApiService {
-    @GET("emergency-json/db.json")
+    @GET("master/db.json")
     Call<SosList> getMyJSON();
 }

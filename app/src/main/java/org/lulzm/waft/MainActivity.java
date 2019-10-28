@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -16,7 +17,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -48,6 +52,7 @@ import org.lulzm.waft.sosAdapter.ApiService;
 import org.lulzm.waft.sosAdapter.Datum;
 import org.lulzm.waft.sosAdapter.RetroClient;
 import org.lulzm.waft.sosAdapter.SosList;
+import org.lulzm.waft.translate.TranslateFragment;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -193,8 +198,28 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent_profile);
                         break;
                     }
-                    // setting
+                    // qr
                     case 2: {
+                        if (isTransactionSafe) {
+                            fragmentClass = FragmentQRMain.class;
+                            try {
+                                fragment = (Fragment) fragmentClass.newInstance();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            FragmentManager fragmentManager = getSupportFragmentManager();
+                            FragmentTransaction transaction = fragmentManager.beginTransaction();
+                            transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
+                            transaction.replace(R.id.flContent, fragment);
+                            transaction.addToBackStack(null);
+                            transaction.commit();
+                        } else {
+                            isTransactionPending = true;
+                        }
+                        break;
+                    }
+                    // setting
+                    case 3: {
                         if (isTransactionSafe) {
                             fragmentClass = Fragment5.class;
                             try {
@@ -215,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     // sos
-                    case 3: {
+                    case 4: {
                         dialog_sos.setContentView(R.layout.emergency_popup);
                         dialog_sos.getWindow().setBackgroundDrawable(new ColorDrawable(0));
 
@@ -338,7 +363,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     // logout
-                    case 4: {
+                    case 5: {
                         // todo 로그아웃 다이얼로그에 radius 넣어야함.
                         if (isTransactionSafe) {
 
@@ -445,7 +470,8 @@ public class MainActivity extends AppCompatActivity {
         if (TIME_LIMIT + backPressed > System.currentTimeMillis()) {
             if (fragmentClass == Fragment1.class) {
                 finish();
-            } else if (fragmentClass == MainWebview.class) {
+            }
+            else if (fragmentClass == MainWebview.class) {
                 fragmentClass = Fragment1.class;
                 try {
                     fragment = (Fragment) fragmentClass.newInstance();
@@ -454,11 +480,12 @@ public class MainActivity extends AppCompatActivity {
                 }
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
+                transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
                 transaction.replace(R.id.flContent, fragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
-            } else if (fragmentClass == FragmentQRMain.class) {
+            }
+            else if (fragmentClass == FragmentQRMain.class) {
                 fragmentClass = Fragment1.class;
                 try {
                     fragment = (Fragment) fragmentClass.newInstance();
@@ -467,11 +494,26 @@ public class MainActivity extends AppCompatActivity {
                 }
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
+                transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
                 transaction.replace(R.id.flContent, fragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
-            } else {
+            }
+            else if (fragmentClass == TranslateFragment.class) {
+                fragmentClass = Fragment1.class;
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+                transaction.replace(R.id.flContent, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+            else {
                 super.onBackPressed();
             }
         } else {
@@ -481,9 +523,9 @@ public class MainActivity extends AppCompatActivity {
     } //End Back button press for exit...
 
     // QR코드
-    public void btnqr(View view) {
+    public void btn_translate(View view) {
         if (isTransactionSafe) {
-            fragmentClass = FragmentQRMain.class;
+            fragmentClass = TranslateFragment.class;
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
             } catch (Exception e) {
@@ -587,5 +629,23 @@ public class MainActivity extends AppCompatActivity {
         } else {
             isTransactionPending = true;
         }
+    }
+
+    // editText clearFocus [화면 클릭시 키보드 숨기기]
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    assert imm != null;
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event);
     }
 }

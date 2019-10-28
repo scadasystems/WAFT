@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+    <TextView
+            android:id="@+id/tv_translator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/jua"
+            android:text="@string/translate_btn"
+            android:textColor="?attr/tintcolor"
+            android:textSize="25sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+            android:id="@+id/translate_arrow_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_arrow_forward_black_24dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideHorizontal15"
+            app:layout_constraintLeft_toRightOf="@+id/csr_lang_source_spinner"
+            app:layout_constraintRight_toLeftOf="@+id/csr_lang_target_spinner"
+            app:layout_constraintTop_toTopOf="@+id/csr_lang_target_spinner" />
+
+    <Spinner
+            android:id="@+id/csr_lang_source_spinner"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:entries="@array/csr_lang_source_spinner"
+            app:layout_constraintBottom_toTopOf="@+id/guideHorizontal15"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="@+id/guideVertical50" />
+
+    <Spinner
+            android:id="@+id/csr_lang_target_spinner"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:entries="@array/csr_lang_target_spinner"
+            app:layout_constraintBottom_toTopOf="@id/guideHorizontal15"
+            app:layout_constraintLeft_toLeftOf="@+id/guideVertical50"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    <androidx.cardview.widget.CardView
+            android:id="@+id/cv_translate_before"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:elevation="20dp"
+            app:cardBackgroundColor="?attr/cardbackground"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/guideHorizontal50"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideHorizontal15" />
+
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/ti_translate_before"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:defaultFocusHighlightEnabled="false"
+            android:elevation="21dp"
+            android:hint="@string/translate_before"
+            android:textColorHint="?attr/textGrayColor"
+            app:counterEnabled="true"
+            app:counterMaxLength="200"
+            app:layout_constraintBottom_toBottomOf="@+id/cv_translate_before"
+            app:layout_constraintLeft_toLeftOf="@+id/cv_translate_before"
+            app:layout_constraintRight_toRightOf="@+id/cv_translate_before"
+            app:layout_constraintTop_toTopOf="@+id/cv_translate_before">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_translate_before"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@android:color/transparent"
+                android:focusable="auto"
+                android:gravity="top"
+                android:lines="6"
+                android:paddingTop="10dp"
+                android:textColor="?attr/tintcolor"
+                android:textSize="15sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_translate"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5sp"
+            android:padding="5sp"
+            android:text="@string/trans_btn"
+            app:backgroundTint="@color/green"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideHorizontal50" />
+
+    <androidx.cardview.widget.CardView
+            android:id="@+id/cv_translate_after"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:elevation="20dp"
+            android:scrollbars="vertical"
+            app:cardBackgroundColor="?attr/cardbackground"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_translate" />
+
+    <Spinner
+            android:id="@+id/spinner_css_lang"
+            android:layout_width="180dp"
+            android:layout_height="23dp"
+            android:entries="@array/css_lang_spinner"
+            app:layout_constraintBottom_toTopOf="@+id/cv_translate_after"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_translate_after"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="15dp"
+            android:elevation="21dp"
+            android:scrollbars="vertical"
+            android:textColor="?attr/tintcolor"
+            android:textSize="15sp"
+            app:cardBackgroundColor="?attr/cardbackground"
+            app:layout_constraintBottom_toBottomOf="@+id/cv_translate_after"
+            app:layout_constraintLeft_toLeftOf="@+id/cv_translate_after"
+            app:layout_constraintRight_toRightOf="@+id/cv_translate_after"
+            app:layout_constraintTop_toTopOf="@+id/cv_translate_after" />
+
+    <ImageButton
+            android:id="@+id/btn_copy"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:elevation="22dp"
+            android:background="@color/trans"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_content_copy_black_24dp"
+            app:layout_constraintRight_toLeftOf="@+id/btn_speak"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_translate_after"/>
+
+
+    <ImageButton
+            android:id="@+id/btn_speak"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@color/trans"
+            android:elevation="22dp"
+            android:src="@drawable/ic_volume_up_black_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_translate_after"
+            app:layout_constraintRight_toRightOf="@+id/tv_translate_after" />
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideHorizontal15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.15" />
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideHorizontal50"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideHorizontal65"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.65" />
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideVertical50"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

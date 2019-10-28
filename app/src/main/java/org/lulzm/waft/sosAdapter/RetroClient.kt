@@ -22,7 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory
  * E-mail : redsmurf@lulzm.org
  */
 object RetroClient {
-    private val ROOT_URL = "https://storage.googleapis.com/"
+    private val ROOT_URL = "https://raw.githubusercontent.com/scadasystems/emergency-contact/"
 
     private val retrofitInstance: Retrofit
         get() = Retrofit.Builder()

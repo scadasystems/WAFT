@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:tools="http://schemas.android.com/tools">
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical" android:layout_width="match_parent"
         android:background="?attr/cardbackground"
@@ -51,6 +52,29 @@
                 android:textSize="16sp"
                 android:text="@string/profile"
                 android:textColor="?attr/menubuttoncolor"/>/>
+
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:id="@+id/lil_qr"
+                android:gravity="center_vertical" >
+
+            <ImageView
+                    android:id="@+id/icon_qr"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginRight="16dp"/>
+
+            <TextView
+                    android:id="@+id/text_qr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="@string/qrcode"
+                    android:textColor="?attr/menubuttoncolor"/>/>
 
         </LinearLayout>
         <LinearLayout

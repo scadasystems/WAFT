@@ -8,6 +8,7 @@
         <attr name="colorPrimary" format="color" />
         <attr name="backgroundcolor" format="color" />
         <attr name="cardbackground" format="color" />
+        <attr name="translateBackground" format="color" />
         <attr name="buttoncolor" format="color" />
         <attr name="sideMenuColor" format="color" />
         <attr name="changeTitleColor" format="color" />

@@ -24,8 +24,10 @@
         <item name="drawerArrowStyle">@style/DrawerIcon</item>
         <item name="backgroundcolor">#fcfcfc</item>
         <item name="cardbackground">#ffffff</item>
+        <item name="translateBackground">#DCEDC8</item>
         <item name="textcolor">#808080</item>
         <item name="tintcolor">#000000</item>
+        <item name="textGrayColor">#78909C</item>
         <item name="buttoncolor">#2196F3</item>
         <item name="sideMenuColor">#fff</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
@@ -41,8 +43,10 @@
         <item name="drawerArrowStyle">@style/DrawerIcon</item>
         <item name="backgroundcolor">#303030</item>
         <item name="cardbackground">#424242</item>
+        <item name="translateBackground">#006064</item>
         <item name="textcolor">#ffffff</item>
         <item name="tintcolor">#ffffff</item>
+        <item name="textGrayColor">#37474F</item>
         <item name="buttoncolor">#2196F3</item>
         <item name="sideMenuColor">#212121</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>

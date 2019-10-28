@@ -50,11 +50,7 @@
 
                 <data android:mimeType="text/plain"/>
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
             <meta-data
                     android:name="android.app.shortcuts"
                     android:resource="@xml/shortcuts"/>
@@ -62,7 +58,13 @@
         <!-- Start Activity -->
         <activity
                 android:name=".introSlide.IntroActivity"
-                android:configChanges="orientation|screenSize"/>
+                android:configChanges="orientation|screenSize" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
         <activity
                 android:name=".LoginSignUpActivity"
                 android:configChanges="orientation|screenSize"/>
